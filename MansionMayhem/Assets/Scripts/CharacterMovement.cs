@@ -398,6 +398,14 @@ public abstract class CharacterMovement : MonoBehaviour
         return steeringForce;
     }
 
+    /// <summary>
+    /// Allows Other Scripts to access the velocity (the bullet specifically to set it's direction)
+    /// </summary>
+    public Vector3 ReturnDirection()
+    {
+        return direction;
+    }
+
     void OnTriggerStay2D(Collider2D collider)
     {
         #region Walls
@@ -456,6 +464,7 @@ public abstract class CharacterMovement : MonoBehaviour
         }
         #endregion
     }
+
 
     #endregion
 

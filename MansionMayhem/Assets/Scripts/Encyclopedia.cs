@@ -36,13 +36,10 @@ public enum levelType
 public enum rangeWeapon
 {
     // Range Weapons
-
     // Ghost guns
     antiEctoPlasmator=0,
-
     // Bows
     aetherLightBow = 1, // Demon Slaying Bow rumored to be from the gods
-
     // Special
     cryoGun = 2, // FreezeRay
 }
@@ -69,7 +66,20 @@ public enum trinkets
     knife,
     hellWhip, // Spirit Killing Whip
     electricSword, // 
-    arcLightSword, // Demon Slaying Sword    antiEctoPlasmator, // Ghost Shooting Weapon
+    arcLightSword, // Demon Slaying Sword
+}
+
+public enum bulletTypes
+{
+    aetherlight,
+    antiEctoPlasm, // Spirit Killing Whip
+    ice, // Ice
+}
+
+public enum bulletOwners
+{
+    player,
+    enemy,
 }
 #endregion
 

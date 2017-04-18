@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
     private rangeWeapon currentRangeWeapon;
     private meleeWeapon currentMeleeWeapon;
     private trinkets currentTrinket;
-    private List<GameObject> playerBullets;
+    public List<GameObject> playerBullets;
     public List<GameObject> playerBulletPrefabs;
     private int bulletCount;
     #endregion
@@ -40,6 +40,11 @@ public class PlayerManager : MonoBehaviour
     public int AetherLight
     {
         get { return aetherLight; }
+    }
+    public int BulletCount
+    {
+        get { return aetherLight; }
+        set { bulletCount = value; }
     }
     #endregion
 

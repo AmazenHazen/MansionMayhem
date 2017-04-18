@@ -9,7 +9,6 @@ public class DoorScript : MonoBehaviour
     
     #endregion
 
-
     #region Properties
     public direction Wall
     {

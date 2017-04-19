@@ -13,7 +13,8 @@ public class PlayerManager : MonoBehaviour
     // Ammo for Demon killing weapons
     private int aetherLight;
     private bool invincibility;
-    private bool travelBool;
+    private bool canTravel;
+    private bool canShoot;
 
     // Weapon Variables
     private rangeWeapon currentRangeWeapon;
@@ -58,12 +59,13 @@ public class PlayerManager : MonoBehaviour
         antiEctoplasm = 0;
         aetherLight = 0;
         invincibility = false;
+        canShoot = true;
+        canTravel = true;
         currentRangeWeapon = rangeWeapon.antiEctoPlasmator;
         currentMeleeWeapon = meleeWeapon.silverknife;
 
         // Initializing Lists
         playerBullets = new List<GameObject>();
-        playerBulletPrefabs = new List<GameObject>();
     }
     #endregion
 
@@ -71,6 +73,7 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        WeaponSwitch();
         Shoot();
     }
     #endregion
@@ -93,7 +96,7 @@ public class PlayerManager : MonoBehaviour
                 Debug.Log("Door");
 
                 // Move the player to the new room
-                if(travelBool == true)
+                if(canTravel == true)
                 {
                     
                 }
@@ -183,7 +186,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     void ResetTravelBool()
     {
-        travelBool = true;
+        canTravel = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
@@ -193,7 +196,7 @@ public class PlayerManager : MonoBehaviour
     void JustTraveled()
     {
         // Player Gains Invincibility for 3 seconds
-        travelBool = false;
+        canTravel = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         Invoke("ResetTravelBool", 3);
         
@@ -206,23 +209,27 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     private void Shoot()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && canShoot == true)
         {
             switch (currentRangeWeapon)
             {
                 case rangeWeapon.aetherLightBow:
                     playerBullets.Add(Instantiate(playerBulletPrefabs[0], transform.position, transform.rotation) as GameObject);
+                    bulletCount++;
                     break;
                 case rangeWeapon.antiEctoPlasmator:
                     playerBullets.Add(Instantiate(playerBulletPrefabs[1], transform.position, transform.rotation) as GameObject);
+                    bulletCount++;
                     break;
                 case rangeWeapon.cryoGun:
                     playerBullets.Add(Instantiate(playerBulletPrefabs[2], transform.position, transform.rotation) as GameObject);
+                    bulletCount++;
                     break;
 
             }
-
+            JustShot();
             bulletCount++;
+
         }
     }
 
@@ -242,6 +249,27 @@ public class PlayerManager : MonoBehaviour
                 currentRangeWeapon++;
             }
         }
+    }
+
+    /// <summary>
+    /// Keeps the player from spamming the shoot button
+    /// </summary>
+    void JustShot()
+    {
+        // Player Gains Invincibility for 3 seconds
+        canShoot = false;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+        Invoke("ResetShooting", .7f);
+
+    }
+
+    /// <summary>
+    /// Resets Player's canShoot Bool
+    /// </summary>
+    void ResetShooting()
+    {
+        canShoot = true;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
     #endregion
 }

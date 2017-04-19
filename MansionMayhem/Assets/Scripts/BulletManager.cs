@@ -95,6 +95,7 @@ public class BulletManager : MonoBehaviour {
         if (collider.tag == "leftwall" || collider.tag == "rightwall" || collider.tag == "topwall" || collider.tag == "bottomwall")
         {
             // Delete the player bullet
+            Debug.Log("Wall!");
             GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
             Destroy(this.gameObject);
             GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;

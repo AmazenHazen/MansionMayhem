@@ -33,9 +33,19 @@ public class EnemyMovement : CharacterMovement
         // Create a new ultimate force that is zeroed out
         Vector3 ultimateForce = Vector3.zero;
 
-        // Apply forces to the player character
-        ultimateForce += seek(player.transform.position);
-
+        // Apply forces to the enemy
+        if ((player.transform.position - transform.position).magnitude < gameObject.GetComponent<EnemyManager>().SeekDistance)
+        {
+            // Dumb Enemy
+            if (gameObject.GetComponent<EnemyManager>().SmartEnemyBool == false)
+            {
+                ultimateForce += seek(player.transform.position);
+            }
+            if (gameObject.GetComponent<EnemyManager>().SmartEnemyBool == true)
+            {
+                ultimateForce += pursue(player);
+            }
+        }
         // Apply Decelleration using ApplyFriction Force
         //ultimateForce += ApplyFriction(3.0f);
 

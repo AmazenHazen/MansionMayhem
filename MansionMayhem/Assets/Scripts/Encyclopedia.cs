@@ -87,9 +87,17 @@ public enum bulletOwners
 #region EnemyTypes
 public enum enemyType
 {
+    // Spiders
     smallSpider,
+
+    // Ghosts
     basicGhost,
+    banshee,
+
+    // Demons
     imp,
+
+    // Shades
     shadeKnight,
 }
 #endregion

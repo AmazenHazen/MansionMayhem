@@ -36,6 +36,10 @@ public class EnemyMovement : CharacterMovement
         // Apply forces to the enemy
         if ((player.transform.position - transform.position).magnitude < gameObject.GetComponent<EnemyManager>().SeekDistance)
         {
+            // Have the enemy face the player
+            Rotate();
+
+
             // Dumb Enemy
             if (gameObject.GetComponent<EnemyManager>().SmartEnemyBool == false)
             {
@@ -58,6 +62,18 @@ public class EnemyMovement : CharacterMovement
 
         //Debug.Log("After Clamp: " + ultimateForce);
         ApplyForce(ultimateForce);
+    }
+    #endregion
+
+    #region Enemy Rotate
+    /// <summary>
+    /// Rotates the player based on the direction its facing
+    /// </summary>
+    protected override void Rotate()
+    {
+        Vector3 targetPosition = player.transform.position;
+        Vector3 dir = targetPosition - this.transform.position;
+        angleOfRotation = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg)-90;
     }
     #endregion
 

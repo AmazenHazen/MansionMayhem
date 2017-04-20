@@ -39,15 +39,15 @@ public class BulletManager : MonoBehaviour {
         switch (bulletType)
         {
             case bulletTypes.aetherlight:
-                speed = 4f;
+                speed = 5f;
                 damage = 3;
                 return;
             case bulletTypes.antiEctoPlasm:
-                speed = 2f;
+                speed = 3f;
                 damage = 2;
                 return;
             case bulletTypes.ice:
-                speed = 3f;
+                speed = 4f;
                 damage = 1;
                 return;
         }

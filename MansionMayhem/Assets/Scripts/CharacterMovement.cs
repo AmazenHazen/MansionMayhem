@@ -16,7 +16,7 @@ public abstract class CharacterMovement : MonoBehaviour
     public float frictionVar;
 
     // Rotation Variables
-    private Quaternion angle;
+    protected Quaternion angle;
     public float angleOfRotation;
 
     // Variables for wandering
@@ -42,7 +42,6 @@ public abstract class CharacterMovement : MonoBehaviour
         CalcSteeringForces();
         ApplyFriction(frictionVar);
         UpdatePosition();
-        Rotate();
         SetTransform();
     }
     #endregion
@@ -134,34 +133,7 @@ public abstract class CharacterMovement : MonoBehaviour
     /// Rotates the vehicle based on the direction its facing
     /// </summary>
     /// <returns>The vehicle.</returns>
-    void Rotate()
-    {
-        // if j is pressed rotate to the left 1 degree
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            // Angle of rotation
-            angle = Quaternion.Euler(0, 0, 2.5f);
-
-            // Rotate the vector by the angle
-            direction = angle * direction;
-
-            // Set the angle of rotation
-            angleOfRotation += 2.5f;
-        }
-
-        // if k is pressed rotate to the right 1 degree
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            // Angle of rotation
-            angle = Quaternion.Euler(0, 0, -2.5f);
-
-            // Rotate the vector by the angle
-            direction = angle * direction;
-
-            // Set the angle of rotation
-            angleOfRotation -= 2.5f;
-        }
-    }
+    protected abstract void Rotate();
 
 
     /// <summary>
@@ -487,7 +459,7 @@ public abstract class CharacterMovement : MonoBehaviour
                 velocity.x = 0;
                 acceleration.x = 0;
                 // Puts the player on the edge (does this by taking the position of the wall + [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .03f), transform.position.y);
+                transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .02f), transform.position.y);
                 break;
 
             // Right Wall
@@ -499,7 +471,7 @@ public abstract class CharacterMovement : MonoBehaviour
                 velocity.x = 0;
                 acceleration.x = 0;
                 // Puts the player on the edge (does this by taking the position of the wall - [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x - (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .03f), transform.position.y);
+                transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x - (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .02f), transform.position.y);
                 break;
 
             // Top Wall
@@ -511,7 +483,7 @@ public abstract class CharacterMovement : MonoBehaviour
                 velocity.y = 0;
                 acceleration.y = 0;
                 // Puts the player on the edge (does this by taking the position of the wall - [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y - (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .03f));
+                transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y - (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .02f));
                 break;
 
             // Bottom Wall
@@ -523,7 +495,7 @@ public abstract class CharacterMovement : MonoBehaviour
                 velocity.y = 0;
                 acceleration.y = 0;
                 // Puts the player on the edge (does this by taking the position of the wall + the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall)
-                transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .03f));
+                transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .02f));
 
                 break;
         }

@@ -17,6 +17,7 @@ public class PlayerMovement : CharacterMovement
     // Update for Player
     protected override void Update()
     {
+        Rotate();
         base.Update();
     }
     #endregion
@@ -75,6 +76,40 @@ public class PlayerMovement : CharacterMovement
         playerForce *= maxSpeed;
 
         return playerForce;
+    }
+    #endregion
+
+    #region Player Rotation
+    /// <summary>
+    /// Rotates the player based on the direction its facing
+    /// </summary>
+    protected override void Rotate()
+    {
+        // if j is pressed rotate to the left 1 degree
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            // Angle of rotation
+            angle = Quaternion.Euler(0, 0, 2.5f);
+
+            // Rotate the vector by the angle
+            direction = angle * direction;
+
+            // Set the angle of rotation
+            angleOfRotation += 2.5f;
+        }
+
+        // if k is pressed rotate to the right 1 degree
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            // Angle of rotation
+            angle = Quaternion.Euler(0, 0, -2.5f);
+
+            // Rotate the vector by the angle
+            direction = angle * direction;
+
+            // Set the angle of rotation
+            angleOfRotation -= 2.5f;
+        }
     }
     #endregion
 }

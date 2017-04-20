@@ -28,15 +28,17 @@ public class PlayerMovement : CharacterMovement
         // Create a new ultimate force that is zeroed out
         Vector3 ultimateForce = Vector3.zero;
 
-        //Debug.Log("Before Clamp: " + ultimateForce);
-        // Clamp the ultimate force by the maximum force
-        Vector3.ClampMagnitude(ultimateForce, maxForce);
-
         // Call player input
         ultimateForce += playerMovementInput();
 
         // Ensure that the player does not move in the z-axis
         ultimateForce.z = 0;
+
+        //Debug.Log("Before Clamp: " + ultimateForce);
+        // Clamp the ultimate force by the maximum force
+        ultimateForce = Vector3.ClampMagnitude(ultimateForce, maxForce);
+
+        //direction = ultimateForce.normalized;
 
         //Debug.Log("After Clamp: " + ultimateForce);
         ApplyForce(ultimateForce);
@@ -66,6 +68,11 @@ public class PlayerMovement : CharacterMovement
         {
             playerForce += new Vector3(0, -5, 0);
         }
+
+        // Step 3: Scale Desired to maximum speed
+        //         so I move as fast as possible
+        playerForce.Normalize();
+        playerForce *= maxSpeed;
 
         return playerForce;
     }

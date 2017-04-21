@@ -54,6 +54,13 @@ public abstract class CharacterMovement : MonoBehaviour
     protected abstract void CalcSteeringForces();
 
     /// <summary>
+    /// Rotates the vehicle based on the direction its facing
+    /// </summary>
+    /// <returns>The vehicle.</returns>
+    protected abstract void Rotate();
+
+
+    /// <summary>
     /// UpdatePosition
     /// Calculate a new position for the vehicle based on incoming forces
     /// </summary>
@@ -75,8 +82,8 @@ public abstract class CharacterMovement : MonoBehaviour
         // Step 2: Change position based on Velocity
         position += velocity * Time.deltaTime;
 
-        // Step 3: Derive a direction (won't do anything with it yet)
-        direction = velocity.normalized;
+        // Step 3: Derive a direction (direction is transform.up because that is how the 2D models are drawn)
+        direction = transform.up;
 
         // Step 4: Zero out acceleration
         // (Start fresh with new force each frame)
@@ -111,29 +118,6 @@ public abstract class CharacterMovement : MonoBehaviour
         acceleration += friction;
     }
 
-    protected Vector3 ApplyDeceleration()
-    {
-        // Step 1: Get the negative velocity
-        Vector3 decelerationForce = -acceleration * .97f;
-
-        return decelerationForce;
-    }
-
-    protected void Deceleration()
-    {
-        // decceleraation = current vel * .05
-        // Never goes below zero and has an asymptote at 0
-        acceleration = velocity * .07f;
-        // Subtract accel from
-        velocity -= acceleration;
-
-    }
-
-    /// <summary>
-    /// Rotates the vehicle based on the direction its facing
-    /// </summary>
-    /// <returns>The vehicle.</returns>
-    protected abstract void Rotate();
 
 
     /// <summary>

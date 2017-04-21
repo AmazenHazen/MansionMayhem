@@ -85,31 +85,15 @@ public class PlayerMovement : CharacterMovement
     /// </summary>
     protected override void Rotate()
     {
-        // if j is pressed rotate to the left 1 degree
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            // Angle of rotation
-            angle = Quaternion.Euler(0, 0, 2.5f);
+        // Get the Mouse Position
+        Vector3 mousePos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
-            // Rotate the vector by the angle
-            direction = angle * direction;
+        // Get lookPos Vec
+        Vector3 looksPos = Camera.main.ScreenToWorldPoint(mousePos);
+        looksPos = looksPos - transform.position;
 
-            // Set the angle of rotation
-            angleOfRotation += 2.5f;
-        }
-
-        // if k is pressed rotate to the right 1 degree
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            // Angle of rotation
-            angle = Quaternion.Euler(0, 0, -2.5f);
-
-            // Rotate the vector by the angle
-            direction = angle * direction;
-
-            // Set the angle of rotation
-            angleOfRotation -= 2.5f;
-        }
+        // Get the angle between the points
+        angleOfRotation = Mathf.Atan2(looksPos.y, looksPos.x) * Mathf.Rad2Deg-90;
     }
     #endregion
 }

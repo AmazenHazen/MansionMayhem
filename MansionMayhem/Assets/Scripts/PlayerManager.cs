@@ -209,7 +209,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     private void Shoot()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && canShoot == true)
+        if (Input.GetMouseButton(0) && canShoot == true)
         {
             switch (currentRangeWeapon)
             {

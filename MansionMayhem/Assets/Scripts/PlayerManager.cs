@@ -214,15 +214,15 @@ public class PlayerManager : MonoBehaviour
             switch (currentRangeWeapon)
             {
                 case rangeWeapon.aetherLightBow:
-                    playerBullets.Add(Instantiate(playerBulletPrefabs[0], transform.position, transform.rotation) as GameObject);
+                    playerBullets.Add(Instantiate(playerBulletPrefabs[0], transform.position + transform.up.normalized, transform.rotation) as GameObject);
                     bulletCount++;
                     break;
                 case rangeWeapon.antiEctoPlasmator:
-                    playerBullets.Add(Instantiate(playerBulletPrefabs[1], transform.position, transform.rotation) as GameObject);
+                    playerBullets.Add(Instantiate(playerBulletPrefabs[1], transform.position + transform.up.normalized, transform.rotation) as GameObject);
                     bulletCount++;
                     break;
                 case rangeWeapon.cryoGun:
-                    playerBullets.Add(Instantiate(playerBulletPrefabs[2], transform.position, transform.rotation) as GameObject);
+                    playerBullets.Add(Instantiate(playerBulletPrefabs[2], transform.position + transform.up.normalized, transform.rotation) as GameObject);
                     bulletCount++;
                     break;
 

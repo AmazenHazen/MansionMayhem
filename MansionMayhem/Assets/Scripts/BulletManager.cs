@@ -30,7 +30,7 @@ public class BulletManager : MonoBehaviour {
         if (bulletOwner == bulletOwners.enemy)
         {
             // Set the Direction based on the position of the player
-            direction = (GameObject.Find("starFoxShip(Clone)").GetComponent<PlayerMovement>().transform.position - transform.position).normalized;
+            direction = (GameObject.Find("").GetComponent<PlayerMovement>().transform.position - transform.position).normalized;
         }
         #endregion
 

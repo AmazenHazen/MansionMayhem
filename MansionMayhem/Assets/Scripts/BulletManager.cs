@@ -15,6 +15,7 @@ public class BulletManager : MonoBehaviour {
     // Speed Variables
     private Vector3 velocity;
     private Vector3 direction;
+    GameObject owner;
     #endregion
 
     // Use this for initialization
@@ -24,14 +25,17 @@ public class BulletManager : MonoBehaviour {
         // Set the bullet Direction
         if (bulletOwner == bulletOwners.player)
         {
-            direction = GameObject.Find("Player").GetComponent<PlayerMovement>().ReturnDirection();
+            owner = GameObject.Find("Player");
         }
 
         if (bulletOwner == bulletOwners.enemy)
         {
             // Set the Direction based on the position of the player
-            direction = (GameObject.Find("").GetComponent<PlayerMovement>().transform.position - transform.position).normalized;
+            owner = GameObject.Find("Player");
         }
+
+        owner.GetComponent<PlayerMovement>().ReturnDirection();
+        Vector3 userVelocity = owner.GetComponent<PlayerMovement>().velocity;
         #endregion
 
         #region Set Attributes of the bullet
@@ -39,15 +43,15 @@ public class BulletManager : MonoBehaviour {
         switch (bulletType)
         {
             case bulletTypes.aetherlight:
-                speed = 5f;
+                speed = 6f + velocity.magnitude;
                 damage = 3;
                 return;
             case bulletTypes.antiEctoPlasm:
-                speed = 3f;
+                speed = 4f + velocity.magnitude;
                 damage = 2;
                 return;
             case bulletTypes.ice:
-                speed = 4f;
+                speed = 5f + velocity.magnitude;
                 damage = 1;
                 return;
         }

@@ -39,16 +39,18 @@ public class EnemyMovement : CharacterMovement
             // Have the enemy face the player
             Rotate();
 
-
             // Dumb Enemy
-            if (gameObject.GetComponent<EnemyManager>().SmartEnemyBool == false)
+            switch (gameObject.GetComponent<EnemyManager>().Movement)
             {
-                ultimateForce += seek(player.transform.position);
+                case movementType.seek:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+                case movementType.pursue:
+                    ultimateForce += pursue(player);
+                    break;
+
             }
-            if (gameObject.GetComponent<EnemyManager>().SmartEnemyBool == true)
-            {
-                ultimateForce += pursue(player);
-            }
+
         }
         // Apply Decelleration using ApplyFriction Force
         //ultimateForce += ApplyFriction(3.0f);

@@ -10,66 +10,92 @@ public class BulletManager : MonoBehaviour {
     private float speed;
     private float damage;
     public bulletTypes bulletType;
-    public bulletOwners bulletOwner;
 
     // Speed Variables
     private Vector3 velocity;
     private Vector3 direction;
-    GameObject owner;
+    public GameObject owner;
     #endregion
 
+    #region BulletStartMethod
     // Use this for initialization
-    void Start()
+    void BulletStart()
     {
-        #region bullet Direction
-        // Set the bullet Direction
-        if (bulletOwner == bulletOwners.player)
-        {
-            owner = GameObject.Find("Player");
-        }
-
-        if (bulletOwner == bulletOwners.enemy)
-        {
-            // Set the Direction based on the position of the player
-            owner = GameObject.Find("Player");
-        }
-
-        owner.GetComponent<PlayerMovement>().ReturnDirection();
-        Vector3 userVelocity = owner.GetComponent<PlayerMovement>().velocity;
-        #endregion
-
-        #region Set Attributes of the bullet
         // Set bullet speed depending on the bullet
-        switch (bulletType)
+        #region Player Bullets
+        if (owner.tag == "player")
         {
-            case bulletTypes.aetherlight:
-                speed = 6f + velocity.magnitude;
-                damage = 3;
-                return;
-            case bulletTypes.antiEctoPlasm:
-                speed = 4f + velocity.magnitude;
-                damage = 2;
-                return;
-            case bulletTypes.ice:
-                speed = 5f + velocity.magnitude;
-                damage = 1;
-                return;
+            direction = owner.GetComponent<PlayerMovement>().ReturnDirection();
+
+
+            switch (bulletType)
+            {
+                case bulletTypes.aetherlight:
+                    speed = 6f + velocity.magnitude;
+                    damage = 3;
+                    return;
+                case bulletTypes.antiEctoPlasm:
+                    speed = 4f + velocity.magnitude;
+                    damage = 2;
+                    return;
+                case bulletTypes.ice:
+                    speed = 5f + velocity.magnitude;
+                    damage = 1;
+                    return;
+                case bulletTypes.hellFire:
+                    speed = 5f + velocity.magnitude;
+                    damage = 1;
+                    return;
+            }
         }
         #endregion
-    }
 
+        #region Enemy Bullets
+        else if (owner.tag == "enemy")
+        {
+            direction = owner.GetComponent<EnemyMovement>().ReturnDirection();
+
+            switch (bulletType)
+            {
+                case bulletTypes.ectoPlasm:
+                    speed = 5f + velocity.magnitude;
+                    damage = 1;
+                    return;
+                case bulletTypes.hellFire:
+                    speed = 5f + velocity.magnitude;
+                    damage = 1;
+                    return;
+            }
+        }
+        #endregion
+
+    }
+    #endregion
+
+    #region Bullet Management Helper Methods
     // Update is called once per frame
     void Update()
     {
         Move();
     }
 
-    void Move()
+    private void Move()
     {
         velocity = direction * speed * Time.deltaTime;
         transform.position += velocity;
     }
 
+    public void bulletSetUp(GameObject shooter)
+    {
+        owner = shooter;
+        BulletStart();
+    }
+    #endregion
+
+    #region CheckOnScreenMethod
+    /// <summary>
+    /// CheckOnScreen Method removes the bullet if it goes out of view.
+    /// </summary>
     void CheckOnScreen()
     {
         // Takes the camera and creates viewport position variable
@@ -86,6 +112,7 @@ public class BulletManager : MonoBehaviour {
         }
 
     }
+    #endregion
 
     #region CollisionDetection
     /// <summary>
@@ -95,6 +122,7 @@ public class BulletManager : MonoBehaviour {
     /// <param name="collider"></param>
     void OnTriggerStay2D(Collider2D collider)
     {
+        // If the bullet Runs into a wall
         #region Wall Collision
         if (collider.tag == "leftwall" || collider.tag == "rightwall" || collider.tag == "topwall" || collider.tag == "bottomwall")
         {
@@ -107,8 +135,8 @@ public class BulletManager : MonoBehaviour {
         #endregion
 
         #region Enemy Collision with playerBullet
-        // If bullet runs into wall or enemy
-        else if (collider.tag == "enemy" && bulletOwner == bulletOwners.player)
+        // If bullet runs into an enemy
+        else if (collider.tag == "enemy" && owner.tag == "player")
         {
             Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().Monster);
 
@@ -116,22 +144,25 @@ public class BulletManager : MonoBehaviour {
             collider.gameObject.GetComponent<EnemyManager>().Life -= damage;
 
             // Delete the player bullet
-            GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
-            Destroy(this.gameObject);
-            GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
+            owner.GetComponent<PlayerManager>().playerBullets.Remove(gameObject);
+            Destroy(gameObject);
+            owner.GetComponent<PlayerManager>().BulletCount--;
 
         }
         #endregion
 
         #region Player Collision with enemyBullet
-        else if (collider.tag == "player" && bulletOwner == bulletOwners.enemy)
+        else if (collider.tag == "player" && owner.tag == "enemy")
         {
             Debug.Log("Bullet Hit Player");
 
             // Damage Enemy
-            collider.gameObject.GetComponent<EnemyManager>().Life -= damage;
+            collider.gameObject.GetComponent<PlayerManager>().Life -= damage;
 
-            //
+            // Delete the bullet
+            owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
+            Destroy(gameObject);
+            owner.GetComponent<EnemyManager>().BulletCount--;
         }
         #endregion
     }

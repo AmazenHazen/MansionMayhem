@@ -29,6 +29,7 @@ public class PlayerManager : MonoBehaviour
     public float Life
     {
         get { return life; }
+        set { life = value; }
     }
     public int Coins
     {
@@ -44,7 +45,7 @@ public class PlayerManager : MonoBehaviour
     }
     public int BulletCount
     {
-        get { return aetherLight; }
+        get { return bulletCount; }
         set { bulletCount = value; }
     }
     #endregion
@@ -211,18 +212,26 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && canShoot == true)
         {
+            GameObject bulletCopy;
+
             switch (currentRangeWeapon)
             {
                 case rangeWeapon.aetherLightBow:
-                    playerBullets.Add(Instantiate(playerBulletPrefabs[0], transform.position + transform.up.normalized, transform.rotation) as GameObject);
+                    bulletCopy = Instantiate(playerBulletPrefabs[0], transform.position, transform.rotation) as GameObject;
+                    playerBullets.Add(bulletCopy);
+                    bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
                     bulletCount++;
                     break;
                 case rangeWeapon.antiEctoPlasmator:
-                    playerBullets.Add(Instantiate(playerBulletPrefabs[1], transform.position + transform.up.normalized, transform.rotation) as GameObject);
+                    bulletCopy = Instantiate(playerBulletPrefabs[1], transform.position, transform.rotation) as GameObject;
+                    playerBullets.Add(bulletCopy);
+                    bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
                     bulletCount++;
                     break;
                 case rangeWeapon.cryoGun:
-                    playerBullets.Add(Instantiate(playerBulletPrefabs[2], transform.position + transform.up.normalized, transform.rotation) as GameObject);
+                    bulletCopy = Instantiate(playerBulletPrefabs[2], transform.position, transform.rotation) as GameObject;
+                    playerBullets.Add(bulletCopy);
+                    bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
                     bulletCount++;
                     break;
 

@@ -74,6 +74,8 @@ public enum bulletTypes
     aetherlight,
     antiEctoPlasm, // Spirit Killing Whip
     ice, // Ice
+    hellFire,
+    ectoPlasm,
 }
 
 public enum bulletOwners
@@ -109,6 +111,29 @@ public enum enemyClass
     Ghost,
     Demon,
     Shade,
+}
+#endregion
+
+#region movementType
+public enum movementType
+{ 
+    stationary, // Does not move
+    wander, // Wanders around the room
+    seek,   // Goes towards the enemy player
+    pursue, // Goes towards the enemy player and anticipates where it's moving toward
+    flee,   // Run away from the player
+    evade,  // Run away from teh player's future position
+    dodging,    // Move in an unpredicted manor when the player shoots
+    mimic,  // Moves when the player moves
+    notLookingSeek, // Moves when the player isn't looking at it
+}
+#endregion
+
+#region Boss
+public enum BossEnum
+{
+    DemonLord,
+    Dreor,
 }
 #endregion
 #endregion

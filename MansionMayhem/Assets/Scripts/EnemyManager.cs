@@ -14,14 +14,15 @@ public class EnemyManager : MonoBehaviour {
     private float seekDistance;
     private bool invincibility;
     private bool hasBullets;
-    private bool smartEnemyBool;
+    private movementType movement;
 
 
     // Bullet Management
     private bool canShoot;
+    public float timeBetweenShots;
     public List<GameObject> enemyBullets;
     public List<GameObject> enemyBulletPrefabs;
-    private int bulletCount;
+    public int bulletCount;
     #endregion
 
     #region EnemyProperties
@@ -34,6 +35,11 @@ public class EnemyManager : MonoBehaviour {
     {
         get { return damage; }
     }
+    public int BulletCount
+    {
+        get { return bulletCount; }
+        set { bulletCount = value; }
+    }
     public float SpeedAttribute
     {
         get { return speedAttribute; }
@@ -41,6 +47,10 @@ public class EnemyManager : MonoBehaviour {
     public float SeekDistance
     {
         get { return seekDistance; }
+    }
+    public bool CanShoot
+    {
+        set { canShoot = value; }
     }
     public enemyType Monster
     {
@@ -50,9 +60,9 @@ public class EnemyManager : MonoBehaviour {
     {
         get { return monsterType; }
     }
-    public bool SmartEnemyBool
+    public movementType Movement
     {
-        get { return smartEnemyBool; }
+        get { return movement; }
     }
     #endregion
 
@@ -70,7 +80,8 @@ public class EnemyManager : MonoBehaviour {
                 damage = .5f;
                 seekDistance = 5;
                 hasBullets = false;
-                smartEnemyBool = false;
+                timeBetweenShots = 0;
+                movement = movementType.seek;
                 monsterType = enemyClass.Spider;
                 break;
 
@@ -84,7 +95,8 @@ public class EnemyManager : MonoBehaviour {
                 damage = 1;
                 seekDistance = 3;
                 hasBullets = false;
-                smartEnemyBool = false;
+                timeBetweenShots = 0;
+                movement = movementType.seek;
                 monsterType = enemyClass.Ghost;
                 break;
 
@@ -94,7 +106,8 @@ public class EnemyManager : MonoBehaviour {
                 damage = 1;
                 seekDistance = 10;
                 hasBullets = true;
-                smartEnemyBool = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
                 monsterType = enemyClass.Ghost;
                 break;
             #endregion
@@ -107,7 +120,8 @@ public class EnemyManager : MonoBehaviour {
                 damage = 1;
                 seekDistance = 7;
                 hasBullets = true;
-                smartEnemyBool = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
                 monsterType = enemyClass.Demon;
                 break;
             #endregion
@@ -119,22 +133,27 @@ public class EnemyManager : MonoBehaviour {
                 damage = 1;
                 seekDistance = 4;
                 hasBullets = false;
-                smartEnemyBool = true;
+                timeBetweenShots = 0;
+                movement = movementType.pursue;
                 monsterType = enemyClass.Shade;
                 break;
             #endregion
-
+                
+            #region default monster
             default:
                 life = 1;
                 speedAttribute = 1;
                 damage = .5f;
                 hasBullets = false;
-                smartEnemyBool = false;
+                timeBetweenShots = 0;
+                movement = movementType.seek;
                 break;
+
+            #endregion
         }
 
         // Sets up whether and enemy can shoot bullets or not
-        canShoot = true;
+        canShoot = true; // Set to true if player gets within distance of the enemy
         enemyBullets = new List<GameObject>();
 }
     #endregion
@@ -142,6 +161,10 @@ public class EnemyManager : MonoBehaviour {
     #region Update for Enemy
     void Update()
     {
+        if(hasBullets == true && canShoot==true && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
+        {
+            Shoot();
+        }
         death();
     }
     #endregion
@@ -163,8 +186,12 @@ public class EnemyManager : MonoBehaviour {
     /// </summary>
     void Shoot()
     {
-        enemyBullets.Add(Instantiate(enemyBulletPrefabs[0], transform.position, transform.rotation) as GameObject);
+        GameObject bulletCopy;
+        bulletCopy = Instantiate(enemyBulletPrefabs[0], transform.position, transform.rotation) as GameObject;
+        enemyBullets.Add(bulletCopy);
+        bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
         bulletCount++;
+        JustShot();
     }
 
     void AdvanceShoot()
@@ -180,7 +207,7 @@ public class EnemyManager : MonoBehaviour {
         // Player Gains Invincibility for 3 seconds
         canShoot = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
-        Invoke("ResetShooting", .7f);
+        Invoke("ResetShooting", timeBetweenShots);
 
     }
 
@@ -193,7 +220,5 @@ public class EnemyManager : MonoBehaviour {
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
     #endregion
-
-
 
 }

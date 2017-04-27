@@ -15,6 +15,8 @@ public class EnemyManager : MonoBehaviour {
     private float seekDistance;
     private bool invincibility;
     private bool hasBullets;
+    public bool hitByMeleeBool;
+    public bool boss;
     private movementType movement;
 
 
@@ -84,6 +86,7 @@ public class EnemyManager : MonoBehaviour {
                 timeBetweenShots = 0;
                 movement = movementType.seek;
                 monsterType = enemyClass.Spider;
+                boss = false;
                 break;
 
             #endregion
@@ -99,6 +102,7 @@ public class EnemyManager : MonoBehaviour {
                 timeBetweenShots = 0;
                 movement = movementType.seek;
                 monsterType = enemyClass.Ghost;
+                boss = false;
                 break;
 
             case enemyType.banshee:
@@ -110,6 +114,7 @@ public class EnemyManager : MonoBehaviour {
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
                 monsterType = enemyClass.Ghost;
+                boss = false;
                 break;
             #endregion
 
@@ -124,6 +129,7 @@ public class EnemyManager : MonoBehaviour {
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
                 monsterType = enemyClass.Demon;
+                boss = false;
                 break;
             #endregion
 
@@ -137,9 +143,24 @@ public class EnemyManager : MonoBehaviour {
                 timeBetweenShots = 0;
                 movement = movementType.pursue;
                 monsterType = enemyClass.Shade;
+                boss = false;
                 break;
             #endregion
-                
+
+            #region Bosses
+            case enemyType.BansheeMistress:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                monsterType = enemyClass.Ghost;
+                boss = true;
+                break;
+            #endregion
+
             #region default monster
             default:
                 currentLife = 1;
@@ -148,6 +169,7 @@ public class EnemyManager : MonoBehaviour {
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
+                boss = false;
                 break;
 
             #endregion
@@ -155,6 +177,7 @@ public class EnemyManager : MonoBehaviour {
 
         // Sets up whether and enemy can shoot bullets or not
         canShoot = true; // Set to true if player gets within distance of the enemy
+        hitByMeleeBool = false; // Set true so player can get hit by melee
         enemyBullets = new List<GameObject>();
 }
     #endregion
@@ -171,6 +194,8 @@ public class EnemyManager : MonoBehaviour {
     #endregion
 
     #region Enemy Helper Methods
+
+    #region Death
     /// <summary>
     /// Checks if the Enemy should be dead
     /// </summary>
@@ -178,10 +203,16 @@ public class EnemyManager : MonoBehaviour {
     {
         if(currentLife <= 0)
         {
+            // Spawn something where the monster died?
+
+            // Destroy Enemys
             Destroy(gameObject);
+
         }
     }
+    #endregion
 
+    #region Shoot Methods
     /// <summary>
     /// Shooting Method
     /// </summary>
@@ -215,6 +246,21 @@ public class EnemyManager : MonoBehaviour {
         canShoot = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
+    #endregion
+
+    #region HurtMethod
+    public void HurtByMelee()
+    {
+        hitByMeleeBool = true;
+        Invoke("ResetHurtByMelee", .2f);
+    }
+
+    void ResetHurtByMelee()
+    {
+        hitByMeleeBool = false;
+    }
+    #endregion
+
     #endregion
 
 }

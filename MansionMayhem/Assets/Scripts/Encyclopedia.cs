@@ -102,6 +102,9 @@ public enum enemyType
 
     // Shades
     shadeKnight,
+
+    // Boss
+    BansheeMistress,
 }
 #endregion
 

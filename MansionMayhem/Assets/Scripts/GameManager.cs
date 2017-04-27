@@ -67,17 +67,18 @@ public class GameManager : MonoBehaviour
 
         // Health FOR GUI
         // Drawing Health On screen
-        GUI.Label(new Rect(10, 10, 400, 50), "Health: " + GameObject.Find("Player").GetComponent<PlayerManager>().Life);
+        GUI.Label(new Rect(10, 10, 400, 50), "Health: " + GameObject.Find("Player").GetComponent<PlayerManager>().CurrentLife);
         // Put hearts next to the label matching number of lifes you have
-        for (int i = 0; i < GameObject.Find("Player").GetComponent<PlayerManager>().Life; i++)
+        for (int i = 0; i < GameObject.Find("Player").GetComponent<PlayerManager>().CurrentLife; i++)
         {
             //GUI.DrawTexture(new Rect(50 + 20 * i, 10, 20, 20), heart);
         }
 
         // Score FOR GUI
-        GUI.Label(new Rect(10, 30, 400, 50), "Score: " + GameObject.Find("Player").GetComponent<PlayerManager>().Coins);
+        GUI.Label(new Rect(10, 30, 400, 50), "Screws: " + GameObject.Find("Player").GetComponent<PlayerManager>().Screws);
 
         // Ammo
+
         GUI.Label(new Rect(100, 30, 400, 50), "AetherLight: " + GameObject.Find("Player").GetComponent<PlayerManager>().AetherLight);
         GUI.Label(new Rect(100, 60, 400, 50), "AntiEctoplasm: " + GameObject.Find("Player").GetComponent<PlayerManager>().AntiEctoPlasm);
 

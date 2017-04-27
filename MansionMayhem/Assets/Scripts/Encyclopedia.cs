@@ -72,10 +72,11 @@ public enum trinkets
 public enum bulletTypes
 {
     aetherlight,
-    antiEctoPlasm, // Spirit Killing Whip
+    antiEctoPlasm, 
     ice, // Ice
     hellFire,
     ectoPlasm,
+    sound,
 }
 
 public enum bulletOwners
@@ -144,7 +145,9 @@ public enum itemType
 {
     #region Ammo
     // Player Ammo Items
-    coinPickup,
+    normalScrewPickup,
+    redScrewPickup,
+    goldenScrewPickup,
     antiEctoplasmAmmo,
     aetherLightAmmo,
     heartPickup,
@@ -172,22 +175,6 @@ public enum direction
     Left = -1,
     Right = 1,
     Up = 2,
-}
-#endregion
-
-#region Animation
-// Player Enums
-/// <summary>
-/// Direction of the Player
-/// </summary>
-public enum AnimState
-{
-    Idle,
-    Walk,
-    Hurt,
-
-    // More Specific Animation Enums for items
-    Secondary,
 }
 #endregion
 

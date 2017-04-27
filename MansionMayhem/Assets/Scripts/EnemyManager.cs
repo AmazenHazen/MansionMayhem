@@ -8,7 +8,8 @@ public class EnemyManager : MonoBehaviour {
     // Attributes
     public enemyType monster;
     private enemyClass monsterType;
-    private float life;
+    private float maxHealth;
+    private float currentLife;
     private float damage;
     private float speedAttribute;
     private float seekDistance;
@@ -26,10 +27,10 @@ public class EnemyManager : MonoBehaviour {
     #endregion
 
     #region EnemyProperties
-    public float Life
+    public float CurrentLife
     {
-        get { return life; }
-        set { life = value; }
+        get { return currentLife; }
+        set { currentLife = value; }
     }
     public float Damage
     {
@@ -75,7 +76,7 @@ public class EnemyManager : MonoBehaviour {
         {
             #region spiders
             case enemyType.smallSpider:
-                life = 1;
+                currentLife = 1;
                 speedAttribute = 1;
                 damage = .5f;
                 seekDistance = 5;
@@ -90,7 +91,7 @@ public class EnemyManager : MonoBehaviour {
             #region ghosts
             // Ghosts
             case enemyType.basicGhost:
-                life = 2;
+                currentLife = 2;
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 3;
@@ -101,7 +102,7 @@ public class EnemyManager : MonoBehaviour {
                 break;
 
             case enemyType.banshee:
-                life = 2;
+                currentLife = 2;
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
@@ -115,7 +116,7 @@ public class EnemyManager : MonoBehaviour {
             #region demons
             // Demons
             case enemyType.imp:
-                life = 3;
+                currentLife = 3;
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
@@ -128,7 +129,7 @@ public class EnemyManager : MonoBehaviour {
 
             #region shades
             case enemyType.shadeKnight:
-                life = 4;
+                currentLife = 4;
                 speedAttribute = .75f;
                 damage = 1;
                 seekDistance = 4;
@@ -141,7 +142,7 @@ public class EnemyManager : MonoBehaviour {
                 
             #region default monster
             default:
-                life = 1;
+                currentLife = 1;
                 speedAttribute = 1;
                 damage = .5f;
                 hasBullets = false;
@@ -175,7 +176,7 @@ public class EnemyManager : MonoBehaviour {
     /// </summary>
     void death()
     {
-        if(life<=0)
+        if(currentLife <= 0)
         {
             Destroy(gameObject);
         }
@@ -192,11 +193,6 @@ public class EnemyManager : MonoBehaviour {
         bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
         bulletCount++;
         JustShot();
-    }
-
-    void AdvanceShoot()
-    {
-
     }
 
     /// <summary>

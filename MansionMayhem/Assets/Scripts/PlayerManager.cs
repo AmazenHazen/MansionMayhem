@@ -6,8 +6,11 @@ public class PlayerManager : MonoBehaviour
 {
     #region PlayerAttributes
     // Player's Attributes
-    private float life;
-    private int coins;
+    private float maxLife;
+    private float currentLife;
+    private float shieldMaxLife;
+    private float shieldLife;
+    private int screws;
     // Ammo for Ghost Gun
     private int antiEctoplasm;
     // Ammo for Demon killing weapons
@@ -15,6 +18,8 @@ public class PlayerManager : MonoBehaviour
     private bool invincibility;
     private bool canTravel;
     private bool canShoot;
+    private bool canMelee;
+    private bool canShield;
 
     // Weapon Variables
     private rangeWeapon currentRangeWeapon;
@@ -26,14 +31,19 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region PlayerProperties
-    public float Life
+    public float CurrentLife
     {
-        get { return life; }
-        set { life = value; }
+        get { return currentLife; }
+        set { currentLife = value; }
     }
-    public int Coins
+    public float ShieldLife
     {
-        get { return coins; }
+        get { return shieldLife; }
+        set { shieldLife = value; }
+    }
+    public int Screws
+    {
+        get { return screws; }
     }
     public int AntiEctoPlasm
     {
@@ -55,12 +65,16 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         // Player Game Variables
-        life = 3;
-        coins = 0;
+        maxLife = 5;
+        currentLife = 3;
+        shieldLife = 1;
+        screws = 0;
         antiEctoplasm = 0;
         aetherLight = 0;
         invincibility = false;
         canShoot = true;
+        canMelee = true;
+        canShield = true;
         canTravel = true;
         currentRangeWeapon = rangeWeapon.antiEctoPlasmator;
         currentMeleeWeapon = meleeWeapon.silverknife;
@@ -76,13 +90,15 @@ public class PlayerManager : MonoBehaviour
     {
         WeaponSwitch();
         Shoot();
+        Melee();
+        Shield();
     }
     #endregion
 
     #region CollisionDetection
     /// <summary>
     /// Player Collision Handled Here. This includes any objects that is effected by the player colliding with it.
-    /// This includes: Coins, Health, Ammo, Enemies, Walls, and Furniture.
+    /// This includes: Screws, Health, Ammo, Enemies, Walls, and Furniture.
     /// </summary>
     /// <param name="collider"></param>
     void OnTriggerStay2D(Collider2D collider)
@@ -99,11 +115,12 @@ public class PlayerManager : MonoBehaviour
                 // Move the player to the new room
                 if(canTravel == true)
                 {
-                    
+                    Debug.Log("Travel");
+                    gameObject.transform.position = collider.gameObject.GetComponent<DoorScript>().linkedDoor.transform.position;
+                    // Activate just traveled method
+                    JustTraveled();
                 }
 
-                // Activate just traveled method
-                JustTraveled();
                 break;
 
             #endregion
@@ -114,7 +131,7 @@ public class PlayerManager : MonoBehaviour
                 if (invincibility == false)
                 {
                     Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().Monster);
-                    life -= collider.gameObject.GetComponent<EnemyManager>().Damage;
+                    currentLife -= collider.gameObject.GetComponent<EnemyManager>().Damage;
                     StartInvincibility();
                 }
                 break;
@@ -131,7 +148,7 @@ public class PlayerManager : MonoBehaviour
                 itemType itemVarCopy = collider.gameObject.GetComponent<ItemScript>().itemVar;
                 switch (itemVarCopy)
                 {
-                    #region Ammo/Health/Coin Pickups
+                    #region Ammo/Health/Screws Pickups
                     case itemType.aetherLightAmmo:
                         aetherLight++;
                         break;
@@ -139,21 +156,47 @@ public class PlayerManager : MonoBehaviour
                         antiEctoplasm++;
                         break;
                     case itemType.heartPickup:
-                        life++;
+                        currentLife++;
+                        if (currentLife > maxLife)
+                        {
+                            currentLife = maxLife;
+                        }
                         break;
                     case itemType.healthPotionPickup:
-                        life += 3;
+                        currentLife += 3;
+                        if(currentLife>maxLife)
+                        {
+                            currentLife = maxLife;
+                        }
                         break;
-                    case itemType.coinPickup:
-                        coins++;
+                    case itemType.normalScrewPickup:
+                        screws++;
                         break;
-                    #endregion
+                    case itemType.redScrewPickup:
+                        screws = screws + 5;
+                        break;
+                    case itemType.goldenScrewPickup:
+                        screws = screws + 10;
+                        break;
+                        #endregion
                 }
 
                 // At the end of an item collision destroy the gameobject
                 Destroy(collider.gameObject);
                 break;
-                #endregion
+            #endregion
+
+            #region workbench
+            case "workbench":
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+
+                    // Debug Line
+                    Debug.Log("Using WorkBench:");
+                }
+
+                break;
+            #endregion
         }
 
     }
@@ -205,6 +248,8 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region Combat Helper Methods
+
+    #region Shooting Helper Methods
     /// <summary>
     /// Method that shoots a bullet based on the player's weapon
     /// </summary>
@@ -216,14 +261,14 @@ public class PlayerManager : MonoBehaviour
 
             switch (currentRangeWeapon)
             {
-                case rangeWeapon.aetherLightBow:
-                    bulletCopy = Instantiate(playerBulletPrefabs[0], transform.position, transform.rotation) as GameObject;
+                case rangeWeapon.antiEctoPlasmator:
+                    bulletCopy = Instantiate(playerBulletPrefabs[1], transform.position, transform.rotation) as GameObject;
                     playerBullets.Add(bulletCopy);
                     bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
                     bulletCount++;
                     break;
-                case rangeWeapon.antiEctoPlasmator:
-                    bulletCopy = Instantiate(playerBulletPrefabs[1], transform.position, transform.rotation) as GameObject;
+                case rangeWeapon.aetherLightBow:
+                    bulletCopy = Instantiate(playerBulletPrefabs[0], transform.position, transform.rotation) as GameObject;
                     playerBullets.Add(bulletCopy);
                     bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
                     bulletCount++;
@@ -243,11 +288,32 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Switch Weapons Helper Method
+    /// Keeps the player from spamming the shoot button
+    /// </summary>
+    void JustShot()
+    {
+        // Player Gains Invincibility for 3 seconds
+        canShoot = false;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+        Invoke("ResetShooting", .5f);
+    }
+
+    /// <summary>
+    /// Resets Player's canShoot Bool
+    /// </summary>
+    void ResetShooting()
+    {
+        canShoot = true;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+
+    /// <summary>
+    /// Switch Range Weapons Helper Method
     /// </summary>
     private void WeaponSwitch()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             if(currentRangeWeapon == rangeWeapon.cryoGun)
             {
@@ -259,26 +325,85 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region Melee Helper Methods
+    /// <summary>
+    /// Method that lets the player melee
+    /// </summary>
+    private void Melee()
+    {
+        if (Input.GetMouseButton(1) && canMelee == true)
+        {
+            // Activate the Melee Collider
+            gameObject.transform.FindChild("MeleeAttack").gameObject.SetActive(true);
+
+            // Call the JustMeleed Method
+            JustMeleed();
+        }
+    }
 
     /// <summary>
     /// Keeps the player from spamming the shoot button
     /// </summary>
-    void JustShot()
+    void JustMeleed()
     {
         // Player Gains Invincibility for 3 seconds
-        canShoot = false;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
-        Invoke("ResetShooting", .7f);
-
+        canMelee = false;
+        Invoke("ResetMelee", .5f);
     }
 
     /// <summary>
     /// Resets Player's canShoot Bool
     /// </summary>
-    void ResetShooting()
+    void ResetMelee()
     {
-        canShoot = true;
+        // De-activates melee collider
+        gameObject.transform.FindChild("MeleeAttack").gameObject.SetActive(false);
+        canMelee = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
+    #endregion
+
+    #region Shield Helper Method
+    /// <summary>
+    /// Method that shoots a bullet based on the player's weapon
+    /// </summary>
+    private void Shield()
+    {
+        if (Input.GetKey(KeyCode.E) && (canShield == true))
+        {
+            // Activate the Shield
+            gameObject.transform.FindChild("Shield").gameObject.SetActive(true);
+        }
+        else
+        {
+            // Deactivate the Shield if not holding down E
+            gameObject.transform.FindChild("Shield").gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Keeps the player from spamming the shoot button
+    /// </summary>
+    public void ShieldKilled()
+    {
+        // Player Gains Invincibility for 3 seconds
+        canShield = false;
+        Invoke("ResetShield", 20f);
+    }
+
+    /// <summary>
+    /// Resets Player's canShoot Bool
+    /// </summary>
+    void ResetShield()
+    {
+        // De-activates melee collider
+        gameObject.transform.FindChild("Shield").gameObject.SetActive(false);
+        canShield = true;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+    #endregion
+
     #endregion
 }

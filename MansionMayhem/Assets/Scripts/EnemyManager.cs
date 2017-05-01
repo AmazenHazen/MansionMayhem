@@ -173,7 +173,48 @@ public class EnemyManager : MonoBehaviour {
                 boss = false;
                 break;
 
+
+            case enemyType.ghostknight:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Ghost;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
             case enemyType.banshee:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Ghost;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.ghosthead:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Ghost;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+
+            case enemyType.wraith:
                 currentLife = 2;
                 speedAttribute = 1;
                 damage = 1;
@@ -197,12 +238,298 @@ public class EnemyManager : MonoBehaviour {
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
-                monsterType = enemyClass.Demon;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.None;
                 boss = false;
                 break;
+
+            case enemyType.boneDemon:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.Skeleton;
+                boss = false;
+                break;
+
+            case enemyType.corruptedDemon:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.infernalDemon:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.shadowDemon:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.Shadow;
+                boss = false;
+                break;
+
+            case enemyType.slasherDemon:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.spikeDemon:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.hellhound:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.fury:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
             #endregion
 
-            #region shades
+            #region zombies
+            case enemyType.crawlingHand:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Zombie;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.spitterZombie:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Zombie;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.exploadingZombie:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Zombie;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.stalkerZombie:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Zombie;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.tankZombie:
+                currentLife = 15;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Zombie;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            #endregion
+
+            #region skeletons
+            case enemyType.charredSkeleton:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Skeleton;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.archerSkeleton:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Skeleton;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.knightSkeleton:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Skeleton;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.mageSkeleton:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Skeleton;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.giantSkeleton:
+                currentLife = 2;
+                speedAttribute = 1;
+                damage = 1;
+                seekDistance = 10;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Skeleton;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+
+            #endregion
+
+            #region Muck
+            case enemyType.blackMuck:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Muck;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.ectoplasmMuck:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Muck;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+
+            case enemyType.acidicMuck:
+                currentLife = 3;
+                speedAttribute = 2;
+                damage = 1;
+                seekDistance = 7;
+                hasBullets = true;
+                timeBetweenShots = 2f;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Muck;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            #endregion
+
+            #region shadows
             case enemyType.shadeKnight:
                 currentLife = 4;
                 speedAttribute = .75f;
@@ -211,13 +538,109 @@ public class EnemyManager : MonoBehaviour {
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.pursue;
-                monsterType = enemyClass.Shade;
+                primarymonsterType = enemyClass.Shadow;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.shadow:
+                currentLife = 4;
+                speedAttribute = .75f;
+                damage = 1;
+                seekDistance = 4;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Shadow;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.shadowBeast:
+                currentLife = 4;
+                speedAttribute = .75f;
+                damage = 1;
+                seekDistance = 4;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Shadow;
+                secondarymonsterType = enemyClass.None;
                 boss = false;
                 break;
             #endregion
 
+            #region Elementals
+            case enemyType.infernalElemental:
+                currentLife = 4;
+                speedAttribute = .75f;
+                damage = 1;
+                seekDistance = 4;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Elementals;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.blackFireElemental:
+                currentLife = 4;
+                speedAttribute = .75f;
+                damage = 1;
+                seekDistance = 4;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Elementals;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            case enemyType.acidicElemental:
+                currentLife = 4;
+                speedAttribute = .75f;
+                damage = 1;
+                seekDistance = 4;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.Elementals;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+            #endregion
+
+            #region other
+            case enemyType.gargoyle:
+                currentLife = 4;
+                speedAttribute = .75f;
+                damage = 1;
+                seekDistance = 4;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.None;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+            case enemyType.possessedArmor:
+                currentLife = 4;
+                speedAttribute = .75f;
+                damage = 1;
+                seekDistance = 4;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.pursue;
+                primarymonsterType = enemyClass.None;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
+            #endregion
+
             #region Bosses
-            case enemyType.BansheeMistress:
+            case enemyType.giantGhast:
                 currentLife = 20;
                 speedAttribute = 1;
                 damage = 3;
@@ -225,9 +648,173 @@ public class EnemyManager : MonoBehaviour {
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
-                monsterType = enemyClass.Ghost;
+                primarymonsterType = enemyClass.Ghost;
+                secondarymonsterType = enemyClass.None;
                 boss = true;
                 break;
+
+            case enemyType.bansheeMistress:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Ghost;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+            case enemyType.demonLord:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+            case enemyType.cerberus:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+            case enemyType.lilith:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Demon;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+            case enemyType.skeletonDragon:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Skeleton;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+            case enemyType.necromancer:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Skeleton;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+
+            case enemyType.zombiehordeLeader:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Zombie;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+
+            case enemyType.grimReaper:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Shadow;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+
+            case enemyType.shadowBehemoth:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Shadow;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+
+            case enemyType.spiderQueen:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Spider;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+
+            case enemyType.pyreLord:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.Elementals;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+            case enemyType.dreor:
+                currentLife = 20;
+                speedAttribute = 1;
+                damage = 3;
+                seekDistance = 15;
+                hasBullets = true;
+                timeBetweenShots = 4f;
+                movement = movementType.stationary;
+                primarymonsterType = enemyClass.None;
+                secondarymonsterType = enemyClass.None;
+                boss = true;
+                break;
+
+
             #endregion
 
             #region default monster
@@ -238,6 +825,8 @@ public class EnemyManager : MonoBehaviour {
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
+                primarymonsterType = enemyClass.None;
+                secondarymonsterType = enemyClass.None;
                 boss = false;
                 break;
 

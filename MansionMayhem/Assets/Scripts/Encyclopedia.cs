@@ -106,8 +106,8 @@ public enum enemyType
 
     // Ghosts   // Can move through objects
     basicGhost, 
-    knight,
-    head,
+    ghostknight,
+    ghosthead,
     banshee,
     wraith,
 
@@ -122,6 +122,7 @@ public enum enemyType
     flameSkull,
     archerSkeleton,
     knightSkeleton,
+    charredSkeleton,
     mageSkeleton,
     giantSkeleton,
 
@@ -142,9 +143,9 @@ public enum enemyType
     shadowBeast,
 
     // Elementals
-    infernal,   //Burn
-    blackFire,  //Burn
-    acidic,     //Venom
+    infernalElemental,   //Burn
+    blackFireElemental,  //Burn
+    acidicElemental,     //Venom
 
     // Mucks
     blackMuck,

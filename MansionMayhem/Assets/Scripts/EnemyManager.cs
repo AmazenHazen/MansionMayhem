@@ -7,7 +7,8 @@ public class EnemyManager : MonoBehaviour {
     #region Enemy Attributes
     // Attributes
     public enemyType monster;
-    private enemyClass monsterType;
+    private enemyClass primarymonsterType;
+    private enemyClass secondarymonsterType;
     private float maxHealth;
     private float currentLife;
     private float damage;
@@ -59,9 +60,13 @@ public class EnemyManager : MonoBehaviour {
     {
         get { return monster; }
     }
-    public enemyClass MonsterType
+    public enemyClass PrimaryMonsterType
     {
-        get { return monsterType; }
+        get { return primarymonsterType; }
+    }
+    public enemyClass SecondaryMonsterType
+    {
+        get { return secondarymonsterType; }
     }
     public movementType Movement
     {
@@ -85,9 +90,71 @@ public class EnemyManager : MonoBehaviour {
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
-                monsterType = enemyClass.Spider;
+                primarymonsterType = enemyClass.Spider;
+                secondarymonsterType = enemyClass.None;
                 boss = false;
                 break;
+            case enemyType.blackWidow:
+                currentLife = 1;
+                speedAttribute = 1;
+                damage = .5f;
+                seekDistance = 5;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.seek;
+                primarymonsterType = enemyClass.Spider;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+            case enemyType.redTermis:
+                currentLife = 1;
+                speedAttribute = 1;
+                damage = .5f;
+                seekDistance = 5;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.seek;
+                primarymonsterType = enemyClass.Spider;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+            case enemyType.tarantula:
+                currentLife = 1;
+                speedAttribute = 1;
+                damage = .5f;
+                seekDistance = 5;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.seek;
+                primarymonsterType = enemyClass.Spider;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+            case enemyType.wolfSpider:
+                currentLife = 1;
+                speedAttribute = 1;
+                damage = .5f;
+                seekDistance = 5;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.seek;
+                primarymonsterType = enemyClass.Spider;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+            case enemyType.silkSpinnerSpider:
+                currentLife = 1;
+                speedAttribute = 1;
+                damage = .5f;
+                seekDistance = 5;
+                hasBullets = false;
+                timeBetweenShots = 0;
+                movement = movementType.seek;
+                primarymonsterType = enemyClass.Spider;
+                secondarymonsterType = enemyClass.None;
+                boss = false;
+                break;
+
 
             #endregion
 
@@ -101,7 +168,8 @@ public class EnemyManager : MonoBehaviour {
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
-                monsterType = enemyClass.Ghost;
+                primarymonsterType = enemyClass.Ghost;
+                secondarymonsterType = enemyClass.None;
                 boss = false;
                 break;
 
@@ -113,7 +181,8 @@ public class EnemyManager : MonoBehaviour {
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
-                monsterType = enemyClass.Ghost;
+                primarymonsterType = enemyClass.Ghost;
+                secondarymonsterType = enemyClass.None;
                 boss = false;
                 break;
             #endregion
@@ -233,7 +302,7 @@ public class EnemyManager : MonoBehaviour {
     {
         // Player Gains Invincibility for 3 seconds
         canShoot = false;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
         Invoke("ResetShooting", timeBetweenShots);
 
     }

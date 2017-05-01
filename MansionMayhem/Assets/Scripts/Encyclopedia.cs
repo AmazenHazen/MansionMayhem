@@ -36,12 +36,17 @@ public enum levelType
 public enum rangeWeapon
 {
     // Range Weapons
-    // Ghost guns
-    antiEctoPlasmator=0,
-    // Bows
-    aetherLightBow = 1, // Demon Slaying Bow rumored to be from the gods
-    // Special
-    cryoGun = 2, // FreezeRay
+
+    // Default Weapon
+    laserpistol = 0,
+
+    // Unlockable Weapons
+    antiEctoPlasmator = 1,  // Ghost Splatter Weapon
+    aetherLightBow = 2, // Demon Slaying Bow rumored to be from the gods
+    cryoGun = 3, // FreezeRay
+    flamethrower = 4,   // Flamethrower
+    hellfireshotgun = 5,    // Shotgun
+    soundCannon = 6,    // Three Round Burst Sound Cannon
 }
 
 /// <summary>
@@ -63,17 +68,18 @@ public enum meleeWeapon
 
 public enum trinkets
 {
-    knife,
-    hellWhip, // Spirit Killing Whip
-    electricSword, // 
-    arcLightSword, // Demon Slaying Sword
+    antiMatterBomb,
+    blackHoleDevice,
+    nanoHealingSwarm,
+    drone,
 }
 
 public enum bulletTypes
 {
+    laser,
     aetherlight,
     antiEctoPlasm, 
-    ice, // Ice
+    ice,
     hellFire,
     ectoPlasm,
     sound,
@@ -92,29 +98,99 @@ public enum enemyType
 {
     // Spiders
     smallSpider,
+    blackWidow, // Venom
+    redTermis,  // Venom
+    tarantula,  // Huge
+    wolfSpider, // Jumps
+    silkSpinnerSpider, // Webs
 
-    // Ghosts
-    basicGhost,
+    // Ghosts   // Can move through objects
+    basicGhost, 
+    knight,
+    head,
     banshee,
+    wraith,
+
+    // Zombie
+    crawlingHand,
+    spitterZombie,
+    exploadingZombie,
+    stalkerZombie,
+    tankZombie,
+
+    // Skeletons
+    flameSkull,
+    archerSkeleton,
+    knightSkeleton,
+    mageSkeleton,
+    giantSkeleton,
 
     // Demons
     imp,
+    boneDemon,
+    shadowDemon,
+    spikeDemon,
+    slasherDemon,
+    corruptedDemon,
+    infernalDemon,
+    hellhound,
+    fury,
 
-    // Shades
+    // Shadow
     shadeKnight,
+    shadow,
+    shadowBeast,
+
+    // Elementals
+    infernal,   //Burn
+    blackFire,  //Burn
+    acidic,     //Venom
+
+    // Mucks
+    blackMuck,
+    ectoplasmMuck,
+    acidicMuck,
+
+    // Other
+    gargoyle,
+    possessedArmor,
 
     // Boss
-    BansheeMistress,
+    giantGhast,         //Ghost Boss
+    bansheeMistress,    //Ghost Boss
+    demonLord,          //Demon Boss
+    cerberus,           //Demon Boss
+    lilith,             //Demon Boss
+    skeletonDragon,     //Skeleton Boss
+    necromancer,        //Skeleton Boss
+    zombiehordeLeader,  //Zombie Boss
+    grimReaper,         //Shadow Boss
+    shadowBehemoth,     //Shadow Boss
+    spiderQueen,        //Spider Boss
+    pyreLord,           //Elemental Boss
+    dreor,              //None
 }
 #endregion
 
 #region Enemy Class
 public enum enemyClass
 {
+    None,
     Spider,
     Ghost,
     Demon,
     Shade,
+    Possesed,
+    Skeleton,
+    Zombie,
+    Cthulhians,
+    Elementals,
+    Gargoyles,
+    Werewolf,
+    Muck,
+    Shadow,
+    Snake,
+    Mummies,
 }
 #endregion
 

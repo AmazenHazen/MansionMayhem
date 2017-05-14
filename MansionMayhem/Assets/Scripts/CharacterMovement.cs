@@ -197,33 +197,33 @@ public abstract class CharacterMovement : MonoBehaviour
     public Vector3 pursue(GameObject tar)
     {
         // step 1: Find the Future Position of the target
-        Vector3 futurePos = tar.transform.position + tar.transform.forward;
+        Vector3 futurePos = tar.transform.position + tar.transform.up;
 
         // Step 1.5: If the target is too close scale the futurePos so you don't go the opposite way
         if ((position - tar.transform.position).magnitude < 1)
         {
-            Vector3 scaledForward = tar.transform.forward;
-            scaledForward.x = tar.transform.forward.x * .15f;
-            scaledForward.y = tar.transform.forward.y * .15f;
-            scaledForward.z = tar.transform.forward.z * .15f;
+            Vector3 scaledForward = tar.transform.up;
+            scaledForward.x = tar.transform.up.x * .15f;
+            scaledForward.y = tar.transform.up.y * .15f;
+            scaledForward.z = 0;
             futurePos = tar.transform.position + scaledForward;
         }
         else if ((position - tar.transform.position).magnitude < 2)
         {
-            Vector3 scaledForward = tar.transform.forward;
-            scaledForward.x = tar.transform.forward.x * .3f;
-            scaledForward.y = tar.transform.forward.y * .3f;
-            scaledForward.z = tar.transform.forward.z * .3f;
+            Vector3 scaledForward = tar.transform.up;
+            scaledForward.x = tar.transform.up.x * .3f;
+            scaledForward.y = tar.transform.up.y * .3f;
+            scaledForward.z = 0;
             futurePos = tar.transform.position + scaledForward;
         }
 
         // Step 1.5: If the target is far away, anticipate it's position farther away
         else if ((position - tar.transform.position).magnitude > 4)
         {
-            Vector3 scaledForward = tar.transform.forward;
-            scaledForward.x = tar.transform.forward.x * 2.5f;
-            scaledForward.y = tar.transform.forward.y * 2.5f;
-            scaledForward.z = tar.transform.forward.z * 2.5f;
+            Vector3 scaledForward = tar.transform.up;
+            scaledForward.x = tar.transform.up.x * 2.5f;
+            scaledForward.y = tar.transform.up.y * 2.5f;
+            scaledForward.z = 0;
             futurePos = tar.transform.position + scaledForward;
         }
 
@@ -250,15 +250,15 @@ public abstract class CharacterMovement : MonoBehaviour
     public Vector3 evade(GameObject tar)
     {
         // step 1: Find the Future Position of the target
-        Vector3 futurePos = tar.transform.position + tar.transform.forward;
+        Vector3 futurePos = tar.transform.position + tar.transform.up;
 
         // Step 1.5: If the target is too close scale the futurePos so you aren't suicidal
         if ((position - tar.transform.position).magnitude < 2)
         {
-            Vector3 scaledForward = tar.transform.forward;
-            scaledForward.x = tar.transform.forward.x * .5f;
-            scaledForward.y = tar.transform.forward.y * .5f;
-            scaledForward.z = tar.transform.forward.z * .5f;
+            Vector3 scaledForward = tar.transform.up;
+            scaledForward.x = tar.transform.up.x * .5f;
+            scaledForward.y = tar.transform.up.y * .5f;
+            scaledForward.z = 0f;
             futurePos = tar.transform.position + scaledForward;
         }
 
@@ -285,7 +285,7 @@ public abstract class CharacterMovement : MonoBehaviour
     public Vector3 wander()
     {
         // Step 1: Find the future position
-        futurePosition = transform.position + transform.forward * wanderDistance;
+        futurePosition = transform.position + transform.up * wanderDistance;
 
         // Step 2: Find a displacement at the end of a vector (off of a circle)
         wandAngle = Random.Range(0, 2 * Mathf.PI);
@@ -322,7 +322,7 @@ public abstract class CharacterMovement : MonoBehaviour
         }
 
         // Return Zero if the object is behind the vehicle (Dot product with forward results in a zero
-        if (Vector3.Dot(vecToCenter, transform.forward) < 0)
+        if (Vector3.Dot(vecToCenter, transform.up) < 0)
         {
             return steer;
         }

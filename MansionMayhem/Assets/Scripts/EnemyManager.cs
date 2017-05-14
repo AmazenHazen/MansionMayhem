@@ -147,9 +147,8 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = .5f;
                 seekDistance = 5;
-                hasBullets = false;
+                hasBullets = true;
                 timeBetweenShots = 0;
-                movement = movementType.seek;
                 primarymonsterType = enemyClass.Spider;
                 secondarymonsterType = enemyClass.None;
                 boss = false;

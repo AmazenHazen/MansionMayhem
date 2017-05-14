@@ -39,18 +39,277 @@ public class EnemyMovement : CharacterMovement
             // Have the enemy face the player
             Rotate();
 
-            // Dumb Enemy
-            switch (gameObject.GetComponent<EnemyManager>().Movement)
+            // Basic Enemy Movement
+            switch (gameObject.GetComponent<EnemyManager>().monster)
             {
-                case movementType.seek:
+        
+                #region spiders
+                case enemyType.smallSpider:
+                    // Seek
                     ultimateForce += seek(player.transform.position);
                     break;
-                case movementType.pursue:
-                    ultimateForce += pursue(player);
+                case enemyType.blackWidow:
+
                     break;
+                case enemyType.redTermis:
+
+                    break;
+                case enemyType.tarantula:
+
+                    break;
+                case enemyType.wolfSpider:
+
+                    break;
+                case enemyType.silkSpinnerSpider:
+                    // flee
+                    ultimateForce += flee(player.transform.position);
+                    break;
+
+
+                #endregion
+
+                #region ghosts
+                // Ghosts
+                case enemyType.basicGhost:
+
+                    break;
+
+
+                case enemyType.ghostknight:
+
+                    break;
+
+                case enemyType.banshee:
+                    // Seek
+                    ultimateForce += seek(player.transform.position);
+                    break;
+
+                case enemyType.ghosthead:
+
+                    break;
+
+
+                case enemyType.wraith:
+
+                    break;
+                #endregion
+
+                #region demons
+                // Demons
+                case enemyType.imp:
+
+                    // Seek
+                    ultimateForce += seek(player.transform.position);
+                        break;
+
+                case enemyType.boneDemon:
+
+                    break;
+
+                case enemyType.corruptedDemon:
+
+                    break;
+
+                case enemyType.infernalDemon:
+
+                    break;
+
+                case enemyType.shadowDemon:
+
+                    break;
+
+                case enemyType.slasherDemon:
+
+                    break;
+
+                case enemyType.spikeDemon:
+
+                    break;
+
+                case enemyType.hellhound:
+
+                    break;
+
+                case enemyType.fury:
+
+                    break;
+
+                #endregion
+
+                #region zombies
+                case enemyType.crawlingHand:
+
+                    break;
+
+                case enemyType.spitterZombie:
+
+                    break;
+
+                case enemyType.exploadingZombie:
+
+                    break;
+
+                case enemyType.stalkerZombie:
+
+                    break;
+
+                case enemyType.tankZombie:
+
+                    break;
+
+                #endregion
+
+                #region skeletons
+                case enemyType.charredSkeleton:
+
+                    break;
+
+                case enemyType.archerSkeleton:
+
+                    break;
+
+                case enemyType.knightSkeleton:
+
+                    break;
+
+                case enemyType.mageSkeleton:
+
+                    break;
+
+                case enemyType.giantSkeleton:
+
+                    break;
+
+
+                #endregion
+
+                #region Muck
+                case enemyType.blackMuck:
+
+                    break;
+
+                case enemyType.ectoplasmMuck:
+
+                    break;
+
+
+                case enemyType.acidicMuck:
+
+                    break;
+
+                #endregion
+
+                #region shadows
+                case enemyType.shadeKnight:
+
+                    break;
+
+                case enemyType.shadow:
+
+                    break;
+
+                case enemyType.shadowBeast:
+
+                    break;
+                #endregion
+
+                #region Elementals
+                case enemyType.infernalElemental:
+
+                    break;
+
+                case enemyType.blackFireElemental:
+
+                    break;
+
+                case enemyType.acidicElemental:
+
+                    break;
+                #endregion
+
+                #region other
+                case enemyType.gargoyle:
+
+                    break;
+                case enemyType.possessedArmor:
+
+                    break;
+
+                #endregion
+
+                #region Bosses
+                case enemyType.giantGhast:
+
+                    break;
+
+                case enemyType.bansheeMistress:
+
+                    break;
+
+                case enemyType.demonLord:
+
+                    break;
+
+                case enemyType.cerberus:
+
+                    break;
+
+                case enemyType.lilith:
+
+                    break;
+
+                case enemyType.skeletonDragon:
+
+                    break;
+
+                case enemyType.necromancer:
+
+                    break;
+
+
+                case enemyType.zombiehordeLeader:
+
+                    break;
+
+
+                case enemyType.grimReaper:
+
+                    break;
+
+
+                case enemyType.shadowBehemoth:
+
+                    break;
+
+
+                case enemyType.spiderQueen:
+
+                    break;
+
+
+                case enemyType.pyreLord:
+
+                    break;
+
+                case enemyType.dreor:
+                    break;
+
+
+                    #endregion
+
+                    #region default monster
+                    default:
+
+                    break;
+
+                #endregion
 
             }
 
+        }
+        else
+        {
+            ultimateForce = wander();
         }
         // Apply Decelleration using ApplyFriction Force
         //ultimateForce += ApplyFriction(3.0f);

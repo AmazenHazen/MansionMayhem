@@ -16,6 +16,7 @@ public class EnemyManager : MonoBehaviour {
     private float seekDistance;
     private bool invincibility;
     private bool hasBullets;
+    private bool isPoisonous;
     public bool hitByMeleeBool;
     public bool boss;
     private movementType movement;
@@ -87,6 +88,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = .5f;
                 seekDistance = 5;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
@@ -99,6 +101,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = .5f;
                 seekDistance = 5;
+                isPoisonous = true;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
@@ -111,6 +114,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = .5f;
                 seekDistance = 5;
+                isPoisonous = true;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
@@ -123,6 +127,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = .5f;
                 seekDistance = 5;
+                isPoisonous = true;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
@@ -135,6 +140,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = .5f;
                 seekDistance = 5;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
@@ -147,6 +153,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = .5f;
                 seekDistance = 5;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 0;
                 primarymonsterType = enemyClass.Spider;
@@ -164,6 +171,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 3;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
@@ -178,6 +186,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -191,6 +200,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -204,6 +214,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -218,6 +229,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -234,6 +246,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -247,6 +260,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -260,6 +274,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = true;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -273,6 +288,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -286,6 +302,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -299,7 +316,8 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
-                hasBullets = true;
+                isPoisonous = false;
+                hasBullets = false;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
                 primarymonsterType = enemyClass.Demon;
@@ -312,6 +330,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -325,6 +344,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -338,6 +358,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -354,6 +375,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -367,6 +389,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -380,6 +403,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -393,6 +417,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -406,6 +431,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -422,6 +448,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -435,6 +462,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -448,6 +476,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -461,6 +490,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -474,6 +504,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 1;
                 seekDistance = 10;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.pursue;
@@ -491,6 +522,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -504,6 +536,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -518,6 +551,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 2;
                 damage = 1;
                 seekDistance = 7;
+                isPoisonous = true;
                 hasBullets = true;
                 timeBetweenShots = 2f;
                 movement = movementType.pursue;
@@ -534,6 +568,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = .75f;
                 damage = 1;
                 seekDistance = 4;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.pursue;
@@ -547,6 +582,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = .75f;
                 damage = 1;
                 seekDistance = 4;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.pursue;
@@ -560,6 +596,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = .75f;
                 damage = 1;
                 seekDistance = 4;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.pursue;
@@ -575,6 +612,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = .75f;
                 damage = 1;
                 seekDistance = 4;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.pursue;
@@ -588,6 +626,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = .75f;
                 damage = 1;
                 seekDistance = 4;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.pursue;
@@ -601,6 +640,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = .75f;
                 damage = 1;
                 seekDistance = 4;
+                isPoisonous = true;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.pursue;
@@ -616,6 +656,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = .75f;
                 damage = 1;
                 seekDistance = 4;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.pursue;
@@ -628,6 +669,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = .75f;
                 damage = 1;
                 seekDistance = 4;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.pursue;
@@ -644,6 +686,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -657,6 +700,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -670,6 +714,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -683,6 +728,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -696,6 +742,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -709,6 +756,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -722,6 +770,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -736,6 +785,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -750,6 +800,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -764,6 +815,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -778,6 +830,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = true;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -792,6 +845,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -805,6 +859,7 @@ public class EnemyManager : MonoBehaviour {
                 speedAttribute = 1;
                 damage = 3;
                 seekDistance = 15;
+                isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
                 movement = movementType.stationary;
@@ -821,6 +876,7 @@ public class EnemyManager : MonoBehaviour {
                 currentLife = 1;
                 speedAttribute = 1;
                 damage = .5f;
+                isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
                 movement = movementType.seek;
@@ -880,6 +936,14 @@ public class EnemyManager : MonoBehaviour {
         enemyBullets.Add(bulletCopy);
         bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
         bulletCount++;
+
+        // The Enemy Poisons the player with the range attack if poisonous
+        if (isPoisonous == true)
+        {
+            gameObject.GetComponent<EnemyMovement>().player.GetComponent<PlayerManager>().Poisoned = true;
+            gameObject.GetComponent<EnemyMovement>().player.GetComponent<PlayerManager>().PoisonCounter = 0;
+        }
+
         JustShot();
     }
 
@@ -910,6 +974,13 @@ public class EnemyManager : MonoBehaviour {
     {
         hitByMeleeBool = true;
         Invoke("ResetHurtByMelee", .2f);
+
+        // The Enemy Poisons the player with the melee attack if poisonous
+        if (isPoisonous == true)
+        {
+            gameObject.GetComponent<EnemyMovement>().player.GetComponent<PlayerManager>().Poisoned = true;
+            gameObject.GetComponent<EnemyMovement>().player.GetComponent<PlayerManager>().PoisonCounter = 0;
+        }
     }
 
     void ResetHurtByMelee()

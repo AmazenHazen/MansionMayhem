@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Headers for Save Files
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+
 public class PlayerManager : MonoBehaviour
 {
     #region PlayerAttributes
@@ -10,16 +15,16 @@ public class PlayerManager : MonoBehaviour
     private float currentLife;
     private float shieldMaxLife;
     private float shieldLife;
-    private int screws;
-    // Ammo for Ghost Gun
-    private int antiEctoplasm;
-    // Ammo for Demon killing weapons
-    private int aetherLight;
     private bool invincibility;
     private bool canTravel;
     private bool canShoot;
     private bool canMelee;
     private bool canShield;
+
+    // Status Conditions
+    int poisonCounter;
+    bool applypoison;
+    bool poisoned;
 
     // Weapon Variables
     private rangeWeapon currentRangeWeapon;
@@ -41,23 +46,21 @@ public class PlayerManager : MonoBehaviour
         get { return shieldLife; }
         set { shieldLife = value; }
     }
-    public int Screws
-    {
-        get { return screws; }
-    }
-    public int AntiEctoPlasm
-    {
-        get { return antiEctoplasm; }
-    }
-    public int AetherLight
-    {
-        get { return aetherLight; }
-    }
+
     public int BulletCount
     {
         get { return bulletCount; }
         set { bulletCount = value; }
     }
+    public bool Poisoned
+    {
+        set { poisoned = value; }
+    }
+    public int PoisonCounter
+    {
+        set { poisonCounter = value; }
+    }
+
     #endregion
 
     #region Setting Initial Player Attributes
@@ -68,14 +71,14 @@ public class PlayerManager : MonoBehaviour
         maxLife = 5;
         currentLife = 3;
         shieldLife = 1;
-        screws = 0;
-        antiEctoplasm = 0;
-        aetherLight = 0;
         invincibility = false;
         canShoot = true;
         canMelee = true;
         canShield = true;
         canTravel = true;
+        applypoison = true; // Starts as true, turned to false only if poisoned
+        poisoned = false;
+        poisonCounter = 0;
         currentRangeWeapon = rangeWeapon.antiEctoPlasmator;
         currentMeleeWeapon = meleeWeapon.silverknife;
 
@@ -88,6 +91,7 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckStatusConditions();
         WeaponSwitch();
         Shoot();
         Melee();
@@ -149,12 +153,6 @@ public class PlayerManager : MonoBehaviour
                 switch (itemVarCopy)
                 {
                     #region Ammo/Health/Screws Pickups
-                    case itemType.aetherLightAmmo:
-                        aetherLight++;
-                        break;
-                    case itemType.antiEctoplasmAmmo:
-                        antiEctoplasm++;
-                        break;
                     case itemType.heartPickup:
                         currentLife++;
                         if (currentLife > maxLife)
@@ -170,13 +168,13 @@ public class PlayerManager : MonoBehaviour
                         }
                         break;
                     case itemType.normalScrewPickup:
-                        screws++;
+                        GameObject.Find("GameHandler").GetComponent<GameManager>().Screws++;
                         break;
                     case itemType.redScrewPickup:
-                        screws = screws + 5;
+                        GameObject.Find("GameHandler").GetComponent<GameManager>().Screws += 5;
                         break;
                     case itemType.goldenScrewPickup:
-                        screws = screws + 10;
+                        GameObject.Find("GameHandler").GetComponent<GameManager>().Screws += 10;
                         break;
                         #endregion
                 }
@@ -405,5 +403,105 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
+    #region Poison Damage Helper Method
+    /// <summary>
+    /// Method to check all status conditions of the player
+    /// </summary>
+    void CheckStatusConditions()
+    {
+        // If the player is poisoned and has been damaged less than 4 times by it.
+        if (poisoned == true && applypoison == true && poisonCounter<5)
+        {
+            // Apply Damage to player
+            ApplyPoison();
+        }
+        else if(poisonCounter>5)
+        {
+            Debug.Log("Player is no longer poisoned");
+            poisoned = false;
+            applypoison = true;
+            poisonCounter = 0;
+        }
+    }
+    
+    /// <summary>
+    /// Apply Damage if poisoned
+    /// </summary>
+    void ApplyPoison()
+    {
+        Debug.Log("Poison Damages the player");
+        currentLife--;
+        poisonCounter++;
+        applypoison = false;
+        Invoke("ResetPoisonBool", 30f);
+    }
+
+    /// <summary>
+    /// Resets when the player gets hit with more poison damage
+    /// </summary>
+    void ResetPoisonBool()
+    {
+        // Reactivates apply poison
+        applypoison = true;
+    }
+    #endregion
+    #endregion
+
+    #region Save and Load Methods
+    /*
+    // This will work for everything but web
+    public void Save()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/MansionMayhem.dat");
+
+        PlayerData data = new PlayerData();
+
+        // Puts the Variables that need to be saved into the data Class
+        data.screws = screws;
+
+
+        // Serialize the data
+        bf.Serialize(file, data);
+        file.Close();
+    }
+
+    public void Load()
+    {
+        // Check to see if a save file already exists
+        if(File.Exists(Application.persistentDataPath + "/MansionMayhem.dat"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/MansionMayhem.dat", FileMode.Open);
+            PlayerData data = (PlayerData)bf.Deserialize(file);
+            file.Close();
+
+            // Set variables based on the save file
+            screws = data.screws;
+        }
+        else
+        {
+            // Variables that are not saved are set to original value otherwise
+            screws = 0;
+
+        }
+    }
+    */
     #endregion
 }
+
+#region Data Container for saving
+/*
+/// <summary>
+/// Class for Saving
+/// Just a class that is a "DATA Container" that allows writing the data to a save file
+/// </summary>
+[Serializable]
+class PlayerData
+{
+    // All saved data here
+    public int screws;
+
+}
+*/
+#endregion

@@ -31,6 +31,10 @@ public class EnemyManager : MonoBehaviour {
     #endregion
 
     #region EnemyProperties
+    public float MaxHealth
+    {
+        get { return maxHealth; }
+    }
     public float CurrentLife
     {
         get { return currentLife; }
@@ -149,7 +153,7 @@ public class EnemyManager : MonoBehaviour {
                 boss = false;
                 break;
             case enemyType.silkSpinnerSpider:
-                currentLife = 1;
+                currentLife = 10;
                 speedAttribute = 1;
                 damage = .5f;
                 seekDistance = 5;
@@ -892,17 +896,24 @@ public class EnemyManager : MonoBehaviour {
         canShoot = true; // Set to true if player gets within distance of the enemy
         hitByMeleeBool = false; // Set true so player can get hit by melee
         enemyBullets = new List<GameObject>();
+
+        // Sets up Player's HealthBar
+        maxHealth = currentLife;
+        gameObject.GetComponent<HealthBar>().HealthBarInstantiate();
 }
     #endregion
 
     #region Update for Enemy
     void Update()
     {
+        // Check for death first
+        death();
+
+
         if(hasBullets == true && canShoot==true && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
         {
             Shoot();
         }
-        death();
     }
     #endregion
 

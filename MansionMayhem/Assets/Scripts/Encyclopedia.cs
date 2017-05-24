@@ -127,13 +127,13 @@ public enum enemyType
     giantSkeleton,
 
     // Demons
-    imp,
-    boneDemon,
-    shadowDemon,
-    spikeDemon,
+    imp, // art done
+    boneDemon,  // art done
+    shadowDemon,    // art done
+    spikeDemon, 
     slasherDemon,
-    corruptedDemon,
-    infernalDemon,
+    corruptedDemon,    // art done
+    infernalDemon,      // art done
     hellhound,
     fury,
 

@@ -54,6 +54,7 @@ public class PlayerManager : MonoBehaviour
     }
     public bool Poisoned
     {
+        get { return poisoned; }
         set { poisoned = value; }
     }
     public int PoisonCounter
@@ -68,8 +69,8 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         // Player Game Variables
-        maxLife = 5;
-        currentLife = 3;
+        maxLife = 20;
+        currentLife = 20f;
         shieldLife = 1;
         invincibility = false;
         canShoot = true;

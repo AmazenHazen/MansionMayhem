@@ -436,8 +436,8 @@ public abstract class CharacterMovement : MonoBehaviour
 
             // Left Wall
             case "leftwall":
-                Debug.Log("LeftWall");
-                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+                //Debug.Log("LeftWall");
+                //gameObject.GetComponent<SpriteRenderer>().color = Color.green;
 
                 // set x velocity to 0
                 velocity.x = 0;
@@ -448,8 +448,8 @@ public abstract class CharacterMovement : MonoBehaviour
 
             // Right Wall
             case "rightwall":
-                Debug.Log("RightWall");
-                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+                //Debug.Log("RightWall");
+                //gameObject.GetComponent<SpriteRenderer>().color = Color.green;
 
                 // set x velocity to 0
                 velocity.x = 0;
@@ -460,8 +460,8 @@ public abstract class CharacterMovement : MonoBehaviour
 
             // Top Wall
             case "topwall":
-                Debug.Log("TopWall");
-                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+                //Debug.Log("TopWall");
+                //gameObject.GetComponent<SpriteRenderer>().color = Color.green;
 
                 // set x velocity to 0
                 velocity.y = 0;
@@ -472,8 +472,8 @@ public abstract class CharacterMovement : MonoBehaviour
 
             // Bottom Wall
             case "bottomwall":
-                Debug.Log("BottomWall");
-                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+                //Debug.Log("BottomWall");
+                //gameObject.GetComponent<SpriteRenderer>().color = Color.green;
 
                 // set y velocity to 0
                 velocity.y = 0;

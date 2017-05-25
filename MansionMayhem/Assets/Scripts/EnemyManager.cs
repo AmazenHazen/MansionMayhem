@@ -2,25 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour {
+public class EnemyManager : MonoBehaviour
+{
 
     #region Enemy Attributes
     // Attributes
-    public enemyType monster;
-    private enemyClass primarymonsterType;
-    private enemyClass secondarymonsterType;
-    private float maxHealth;
-    private float currentLife;
-    private float damage;
-    private float speedAttribute;
-    private float seekDistance;
-    private bool invincibility;
-    private bool hasBullets;
-    private bool isPoisonous;
-    public bool hitByMeleeBool;
-    public bool boss;
-    private movementType movement;
+    // Basic Monster Attributes
+    public enemyType monster;                   // The specific monster creature name
+    private enemyClass primarymonsterType;      // The primary type of monster (demon, ghost, spider)
+    private enemyClass secondarymonsterType;    // The secondary type of monster
+    private float maxHealth;                    // The amount of health the enemy spawns with
+    private float currentLife;                  // The current health the enemy has
+    private float damage;                       // Damage caused when the player is hit by the monster (collision)
+    public bool boss;                           // Bool determining if the enemy is a boss monster
 
+    // Enemy Behavior variables
+    private float speedAttribute;               // How fast the enemy moves
+    private float seekDistance;                 // The distance at which an enemy can sense where you are
+    private bool invincibility;                 // Gives Enemy brief invincibility when hit by a melee attack
+    
+    // Attack Variables
+    private bool hasBullets;                    // Determines if the enemy has bullets
+    private bool hasAbility;                    // Determines if the enemy has an ability (shoot a web/leave slime behind it)
+    private bool isPoisonous;                   // Determines if the enemy can poison the player
+    public bool hitByMeleeBool;                 // Determines if the enemy has been hit by a melee attack by the player
+
+
+    // Ability Management
+    private bool canUseAbility;
+    public float timeBetweenAbility;
+    public List<GameObject> enemyAbilityPrefabs;
 
     // Bullet Management
     private bool canShoot;
@@ -61,6 +72,10 @@ public class EnemyManager : MonoBehaviour {
     {
         set { canShoot = value; }
     }
+    public bool IsPoisonous
+    {
+        get { return isPoisonous; }
+    }
     public enemyType Monster
     {
         get { return monster; }
@@ -72,10 +87,6 @@ public class EnemyManager : MonoBehaviour {
     public enemyClass SecondaryMonsterType
     {
         get { return secondarymonsterType; }
-    }
-    public movementType Movement
-    {
-        get { return movement; }
     }
     #endregion
 
@@ -94,8 +105,8 @@ public class EnemyManager : MonoBehaviour {
                 seekDistance = 5;
                 isPoisonous = false;
                 hasBullets = false;
+                hasAbility = false;
                 timeBetweenShots = 0;
-                movement = movementType.seek;
                 primarymonsterType = enemyClass.Spider;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -108,7 +119,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = true;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.seek;
                 primarymonsterType = enemyClass.Spider;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -121,7 +131,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = true;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.seek;
                 primarymonsterType = enemyClass.Spider;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -134,7 +143,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = true;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.seek;
                 primarymonsterType = enemyClass.Spider;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -147,7 +155,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.seek;
                 primarymonsterType = enemyClass.Spider;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -159,6 +166,7 @@ public class EnemyManager : MonoBehaviour {
                 seekDistance = 5;
                 isPoisonous = false;
                 hasBullets = true;
+                hasAbility = true;
                 timeBetweenShots = 0;
                 primarymonsterType = enemyClass.Spider;
                 secondarymonsterType = enemyClass.None;
@@ -178,7 +186,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.seek;
                 primarymonsterType = enemyClass.Ghost;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -193,7 +200,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Ghost;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -207,7 +213,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Ghost;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -221,7 +226,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Ghost;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -236,7 +240,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Ghost;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -253,7 +256,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -267,7 +269,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.Skeleton;
                 boss = false;
@@ -281,7 +282,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = true;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -295,7 +295,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -309,7 +308,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.Shadow;
                 boss = false;
@@ -323,7 +321,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -337,7 +334,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -351,7 +347,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -365,7 +360,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -382,7 +376,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Zombie;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -396,7 +389,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Zombie;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -410,7 +402,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Zombie;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -424,7 +415,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Zombie;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -438,7 +428,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Zombie;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -455,7 +444,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Skeleton;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -469,7 +457,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Skeleton;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -483,7 +470,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Skeleton;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -497,7 +483,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Skeleton;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -511,7 +496,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Skeleton;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -529,7 +513,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Muck;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -543,7 +526,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Muck;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -558,7 +540,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = true;
                 hasBullets = true;
                 timeBetweenShots = 2f;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Muck;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -575,7 +556,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Shadow;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -589,7 +569,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Shadow;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -603,7 +582,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Shadow;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -619,7 +597,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Elementals;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -633,7 +610,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Elementals;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -647,7 +623,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = true;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.Elementals;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -663,7 +638,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.None;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -676,7 +650,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.pursue;
                 primarymonsterType = enemyClass.None;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -693,7 +666,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Ghost;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -707,7 +679,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Ghost;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -721,7 +692,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -735,7 +705,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -749,7 +718,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Demon;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -763,7 +731,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Skeleton;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -777,7 +744,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Skeleton;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -792,7 +758,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Zombie;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -807,7 +772,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Shadow;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -822,7 +786,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Shadow;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -837,7 +800,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = true;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Spider;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -852,7 +814,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.Elementals;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -866,7 +827,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = true;
                 timeBetweenShots = 4f;
-                movement = movementType.stationary;
                 primarymonsterType = enemyClass.None;
                 secondarymonsterType = enemyClass.None;
                 boss = true;
@@ -883,7 +843,6 @@ public class EnemyManager : MonoBehaviour {
                 isPoisonous = false;
                 hasBullets = false;
                 timeBetweenShots = 0;
-                movement = movementType.seek;
                 primarymonsterType = enemyClass.None;
                 secondarymonsterType = enemyClass.None;
                 boss = false;
@@ -896,6 +855,9 @@ public class EnemyManager : MonoBehaviour {
         canShoot = true; // Set to true if player gets within distance of the enemy
         hitByMeleeBool = false; // Set true so player can get hit by melee
         enemyBullets = new List<GameObject>();
+
+        canUseAbility = true;
+
 
         // Sets up Player's HealthBar
         maxHealth = currentLife;
@@ -914,6 +876,11 @@ public class EnemyManager : MonoBehaviour {
         {
             Shoot();
         }
+        if (hasAbility == true && canUseAbility == true && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
+        {
+            //Ability();
+        }
+
     }
     #endregion
 
@@ -980,18 +947,47 @@ public class EnemyManager : MonoBehaviour {
     }
     #endregion
 
+    #region Ability Methods
+    /// <summary>
+    /// Shooting Method
+    /// </summary>
+    void Ability()
+    {
+        GameObject abilityCopy;
+        abilityCopy = Instantiate(enemyAbilityPrefabs[0], transform.position, transform.rotation) as GameObject;
+        enemyBullets.Add(abilityCopy);
+        //abilityCopy.GetComponent<AbilityManager>().abilitySetUp(gameObject);
+
+        JustAbilitied();
+    }
+
+    /// <summary>
+    /// Keeps the player from spamming the shoot button
+    /// </summary>
+    void JustAbilitied()
+    {
+        // Player Gains Invincibility for 3 seconds
+        canUseAbility = false;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+        Invoke("ResetAbility", timeBetweenAbility);
+
+    }
+
+    /// <summary>
+    /// Resets Player's canShoot Bool
+    /// </summary>
+    void ResetAbility()
+    {
+        canShoot = true;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+    #endregion
+
     #region HurtMethod
     public void HurtByMelee()
     {
         hitByMeleeBool = true;
         Invoke("ResetHurtByMelee", .2f);
-
-        // The Enemy Poisons the player with the melee attack if poisonous
-        if (isPoisonous == true)
-        {
-            gameObject.GetComponent<EnemyMovement>().player.GetComponent<PlayerManager>().Poisoned = true;
-            gameObject.GetComponent<EnemyMovement>().player.GetComponent<PlayerManager>().PoisonCounter = 0;
-        }
     }
 
     void ResetHurtByMelee()

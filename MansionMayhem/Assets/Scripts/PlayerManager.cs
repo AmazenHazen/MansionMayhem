@@ -134,8 +134,19 @@ public class PlayerManager : MonoBehaviour
             case "enemy":
                 if (invincibility == false)
                 {
+
                     Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().Monster);
                     currentLife -= collider.gameObject.GetComponent<EnemyManager>().Damage;
+
+                    // Poison the player if the enemy is poisonous
+                    // The Enemy Poisons the player with the melee attack if poisonous
+                    if (collider.gameObject.GetComponent<EnemyManager>().IsPoisonous == true)
+                    {
+                        // Set poison to true and reset the counter
+                        poisonCounter = 0;
+                        poisoned = true;
+                    }
+
                     StartInvincibility();
                 }
                 break;

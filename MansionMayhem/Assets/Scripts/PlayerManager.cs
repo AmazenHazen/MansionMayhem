@@ -61,6 +61,10 @@ public class PlayerManager : MonoBehaviour
     {
         set { poisonCounter = value; }
     }
+    public rangeWeapon CurrentRangeWeapon
+    {
+        get { return currentRangeWeapon; }
+    }
 
     #endregion
 
@@ -180,13 +184,13 @@ public class PlayerManager : MonoBehaviour
                         }
                         break;
                     case itemType.normalScrewPickup:
-                        GameObject.Find("GameHandler").GetComponent<GameManager>().Screws++;
+                        GameManager.screws++;
                         break;
                     case itemType.redScrewPickup:
-                        GameObject.Find("GameHandler").GetComponent<GameManager>().Screws += 5;
+                        GameManager.screws += 5;
                         break;
                     case itemType.goldenScrewPickup:
-                        GameObject.Find("GameHandler").GetComponent<GameManager>().Screws += 10;
+                        GameManager.screws += 10;
                         break;
                         #endregion
                 }

@@ -15,24 +15,16 @@ public class GameManager : MonoBehaviour
     public Texture2D heart;
 
     // Level Variables
-    private int currentLevel;
+    public static int currentLevel;
     private int highestLevel;
 
     // Currency Variables
-    private int screws;
+    public static int screws;
 
     // Internal GameState Variables
     public bool inGame;
     public bool bossFight;
 
-    #endregion
-
-    #region Properties
-    public int Screws
-    {
-        get { return screws; }
-        set { screws = value; }
-    }
     #endregion
 
     #region initialization
@@ -74,45 +66,14 @@ public class GameManager : MonoBehaviour
         // IN-GAME GUI, THE GUI YOU SEE WHEN YOU NORMALLY PLAY IN GAME
         if(inGame)
         {
-            // Player Health
-            GUI.Label(new Rect(10, 10, 400, 50), "Health: " + GameObject.Find("Player").GetComponent<PlayerManager>().CurrentLife);
-
-            // Put hearts next to the label matching number of lifes you have
-            for (int i = 0; i < GameObject.Find("Player").GetComponent<PlayerManager>().CurrentLife; i++)
-            {
-                GUI.DrawTexture(new Rect(50 + 20 * i, 10, 20, 20), heart);
-            }
-
             // Score FOR GUI
             GUI.Label(new Rect(10, 30, 400, 50), "Screws: " + screws);
-
-            // Level FOR GUI
-            GUI.Label(new Rect(10, 60, 400, 50), "Level: " + currentLevel);
-
-            if (bossFight == true)
-            {
-                GUI.Label(new Rect(600, 10, 400, 50), "Boss Health: " /*+ bossLife*/);
-            }
         
             if(GUI.Button(new Rect(10, 300, 100, 30), "Save"))
             {
                 Save();
             }
         }
-        // When In Menus
-        else
-        {
-            // Score FOR GUI
-            GUI.Label(new Rect(10, 30, 400, 50), "Screws: " + screws);
-
-            if (GUI.Button(new Rect(10, 300, 100, 30), "Save"))
-            {
-                Save();
-            }
-        }
-
-
-
     }
     #endregion
 

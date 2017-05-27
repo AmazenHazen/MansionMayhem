@@ -130,7 +130,7 @@ public enum enemyType
     imp, // art done
     boneDemon,  // art done
     shadowDemon,    // art done
-    spikeDemon, 
+    spikeDemon,     // art done
     slasherDemon,
     corruptedDemon,    // art done
     infernalDemon,      // art done
@@ -139,7 +139,7 @@ public enum enemyType
 
     // Shadow
     shadeKnight,
-    shadow,
+    shadow,             // art done
     shadowBeast,
 
     // Elementals
@@ -148,26 +148,27 @@ public enum enemyType
     acidicElemental,     //Venom
 
     // Mucks
-    blackMuck,
-    ectoplasmMuck,
-    acidicMuck,
+    blackMuck,          // art done
+    ectoplasmMuck,      // art done
+    acidicMuck,         // art done
 
     // Other
-    gargoyle,
+    gargoyle,           // art done
     possessedArmor,
+    // Muscle Monster   // art done
 
     // Boss
     giantGhast,         //Ghost Boss
     bansheeMistress,    //Ghost Boss
-    demonLord,          //Demon Boss
+    demonLord,          //Demon Boss    art done
     cerberus,           //Demon Boss
     lilith,             //Demon Boss
-    skeletonDragon,     //Skeleton Boss
-    necromancer,        //Skeleton Boss
-    zombiehordeLeader,  //Zombie Boss
+    skeletonDragon,     //Skeleton Boss 
+    necromancer,        //Skeleton Boss 
+    zombiehordeLeader,  //Zombie Boss   
     grimReaper,         //Shadow Boss
     shadowBehemoth,     //Shadow Boss
-    spiderQueen,        //Spider Boss
+    spiderQueen,        //Spider Boss   art done
     pyreLord,           //Elemental Boss
     dreor,              //None
 }

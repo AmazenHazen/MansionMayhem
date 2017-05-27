@@ -17,15 +17,26 @@ public enum GameState
 }
 #endregion
 
-#region LevelType
+#region Levels
 /// <summary>
 /// Enum that contains all levels available
 /// </summary>
 public enum levelType
 {
-    Sacrifice,
-    Boss,
-    Collection,
+    // Boss Levels
+    giantGhast,         //Ghost Boss
+    bansheeMistress,    //Ghost Boss
+    demonLord,          //Demon Boss    art done
+    cerberus,           //Demon Boss
+    lilith,             //Demon Boss
+    skeletonDragon,     //Skeleton Boss 
+    necromancer,        //Skeleton Boss 
+    zombiehordeLeader,  //Zombie Boss   
+    grimReaper,         //Shadow Boss
+    shadowBehemoth,     //Shadow Boss
+    spiderQueen,        //Spider Boss   art done
+    pyreLord,           //Elemental Boss
+    dreor,              //None
 }
 #endregion
 

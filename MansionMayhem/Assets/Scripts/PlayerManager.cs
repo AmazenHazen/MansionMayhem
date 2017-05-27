@@ -211,6 +211,19 @@ public class PlayerManager : MonoBehaviour
 
                 break;
             #endregion
+
+            #region artifact
+            case "artifact":
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+
+                    // Debug Line
+                    Debug.Log("Using Artifact:");
+
+                    collider.gameObject.GetComponent<ArtifactScript>().Activate();
+                }
+
+                break;
         }
 
     }

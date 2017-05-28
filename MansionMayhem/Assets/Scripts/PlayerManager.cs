@@ -125,7 +125,7 @@ public class PlayerManager : MonoBehaviour
                 if(canTravel == true)
                 {
                     Debug.Log("Travel");
-                    gameObject.transform.position = collider.gameObject.GetComponent<DoorScript>().linkedDoor.transform.position;
+                    collider.gameObject.GetComponent<DoorScript>().Travel(gameObject);
                     // Activate just traveled method
                     JustTraveled();
                 }
@@ -140,16 +140,15 @@ public class PlayerManager : MonoBehaviour
                 if (invincibility == false)
                 {
 
-                    Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().Monster);
-                    currentLife -= collider.gameObject.GetComponent<EnemyManager>().Damage;
+                    Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
+                    currentLife -= collider.gameObject.GetComponent<EnemyManager>().damage;
 
                     // Poison the player if the enemy is poisonous
                     // The Enemy Poisons the player with the melee attack if poisonous
-                    if (collider.gameObject.GetComponent<EnemyManager>().IsPoisonous == true)
+                    if (collider.gameObject.GetComponent<EnemyManager>().isPoisonous == true)
                     {
                         // Set poison to true and reset the counter
-                        poisonCounter = 0;
-                        poisoned = true;
+                        StartPoison();
                     }
 
                     StartInvincibility();
@@ -168,7 +167,7 @@ public class PlayerManager : MonoBehaviour
                 itemType itemVarCopy = collider.gameObject.GetComponent<ItemScript>().itemVar;
                 switch (itemVarCopy)
                 {
-                    #region Ammo/Health/Screws Pickups
+                    #region Health/Screws/Quest Pickups
                     case itemType.heartPickup:
                         currentLife++;
                         if (currentLife > maxLife)
@@ -192,6 +191,13 @@ public class PlayerManager : MonoBehaviour
                     case itemType.goldenScrewPickup:
                         GameManager.screws += 10;
                         break;
+                    case itemType.quest:
+                        collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<ArtifactScript>().requirements.Remove(collider.gameObject);
+                        break;
+                    case itemType.key:
+                        collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<DoorScript>().requirements.Remove(collider.gameObject);
+                        break;
+
                         #endregion
                 }
 
@@ -452,7 +458,17 @@ public class PlayerManager : MonoBehaviour
             poisonCounter = 0;
         }
     }
-    
+
+    /// <summary>
+    /// Starts the poison on the player/resets the variable
+    /// </summary>
+    public void StartPoison()
+    {
+        // Set poison to true and reset the counter
+        poisonCounter = 0;
+        poisoned = true;
+    }
+
     /// <summary>
     /// Apply Damage if poisoned
     /// </summary>
@@ -518,6 +534,7 @@ public class PlayerManager : MonoBehaviour
     */
     #endregion
 }
+#endregion
 
 #region Data Container for saving
 /*

@@ -25,9 +25,9 @@ public class MeleeAttackScript : MonoBehaviour
         // If bullet runs into an enemy
         if (collider.tag == "enemy" && owner.tag == "player")
         {
-            if (collider.gameObject.GetComponent<EnemyManager>().hitByMeleeBool == false)
+            if (collider.gameObject.GetComponent<EnemyManager>().HitByMeleeBool == false)
             {
-                Debug.Log("Melee Attack Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().Monster);
+                Debug.Log("Melee Attack Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
 
                 // Damage Enemy
                 collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;

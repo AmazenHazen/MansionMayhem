@@ -12,6 +12,9 @@ public class ClickToLoadAsync : MonoBehaviour {
 
     public void ClickAsync(int level)
     {
+        // Set current level in the gameManager
+        GameManager.currentLevel = level;
+
         loadingImage.SetActive(true);
         StartCoroutine(LoadLevelWithBar(level));
     }

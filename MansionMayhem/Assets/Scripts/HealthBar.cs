@@ -18,7 +18,7 @@ public class HealthBar : MonoBehaviour
         healthBarCanvas.SetActive(false);
 
         // Set the healthBar Max value
-        maxHealth = gameObject.GetComponent<EnemyManager>().MaxHealth;
+        maxHealth = gameObject.GetComponent<EnemyManager>().maxHealth;
         healthBar.maxValue = maxHealth;
     }
 	

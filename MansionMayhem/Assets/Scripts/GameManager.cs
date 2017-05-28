@@ -11,9 +11,6 @@ using System.IO;
 public class GameManager : MonoBehaviour
 {
     #region Variables
-    // HUD/GUI Variables
-    public Texture2D heart;
-
     // Level Variables
     public static int currentLevel;
     private int highestLevel;

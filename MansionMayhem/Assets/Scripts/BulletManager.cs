@@ -7,7 +7,8 @@ public class BulletManager : MonoBehaviour {
     #region Attributes
     // Attributes
     //speed
-    private float speed;
+    public float speed;
+    public bool isPoisonous;
     private float damage;
     public bulletTypes bulletType;
 
@@ -35,23 +36,23 @@ public class BulletManager : MonoBehaviour {
             switch (bulletType)
             {
                 case bulletTypes.aetherlight:
-                    speed = 6f + velocity.magnitude;
+                    speed = 6f;
                     damage = 3;
                     return;
                 case bulletTypes.antiEctoPlasm:
-                    speed = 4f + velocity.magnitude;
+                    speed = 4f;
                     damage = 2;
                     return;
                 case bulletTypes.ice:
-                    speed = 5f + velocity.magnitude;
+                    speed = 5f;
                     damage = 1;
                     return;
                 case bulletTypes.sound:
-                    speed = 5f + velocity.magnitude;
+                    speed = 5f;
                     damage = 1;
                     return;
                 case bulletTypes.hellFire:
-                    speed = 5f + velocity.magnitude;
+                    speed = 5f;
                     damage = 1;
                     return;
             }
@@ -63,21 +64,10 @@ public class BulletManager : MonoBehaviour {
         {
             direction = owner.GetComponent<EnemyMovement>().ReturnDirection();
 
-            switch (bulletType)
-            {
-                case bulletTypes.ectoPlasm:
-                    speed = 5f + velocity.magnitude;
-                    damage = 1;
-                    return;
-                case bulletTypes.hellFire:
-                    speed = 5f + velocity.magnitude;
-                    damage = 1;
-                    return;
-                case bulletTypes.sound:
-                    speed = 5f + velocity.magnitude;
-                    damage = 1;
-                    return;
-            }
+            damage = owner.GetComponent<EnemyManager>().rangeDamage;
+
+            //Static for enemy bullets rn
+            speed = 5f;
         }
         #endregion
 
@@ -101,28 +91,6 @@ public class BulletManager : MonoBehaviour {
     {
         owner = shooter;
         BulletStart();
-    }
-    #endregion
-
-    #region CheckOnScreenMethod
-    /// <summary>
-    /// CheckOnScreen Method removes the bullet if it goes out of view.
-    /// </summary>
-    void CheckOnScreen()
-    {
-        // Takes the camera and creates viewport position variable
-        var cam = Camera.main;
-        var viewportPosition = cam.WorldToViewportPoint(transform.position);
-
-
-        // If the Bullet goes off the map
-        if (viewportPosition.x > 1.05 || viewportPosition.x < -0.05 || viewportPosition.y > 1.07 || viewportPosition.y < -0.07)
-        {
-            GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
-            Destroy(this.gameObject);
-            GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
-        }
-
     }
     #endregion
 
@@ -150,7 +118,7 @@ public class BulletManager : MonoBehaviour {
         // If bullet runs into an enemy
         else if (collider.tag == "enemy" && ownerTag == "player")
         {
-            Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().Monster);
+            Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
 
             // Damage Enemy
             collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
@@ -194,8 +162,14 @@ public class BulletManager : MonoBehaviour {
         {
             Debug.Log("Bullet Hit Player");
 
-            // Damage Enemy
+            // Damage Player
             collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;
+
+            // Apply Poison to player
+            if(isPoisonous)
+            {
+                collider.gameObject.GetComponent<PlayerManager>().StartPoison();
+            }
 
             // Check to make sure the enemy hasn't already been killed
             if (owner != null)

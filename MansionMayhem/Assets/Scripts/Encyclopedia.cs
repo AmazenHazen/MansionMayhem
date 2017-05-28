@@ -256,6 +256,7 @@ public enum itemType
     #region Quest Pieces
     // Quest Pieces
     quest,
+    key,
     #endregion
 }
 #endregion

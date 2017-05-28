@@ -6,4 +6,5 @@ public class ItemScript : MonoBehaviour
 {
     // Item Type
     public itemType itemVar;
+    public GameObject objectOwner;
 }

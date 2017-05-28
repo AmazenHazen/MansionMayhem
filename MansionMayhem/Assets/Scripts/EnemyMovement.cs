@@ -34,7 +34,7 @@ public class EnemyMovement : CharacterMovement
         Vector3 ultimateForce = Vector3.zero;
 
         // Apply forces to the enemy
-        if ((player.transform.position - transform.position).magnitude < gameObject.GetComponent<EnemyManager>().SeekDistance)
+        if ((player.transform.position - transform.position).magnitude < gameObject.GetComponent<EnemyManager>().seekDistance)
         {
             // Have the enemy face the player
             Rotate();
@@ -309,7 +309,7 @@ public class EnemyMovement : CharacterMovement
         }
         else
         {
-            ultimateForce = wander();
+            //ultimateForce = wander();
         }
         // Apply Decelleration using ApplyFriction Force
         //ultimateForce += ApplyFriction(3.0f);

@@ -69,6 +69,15 @@ public class BulletManager : MonoBehaviour {
             //Static for enemy bullets rn
             speed = 5f;
         }
+        else if (ownerTag == "boss")
+        {
+            direction = owner.GetComponent<EnemyMovement>().ReturnDirection();
+
+            damage = owner.GetComponent<EnemyManager>().rangeDamage;
+
+            //Static for enemy bullets rn
+            speed = 5f;
+        }
         #endregion
 
     }
@@ -116,7 +125,7 @@ public class BulletManager : MonoBehaviour {
 
         #region Enemy Collision with playerBullet
         // If bullet runs into an enemy
-        else if (collider.tag == "enemy" && ownerTag == "player")
+        else if ((collider.tag == "enemy" || collider.tag == "boss") && ownerTag == "player")
         {
             Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
 
@@ -132,7 +141,7 @@ public class BulletManager : MonoBehaviour {
         #endregion
 
         #region Shield Collision with enemyBullet
-        else if (collider.tag == "shield" && ownerTag == "enemy")
+        else if (collider.tag == "shield" && (ownerTag == "enemy" || ownerTag == "boss"))
         {
             Debug.Log("Bullet Hit Shield");
 
@@ -158,7 +167,7 @@ public class BulletManager : MonoBehaviour {
         #endregion
 
         #region Player Collision with enemyBullet
-        else if (collider.tag == "player" && ownerTag == "enemy" && !GameObject.Find("Shield"))
+        else if (collider.tag == "player" && (ownerTag == "enemy" || ownerTag == "boss") && !GameObject.Find("Shield"))
         {
             Debug.Log("Bullet Hit Player");
 

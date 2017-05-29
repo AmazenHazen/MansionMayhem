@@ -23,7 +23,7 @@ public class MeleeAttackScript : MonoBehaviour
     {
         #region Enemy Collision with melee attack
         // If bullet runs into an enemy
-        if (collider.tag == "enemy" && owner.tag == "player")
+        if ((collider.tag == "enemy" || collider.tag == "boss") && owner.tag == "player")
         {
             if (collider.gameObject.GetComponent<EnemyManager>().HitByMeleeBool == false)
             {

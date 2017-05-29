@@ -20,8 +20,6 @@ public class GameManager : MonoBehaviour
 
     // Internal GameState Variables
     public bool inGame;
-    public bool bossFight;
-
     #endregion
 
     #region initialization
@@ -33,7 +31,6 @@ public class GameManager : MonoBehaviour
 
         // Game State Variables
         inGame = false;
-        bossFight = false;
     }
     #endregion
 
@@ -41,6 +38,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+
     }
     #endregion
 
@@ -73,6 +71,9 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+
+
+
 
     #region Save and Load Methods
     // This will work for everything but web

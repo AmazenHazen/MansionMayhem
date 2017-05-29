@@ -23,20 +23,9 @@ public enum GameState
 /// </summary>
 public enum levelType
 {
-    // Boss Levels
-    giantGhast,         //Ghost Boss
-    bansheeMistress,    //Ghost Boss
-    demonLord,          //Demon Boss    art done
-    cerberus,           //Demon Boss
-    lilith,             //Demon Boss
-    skeletonDragon,     //Skeleton Boss 
-    necromancer,        //Skeleton Boss 
-    zombiehordeLeader,  //Zombie Boss   
-    grimReaper,         //Shadow Boss
-    shadowBehemoth,     //Shadow Boss
-    spiderQueen,        //Spider Boss   art done
-    pyreLord,           //Elemental Boss
-    dreor,              //None
+    task,
+    boss,
+    extermination,
 }
 #endregion
 

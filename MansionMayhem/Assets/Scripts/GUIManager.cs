@@ -14,6 +14,13 @@ public class GUIManager : MonoBehaviour
     public List<GameObject> FullHearts;
     public List<GameObject> HalfHearts;
 
+    // Boss Health Management
+    public GameObject boss;
+    public GameObject bossHealthCanvas;
+    public Slider bossHealthBar; 
+    public float bossMaxHealth;
+    public float bossCurrentHealth;
+
 
     // Variables for changing Text
     public Text rangeWeaponText;
@@ -26,6 +33,14 @@ public class GUIManager : MonoBehaviour
     // Start is called when the GUI is initialized
     void Start()
     {
+        if (GameObject.Find("LevelManager").GetComponent<LevelManager>().levelObjective == levelType.boss)
+        {
+            boss = GameObject.FindGameObjectWithTag("boss");
+            // Set the healthBar Max value
+            bossMaxHealth = boss.GetComponent<EnemyManager>().maxHealth;
+            bossHealthBar.maxValue = bossMaxHealth;
+        }
+
         // Health Management
         HealthColors.Add(new Color(0, 0, 0, 255));
         HealthColors.Add(new Color(186, 0, 0));
@@ -38,6 +53,7 @@ public class GUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bossHealthManagement();
         HealthManagement();
         TextUpdate();
     }
@@ -104,7 +120,7 @@ public class GUIManager : MonoBehaviour
 
     #endregion
 
-    #region
+    #region Text Management
     void TextUpdate()
     {
         // Get variables needed for the HUD Text
@@ -113,6 +129,28 @@ public class GUIManager : MonoBehaviour
         rangeWeaponText.text = "Current Weapon: " + currentRangeWeapon;
         scoreText.text = "Screws: " + GameManager.screws;
         levelText.text = "Level: " + GameManager.currentLevel;
+    }
+    #endregion
+
+    #region Boss HealthBar Management
+    void bossHealthManagement()
+    {
+        if (boss != null)
+        {
+            if (boss.activeSelf == true)
+            {
+                Debug.Log("in boss health update");
+                bossHealthCanvas.gameObject.SetActive(true);
+
+                // Get current health and update the bar
+                bossCurrentHealth = boss.GetComponent<EnemyManager>().CurrentLife;
+                bossHealthBar.value = bossCurrentHealth;
+            }
+            else
+            {
+                bossHealthCanvas.gameObject.SetActive(false);
+            }
+        }
     }
     #endregion
 

@@ -104,9 +104,10 @@ public class EnemyManager : MonoBehaviour
     {
         if(currentLife <= 0)
         {
-            // Spawn something where the monster died?
+            // Spawn something where the monster died/Give EXP to player?
 
             // Destroy Enemys
+            GameObject.Find("LevelManager").GetComponent<LevelManager>().EnemyEliminated(gameObject);
             Destroy(gameObject);
         }
     }

@@ -154,6 +154,24 @@ public class PlayerManager : MonoBehaviour
                     StartInvincibility();
                 }
                 break;
+            case "boss":
+                if (invincibility == false)
+                {
+
+                    Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
+                    currentLife -= collider.gameObject.GetComponent<EnemyManager>().damage;
+
+                    // Poison the player if the enemy is poisonous
+                    // The Enemy Poisons the player with the melee attack if poisonous
+                    if (collider.gameObject.GetComponent<EnemyManager>().isPoisonous == true)
+                    {
+                        // Set poison to true and reset the counter
+                        StartPoison();
+                    }
+
+                    StartInvincibility();
+                }
+                break;
             #endregion
 
             #region Items
@@ -275,7 +293,7 @@ public class PlayerManager : MonoBehaviour
         // Player Gains Invincibility for 3 seconds
         canTravel = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-        Invoke("ResetTravelBool", 3);
+        Invoke("ResetTravelBool", 1.5f);
         
     }
     #endregion

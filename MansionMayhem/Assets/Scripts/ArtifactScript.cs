@@ -12,15 +12,11 @@ public class ArtifactScript : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    { 
-
-
-	}
+        for (int i = 0; i < spawns.Count; i++)
+        {
+            spawns[i].SetActive(false);
+        }
+    }
 
     public void Activate()
     {

@@ -8,9 +8,9 @@ public class RoomScript : MonoBehaviour
 
     // Keeps track of doors and if they exist for a room
     public bool topDoorBool;
+    public bool bottomDoorBool;
     public bool leftDoorBool;
     public bool rightDoorBool;
-    public bool bottomDoorBool;
     public bool stairsBool;
 
     // Keeps track of rooms that are connected
@@ -23,24 +23,29 @@ public class RoomScript : MonoBehaviour
     void Start()
     {
         // Link Doors for the Room
-        if (gameObject.transform.FindChild("topdoor")!=null)
+        if (topDoorBool == true)
         {
+            gameObject.transform.FindChild("topdoor").gameObject.SetActive(true);
             gameObject.transform.FindChild("topdoor").GetComponent<DoorScript>().linkedDoor = topRoom.transform.FindChild("bottomdoor").gameObject;
         }
-        if (gameObject.transform.FindChild("leftdoor")!=null)
+        if (leftDoorBool == true)
         {
+            gameObject.transform.FindChild("leftdoor").gameObject.SetActive(true);
             gameObject.transform.FindChild("leftdoor").GetComponent<DoorScript>().linkedDoor = leftRoom.transform.FindChild("rightdoor").gameObject;
         }
-        if (gameObject.transform.FindChild("rightdoor") != null)
+        if (rightDoorBool == true)
         {
+            gameObject.transform.FindChild("rightdoor").gameObject.SetActive(true);
             gameObject.transform.FindChild("rightdoor").GetComponent<DoorScript>().linkedDoor = rightRoom.transform.FindChild("leftdoor").gameObject;
         }
-        if (gameObject.transform.FindChild("bottomdoor") != null)
+        if (bottomDoorBool == true)
         {
+            gameObject.transform.FindChild("bottomdoor").gameObject.SetActive(true);
             gameObject.transform.FindChild("bottomdoor").GetComponent<DoorScript>().linkedDoor = bottomRoom.transform.FindChild("topdoor").gameObject;
         }
-        if (gameObject.transform.FindChild("stairs") != null)
+        if (stairsBool == true)
         {
+            gameObject.transform.FindChild("stairs").gameObject.SetActive(true);
             gameObject.transform.FindChild("stairs").GetComponent<DoorScript>().linkedDoor = stairRoom.transform.FindChild("stairs").gameObject;
         }
     }

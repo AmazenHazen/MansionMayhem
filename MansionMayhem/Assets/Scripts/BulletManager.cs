@@ -17,12 +17,20 @@ public class BulletManager : MonoBehaviour {
     private Vector3 direction;
     public GameObject owner;
     public string ownerTag;
+
+
+    // Additional Variables for special weapons/bullets
+    private Vector3 startPos;
+    public GameObject blob;
     #endregion
 
     #region BulletStartMethod
     // Use this for initialization
-    void BulletStart()
+    public void BulletStart(GameObject shooter)
     {
+        owner = shooter;
+        startPos = transform.position;
+
         // Set the tag to a copy
         ownerTag = owner.tag;
 
@@ -31,7 +39,6 @@ public class BulletManager : MonoBehaviour {
         if (ownerTag == "player")
         {
             direction = owner.GetComponent<PlayerMovement>().ReturnDirection();
-
 
             switch (bulletType)
             {
@@ -53,6 +60,10 @@ public class BulletManager : MonoBehaviour {
                     return;
                 case bulletTypes.hellFire:
                     speed = 5f;
+                    damage = 1;
+                    return;
+                case bulletTypes.laser:
+                    speed = 4f;
                     damage = 1;
                     return;
             }
@@ -81,13 +92,38 @@ public class BulletManager : MonoBehaviour {
         #endregion
 
     }
+
+    public void BulletShotgunStart(GameObject shooter)
+    {
+        owner = shooter;
+        startPos = transform.position;
+
+        // Set the tag to a copy
+        ownerTag = owner.tag;
+
+        speed = 5f;
+        damage = 1;
+
+        // Spread of the bullets
+        float x = Random.Range(-1.0f, 1.0f);
+        float y = Random.Range(-1.0f, 1.0f);
+
+        direction = owner.GetComponent<PlayerMovement>().ReturnDirection();
+        direction = new Vector3(direction.x + x, direction.y + y, 0);
+    }
     #endregion
 
-    #region Bullet Management Helper Methods
+    #region All Bullet Management Helper Methods
     // Update is called once per frame
     void Update()
     {
+
+        if (bulletType == bulletTypes.antiEctoPlasm && ownerTag == "player" && (startPos - transform.position).magnitude > 4)
+        {
+            AntiEctoPlasmBlob();
+        }
         Move();
+
     }
 
     private void Move()
@@ -96,10 +132,24 @@ public class BulletManager : MonoBehaviour {
         transform.position += velocity;
     }
 
-    public void bulletSetUp(GameObject shooter)
+    #endregion
+
+    #region PlayerBullet Special Helper Methods
+    void AntiEctoPlasmBlob()
     {
-        owner = shooter;
-        BulletStart();
+
+        GameObject blobCopy = Instantiate(blob, transform.position, transform.rotation);
+
+        // Add Anti-Ectoplasm Blob
+        owner.GetComponent<PlayerManager>().playerBlobs.Add(blobCopy);
+        owner.GetComponent<PlayerManager>().BlobCount++;
+
+        blobCopy.GetComponent<BlobScript>().BlobStart(owner, bulletType);
+        // Remove and Destroy bullet
+        Destroy(this.gameObject);
+        owner.GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
+        owner.GetComponent<PlayerManager>().BulletCount--;
+
     }
     #endregion
 
@@ -117,9 +167,15 @@ public class BulletManager : MonoBehaviour {
         {
             // Delete the player bullet
             Debug.Log("Wall!");
+
+            // if the bullet is antiEctoplasm also spawn a blob
+            if (bulletType == bulletTypes.antiEctoPlasm)
+            {
+                AntiEctoPlasmBlob();
+            }
             GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
-            Destroy(this.gameObject);
             GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
+            Destroy(this.gameObject);
         }
         #endregion
 
@@ -132,10 +188,17 @@ public class BulletManager : MonoBehaviour {
             // Damage Enemy
             collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
 
+            // if the bullet is antiEctoplasm also spawn a blob
+            if (bulletType == bulletTypes.antiEctoPlasm)
+            {
+                AntiEctoPlasmBlob();
+            }
+        
             // Delete the player bullet
             owner.GetComponent<PlayerManager>().playerBullets.Remove(gameObject);
-            Destroy(gameObject);
             owner.GetComponent<PlayerManager>().BulletCount--;
+            Destroy(gameObject);
+
 
         }
         #endregion

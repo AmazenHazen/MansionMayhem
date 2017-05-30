@@ -121,8 +121,8 @@ public class EnemyManager : MonoBehaviour
     {
         GameObject bulletCopy;
         bulletCopy = Instantiate(enemyBulletPrefabs[0], transform.position, transform.rotation) as GameObject;
+        bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
         enemyBullets.Add(bulletCopy);
-        bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
         bulletCount++;
 
         JustShot();

@@ -44,8 +44,8 @@ public enum rangeWeapon
     antiEctoPlasmator = 1,  // Ghost Splatter Weapon
     aetherLightBow = 2, // Demon Slaying Bow rumored to be from the gods
     cryoGun = 3, // FreezeRay
-    flamethrower = 4,   // Flamethrower
-    hellfireshotgun = 5,    // Shotgun
+    hellfireshotgun = 4,    // Shotgun
+    flamethrower,   // Flamethrower
     soundCannon = 6,    // Three Round Burst Sound Cannon
 }
 

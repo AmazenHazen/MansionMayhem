@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Headers for Save Files
-using System;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-
 public class PlayerManager : MonoBehaviour
 {
     #region PlayerAttributes
@@ -31,8 +26,10 @@ public class PlayerManager : MonoBehaviour
     private meleeWeapon currentMeleeWeapon;
     private trinkets currentTrinket;
     public List<GameObject> playerBullets;
+    public List<GameObject> playerBlobs;
     public List<GameObject> playerBulletPrefabs;
     private int bulletCount;
+    private int blobCount;
     #endregion
 
     #region PlayerProperties
@@ -51,6 +48,11 @@ public class PlayerManager : MonoBehaviour
     {
         get { return bulletCount; }
         set { bulletCount = value; }
+    }
+    public int BlobCount
+    {
+        get { return blobCount; }
+        set { blobCount = value; }
     }
     public bool Poisoned
     {
@@ -312,23 +314,44 @@ public class PlayerManager : MonoBehaviour
 
             switch (currentRangeWeapon)
             {
-                case rangeWeapon.antiEctoPlasmator:
-                    bulletCopy = Instantiate(playerBulletPrefabs[1], transform.position, transform.rotation) as GameObject;
-                    playerBullets.Add(bulletCopy);
-                    bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
-                    bulletCount++;
-                    break;
                 case rangeWeapon.aetherLightBow:
                     bulletCopy = Instantiate(playerBulletPrefabs[0], transform.position, transform.rotation) as GameObject;
                     playerBullets.Add(bulletCopy);
-                    bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
+                    bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+                    bulletCount++;
+                    break;
+                case rangeWeapon.antiEctoPlasmator:
+                    bulletCopy = Instantiate(playerBulletPrefabs[1], transform.position, transform.rotation) as GameObject;
+                    playerBullets.Add(bulletCopy);
+                    bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
                     bulletCount++;
                     break;
                 case rangeWeapon.cryoGun:
                     bulletCopy = Instantiate(playerBulletPrefabs[2], transform.position, transform.rotation) as GameObject;
                     playerBullets.Add(bulletCopy);
-                    bulletCopy.GetComponent<BulletManager>().bulletSetUp(gameObject);
+                    bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
                     bulletCount++;
+                    break;
+                case rangeWeapon.laserpistol:
+                    bulletCopy = Instantiate(playerBulletPrefabs[3], transform.position, transform.rotation) as GameObject;
+                    playerBullets.Add(bulletCopy);
+                    bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+                    bulletCount++;
+                    break;
+                case rangeWeapon.hellfireshotgun:
+                    for (int i = 0; i < 4; i++)
+                    {
+                        // Spread of the bullets
+                        Quaternion pelletRotation = transform.rotation;
+                        pelletRotation.x += Random.Range(-.05f, .05f);
+                        pelletRotation.y += Random.Range(-.05f, .05f);
+                        
+                        bulletCopy = Instantiate(playerBulletPrefabs[4], transform.position, pelletRotation) as GameObject;
+                        playerBullets.Add(bulletCopy);
+                        bulletCopy.GetComponent<BulletManager>().BulletShotgunStart(gameObject);
+                    }
+                    bulletCount++;
+                    
                     break;
 
             }
@@ -366,7 +389,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if(currentRangeWeapon == rangeWeapon.cryoGun)
+            if(currentRangeWeapon == rangeWeapon.hellfireshotgun)
             {
                 currentRangeWeapon = 0;
             }

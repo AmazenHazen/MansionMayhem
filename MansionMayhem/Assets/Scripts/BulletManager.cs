@@ -14,7 +14,7 @@ public class BulletManager : MonoBehaviour {
 
     // Speed Variables
     private Vector3 velocity;
-    private Vector3 direction;
+    public Vector3 direction;
     public GameObject owner;
     public string ownerTag;
 
@@ -38,8 +38,6 @@ public class BulletManager : MonoBehaviour {
         #region Player Bullets
         if (ownerTag == "player")
         {
-            direction = owner.GetComponent<PlayerMovement>().ReturnDirection();
-
             switch (bulletType)
             {
                 case bulletTypes.aetherlight:
@@ -73,8 +71,6 @@ public class BulletManager : MonoBehaviour {
         #region Enemy Bullets
         else if (ownerTag == "enemy")
         {
-            direction = owner.GetComponent<EnemyMovement>().ReturnDirection();
-
             damage = owner.GetComponent<EnemyManager>().rangeDamage;
 
             //Static for enemy bullets rn
@@ -82,8 +78,6 @@ public class BulletManager : MonoBehaviour {
         }
         else if (ownerTag == "boss")
         {
-            direction = owner.GetComponent<EnemyMovement>().ReturnDirection();
-
             damage = owner.GetComponent<EnemyManager>().rangeDamage;
 
             //Static for enemy bullets rn
@@ -102,14 +96,16 @@ public class BulletManager : MonoBehaviour {
         ownerTag = owner.tag;
 
         speed = 5f;
-        damage = 1;
+        damage = .5f;
+
+        // Determining Shotgun pellets rotation
+        float rotationAngle=owner.transform.rotation.z;  // Gets current Angle
+
+        // Determine a random Angle
+        rotationAngle += Random.Range(-20, 20);
 
         // Spread of the bullets
-        float x = Random.Range(-1.0f, 1.0f);
-        float y = Random.Range(-1.0f, 1.0f);
-
-        direction = owner.GetComponent<PlayerMovement>().ReturnDirection();
-        direction = new Vector3(direction.x + x, direction.y + y, 0);
+        transform.Rotate(0, 0, rotationAngle);
     }
     #endregion
 
@@ -128,7 +124,7 @@ public class BulletManager : MonoBehaviour {
 
     private void Move()
     {
-        velocity = direction * speed * Time.deltaTime;
+        velocity = transform.up * speed * Time.deltaTime;
         transform.position += velocity;
     }
 

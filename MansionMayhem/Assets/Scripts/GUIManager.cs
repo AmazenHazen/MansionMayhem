@@ -135,21 +135,19 @@ public class GUIManager : MonoBehaviour
     #region Boss HealthBar Management
     void bossHealthManagement()
     {
-        if (boss != null)
+        if (boss != null && boss.activeSelf == true)
         {
-            if (boss.activeSelf == true)
-            {
-                Debug.Log("in boss health update");
-                bossHealthCanvas.gameObject.SetActive(true);
+            Debug.Log("in boss health update");
+            bossHealthCanvas.gameObject.SetActive(true);
 
-                // Get current health and update the bar
-                bossCurrentHealth = boss.GetComponent<EnemyManager>().CurrentLife;
-                bossHealthBar.value = bossCurrentHealth;
-            }
-            else
-            {
-                bossHealthCanvas.gameObject.SetActive(false);
-            }
+            // Get current health and update the bar
+            bossCurrentHealth = boss.GetComponent<EnemyManager>().CurrentLife;
+            bossHealthBar.value = bossCurrentHealth;
+
+        }
+        else
+        {
+            bossHealthCanvas.gameObject.SetActive(false);
         }
     }
     #endregion

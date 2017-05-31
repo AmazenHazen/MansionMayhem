@@ -101,6 +101,7 @@ public class PlayerManager : MonoBehaviour
         CheckStatusConditions();
         WeaponSwitch();
         Shoot();
+        blobManagement();
         Melee();
         Shield();
     }
@@ -250,6 +251,7 @@ public class PlayerManager : MonoBehaviour
                 }
 
                 break;
+        #endregion  
         }
 
     }
@@ -531,6 +533,20 @@ public class PlayerManager : MonoBehaviour
         applypoison = true;
     }
     #endregion
+
+    #region Blob Management
+    void blobManagement()
+    {
+        if(blobCount>3)
+        {
+            GameObject playerBlobCopy = playerBlobs[0];
+            blobCount--;
+            playerBlobs.Remove(playerBlobCopy);
+            Destroy(playerBlobCopy);
+        }
+    }
+    #endregion
+
     #endregion
 
     #region Save and Load Methods
@@ -575,7 +591,6 @@ public class PlayerManager : MonoBehaviour
     */
     #endregion
 }
-#endregion
 
 #region Data Container for saving
 /*

@@ -30,6 +30,8 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> playerBulletPrefabs;
     private int bulletCount;
     private int blobCount;
+    GameObject FrostGun;
+    bool frostGunAvailable;
     #endregion
 
     #region PlayerProperties
@@ -88,6 +90,7 @@ public class PlayerManager : MonoBehaviour
         poisonCounter = 0;
         currentRangeWeapon = rangeWeapon.antiEctoPlasmator;
         currentMeleeWeapon = meleeWeapon.silverknife;
+        FrostGun = transform.FindChild("FrostGun").gameObject;
 
         // Initializing Lists
         playerBullets = new List<GameObject>();
@@ -321,24 +324,24 @@ public class PlayerManager : MonoBehaviour
                     playerBullets.Add(bulletCopy);
                     bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
                     bulletCount++;
+                    JustShot();
                     break;
                 case rangeWeapon.antiEctoPlasmator:
                     bulletCopy = Instantiate(playerBulletPrefabs[1], transform.position, transform.rotation) as GameObject;
                     playerBullets.Add(bulletCopy);
                     bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
                     bulletCount++;
+                    JustShot();
                     break;
                 case rangeWeapon.cryoGun:
-                    bulletCopy = Instantiate(playerBulletPrefabs[2], transform.position, transform.rotation) as GameObject;
-                    playerBullets.Add(bulletCopy);
-                    bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-                    bulletCount++;
+                    //nothing for now
                     break;
                 case rangeWeapon.laserpistol:
                     bulletCopy = Instantiate(playerBulletPrefabs[3], transform.position, transform.rotation) as GameObject;
                     playerBullets.Add(bulletCopy);
                     bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
                     bulletCount++;
+                    JustShot();
                     break;
                 case rangeWeapon.hellfireshotgun:
                     for (int i = 0; i < 4; i++)
@@ -351,15 +354,11 @@ public class PlayerManager : MonoBehaviour
                         bulletCopy = Instantiate(playerBulletPrefabs[4], transform.position, pelletRotation) as GameObject;
                         playerBullets.Add(bulletCopy);
                         bulletCopy.GetComponent<BulletManager>().BulletShotgunStart(gameObject);
+                        bulletCount++;
                     }
-                    bulletCount++;
-                    
+                    JustShot();
                     break;
-
             }
-            JustShot();
-            bulletCount++;
-
         }
     }
 
@@ -398,6 +397,16 @@ public class PlayerManager : MonoBehaviour
             else
             {
                 currentRangeWeapon++;
+            }
+
+            // Set the frost gun bool to false if switching weapons, true if it is switched into
+            if(currentRangeWeapon == rangeWeapon.cryoGun)
+            {
+                FrostGun.SetActive(true);
+            }
+            else
+            {
+                FrostGun.SetActive(false);
             }
         }
     }

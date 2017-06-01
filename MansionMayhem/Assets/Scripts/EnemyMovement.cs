@@ -15,6 +15,7 @@ public class EnemyMovement : CharacterMovement
     #region Start Method
     public override void Start()
     {
+        currentSpeed = maxSpeed;
         player = GameObject.FindGameObjectWithTag("player");
     }
     #endregion

@@ -13,6 +13,7 @@ public abstract class CharacterMovement : MonoBehaviour
     public Vector3 acceleration;
     public float mass;
     public float maxSpeed;
+    public float currentSpeed;
     public float frictionVar;
 
     // Rotation Variables
@@ -25,7 +26,8 @@ public abstract class CharacterMovement : MonoBehaviour
     public float wandRadius;
     private float wandAngle;
 
-
+    // bool for slowing down enemies
+    public bool beingSlowed;
 
     #endregion
 
@@ -33,7 +35,7 @@ public abstract class CharacterMovement : MonoBehaviour
     // Use this for initialization
     public virtual void Start()
     {
-
+        currentSpeed = maxSpeed;
     }
 
     // Update is called once per frame
@@ -43,6 +45,8 @@ public abstract class CharacterMovement : MonoBehaviour
         ApplyFriction(frictionVar);
         UpdatePosition();
         SetTransform();
+        RevertSpeed();
+        beingSlowed = false;
     }
     #endregion
 
@@ -77,7 +81,7 @@ public abstract class CharacterMovement : MonoBehaviour
         velocity.z = 0;
 
         // Clamp the velocity
-        velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
+        velocity = Vector3.ClampMagnitude(velocity, currentSpeed);
 
         // Step 2: Change position based on Velocity
         position += velocity * Time.deltaTime;
@@ -157,7 +161,7 @@ public abstract class CharacterMovement : MonoBehaviour
         // Step 2: Scale Desired to maximum speed
         //         so I move as fast as possible
         desiredVelocity.Normalize();
-        desiredVelocity *= maxSpeed;
+        desiredVelocity *= currentSpeed;
 
         // Step 3: Calculate your Steering Force
         Vector3 steeringForce = desiredVelocity - velocity;
@@ -180,7 +184,7 @@ public abstract class CharacterMovement : MonoBehaviour
         // Step 2: Scale Desired to maximum speed
         //         so I move as fast as possible
         desiredVelocity.Normalize();
-        desiredVelocity *= maxSpeed;
+        desiredVelocity *= currentSpeed;
 
         // Step 3: Calculate your Steering Force
         Vector3 steeringForce = desiredVelocity - velocity;
@@ -233,7 +237,7 @@ public abstract class CharacterMovement : MonoBehaviour
         // Step 3: Scale Desired to maximum speed
         //         so I move as fast as possible
         desiredVelocity.Normalize();
-        desiredVelocity *= maxSpeed;
+        desiredVelocity *= currentSpeed;
 
         // Step 4: Calculate your Steering Force
         Vector3 steeringForce = desiredVelocity - velocity;
@@ -269,7 +273,7 @@ public abstract class CharacterMovement : MonoBehaviour
         // Step 3: Scale Desired to maximum speed
         //         so I move as fast as possible
         desiredVelocity.Normalize();
-        desiredVelocity *= maxSpeed;
+        desiredVelocity *= currentSpeed;
 
         // Step 4: Calculate your Steering Force
         Vector3 steeringForce = desiredVelocity - velocity;
@@ -351,13 +355,13 @@ public abstract class CharacterMovement : MonoBehaviour
         if (dotProduct > 0)
         {
             // Obstacle is on our right so turn left
-            desiredVelocity = -transform.right * maxSpeed;
+            desiredVelocity = -transform.right * currentSpeed;
             Debug.DrawLine(transform.position, obst.transform.position, Color.yellow);
         }
         else
         {
             // Obstacle is on our left so turn right
-            desiredVelocity = transform.right * maxSpeed;
+            desiredVelocity = transform.right * currentSpeed;
             Debug.DrawLine(transform.position, obst.transform.position, Color.yellow);
         }
 
@@ -401,7 +405,7 @@ public abstract class CharacterMovement : MonoBehaviour
     /// Method to keep objects in bounds
     /// </summary>
     /// <returns></returns>
-    public Vector3 bounds()
+    public Vector3 Bounds()
     {
         // Step 1: Find Desired Velocity
         // This is the vector pointing from myself back into the screen
@@ -410,7 +414,7 @@ public abstract class CharacterMovement : MonoBehaviour
         // Step 2: Scale Desired to maximum speed
         //         so I move as fast as possible
         desiredVelocity.Normalize();
-        desiredVelocity *= maxSpeed;
+        desiredVelocity *= currentSpeed;
 
         // Step 3: Calculate your Steering Force
         Vector3 steeringForce = desiredVelocity - velocity;
@@ -427,6 +431,25 @@ public abstract class CharacterMovement : MonoBehaviour
         return direction;
     }
 
+    /// <summary>
+    /// Returns Speed to Max Speed
+    /// </summary>
+    void RevertSpeed()
+    {
+        if(currentSpeed<maxSpeed && beingSlowed == false)
+        {
+            currentSpeed += .05f;
+        }
+
+        // Don't allow speed to be negative
+        if(currentSpeed<0)
+        {
+            currentSpeed = 0;
+        }
+    }
+
+
+    
     void OnTriggerStay2D(Collider2D collider)
     {
         #region Walls

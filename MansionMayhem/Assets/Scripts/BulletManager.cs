@@ -41,8 +41,7 @@ public class BulletManager : MonoBehaviour {
             switch (bulletType)
             {
                 case bulletTypes.aetherlight:
-                    speed = 6f;
-                    damage = 3;
+                    speed = 5f;
                     return;
                 case bulletTypes.antiEctoPlasm:
                     speed = 4f;
@@ -124,6 +123,11 @@ public class BulletManager : MonoBehaviour {
 
     private void Move()
     {
+        if(bulletType == bulletTypes.aetherlight)
+        {
+            speed+=.5f;
+            damage = speed * .2f;
+        }
         velocity = transform.up * speed * Time.deltaTime;
         transform.position += velocity;
     }

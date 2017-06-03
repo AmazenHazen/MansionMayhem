@@ -82,6 +82,4 @@ public class LevelManager : MonoBehaviour
             levelRequirements.Remove(enemy);
         }
     }
-
-
 }

@@ -24,18 +24,20 @@ public class GUIManager : MonoBehaviour
 
     // Variables for changing Text
     public Text rangeWeaponText;
+    rangeWeapon currentRangeWeapon;
     public Text scoreText;
     public Text levelText;
 
-    // Weapon Management
-    rangeWeapon currentRangeWeapon;
+    // Variables for escape screen
+    public static bool pausedGame;
+    public GameObject escapeScreen;
 
     // Start is called when the GUI is initialized
     void Start()
     {
         if (GameObject.Find("LevelManager").GetComponent<LevelManager>().levelObjective == levelType.boss)
         {
-            boss = GameObject.FindGameObjectWithTag("boss");
+            boss = GameObject.Find("LevelManager").GetComponent<LevelManager>().boss;
             // Set the healthBar Max value
             bossMaxHealth = boss.GetComponent<EnemyManager>().maxHealth;
             bossHealthBar.maxValue = bossMaxHealth;
@@ -48,14 +50,19 @@ public class GUIManager : MonoBehaviour
         HealthColors.Add(new Color(186, 0, 186));
         HealthColors.Add(new Color(186, 186, 186));
         HealthColors.Add(new Color(186, 186, 186));
+
+        pausedGame = false;
+        Time.timeScale = 1;
+        escapeScreen.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        bossHealthManagement();
+        BossHealthManagement();
         HealthManagement();
         TextUpdate();
+        EscapeScreenManagement();
     }
 
     #region Health Management
@@ -133,7 +140,7 @@ public class GUIManager : MonoBehaviour
     #endregion
 
     #region Boss HealthBar Management
-    void bossHealthManagement()
+    void BossHealthManagement()
     {
         if (boss != null && boss.activeSelf == true)
         {
@@ -143,7 +150,6 @@ public class GUIManager : MonoBehaviour
             // Get current health and update the bar
             bossCurrentHealth = boss.GetComponent<EnemyManager>().CurrentLife;
             bossHealthBar.value = bossCurrentHealth;
-
         }
         else
         {
@@ -152,8 +158,38 @@ public class GUIManager : MonoBehaviour
     }
     #endregion
 
+    #region Escape Screen Management
+    public void EscapeScreenManagement()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true)
+        {
+            ContinueGame();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false)
+        {
+            PauseGame();
+        }
+
+    }
+
+    public void PauseGame()
+    {
+        escapeScreen.SetActive(true);
+        pausedGame = true;
+        Time.timeScale = 0;
+    }
+    public void ContinueGame()
+    {
+        escapeScreen.SetActive(false);
+        pausedGame = false;
+        Time.timeScale = 1;
+    }
+    #endregion
+
+    #region Debugging section
     void OnGUI()
     {
         GUI.Label(new Rect(100, 10, 400, 50), "Health: " + health);
     }
+    #endregion
 }

@@ -24,10 +24,6 @@ public class ClickToLoadAsync : MonoBehaviour {
 
         async = Application.LoadLevelAsync(level);
 
-
-        GameObject.Find("GameHandler").GetComponent<GameManager>().inGame = true;
-        
-
         while(!async.isDone) // Check to see if the level is completely loaded
         {
             loadingBar.value = async.progress;

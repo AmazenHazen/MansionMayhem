@@ -103,7 +103,10 @@ public class PlayerManager : MonoBehaviour
     {
         CheckStatusConditions();
         WeaponSwitch();
-        Shoot();
+        if (GUIManager.pausedGame == false)
+        {
+            Shoot();
+        }
         blobManagement();
         Melee();
         Shield();
@@ -125,7 +128,7 @@ public class PlayerManager : MonoBehaviour
 
             // Obstacles
             case "door":
-                Debug.Log("Door");
+                //Debug.Log("Door");
 
                 // Move the player to the new room
                 if(canTravel == true)
@@ -146,7 +149,7 @@ public class PlayerManager : MonoBehaviour
                 if (invincibility == false)
                 {
 
-                    Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
+                    //Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
                     currentLife -= collider.gameObject.GetComponent<EnemyManager>().damage;
 
                     // Poison the player if the enemy is poisonous
@@ -164,7 +167,7 @@ public class PlayerManager : MonoBehaviour
                 if (invincibility == false)
                 {
 
-                    Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
+                    //Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
                     currentLife -= collider.gameObject.GetComponent<EnemyManager>().damage;
 
                     // Poison the player if the enemy is poisonous
@@ -184,7 +187,7 @@ public class PlayerManager : MonoBehaviour
             // Items
             case "item":
                 // Debug Line
-                Debug.Log("Item: " + collider.gameObject.GetComponent<ItemScript>().itemVar);
+                //Debug.Log("Item: " + collider.gameObject.GetComponent<ItemScript>().itemVar);
 
 
                 // Make a copy of the type of item for determining what to do with it.
@@ -334,7 +337,7 @@ public class PlayerManager : MonoBehaviour
                     JustShot();
                     break;
                 case rangeWeapon.cryoGun:
-                    //nothing for now
+                    FrostGun.SetActive(true);
                     break;
                 case rangeWeapon.laserpistol:
                     bulletCopy = Instantiate(playerBulletPrefabs[3], transform.position, transform.rotation) as GameObject;
@@ -359,6 +362,10 @@ public class PlayerManager : MonoBehaviour
                     JustShot();
                     break;
             }
+        }
+        else
+        {
+            FrostGun.SetActive(false);
         }
     }
 
@@ -397,16 +404,6 @@ public class PlayerManager : MonoBehaviour
             else
             {
                 currentRangeWeapon++;
-            }
-
-            // Set the frost gun bool to false if switching weapons, true if it is switched into
-            if(currentRangeWeapon == rangeWeapon.cryoGun)
-            {
-                FrostGun.SetActive(true);
-            }
-            else
-            {
-                FrostGun.SetActive(false);
             }
         }
     }

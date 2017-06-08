@@ -144,7 +144,7 @@ public class BulletManager : MonoBehaviour {
         owner.GetComponent<PlayerManager>().playerBlobs.Add(blobCopy);
         owner.GetComponent<PlayerManager>().BlobCount++;
 
-        blobCopy.GetComponent<BlobScript>().BlobStart(owner, bulletType);
+        blobCopy.GetComponent<BlobScript>().BlobStart(owner);
         // Remove and Destroy bullet
         Destroy(this.gameObject);
         owner.GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);

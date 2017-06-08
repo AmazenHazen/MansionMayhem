@@ -13,13 +13,11 @@ public class BlobScript : MonoBehaviour
     bool isPoisonous;
 
     // Use this for initialization
-    public void BlobStart(GameObject shooter, bulletTypes blobComp)
+    public void BlobStart(GameObject shooter)
     {
         // Set the tag to a copy
         owner = shooter;
         ownerTag = owner.tag;
-
-        blobComposite = blobComp;
 
         if(blobComposite == bulletTypes.antiEctoPlasm)
         {

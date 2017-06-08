@@ -196,6 +196,14 @@ public enum enemyClass
 }
 #endregion
 
+#region
+public enum abilityType
+{
+    webs,
+    blobs,
+}
+#endregion
+
 #region movementType
 public enum movementType
 { 

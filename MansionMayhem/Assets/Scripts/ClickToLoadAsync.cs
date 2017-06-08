@@ -19,9 +19,22 @@ public class ClickToLoadAsync : MonoBehaviour {
         StartCoroutine(LoadLevelWithBar(level));
     }
 
+
+    public void ClickAsyncAndSave(int level)
+    {
+        // First Save Game
+        GameObject.Find("GameHandler").GetComponent<GameManager>().Save();
+
+        // Set current level in the gameManager
+        GameManager.currentLevel = level;
+
+        loadingImage.SetActive(true);
+        StartCoroutine(LoadLevelWithBar(level));
+    }
+
+
     IEnumerator LoadLevelWithBar (int level)
     {
-
         async = Application.LoadLevelAsync(level);
 
         while(!async.isDone) // Check to see if the level is completely loaded

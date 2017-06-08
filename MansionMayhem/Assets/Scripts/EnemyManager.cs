@@ -21,10 +21,12 @@ public class EnemyManager : MonoBehaviour
     public float speedAttribute;               // How fast the enemy moves
     public float seekDistance;                 // The distance at which an enemy can sense where you are
     public float timeBetweenShots;
-    public float timeBetweenAbility;
-    public List<GameObject> enemyBulletPrefabs;
-    public List<GameObject> enemyAbilityPrefabs;
-    
+    public List<GameObject> enemyBulletPrefabs;// Prefabs of Bullets shot
+    public List<GameObject> enemyAbilityPrefabs;// Prefab of Ability being used (Webs, Slime, Etc.)
+    public List<abilityType> abilityTypes;      // Determines the ability of the enemy
+    public List<float> timeBetweenAbilities;    // Determines how long to wait between abilities
+    public List<int> abilityRestrictionNumber;  // The number ascociated with the ability to determine how many ability object there can be in the scene
+
 
     // Basic Monster Attributes
     private float currentLife;                  // The current health the enemy has
@@ -34,10 +36,12 @@ public class EnemyManager : MonoBehaviour
     private bool hitByMeleeBool;                 // Determines if the enemy has been hit by a melee attack by the player
     
     // Ability Management
-    private bool canUseAbility;
+    public List<bool> canUseAbility;
+    public List<int> abilityCount;       // Works like bullet count for a specific ability (goes with the enemy ability prefab)
 
     // Bullet Management
     public List<GameObject> enemyBullets;
+    public List<GameObject> enemyAbilityObjects;
     private bool canShoot;
     public int bulletCount;
     #endregion
@@ -65,9 +69,17 @@ public class EnemyManager : MonoBehaviour
     {
         // Sets up whether and enemy can shoot bullets or not
         canShoot = true; // Set to true if player gets within distance of the enemy
-        canUseAbility = true;
+
+        // Adds a list of true for each ability
+        for(int i = 0; i<enemyAbilityPrefabs.Count; i++)
+        {
+            canUseAbility.Add(true);
+            abilityCount.Add(0);
+        }
+
         hitByMeleeBool = false; // Set true so player can get hit by melee
         enemyBullets = new List<GameObject>();
+        enemyAbilityObjects = new List<GameObject>();
 
         // Sets up Player's HealthBar
         currentLife = maxHealth;
@@ -81,15 +93,28 @@ public class EnemyManager : MonoBehaviour
         // Check for death first
         death();
 
-
+        // Enemy Shooting
         if(hasBullets == true && canShoot==true && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
         {
             Shoot();
         }
-        if (hasAbility == true && canUseAbility == true && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
+
+        // Enemy Abilities
+        for (int i = 0; i < enemyAbilityPrefabs.Count; i++)
         {
-            //Ability();
+            if (hasAbility == true)
+            {
+                if (canUseAbility[i] == true && ((gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance))
+                {
+                    Ability(abilityTypes[i], i);
+                    JustAbilitied(i);
+                    // Call ability Managment for enemies with abilities
+                    abilityManagement(i);
+                }
+
+            }
         }
+
 
     }
     #endregion
@@ -151,39 +176,75 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     #region Ability Methods
+    #region Abilities for Enemies
     /// <summary>
     /// Shooting Method
     /// </summary>
-    void Ability()
+    void Ability(abilityType ability, int abilityIndex)
     {
-        GameObject abilityCopy;
-        abilityCopy = Instantiate(enemyAbilityPrefabs[0], transform.position, transform.rotation) as GameObject;
-        enemyBullets.Add(abilityCopy);
-        //abilityCopy.GetComponent<AbilityManager>().abilitySetUp(gameObject);
+        switch(ability)
+        {
+            case abilityType.webs:
+                break;
+            case abilityType.blobs:
+                // Instantiate the blob
+                Debug.Log("Dropping a doozy");
+                GameObject abilityObject = Instantiate(enemyAbilityPrefabs[abilityIndex], transform.position, transform.rotation);
 
-        JustAbilitied();
+                // Add it to a list of blobs/Abilities
+                enemyAbilityObjects.Add(abilityObject);
+                // Increase the number of ability objects
+                abilityCount[abilityIndex]++;
+
+
+                // Call the special initialization
+                abilityObject.GetComponent<BlobScript>().BlobStart(gameObject);
+                break;
+        }
     }
+    #endregion
 
+    #region Ability Managment
     /// <summary>
     /// Keeps the player from spamming the shoot button
     /// </summary>
-    void JustAbilitied()
+    void JustAbilitied(int abilityIndex)
     {
         // Player Gains Invincibility for 3 seconds
-        canUseAbility = false;
+        canUseAbility[abilityIndex] = false;
         //gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
-        Invoke("ResetAbility", timeBetweenAbility);
-
+        //Invoke("ResetAbility", timeBetweenAbilities[abilityIndex]);
+        StartCoroutine(ResetAbility(abilityIndex, timeBetweenAbilities[abilityIndex]));
     }
 
     /// <summary>
     /// Resets Player's canShoot Bool
     /// </summary>
-    void ResetAbility()
+    IEnumerator ResetAbility(int abilityIndex, float delayTime)
     {
-        canShoot = true;
+        yield return new WaitForSeconds(delayTime);
+
+        canUseAbility[abilityIndex] = true;
         //gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
+
+    void abilityManagement(int abilityIndex)
+    {
+        for (int i = 0; i < enemyAbilityPrefabs.Count; i++)
+        {
+            if (abilityCount[abilityIndex] > abilityRestrictionNumber[abilityIndex])
+            {
+                Debug.Log("In ability Management");
+                GameObject playerAbilityCopy = enemyAbilityObjects[0];
+                abilityRestrictionNumber[abilityIndex]--;
+
+                enemyAbilityObjects.Remove(playerAbilityCopy);
+                Destroy(playerAbilityCopy);
+                abilityCount[abilityIndex]--;
+            }
+        }
+    }
+    #endregion
     #endregion
 
     #region HurtMethod

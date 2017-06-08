@@ -190,12 +190,12 @@ public class EnemyMovement : CharacterMovement
                     break;
 
                 case enemyType.ectoplasmMuck:
-
+                    ultimateForce += seek(player.transform.position);
                     break;
 
 
                 case enemyType.acidicMuck:
-
+                    ultimateForce += seek(player.transform.position);
                     break;
 
                 #endregion

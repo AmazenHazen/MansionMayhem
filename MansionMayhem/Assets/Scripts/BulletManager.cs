@@ -18,7 +18,6 @@ public class BulletManager : MonoBehaviour {
     public GameObject owner;
     public string ownerTag;
 
-
     // Additional Variables for special weapons/bullets
     private Vector3 startPos;
     public GameObject blob;

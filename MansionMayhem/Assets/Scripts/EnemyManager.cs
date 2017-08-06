@@ -21,7 +21,7 @@ public class EnemyManager : MonoBehaviour
     public float speedAttribute;               // How fast the enemy moves
     public float seekDistance;                 // The distance at which an enemy can sense where you are
     public float timeBetweenShots;
-    public List<GameObject> enemyBulletPrefabs;// Prefabs of Bullets shot
+    public List<GameObject> enemyBulletPrefabs; // Prefabs of Bullets shot
     public List<GameObject> enemyAbilityPrefabs;// Prefab of Ability being used (Webs, Slime, Etc.)
     public List<abilityType> abilityTypes;      // Determines the ability of the enemy
     public List<float> timeBetweenAbilities;    // Determines how long to wait between abilities
@@ -37,11 +37,11 @@ public class EnemyManager : MonoBehaviour
     
     // Ability Management
     public List<bool> canUseAbility;
-    public List<int> abilityCount;       // Works like bullet count for a specific ability (goes with the enemy ability prefab)
+    public List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
 
     // Bullet Management
     public List<GameObject> enemyBullets;
-    public List<GameObject> enemyAbilityObjects;
+    public List<GameObject> enemyAbilityObjects;    // all of the abilities out for a specific ability
     private bool canShoot;
     public int bulletCount;
     #endregion
@@ -131,6 +131,9 @@ public class EnemyManager : MonoBehaviour
         {
             // Spawn something where the monster died/Give EXP to player?
 
+
+            // Tell the abilities that the owner is dead
+
             // Destroy Enemys
             GameObject.Find("LevelManager").GetComponent<LevelManager>().EnemyEliminated(gameObject);
             Destroy(gameObject);
@@ -218,7 +221,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Resets Player's canShoot Bool
+    /// Resets Player's ability Bool
     /// </summary>
     IEnumerator ResetAbility(int abilityIndex, float delayTime)
     {
@@ -236,7 +239,7 @@ public class EnemyManager : MonoBehaviour
             {
                 Debug.Log("In ability Management");
                 GameObject playerAbilityCopy = enemyAbilityObjects[0];
-                abilityRestrictionNumber[abilityIndex]--;
+                //abilityRestrictionNumber[abilityIndex]--;
 
                 enemyAbilityObjects.Remove(playerAbilityCopy);
                 Destroy(playerAbilityCopy);

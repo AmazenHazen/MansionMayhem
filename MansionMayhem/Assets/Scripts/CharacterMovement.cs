@@ -441,10 +441,10 @@ public abstract class CharacterMovement : MonoBehaviour
             currentSpeed += .05f;
         }
 
-        // Don't allow speed to be negative
-        if(currentSpeed<0)
+        // Don't allow speed to be negative or 0
+        if(currentSpeed<.25f)
         {
-            currentSpeed = 0;
+            currentSpeed = .25f;
         }
     }
 

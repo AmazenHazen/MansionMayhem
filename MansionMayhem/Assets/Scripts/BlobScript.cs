@@ -11,6 +11,7 @@ public class BlobScript : MonoBehaviour
     public GameObject owner;
     public string ownerTag;
     bool isPoisonous;
+    public bool ownerAlive;
 
     // Use this for initialization
     public void BlobStart(GameObject shooter)
@@ -18,8 +19,9 @@ public class BlobScript : MonoBehaviour
         // Set the tag to a copy
         owner = shooter;
         ownerTag = owner.tag;
+        ownerAlive = true;
 
-        if(blobComposite == bulletTypes.antiEctoPlasm)
+        if (blobComposite == bulletTypes.antiEctoPlasm)
         {
             damage = .01f;
             isPoisonous = false;
@@ -34,9 +36,12 @@ public class BlobScript : MonoBehaviour
     }
 	
 	// Update is called once per frame
-	void Update ()
+	void Update()
     {
-		
+		if(ownerAlive == false)
+        {
+            deleteBlob();
+        }
 	}
 
 
@@ -74,6 +79,16 @@ public class BlobScript : MonoBehaviour
         }
         #endregion
 
+    }
+    #endregion
+
+
+    #region Delete blob Method
+    IEnumerator deleteBlob()
+    {
+        yield return new WaitForSeconds(1f);
+
+        Destroy(gameObject);
     }
     #endregion
 }

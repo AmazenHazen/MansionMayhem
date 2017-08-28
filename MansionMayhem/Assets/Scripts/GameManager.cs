@@ -13,10 +13,18 @@ public class GameManager : MonoBehaviour
     #region Variables
     // Level Variables
     public static int currentLevel;
-    private int highestLevel;
 
-    // Currency Variables
-    public static int screws;
+    // ~~~~~~~Variables to be saved and loaded~~~~~~~~
+    private int highestLevel; // Highest level/Progress Variable
+    public static int screws; // Currency Variable
+    //Unlockable variables
+    private bool blobGunUnlock;
+    private bool hellFireShotgunUnlock;
+    private bool cryoGunUnlock;
+    private bool aetherLightBowUnlock;
+    private bool soundCannonUnlock;
+
+
 
     // Internal GameState Variables
     public bool inGame;
@@ -83,6 +91,13 @@ public class GameManager : MonoBehaviour
 
         // Puts the Variables that need to be saved into the data Class
         data.screws = screws;
+        data.highestLevel = highestLevel;
+        data.aetherLightBowUnlock = aetherLightBowUnlock;
+        data.blobGunUnlock = blobGunUnlock;
+        data.cryoGunUnlock = cryoGunUnlock;
+        data.hellFireShotgunUnlock = hellFireShotgunUnlock;
+        data.soundCannonUnlock = soundCannonUnlock;
+
 
 
         // Serialize the data
@@ -103,6 +118,11 @@ public class GameManager : MonoBehaviour
             // Set variables based on the save file
             screws = data.screws;
             highestLevel = data.highestLevel;
+            aetherLightBowUnlock = data.aetherLightBowUnlock;
+            blobGunUnlock = data.blobGunUnlock;
+            cryoGunUnlock = data.cryoGunUnlock;
+            hellFireShotgunUnlock = data.hellFireShotgunUnlock;
+            soundCannonUnlock = data.soundCannonUnlock;
         }
         else
         {
@@ -127,6 +147,12 @@ class PlayerData
     // All saved data here
     public int highestLevel;
     public int screws;
+    //Unlockable variables
+    public bool blobGunUnlock;
+    public bool hellFireShotgunUnlock;
+    public bool cryoGunUnlock;
+    public bool aetherLightBowUnlock;
+    public bool soundCannonUnlock;
 
 }
 #endregion

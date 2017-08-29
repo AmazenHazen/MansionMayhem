@@ -45,7 +45,7 @@ public enum rangeWeapon
     aetherLightBow = 2, // Demon Slaying Bow rumored to be from the gods
     cryoGun = 3, // FreezeRay
     hellfireshotgun = 4,    // Shotgun
-    flamethrower,   // Flamethrower
+    flamethrower = 5,   // Flamethrower
     soundCannon = 6,    // Three Round Burst Sound Cannon
 }
 

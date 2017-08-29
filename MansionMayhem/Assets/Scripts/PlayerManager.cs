@@ -31,6 +31,7 @@ public class PlayerManager : MonoBehaviour
     private int bulletCount;
     private int blobCount;
     GameObject FrostGun;
+    GameObject Flamethrower;
     bool frostGunAvailable;
     #endregion
 
@@ -91,6 +92,7 @@ public class PlayerManager : MonoBehaviour
         currentRangeWeapon = rangeWeapon.antiEctoPlasmator;
         currentMeleeWeapon = meleeWeapon.silverknife;
         FrostGun = transform.FindChild("FrostGun").gameObject;
+        Flamethrower = transform.FindChild("Flamethrower").gameObject;
 
         // Initializing Lists
         playerBullets = new List<GameObject>();
@@ -323,28 +325,13 @@ public class PlayerManager : MonoBehaviour
             switch (currentRangeWeapon)
             {
                 case rangeWeapon.aetherLightBow:
-                    bulletCopy = Instantiate(playerBulletPrefabs[0], transform.position, transform.rotation) as GameObject;
-                    playerBullets.Add(bulletCopy);
-                    bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-                    bulletCount++;
-                    JustShot();
+                    ShootBullet(0);
                     break;
                 case rangeWeapon.antiEctoPlasmator:
-                    bulletCopy = Instantiate(playerBulletPrefabs[1], transform.position, transform.rotation) as GameObject;
-                    playerBullets.Add(bulletCopy);
-                    bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-                    bulletCount++;
-                    JustShot();
-                    break;
-                case rangeWeapon.cryoGun:
-                    FrostGun.SetActive(true);
+                    ShootBullet(1);
                     break;
                 case rangeWeapon.laserpistol:
-                    bulletCopy = Instantiate(playerBulletPrefabs[3], transform.position, transform.rotation) as GameObject;
-                    playerBullets.Add(bulletCopy);
-                    bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-                    bulletCount++;
-                    JustShot();
+                    ShootBullet(2);
                     break;
                 case rangeWeapon.hellfireshotgun:
                     for (int i = 0; i < 4; i++)
@@ -353,20 +340,64 @@ public class PlayerManager : MonoBehaviour
                         Quaternion pelletRotation = transform.rotation;
                         pelletRotation.x += Random.Range(-.05f, .05f);
                         pelletRotation.y += Random.Range(-.05f, .05f);
-                        
-                        bulletCopy = Instantiate(playerBulletPrefabs[4], transform.position, pelletRotation) as GameObject;
-                        playerBullets.Add(bulletCopy);
-                        bulletCopy.GetComponent<BulletManager>().BulletShotgunStart(gameObject);
-                        bulletCount++;
+
+                        ShootBullet(3);
                     }
-                    JustShot();
+                    break;
+
+                case rangeWeapon.soundCannon:
+                    for (int i = 0; i < 2; i++)
+                    {
+                        StartCoroutine(SoundCannonShoot(4, .2f));
+                        Debug.Log("We in here");
+                    }
+                    break;
+                case rangeWeapon.cryoGun:
+                    FrostGun.SetActive(true);
+                    break;
+                case rangeWeapon.flamethrower:
+                    Flamethrower.SetActive(true);
                     break;
             }
         }
         else
         {
+            Flamethrower.SetActive(false);
             FrostGun.SetActive(false);
         }
+    }
+
+    /// <summary>
+    /// Launches a bullet
+    /// </summary>
+    void ShootBullet(int bulletPrefab)
+    {
+        GameObject bulletCopy;
+        // Shoot the bullet
+        bulletCopy = Instantiate(playerBulletPrefabs[bulletPrefab], transform.position, transform.rotation) as GameObject;
+        playerBullets.Add(bulletCopy);
+
+        // Special Start for shotgun
+        if (currentRangeWeapon == rangeWeapon.hellfireshotgun)
+        {
+            bulletCopy.GetComponent<BulletManager>().BulletShotgunStart(gameObject);
+        }
+        else
+        {
+            bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+        }
+        bulletCount++;
+        JustShot();
+    }
+
+
+
+    // Helper method for shooting bullets for sound Cannon
+    IEnumerator SoundCannonShoot(int bulletPrefab, float delayTime)
+    {
+        Debug.Log("Same");
+        ShootBullet(4);
+        yield return new WaitForSeconds(delayTime);
     }
 
     /// <summary>
@@ -397,7 +428,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if(currentRangeWeapon == rangeWeapon.hellfireshotgun)
+            if(currentRangeWeapon == rangeWeapon.soundCannon)
             {
                 currentRangeWeapon = 0;
             }

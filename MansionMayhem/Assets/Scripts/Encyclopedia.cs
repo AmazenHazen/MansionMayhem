@@ -97,12 +97,14 @@ public enum bulletOwners
 public enum enemyType
 {
     // Spiders
-    smallSpider,
-    blackWidow, // Venom
-    redTermis,  // Venom
-    tarantula,  // Huge
-    wolfSpider, // Jumps
-    silkSpinnerSpider, // Webs
+    smallSpider,                    //art done
+    blackWidow, // Venom            //art done
+    redTermis,  // Venom            //art done
+    fatalCrimson,   // Venom        //art done
+    noxiousLongleg, // Venom        //art done
+    tarantula,  // Huge             //art done
+    wolfSpider, // Jumps            //art done
+    silkSpinnerSpider, // Webs      //art done
 
     // Ghosts   // Can move through objects
     basicGhost, 
@@ -113,10 +115,13 @@ public enum enemyType
 
     // Zombie
     crawlingHand,
-    spitterZombie,
-    exploadingZombie,
-    stalkerZombie,
-    tankZombie,
+    basicZombie,        // art done
+    crawlerZombie,      // art done
+    gasZombie,          // art done
+    spitterZombie,      // art done
+    exploadingZombie,   
+    stalkerZombie,      
+    tankZombie,         // art done
 
     // Skeletons
     flameSkull,
@@ -134,6 +139,7 @@ public enum enemyType
     slasherDemon,
     corruptedDemon,    // art done
     infernalDemon,      // art done
+    frostDemon,         // art done
     hellhound,
     fury,
 

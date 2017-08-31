@@ -138,6 +138,10 @@ public class EnemyMovement : CharacterMovement
                 #endregion
 
                 #region zombies
+                case enemyType.basicZombie:
+                    ultimateForce += seek(player.transform.position);
+
+                    break;
                 case enemyType.crawlingHand:
 
                     break;
@@ -155,7 +159,7 @@ public class EnemyMovement : CharacterMovement
                     break;
 
                 case enemyType.tankZombie:
-
+                    ultimateForce += seek(player.transform.position);
                     break;
 
                 #endregion

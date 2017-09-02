@@ -114,13 +114,13 @@ public enum enemyType
     wraith,
 
     // Zombie
-    crawlingHand,
+    crawlingHand,       // art done
     basicZombie,        // art done
     crawlerZombie,      // art done
     gasZombie,          // art done
     spitterZombie,      // art done
-    exploadingZombie,   
-    stalkerZombie,      
+    fatZombie,          // art done
+    stalkerZombie,      // art done
     tankZombie,         // art done
 
     // Skeletons

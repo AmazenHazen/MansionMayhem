@@ -12,14 +12,14 @@ public class EnemyManager : MonoBehaviour
     public enemyClass primarymonsterType;      // The primary type of monster (demon, ghost, spider)
     public enemyClass secondarymonsterType;    // The secondary type of monster
     public bool boss;                           // Bool determining if the enemy is a boss monster
-    public bool isPoisonous;                   // Determines if the enemy can poison the player
     public bool hasBullets;                    // Determines if the enemy has bullets
     public bool hasAbility;                    // Determines if the enemy has an ability (shoot a web/leave slime behind it)
+    public bool isPoisonous;                   // Determines if the enemy can poison the player
     public float maxHealth;                    // The amount of health the enemy spawns with
     public float damage;                       // Damage caused when the player is hit by the monster (collision)
-    public float rangeDamage;                       // Damage caused when the player is hit by the monster (collision)
-    public float speedAttribute;               // How fast the enemy moves
     public float seekDistance;                 // The distance at which an enemy can sense where you are
+    public float rangeDamage;                       // Damage caused when the player is hit by the monster (collision)
+    //public float speedAttribute;               // How fast the enemy moves
     public float timeBetweenShots;
     public List<GameObject> enemyBulletPrefabs; // Prefabs of Bullets shot
     public List<GameObject> enemyAbilityPrefabs;// Prefab of Ability being used (Webs, Slime, Etc.)
@@ -40,8 +40,8 @@ public class EnemyManager : MonoBehaviour
     public List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
 
     // Bullet Management
-    public List<GameObject> enemyBullets;
-    public List<GameObject> enemyAbilityObjects;    // all of the abilities out for a specific ability
+    public List<GameObject> enemyBullets;           // a list keeping track of all of the current bullets on the screen
+    public List<GameObject> enemyAbilityObjects;    // a list keeping track of all of the abilities out for a specific ability
     private bool canShoot;
     public int bulletCount;
     #endregion

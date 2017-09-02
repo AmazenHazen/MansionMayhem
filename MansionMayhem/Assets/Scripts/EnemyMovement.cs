@@ -138,29 +138,32 @@ public class EnemyMovement : CharacterMovement
                 #endregion
 
                 #region zombies
+                case enemyType.crawlingHand:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+                case enemyType.crawlerZombie:
+                    ultimateForce += seek(player.transform.position);
+                    break;
                 case enemyType.basicZombie:
                     ultimateForce += seek(player.transform.position);
-
                     break;
-                case enemyType.crawlingHand:
-
-                    break;
-
-                case enemyType.spitterZombie:
-
-                    break;
-
-                case enemyType.exploadingZombie:
-
-                    break;
-
                 case enemyType.stalkerZombie:
-
+                    ultimateForce += seek(player.transform.position);
                     break;
-
+                case enemyType.gasZombie:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+                case enemyType.spitterZombie:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+                case enemyType.fatZombie:
+                    ultimateForce += seek(player.transform.position);
+                    break;
                 case enemyType.tankZombie:
                     ultimateForce += seek(player.transform.position);
                     break;
+
+
 
                 #endregion
 
@@ -273,7 +276,7 @@ public class EnemyMovement : CharacterMovement
 
 
                 case enemyType.zombiehordeLeader:
-
+                    ultimateForce += pursue(player);
                     break;
 
 

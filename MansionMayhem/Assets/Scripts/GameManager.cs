@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     // Level Variables
     public static int currentLevel;
 
+
+
+
+
     // ~~~~~~~Variables to be saved and loaded~~~~~~~~
     private int highestLevel; // Highest level/Progress Variable
     public static int screws; // Currency Variable

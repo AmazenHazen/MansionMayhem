@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 6932f6ef07dd252418d1d45ba984f2e8
+timeCreated: 1504641552
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - normalScrew: {fileID: 1038401164572658, guid: c1507f95de6d0e34080485bc0fd99527,
+      type: 2}
+  - redScrew: {fileID: 1448527772713106, guid: b7eca079ba45a2141b7c78a3769e5d12, type: 2}
+  - goldScrew: {fileID: 1857057554511350, guid: e67f67ce55246f247ade31d44045707d,
+      type: 2}
+  - heart: {fileID: 1394164590356530, guid: 6b6362b791a4fce479bd78ac580f47d4, type: 2}
+  - healthPotion: {fileID: 1737856458660228, guid: a7c567c1a1363254b875b45598014e0f,
+      type: 2}
+  - fairyDust: {fileID: 1394164590356530, guid: 6b6362b791a4fce479bd78ac580f47d4,
+      type: 2}
+  - goldenHeart: {fileID: 1394164590356530, guid: 6b6362b791a4fce479bd78ac580f47d4,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

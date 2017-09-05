@@ -202,7 +202,7 @@ public enum enemyClass
 }
 #endregion
 
-#region
+#region abilities
 public enum abilityType
 {
     webs,

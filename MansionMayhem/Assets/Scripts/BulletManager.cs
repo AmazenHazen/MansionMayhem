@@ -192,7 +192,7 @@ public class BulletManager : MonoBehaviour {
             {
                 AntiEctoPlasmBlob();
             }
-        
+
             // Delete the player bullet
             owner.GetComponent<PlayerManager>().playerBullets.Remove(gameObject);
             owner.GetComponent<PlayerManager>().BulletCount--;
@@ -211,7 +211,7 @@ public class BulletManager : MonoBehaviour {
             collider.GetComponentInParent<PlayerManager>().ShieldLife -= damage;
 
             // Kill the shield (and start it's reset time)
-            if(collider.GetComponentInParent<PlayerManager>().ShieldLife<=0)
+            if (collider.GetComponentInParent<PlayerManager>().ShieldLife <= 0)
             {
                 collider.GetComponentInParent<PlayerManager>().ShieldKilled();
             }
@@ -237,7 +237,7 @@ public class BulletManager : MonoBehaviour {
             collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;
 
             // Apply Poison to player
-            if(isPoisonous)
+            if (isPoisonous)
             {
                 collider.gameObject.GetComponent<PlayerManager>().StartPoison();
             }
@@ -249,12 +249,26 @@ public class BulletManager : MonoBehaviour {
                 owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
                 owner.GetComponent<EnemyManager>().BulletCount--;
             }
-            // Delete the bullete
+            // Delete the bullet
             Destroy(gameObject);
         }
         #endregion
 
-    }
+        #region Player or Enemy Bullet Collision with a breakable object
+        else if (collider.tag == "breakable" && (ownerTag == "player" || ownerTag == "enemy"))
+        {
+            // Spawn an object
+            collider.GetComponent<BreakableObject>().SpawnInsides();
+
+            // Delete the object
+            Destroy(collider.gameObject);
+
+            // Delete the Bullet
+            Destroy(gameObject);
+        }
+        #endregion
+
+        }
     #endregion
 }
 

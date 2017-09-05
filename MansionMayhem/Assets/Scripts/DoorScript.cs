@@ -12,7 +12,22 @@ public class DoorScript : MonoBehaviour
     {
         if (requirements.Count == 0)
         {
-            player.transform.position = linkedDoor.transform.position;
+            if (linkedDoor.name == "topdoor")
+            {
+                player.transform.position = linkedDoor.transform.position + new Vector3(0, -.5f, 0);
+            }
+            if (linkedDoor.name == "bottomdoor")
+            {
+                player.transform.position = linkedDoor.transform.position + new Vector3(0, .5f, 0);
+            }
+            if (linkedDoor.name == "leftdoor")
+            {
+                player.transform.position = linkedDoor.transform.position + new Vector3(.5f, 0, 0);
+            }
+            if (linkedDoor.name == "rightdoor")
+            {
+                player.transform.position = linkedDoor.transform.position + new Vector3(-.5f, 0, 0);
+            }
         }
     }
 

@@ -8,6 +8,9 @@ public class DoorScript : MonoBehaviour
     public GameObject linkedDoor;
     public List<GameObject> requirements;
 
+    #endregion
+
+    #region Travel Method
     public void Travel(GameObject player)
     {
         if (requirements.Count == 0)
@@ -27,6 +30,14 @@ public class DoorScript : MonoBehaviour
             if (linkedDoor.name == "rightdoor")
             {
                 player.transform.position = linkedDoor.transform.position + new Vector3(-.5f, 0, 0);
+            }
+            if (linkedDoor.name == "upstairs")
+            {
+                player.transform.position = linkedDoor.transform.position + new Vector3(0, -.5f, 0);
+            }
+            if (linkedDoor.name == "downstairs")
+            {
+                player.transform.position = linkedDoor.transform.position + new Vector3(0, .5f, 0);
             }
         }
     }

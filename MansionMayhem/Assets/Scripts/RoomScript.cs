@@ -18,20 +18,13 @@ public class RoomScript : MonoBehaviour
     public GameObject fairyDust;
     public GameObject goldenHeart;
 
-
-    // Keeps track of doors and if they exist for a room
-    public bool topDoorBool;
-    public bool bottomDoorBool;
-    public bool leftDoorBool;
-    public bool rightDoorBool;
-    public bool stairsBool;
-
     // Keeps track of rooms that are connected
     public GameObject topRoom;
     public GameObject bottomRoom;
     public GameObject leftRoom;
     public GameObject rightRoom;
-    public GameObject stairRoom;
+    public GameObject upStairsRoom;
+    public GameObject downStairsRoom;
 
     void Start()
     {
@@ -88,31 +81,40 @@ public class RoomScript : MonoBehaviour
 
         #region Door Linking
         // Link Doors for the Room
-        if (topDoorBool == true)
+        if (topRoom!=null)
         {
             gameObject.transform.FindChild("topdoor").gameObject.SetActive(true);
             gameObject.transform.FindChild("topdoor").GetComponent<DoorScript>().linkedDoor = topRoom.transform.FindChild("bottomdoor").gameObject;
         }
-        if (leftDoorBool == true)
-        {
-            gameObject.transform.FindChild("leftdoor").gameObject.SetActive(true);
-            gameObject.transform.FindChild("leftdoor").GetComponent<DoorScript>().linkedDoor = leftRoom.transform.FindChild("rightdoor").gameObject;
-        }
-        if (rightDoorBool == true)
-        {
-            gameObject.transform.FindChild("rightdoor").gameObject.SetActive(true);
-            gameObject.transform.FindChild("rightdoor").GetComponent<DoorScript>().linkedDoor = rightRoom.transform.FindChild("leftdoor").gameObject;
-        }
-        if (bottomDoorBool == true)
+        if (bottomRoom != null)
         {
             gameObject.transform.FindChild("bottomdoor").gameObject.SetActive(true);
             gameObject.transform.FindChild("bottomdoor").GetComponent<DoorScript>().linkedDoor = bottomRoom.transform.FindChild("topdoor").gameObject;
         }
-        if (stairsBool == true)
+        if (leftRoom != null)
         {
-            gameObject.transform.FindChild("stairs").gameObject.SetActive(true);
-            gameObject.transform.FindChild("stairs").GetComponent<DoorScript>().linkedDoor = stairRoom.transform.FindChild("stairs").gameObject;
+            gameObject.transform.FindChild("leftdoor").gameObject.SetActive(true);
+            gameObject.transform.FindChild("leftdoor").GetComponent<DoorScript>().linkedDoor = leftRoom.transform.FindChild("rightdoor").gameObject;
         }
+
+        if (rightRoom != null)
+        {
+            gameObject.transform.FindChild("rightdoor").gameObject.SetActive(true);
+            gameObject.transform.FindChild("rightdoor").GetComponent<DoorScript>().linkedDoor = rightRoom.transform.FindChild("leftdoor").gameObject;
+        }
+
+        if (upStairsRoom != null)
+        {
+            gameObject.transform.FindChild("upstairs").gameObject.SetActive(true);
+            gameObject.transform.FindChild("upstairs").GetComponent<DoorScript>().linkedDoor = upStairsRoom.transform.FindChild("downstairs").gameObject;
+        }
+
+        if (downStairsRoom != null)
+        {
+            gameObject.transform.FindChild("downstairs").gameObject.SetActive(true);
+            gameObject.transform.FindChild("downstairs").GetComponent<DoorScript>().linkedDoor = downStairsRoom.transform.FindChild("upstairs").gameObject;
+        }
+
         #endregion
     }
 }

@@ -14,9 +14,10 @@ public class RoomScript : MonoBehaviour
     // Health Spawn Attributes
     int healthRNG;
     public GameObject heart;
+    public GameObject firstaidKit;
     public GameObject healthPotion;
-    public GameObject fairyDust;
     public GameObject goldenHeart;
+
 
     // Keeps track of rooms that are connected
     public GameObject topRoom;

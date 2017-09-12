@@ -59,7 +59,7 @@ public class EnemyMovement : CharacterMovement
 
                     break;
                 case enemyType.wolfSpider:
-
+                    ultimateForce += seek(player.transform.position);
                     break;
                 case enemyType.silkSpinnerSpider:
                     // flee
@@ -346,4 +346,16 @@ public class EnemyMovement : CharacterMovement
     }
     #endregion
 
+    #region Advanced Movement Methods
+    /// <summary>
+    /// A delay for a movement method.
+    /// Helps for rapid movement monsters
+    /// </summary>
+    void RapidMovement()
+    {
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+        Invoke(seek(player.transform.position), 3);
+
+    }
+    #endregion
 }

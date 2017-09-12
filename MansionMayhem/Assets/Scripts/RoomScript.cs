@@ -71,7 +71,7 @@ public class RoomScript : MonoBehaviour
             }
             if (GameManager.currentLevel > 15 && GameManager.currentLevel <= 25)
             {
-                Instantiate(fairyDust, new Vector3(transform.position.x + Random.Range(-3.0f, 3.0f), transform.position.y + Random.Range(-2.0f, 2.0f), 0), transform.rotation);
+                Instantiate(firstaidKit, new Vector3(transform.position.x + Random.Range(-3.0f, 3.0f), transform.position.y + Random.Range(-2.0f, 2.0f), 0), transform.rotation);
             }
             if (GameManager.currentLevel > 25)
             {

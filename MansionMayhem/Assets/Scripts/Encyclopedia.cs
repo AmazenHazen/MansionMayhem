@@ -83,6 +83,7 @@ public enum bulletTypes
     hellFire,
     ectoPlasm,
     sound,
+    web,
 }
 
 public enum bulletOwners

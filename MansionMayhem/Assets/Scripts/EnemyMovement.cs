@@ -7,6 +7,8 @@ public class EnemyMovement : CharacterMovement
     #region Additional Movement Variables
     // Variables for enemy targeting
     public GameObject player;
+    public bool readyToMove;
+    public bool resettingMovement;
 
     // Attributes for CalcSteeringForces Method
     public float maxForce;
@@ -15,6 +17,8 @@ public class EnemyMovement : CharacterMovement
     #region Start Method
     public override void Start()
     {
+        readyToMove = true;
+        resettingMovement = false;
         currentSpeed = maxSpeed;
         player = GameObject.FindGameObjectWithTag("player");
     }
@@ -59,7 +63,20 @@ public class EnemyMovement : CharacterMovement
 
                     break;
                 case enemyType.wolfSpider:
+                    
+                    // Jumping Movement
+                    if (readyToMove)
+                    {
+                        ultimateForce += seek(player.transform.position)*50;
+                        readyToMove = false;
+                        resettingMovement = true;
+                    }
+                    else if(resettingMovement)
+                    {
+                        resettingMovement = false;
+                        Invoke("ResetMoveBool", 1);
 
+                    }
                     break;
                 case enemyType.silkSpinnerSpider:
                     // flee
@@ -149,9 +166,45 @@ public class EnemyMovement : CharacterMovement
                     break;
                 case enemyType.stalkerZombie:
                     ultimateForce += seek(player.transform.position);
+
+                    // Jumping Movement
+                    if ((player.transform.position - transform.position).magnitude < (gameObject.GetComponent<EnemyManager>().seekDistance / 5))
+                    {
+                        //maxSpeed = 5.5f;
+                        if (readyToMove)
+                        {
+                            ultimateForce += seek(player.transform.position) * 50;
+                            readyToMove = false;
+                            resettingMovement = true;
+                        }
+                        else if (resettingMovement)
+                        {
+                            resettingMovement = false;
+                            Invoke("ResetMoveBool", 3);
+
+                        }
+                    }
                     break;
                 case enemyType.gasZombie:
-                    ultimateForce += seek(player.transform.position);
+                    ultimateForce += pursue(player);
+
+                    // Jumping Movement
+                    if ((player.transform.position - transform.position).magnitude < (gameObject.GetComponent<EnemyManager>().seekDistance / 5))
+                    {
+                        //maxSpeed = 5.5f;
+                        if (readyToMove)
+                        {
+                            ultimateForce += seek(player.transform.position) * 50;
+                            readyToMove = false;
+                            resettingMovement = true;
+                        }
+                        else if (resettingMovement)
+                        {
+                            resettingMovement = false;
+                            Invoke("ResetMoveBool", 3);
+
+                        }
+                    }
                     break;
                 case enemyType.spitterZombie:
                     ultimateForce += seek(player.transform.position);
@@ -346,4 +399,16 @@ public class EnemyMovement : CharacterMovement
     }
     #endregion
 
+    #region Advanced Movement Methods
+    /// <summary>
+    /// A delay for a movement method.
+    /// Helps for rapid movement monsters
+    /// </summary>
+    void ResetMoveBool()
+    {
+        Debug.Log("Reset");
+        readyToMove = true;
+        resettingMovement = false;
+    }
+    #endregion
 }

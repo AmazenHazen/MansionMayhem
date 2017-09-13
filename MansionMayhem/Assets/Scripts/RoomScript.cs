@@ -27,6 +27,10 @@ public class RoomScript : MonoBehaviour
     public GameObject upStairsRoom;
     public GameObject downStairsRoom;
 
+    // Dimensions (for spawning items)
+    public float length;
+    public float width;
+
     void Start()
     {
 
@@ -41,15 +45,15 @@ public class RoomScript : MonoBehaviour
 
             if (screwRNG < 80)
             {
-                Instantiate(normalScrew, new Vector3(transform.position.x + Random.Range(-3.0f, 3.0f), transform.position.y + Random.Range(-2.0f, 2.0f), 0), transform.rotation);
+                Instantiate(normalScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
             if (screwRNG >= 80 && screwRNG <95)
             { 
-                Instantiate(redScrew, new Vector3(transform.position.x + Random.Range(-3.0f, 3.0f), transform.position.y + Random.Range(-2.0f, 2.0f), 0), transform.rotation);
+                Instantiate(redScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
             if (screwRNG >95)
             {
-                Instantiate(goldScrew, new Vector3(transform.position.x + Random.Range(-3.0f, 3.0f), transform.position.y + Random.Range(-2.0f, 2.0f), 0), transform.rotation);
+                Instantiate(goldScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
         }
         #endregion
@@ -63,19 +67,19 @@ public class RoomScript : MonoBehaviour
         {
             if(GameManager.currentLevel<=5)
             {
-                Instantiate(heart, new Vector3(transform.position.x + Random.Range(-3.0f, 3.0f), transform.position.y + Random.Range(-2.0f, 2.0f), 0), transform.rotation);
+                Instantiate(heart, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
             if (GameManager.currentLevel > 5 && GameManager.currentLevel <=15)
             {
-                Instantiate(healthPotion, new Vector3(transform.position.x + Random.Range(-3.0f, 3.0f), transform.position.y + Random.Range(-2.0f, 2.0f), 0), transform.rotation);
+                Instantiate(healthPotion, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
             if (GameManager.currentLevel > 15 && GameManager.currentLevel <= 25)
             {
-                Instantiate(fairyDust, new Vector3(transform.position.x + Random.Range(-3.0f, 3.0f), transform.position.y + Random.Range(-2.0f, 2.0f), 0), transform.rotation);
+                Instantiate(firstaidKit, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
             if (GameManager.currentLevel > 25)
             {
-                Instantiate(goldenHeart, new Vector3(transform.position.x + Random.Range(-3.0f, 3.0f), transform.position.y + Random.Range(-2.0f, 2.0f), 0), transform.rotation);
+                Instantiate(goldenHeart, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
         }
         #endregion

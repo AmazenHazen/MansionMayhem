@@ -80,7 +80,8 @@ public class EnemyMovement : CharacterMovement
                     break;
                 case enemyType.silkSpinnerSpider:
                     // flee
-                    ultimateForce += flee(player.transform.position);
+                    //ultimateForce += flee(player.transform.position);
+                    ultimateForce += pursue(player);
                     break;
 
 
@@ -246,7 +247,7 @@ public class EnemyMovement : CharacterMovement
 
                 #region Muck
                 case enemyType.blackMuck:
-
+                    ultimateForce += seek(player.transform.position);
                     break;
 
                 case enemyType.ectoplasmMuck:

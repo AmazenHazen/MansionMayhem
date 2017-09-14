@@ -84,6 +84,8 @@ public enum bulletTypes
     ectoPlasm,
     sound,
     web,
+    splatterWeb,
+    blackSlime,
 }
 
 public enum bulletOwners

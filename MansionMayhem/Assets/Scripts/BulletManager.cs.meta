@@ -1,10 +1,14 @@
 fileFormatVersion: 2
 guid: d6633616738a0b74790e786dd2df49eb
-timeCreated: 1492538841
-licenseType: Free
+timeCreated: 1505417423
+licenseType: Pro
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - owner: {instanceID: 0}
+  - antiEctoPlasmBlob: {fileID: 1639627541081314, guid: cdc8b26066e3b844580a135ffda91e64,
+      type: 2}
+  - webBlob: {fileID: 1927478840163586, guid: e091a374c6cfdca4c911b442320e54b5, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

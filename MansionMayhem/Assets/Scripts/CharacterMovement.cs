@@ -26,8 +26,9 @@ public abstract class CharacterMovement : MonoBehaviour
     public float wandRadius;
     private float wandAngle;
 
-    // bool for slowing down enemies
+    // bool for slowing down and speeding up characters
     public bool beingSlowed;
+    public bool beingSped;
 
     #endregion
 
@@ -47,6 +48,7 @@ public abstract class CharacterMovement : MonoBehaviour
         SetTransform();
         RevertSpeed();
         beingSlowed = false;
+        beingSped = false;
     }
     #endregion
 
@@ -436,15 +438,28 @@ public abstract class CharacterMovement : MonoBehaviour
     /// </summary>
     void RevertSpeed()
     {
+        // Reset speed if you are slowed
         if(currentSpeed<maxSpeed && beingSlowed == false)
         {
             currentSpeed += .05f;
         }
 
+        //Reset speed if on slippery surface
+        if (currentSpeed > maxSpeed && beingSped == false)
+        {
+            currentSpeed -= .05f;
+        }
+
         // Don't allow speed to be negative or 0
-        if(currentSpeed<.25f)
+        if (currentSpeed<.25f)
         {
             currentSpeed = .25f;
+        }
+
+        // Don't allow speed to be too high
+        if (currentSpeed > 6f)
+        {
+            currentSpeed = 6f;
         }
     }
 

@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MansionMayhem", "Assembly-CSharp.csproj", "{E0D5C062-69FD-D224-1D02-AE9FC0611889}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MansionMayhem", "MansionMayhem.csproj", "{35217C1F-7CF5-60DA-A20B-B8D3B989A2AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,15 +9,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E0D5C062-69FD-D224-1D02-AE9FC0611889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0D5C062-69FD-D224-1D02-AE9FC0611889}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0D5C062-69FD-D224-1D02-AE9FC0611889}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0D5C062-69FD-D224-1D02-AE9FC0611889}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35217C1F-7CF5-60DA-A20B-B8D3B989A2AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35217C1F-7CF5-60DA-A20B-B8D3B989A2AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35217C1F-7CF5-60DA-A20B-B8D3B989A2AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35217C1F-7CF5-60DA-A20B-B8D3B989A2AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal

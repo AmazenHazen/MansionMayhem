@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Timers;
 
 public class BlobScript : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class BlobScript : MonoBehaviour
     public string ownerTag;
     bool isPoisonous;
     public bool ownerAlive;
+    public bool slowsPlayer;
+    public bool slippy;
 
     // Use this for initialization
     public void BlobStart(GameObject shooter)
@@ -23,24 +26,38 @@ public class BlobScript : MonoBehaviour
 
         if (blobComposite == bulletTypes.antiEctoPlasm)
         {
-            damage = .01f;
+            damage = .00001f;
             isPoisonous = false;
         }
 
-        /*Enemy Blob Timer Starts
-        if(ownerTag == "enemy")
+        //Enemy Blob
+        if (blobComposite == bulletTypes.ectoPlasm)
         {
-
+            isPoisonous = true;
         }
-        */
+
+        if (blobComposite == bulletTypes.web)
+        {
+            slowsPlayer = true;
+        }
+
+        if (blobComposite == bulletTypes.blackSlime)
+        {
+            slippy = true;
+        }
+
     }
 	
 	// Update is called once per frame
 	void Update()
     {
-		if(ownerAlive == false)
+        if(blobComposite == bulletTypes.ectoPlasm)
         {
-            deleteBlob();
+            if (owner == false)
+            {
+                Debug.Log("Owner = false");
+                StartCoroutine(deleteBlob());
+            }
         }
 	}
 
@@ -53,8 +70,8 @@ public class BlobScript : MonoBehaviour
     /// <param name="collider"></param>
     void OnTriggerStay2D(Collider2D collider)
     {
-        #region Enemy Collision with playerBullet
-        // If bullet runs into an enemy
+        #region Enemy Collision with playerBlob
+        // If an enemy runs ovr the blob
         if ((collider.tag == "enemy" || collider.tag == "boss") && ownerTag == "player")
         {
             // Damage Enemy
@@ -63,10 +80,10 @@ public class BlobScript : MonoBehaviour
         }
         #endregion
 
-        #region Player Collision with enemyBullet
+        #region Player Collision with enemyBlob
         else if (collider.tag == "player" && (ownerTag == "enemy" || ownerTag == "boss"))
         {
-            Debug.Log("Bullet Hit Player");
+            Debug.Log("Blob Hit Player");
 
             // Damage Player
             collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;
@@ -75,6 +92,19 @@ public class BlobScript : MonoBehaviour
             if (isPoisonous)
             {
                 collider.gameObject.GetComponent<PlayerManager>().StartPoison();
+            }
+
+            if (slowsPlayer)
+            {
+                // Webs slows down player
+                collider.gameObject.GetComponent<PlayerMovement>().beingSlowed = true;
+                collider.gameObject.GetComponent<PlayerMovement>().currentSpeed -= .025f;
+            }
+
+            if (slippy)
+            {
+                collider.gameObject.GetComponent<PlayerMovement>().beingSped = true;
+                collider.gameObject.GetComponent<PlayerMovement>().currentSpeed += .025f;
             }
         }
         #endregion
@@ -86,8 +116,9 @@ public class BlobScript : MonoBehaviour
     #region Delete blob Method
     IEnumerator deleteBlob()
     {
+        Debug.Log("Waiting");
         yield return new WaitForSeconds(1f);
-
+        Debug.Log("Destory");
         Destroy(gameObject);
     }
     #endregion

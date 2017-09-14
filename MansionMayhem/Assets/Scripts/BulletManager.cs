@@ -20,7 +20,8 @@ public class BulletManager : MonoBehaviour {
 
     // Additional Variables for special weapons/bullets
     private Vector3 startPos;
-    public GameObject blob;
+    public GameObject antiEctoPlasmBlob;
+    public GameObject webBlob;
     #endregion
 
     #region BulletStartMethod
@@ -137,7 +138,7 @@ public class BulletManager : MonoBehaviour {
     void AntiEctoPlasmBlob()
     {
 
-        GameObject blobCopy = Instantiate(blob, transform.position, transform.rotation);
+        GameObject blobCopy = Instantiate(antiEctoPlasmBlob, transform.position, transform.rotation);
 
         // Add Anti-Ectoplasm Blob
         owner.GetComponent<PlayerManager>().playerBlobs.Add(blobCopy);
@@ -150,6 +151,26 @@ public class BulletManager : MonoBehaviour {
         owner.GetComponent<PlayerManager>().BulletCount--;
 
     }
+
+    /*
+    void SplatterWeb()
+    {
+
+        GameObject blobCopy = Instantiate(webBlob, transform.position, transform.rotation);
+
+        // Add Anti-Ectoplasm Blob
+        owner.GetComponent<EnemyManager>().playerBlobs.Add(blobCopy);
+        owner.GetComponent<EnemyManager>().BlobCount++;
+
+        blobCopy.GetComponent<BlobScript>().BlobStart(owner);
+        // Remove and Destroy bullet
+        Destroy(this.gameObject);
+        owner.GetComponent<EnemyManager>().playerBullets.Remove(this.gameObject);
+        owner.GetComponent<EnemyManager>().BulletCount--;
+
+    }
+    */
+
     #endregion
 
     #region CollisionDetection
@@ -172,6 +193,11 @@ public class BulletManager : MonoBehaviour {
             {
                 AntiEctoPlasmBlob();
             }
+            if (bulletType == bulletTypes.splatterWeb)
+            {
+                //SplatterWeb();
+            }
+
             GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
             GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
             Destroy(this.gameObject);
@@ -240,6 +266,11 @@ public class BulletManager : MonoBehaviour {
             if (isPoisonous)
             {
                 collider.gameObject.GetComponent<PlayerManager>().StartPoison();
+            }
+
+            if (bulletType == bulletTypes.splatterWeb)
+            {
+                //SplatterWeb();
             }
 
             // Check to make sure the enemy hasn't already been killed

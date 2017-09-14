@@ -133,6 +133,10 @@ public class EnemyManager : MonoBehaviour
 
 
             // Tell the abilities that the owner is dead
+            foreach(GameObject ability in enemyAbilityObjects)
+            {
+                ability.GetComponent<BlobScript>().ownerAlive = false;
+            }
 
             // Destroy Enemys
             GameObject.Find("LevelManager").GetComponent<LevelManager>().EnemyEliminated(gameObject);
@@ -187,8 +191,6 @@ public class EnemyManager : MonoBehaviour
     {
         switch(ability)
         {
-            case abilityType.webs:
-                break;
             case abilityType.blobs:
                 // Instantiate the blob
                 Debug.Log("Dropping a doozy");

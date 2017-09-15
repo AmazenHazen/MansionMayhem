@@ -55,7 +55,7 @@ public class BlobScript : MonoBehaviour
         {
             if (owner == false)
             {
-                Debug.Log("Owner = false");
+                //Debug.Log("Owner = false");
                 StartCoroutine(deleteBlob());
             }
         }
@@ -116,9 +116,9 @@ public class BlobScript : MonoBehaviour
     #region Delete blob Method
     IEnumerator deleteBlob()
     {
-        Debug.Log("Waiting");
+        //Debug.Log("Waiting");
         yield return new WaitForSeconds(1f);
-        Debug.Log("Destory");
+        //Debug.Log("Destory");
         Destroy(gameObject);
     }
     #endregion

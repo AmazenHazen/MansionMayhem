@@ -154,6 +154,14 @@ public class PlayerManager : MonoBehaviour
                     //Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
                     currentLife -= collider.gameObject.GetComponent<EnemyManager>().damage;
 
+                    // Heal the enemy if hit and a vampyric enemy
+                    if (collider.gameObject.GetComponent<EnemyManager>().vampyric == true)
+                    {
+                        // Call the vampyric heal method
+                        collider.gameObject.GetComponent<EnemyManager>().VampyricHeal();
+                    }
+
+
                     // Poison the player if the enemy is poisonous
                     // The Enemy Poisons the player with the melee attack if poisonous
                     if (collider.gameObject.GetComponent<EnemyManager>().isPoisonous == true)

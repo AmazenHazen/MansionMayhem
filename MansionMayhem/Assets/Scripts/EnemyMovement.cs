@@ -104,7 +104,8 @@ public class EnemyMovement : CharacterMovement
                     break;
 
                 case enemyType.ghosthead:
-
+                    // Seek
+                    ultimateForce += seek(player.transform.position);
                     break;
 
 

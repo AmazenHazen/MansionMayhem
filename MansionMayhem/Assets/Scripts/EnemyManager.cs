@@ -15,11 +15,11 @@ public class EnemyManager : MonoBehaviour
     public bool hasBullets;                    // Determines if the enemy has bullets
     public bool hasAbility;                    // Determines if the enemy has an ability (shoot a web/leave slime behind it)
     public bool isPoisonous;                   // Determines if the enemy can poison the player
+    public bool vampyric;                      // Determines if the enemy heals when hitting the player
     public float maxHealth;                    // The amount of health the enemy spawns with
     public float damage;                       // Damage caused when the player is hit by the monster (collision)
     public float seekDistance;                 // The distance at which an enemy can sense where you are
     public float rangeDamage;                       // Damage caused when the player is hit by the monster (collision)
-    //public float speedAttribute;               // How fast the enemy moves
     public float timeBetweenShots;
     public List<GameObject> enemyBulletPrefabs; // Prefabs of Bullets shot
     public List<GameObject> enemyAbilityPrefabs;// Prefab of Ability being used (Webs, Slime, Etc.)
@@ -211,8 +211,10 @@ public class EnemyManager : MonoBehaviour
 
     #region Ability Managment
     /// <summary>
-    /// Keeps the player from spamming the shoot button
+    /// Keeps the player from spamming abilities
     /// </summary>
+    /// <param name="abilityIndex"></param>
+
     void JustAbilitied(int abilityIndex)
     {
         // Player Gains Invincibility for 3 seconds
@@ -239,15 +241,24 @@ public class EnemyManager : MonoBehaviour
         {
             if (abilityCount[abilityIndex] > abilityRestrictionNumber[abilityIndex])
             {
-                Debug.Log("In ability Management");
+                //Debug.Log("In ability Management");
                 GameObject playerAbilityCopy = enemyAbilityObjects[0];
-                //abilityRestrictionNumber[abilityIndex]--;
 
                 enemyAbilityObjects.Remove(playerAbilityCopy);
                 Destroy(playerAbilityCopy);
                 abilityCount[abilityIndex]--;
             }
         }
+    }
+    #endregion
+
+    #region Vampyric Healing Method
+    /// <summary>
+    /// Heals the enemy if it hits the use with 
+    /// </summary>
+    public void VampyricHeal()
+    {
+        CurrentLife += damage;
     }
     #endregion
     #endregion

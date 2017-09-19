@@ -34,6 +34,13 @@ public class GameManager : MonoBehaviour
     public bool inGame;
     #endregion
 
+    #region Properties
+    public int HighestLevel
+    {
+        get { return highestLevel; }
+    }
+    #endregion
+
     #region initialization
     // Use this for initialization
     void Start ()

@@ -13,7 +13,7 @@ public class ClickToLoadAsync : MonoBehaviour {
     public void ClickAsync(int level)
     {
         // Set current level in the gameManager
-        GameManager.currentLevel = level;
+        //GameManager.currentLevel = level;
 
         loadingImage.SetActive(true);
         StartCoroutine(LoadLevelWithBar(level));
@@ -22,11 +22,14 @@ public class ClickToLoadAsync : MonoBehaviour {
 
     public void ClickAsyncAndSave(int level)
     {
-        // First Save Game
-        GameObject.Find("GameHandler").GetComponent<GameManager>().Save();
+        if (GameObject.Find("GameHandler") != null)
+        {
+            // First Save Game
+            GameObject.Find("GameHandler").GetComponent<GameManager>().Save();
+        }
 
         // Set current level in the gameManager
-        GameManager.currentLevel = level;
+        //GameManager.currentLevel = level;
 
         loadingImage.SetActive(true);
         StartCoroutine(LoadLevelWithBar(level));

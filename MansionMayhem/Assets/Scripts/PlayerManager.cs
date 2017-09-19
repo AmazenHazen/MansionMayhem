@@ -193,6 +193,21 @@ public class PlayerManager : MonoBehaviour
                 break;
             #endregion
 
+            #region NPC
+            case "npc":
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+                {
+                    // Pause the gameplay
+                    // Set pauseGame to true
+                    GUIManager.pausedGame = true;
+                    GUIManager.usingOtherInterface = true;
+                    Time.timeScale = 0;
+
+                    Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);
+                }
+                break;
+            #endregion
+
             #region Items
             // Items
             case "item":
@@ -245,8 +260,13 @@ public class PlayerManager : MonoBehaviour
 
             #region workbench
             case "workbench":
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
                 {
+                    // Pause the gameplay
+                    // Set pauseGame to true
+                    GUIManager.pausedGame = true;
+                    GUIManager.usingOtherInterface = true;
+                    Time.timeScale = 0;
 
                     // Debug Line
                     Debug.Log("Using WorkBench:");

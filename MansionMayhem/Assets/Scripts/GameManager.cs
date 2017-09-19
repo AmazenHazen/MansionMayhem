@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
 
     // ~~~~~~~Variables to be saved and loaded~~~~~~~~
-    private int highestLevel; // Highest level/Progress Variable
+    public int highestLevel; // Highest level/Progress Variable
     public static int screws; // Currency Variable
     //Unlockable variables
     private bool blobGunUnlock;
@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public int HighestLevel
     {
         get { return highestLevel; }
+        set { highestLevel = value; }
     }
     #endregion
 

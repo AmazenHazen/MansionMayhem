@@ -32,7 +32,7 @@ public class EnemyMovement : CharacterMovement
     #endregion
 
     #region Enemy Movement Method
-    // Call the necessary Forces on the player
+    // Call the necessary Forces on the enemy
     protected override void CalcSteeringForces()
     {
         // Create a new ultimate force that is zeroed out

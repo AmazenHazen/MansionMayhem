@@ -68,8 +68,14 @@ public class PlayerMapScript : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            // Enter the level
+            if (destination.GetComponent<LevelLocation>().unlocked == true)
+            {
+                // Set the GameManager current level for the GUI
+                GameManager.currentLevel = destination.GetComponent<LevelLocation>().level;
 
+                // Enter the level
+                Application.LoadLevel(currentLocationIndex + 2);
+            }
         }
     }
 }

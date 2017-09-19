@@ -32,6 +32,10 @@ public class GUIManager : MonoBehaviour
     public static bool pausedGame;
     public GameObject escapeScreen;
 
+
+    // Variables for talking to NPC/Workbench
+    public static bool usingOtherInterface;
+
     // Start is called when the GUI is initialized
     void Start()
     {
@@ -52,6 +56,7 @@ public class GUIManager : MonoBehaviour
         HealthColors.Add(new Color(186, 186, 186));
 
         pausedGame = false;
+        usingOtherInterface = false;
         Time.timeScale = 1;
         escapeScreen.SetActive(false);
     }
@@ -161,13 +166,16 @@ public class GUIManager : MonoBehaviour
     #region Escape Screen Management
     public void EscapeScreenManagement()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true)
+        if (usingOtherInterface == false)
         {
-            ContinueGame();
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false)
-        {
-            PauseGame();
+            if (Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true)
+            {
+                ContinueGame();
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false)
+            {
+                PauseGame();
+            }
         }
 
     }

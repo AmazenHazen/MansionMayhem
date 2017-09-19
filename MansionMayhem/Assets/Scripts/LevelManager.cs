@@ -70,8 +70,17 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Completed Level!");
 
         // Advance Level
-        GameManager.currentLevel++;
-        Application.LoadLevel(GameManager.currentLevel);
+        // Set highest level
+        if (GameObject.Find("GameHandler") != null)
+        {
+            // Increase the highest level
+            GameObject.Find("GameHandler").GetComponent<GameManager>().HighestLevel++;
+
+            // Save the player's new progress
+            GameObject.Find("GameHandler").GetComponent<GameManager>().Save();
+        }
+
+        Application.LoadLevel(1);
     }
 
 

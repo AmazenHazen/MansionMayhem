@@ -13,6 +13,7 @@ public class PlayerManager : MonoBehaviour
     private bool invincibility;
     private bool canTravel;
     private bool canShoot;
+    private bool canBurst;
     private bool canMelee;
     private bool canShield;
 
@@ -83,6 +84,7 @@ public class PlayerManager : MonoBehaviour
         shieldLife = 1;
         invincibility = false;
         canShoot = true;
+        canBurst = true;
         canMelee = true;
         canShield = true;
         canTravel = true;
@@ -372,12 +374,11 @@ public class PlayerManager : MonoBehaviour
                         ShootBullet(3);
                     }
                     break;
-
                 case rangeWeapon.soundCannon:
-                    for (int i = 0; i < 2; i++)
+                    if (canBurst)
                     {
-                        StartCoroutine(SoundCannonShoot(4, .2f));
-                        Debug.Log("We in here");
+                        StartCoroutine(SoundCannonShoot(4, .05f));
+                        canBurst = false;
                     }
                     break;
                 case rangeWeapon.cryoGun:
@@ -423,9 +424,12 @@ public class PlayerManager : MonoBehaviour
     // Helper method for shooting bullets for sound Cannon
     IEnumerator SoundCannonShoot(int bulletPrefab, float delayTime)
     {
-        Debug.Log("Same");
-        ShootBullet(4);
-        yield return new WaitForSeconds(delayTime);
+        for (int i = 0; i < 3; i++)
+        {
+            ShootBullet(4);
+            yield return new WaitForSeconds(delayTime);
+        }
+        canBurst = true;
     }
 
     /// <summary>
@@ -433,7 +437,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     void JustShot()
     {
-        // Player Gains Invincibility for 3 seconds
+        // Player Can't shoot for .5 seconds
         canShoot = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
         Invoke("ResetShooting", .5f);

@@ -34,6 +34,8 @@ public class PlayerManager : MonoBehaviour
     GameObject FrostGun;
     GameObject Flamethrower;
     bool frostGunAvailable;
+
+    Coroutine sound;
     #endregion
 
     #region PlayerProperties
@@ -377,7 +379,7 @@ public class PlayerManager : MonoBehaviour
                 case rangeWeapon.soundCannon:
                     if (canBurst)
                     {
-                        StartCoroutine(SoundCannonShoot(4, .05f));
+                        sound = StartCoroutine(SoundCannonShoot(4, .05f));
                         canBurst = false;
                     }
                     break;
@@ -428,10 +430,12 @@ public class PlayerManager : MonoBehaviour
         {
             ShootBullet(4);
             yield return new WaitForSeconds(delayTime);
+            Debug.Log("Burst");
         }
-        canBurst = true;
+        Invoke("ResetBurst", .5f);
     }
 
+    #region ResetShooting Methods
     /// <summary>
     /// Keeps the player from spamming the shoot button
     /// </summary>
@@ -451,6 +455,15 @@ public class PlayerManager : MonoBehaviour
         canShoot = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
+
+    /// <summary>
+    /// Resets Player's canShoot Bool
+    /// </summary>
+    void ResetBurst()
+    {
+        canBurst = true;
+    }
+    #endregion
 
 
     /// <summary>

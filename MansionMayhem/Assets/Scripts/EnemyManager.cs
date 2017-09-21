@@ -38,10 +38,13 @@ public class EnemyManager : MonoBehaviour
     // Ability Management
     public List<bool> canUseAbility;
     public List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
-
-    // Bullet Management
     public List<GameObject> enemyBullets;           // a list keeping track of all of the current bullets on the screen
     public List<GameObject> enemyAbilityObjects;    // a list keeping track of all of the abilities out for a specific ability
+    private GameObject parent;
+
+    // Bullet Management
+    public List<GameObject> enemyBlobs;
+    private int blobCount;
     private bool canShoot;
     public int bulletCount;
     #endregion
@@ -60,6 +63,15 @@ public class EnemyManager : MonoBehaviour
     public bool HitByMeleeBool
     {
         get { return hitByMeleeBool; }
+    }
+    public int BlobCount
+    {
+        get { return blobCount; }
+        set { blobCount = value; }
+    }
+    public GameObject Parent
+    {
+        set { parent = value; }
     }
     #endregion
 
@@ -106,12 +118,15 @@ public class EnemyManager : MonoBehaviour
             {
                 if (canUseAbility[i] == true && ((gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance))
                 {
+                    // Use the ability
                     Ability(abilityTypes[i], i);
+
+                    // Reset abilities if used
                     JustAbilitied(i);
-                    // Call ability Managment for enemies with abilities
-                    abilityManagement(i);
                 }
 
+                // Call ability Managment for enemies with abilities
+                abilityManagement(i);
             }
         }
 
@@ -129,14 +144,19 @@ public class EnemyManager : MonoBehaviour
     {
         if(currentLife <= 0)
         {
-            // Spawn something where the monster died/Give EXP to player?
-
+            // Tell the parent of it that it died
+            if(parent!= null)
+            {
+                parent.GetComponent<EnemyManager>().enemyAbilityObjects.Remove(gameObject);
+            }
+ 
 
             // Tell the abilities that the owner is dead
-            foreach(GameObject ability in enemyAbilityObjects)
+            foreach (GameObject ability in enemyAbilityObjects)
             {
                 ability.GetComponent<BlobScript>().ownerAlive = false;
             }
+
 
             // Destroy Enemys
             GameObject.Find("LevelManager").GetComponent<LevelManager>().EnemyEliminated(gameObject);
@@ -189,12 +209,14 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     void Ability(abilityType ability, int abilityIndex)
     {
+        GameObject abilityObject;
+
         switch(ability)
         {
             case abilityType.blobs:
                 // Instantiate the blob
                 Debug.Log("Dropping a doozy");
-                GameObject abilityObject = Instantiate(enemyAbilityPrefabs[abilityIndex], transform.position, transform.rotation);
+                abilityObject = Instantiate(enemyAbilityPrefabs[abilityIndex], transform.position, transform.rotation);
 
                 // Add it to a list of blobs/Abilities
                 enemyAbilityObjects.Add(abilityObject);
@@ -204,6 +226,18 @@ public class EnemyManager : MonoBehaviour
 
                 // Call the special initialization
                 abilityObject.GetComponent<BlobScript>().BlobStart(gameObject);
+                break;
+
+            case abilityType.babies:
+                Debug.Log("Giving Birth!");
+                abilityObject = Instantiate(enemyAbilityPrefabs[abilityIndex], transform.position, transform.rotation);
+                abilityObject.GetComponent<EnemyManager>().Parent = gameObject;
+
+                // Add it to a list of babies
+                enemyAbilityObjects.Add(abilityObject);
+
+                // Increase the number of ability objects
+                abilityCount[abilityIndex]++;
                 break;
         }
     }
@@ -217,10 +251,10 @@ public class EnemyManager : MonoBehaviour
 
     void JustAbilitied(int abilityIndex)
     {
-        // Player Gains Invincibility for 3 seconds
+        // Set the ability to use the ability to false
         canUseAbility[abilityIndex] = false;
-        //gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
-        //Invoke("ResetAbility", timeBetweenAbilities[abilityIndex]);
+        
+        // Run the reset ability method
         StartCoroutine(ResetAbility(abilityIndex, timeBetweenAbilities[abilityIndex]));
     }
 
@@ -237,6 +271,7 @@ public class EnemyManager : MonoBehaviour
 
     void abilityManagement(int abilityIndex)
     {
+        // Managing the number of ability objects on screen
         for (int i = 0; i < enemyAbilityPrefabs.Count; i++)
         {
             if (abilityCount[abilityIndex] > abilityRestrictionNumber[abilityIndex])

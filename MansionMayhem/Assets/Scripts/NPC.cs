@@ -47,5 +47,37 @@ public class NPC : CharacterMovement
         Vector3 dir = targetPosition - this.transform.position;
         angleOfRotation = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg) - 90;
     }
-#endregion
+    #endregion
+
+    #region Revert Speed Method for NPCs
+    /// <summary>
+    /// Returns Speed to Max Speed
+    /// </summary>
+    protected override void RevertSpeed()
+    {
+        // Reset speed if you are slowed
+        if (currentSpeed < maxSpeed && beingSlowed == false)
+        {
+            currentSpeed += .05f;
+        }
+
+        //Reset speed if on slippery surface
+        if (currentSpeed > maxSpeed && beingSped == false)
+        {
+            currentSpeed -= .05f;
+        }
+
+        // Don't allow speed to be negative or 0
+        if (currentSpeed < .25f)
+        {
+            currentSpeed = .25f;
+        }
+
+        // Don't allow speed to be too high
+        if (currentSpeed > 6f)
+        {
+            currentSpeed = 6f;
+        }
+    }
+    #endregion
 }

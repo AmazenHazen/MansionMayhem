@@ -116,6 +116,11 @@ public class BulletManager : MonoBehaviour {
         if (bulletType == bulletTypes.antiEctoPlasm && ownerTag == "player" && (startPos - transform.position).magnitude > 4)
         {
             AntiEctoPlasmBlob();
+
+            // Remove and Destroy bullet
+            owner.GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
+            owner.GetComponent<PlayerManager>().BulletCount--;
+            Destroy(this.gameObject);
         }
         Move();
 
@@ -145,31 +150,26 @@ public class BulletManager : MonoBehaviour {
         owner.GetComponent<PlayerManager>().BlobCount++;
 
         blobCopy.GetComponent<BlobScript>().BlobStart(owner);
-        // Remove and Destroy bullet
-        Destroy(this.gameObject);
-        owner.GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
-        owner.GetComponent<PlayerManager>().BulletCount--;
 
     }
 
-    /*
+    
     void SplatterWeb()
     {
 
         GameObject blobCopy = Instantiate(webBlob, transform.position, transform.rotation);
 
-        // Add Anti-Ectoplasm Blob
-        owner.GetComponent<EnemyManager>().playerBlobs.Add(blobCopy);
-        owner.GetComponent<EnemyManager>().BlobCount++;
+        // Check to make sure the enemy hasn't already been killed
+        if (owner != null)
+        {
+            // Add Spider Web Blob
+            owner.GetComponent<EnemyManager>().enemyBlobs.Add(blobCopy);
+            owner.GetComponent<EnemyManager>().BlobCount++;
 
-        blobCopy.GetComponent<BlobScript>().BlobStart(owner);
-        // Remove and Destroy bullet
-        Destroy(this.gameObject);
-        owner.GetComponent<EnemyManager>().playerBullets.Remove(this.gameObject);
-        owner.GetComponent<EnemyManager>().BulletCount--;
-
+            blobCopy.GetComponent<BlobScript>().BlobStart(owner);
+        }
     }
-    */
+    
 
     #endregion
 
@@ -195,12 +195,28 @@ public class BulletManager : MonoBehaviour {
             }
             if (bulletType == bulletTypes.splatterWeb)
             {
-                //SplatterWeb();
+                SplatterWeb();
             }
 
-            GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
-            GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
-            Destroy(this.gameObject);
+
+            // Remove refernece to the bullet
+            if (ownerTag == "player")
+            {
+                // Delete the bullet reference in the Player Manager
+                GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
+                GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
+            }
+            if(ownerTag == "enemy" || ownerTag == "boss")
+            {
+                // Check to make sure the enemy hasn't already been killed
+                if (owner != null)
+                {
+                    // Delete the bullet reference in the Enemy Manager
+                    owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
+                    owner.GetComponent<EnemyManager>().BulletCount--;
+                }
+            }
+            Destroy(gameObject);
         }
         #endregion
 
@@ -270,7 +286,7 @@ public class BulletManager : MonoBehaviour {
 
             if (bulletType == bulletTypes.splatterWeb)
             {
-                //SplatterWeb();
+                SplatterWeb();
             }
 
             // Check to make sure the enemy hasn't already been killed
@@ -294,6 +310,35 @@ public class BulletManager : MonoBehaviour {
             // Delete the object
             Destroy(collider.gameObject);
 
+            // if the bullet is antiEctoplasm also spawn a blob
+            if (bulletType == bulletTypes.antiEctoPlasm)
+            {
+                AntiEctoPlasmBlob();
+            }
+            // If the bullet is also a splatter web spawn a web
+            if (bulletType == bulletTypes.splatterWeb)
+            {
+                SplatterWeb();
+            }
+
+
+            // Check to make sure the enemy hasn't already been killed
+            if (ownerTag == "player")
+            {
+                // Delete the bullet reference in the Player Manager
+                GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
+                GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
+            }
+            if (ownerTag == "enemy" || ownerTag == "boss")
+            {
+                // Check to make sure the enemy hasn't already been killed
+                if (owner != null)
+                {
+                    // Delete the bullet reference in the Enemy Manager
+                    owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
+                    owner.GetComponent<EnemyManager>().BulletCount--;
+                }
+            }
             // Delete the Bullet
             Destroy(gameObject);
         }

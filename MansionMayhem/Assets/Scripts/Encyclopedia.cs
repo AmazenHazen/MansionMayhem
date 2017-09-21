@@ -208,8 +208,8 @@ public enum enemyClass
 #region abilities
 public enum abilityType
 {
-    webs,
     blobs,
+    babies,
 }
 #endregion
 

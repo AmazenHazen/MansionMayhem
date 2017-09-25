@@ -97,7 +97,7 @@ public class ParticleGunScript : MonoBehaviour
             }
             if (enemyCollisionCounter == 0)
             {
-                Debug.Log("LOL IT WOrked no more fire");
+                //Debug.Log("LOL IT WOrked no more fire");
                 damage = .025f;
                 burnEffect = 0;
             }

@@ -160,7 +160,7 @@ public class GUIManager : MonoBehaviour
     {
         if (boss != null && boss.activeSelf == true)
         {
-            Debug.Log("in boss health update");
+            //Debug.Log("in boss health update");
             bossHealthCanvas.gameObject.SetActive(true);
 
             // Get current health and update the bar

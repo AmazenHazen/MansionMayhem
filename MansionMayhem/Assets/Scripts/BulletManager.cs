@@ -186,7 +186,7 @@ public class BulletManager : MonoBehaviour {
         if (collider.tag == "leftwall" || collider.tag == "rightwall" || collider.tag == "topwall" || collider.tag == "bottomwall")
         {
             // Delete the player bullet
-            Debug.Log("Wall!");
+            //Debug.Log("Wall!");
 
             // if the bullet is antiEctoplasm also spawn a blob
             if (bulletType == bulletTypes.antiEctoPlasm)

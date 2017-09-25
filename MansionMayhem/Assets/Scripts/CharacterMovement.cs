@@ -455,7 +455,7 @@ public abstract class CharacterMovement : MonoBehaviour
                 velocity.x = 0;
                 acceleration.x = 0;
                 // Puts the player on the edge (does this by taking the position of the wall + [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .02f), transform.position.y);
+                transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .01f), transform.position.y);
                 break;
 
             // Right Wall
@@ -467,7 +467,7 @@ public abstract class CharacterMovement : MonoBehaviour
                 velocity.x = 0;
                 acceleration.x = 0;
                 // Puts the player on the edge (does this by taking the position of the wall - [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x - (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .02f), transform.position.y);
+                transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x - (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .01f), transform.position.y);
                 break;
 
             // Top Wall
@@ -479,7 +479,7 @@ public abstract class CharacterMovement : MonoBehaviour
                 velocity.y = 0;
                 acceleration.y = 0;
                 // Puts the player on the edge (does this by taking the position of the wall - [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y - (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .02f));
+                transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y - (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .01f));
                 break;
 
             // Bottom Wall
@@ -491,7 +491,7 @@ public abstract class CharacterMovement : MonoBehaviour
                 velocity.y = 0;
                 acceleration.y = 0;
                 // Puts the player on the edge (does this by taking the position of the wall + the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall)
-                transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .02f));
+                transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .01f));
 
                 break;
         }

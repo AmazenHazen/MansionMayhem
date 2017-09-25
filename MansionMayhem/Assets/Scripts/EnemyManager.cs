@@ -215,7 +215,7 @@ public class EnemyManager : MonoBehaviour
         {
             case abilityType.blobs:
                 // Instantiate the blob
-                Debug.Log("Dropping a doozy");
+                //Debug.Log("Dropping a doozy");
                 abilityObject = Instantiate(enemyAbilityPrefabs[abilityIndex], transform.position, transform.rotation);
 
                 // Add it to a list of blobs/Abilities
@@ -229,7 +229,7 @@ public class EnemyManager : MonoBehaviour
                 break;
 
             case abilityType.babies:
-                Debug.Log("Giving Birth!");
+                //Debug.Log("Giving Birth!");
                 abilityObject = Instantiate(enemyAbilityPrefabs[abilityIndex], transform.position, transform.rotation);
                 abilityObject.GetComponent<EnemyManager>().Parent = gameObject;
 

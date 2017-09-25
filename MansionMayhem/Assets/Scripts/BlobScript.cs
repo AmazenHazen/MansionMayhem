@@ -83,7 +83,7 @@ public class BlobScript : MonoBehaviour
         #region Player Collision with enemyBlob
         else if (collider.tag == "player" && (ownerTag == "enemy" || ownerTag == "boss"))
         {
-            Debug.Log("Blob Hit Player");
+            //Debug.Log("Blob Hit Player");
 
             // Damage Player
             collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;

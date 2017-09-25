@@ -430,7 +430,7 @@ public class PlayerManager : MonoBehaviour
         {
             ShootBullet(4);
             yield return new WaitForSeconds(delayTime);
-            Debug.Log("Burst");
+            //Debug.Log("Burst");
         }
         Invoke("ResetBurst", .5f);
     }

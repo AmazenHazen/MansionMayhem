@@ -16,5 +16,4 @@ public class LoadOnClick : MonoBehaviour
         image.SetActive(true);
     }
 
-
 }

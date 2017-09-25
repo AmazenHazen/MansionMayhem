@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GUIManager : MonoBehaviour
 {
+
+    #region Attributes
     public GameObject player;
 
     // Health Management
@@ -36,6 +38,10 @@ public class GUIManager : MonoBehaviour
     // Variables for talking to NPC/Workbench
     public static bool usingOtherInterface;
 
+    #endregion
+
+    #region Start
+
     // Start is called when the GUI is initialized
     void Start()
     {
@@ -61,6 +67,10 @@ public class GUIManager : MonoBehaviour
         escapeScreen.SetActive(false);
     }
 
+    #endregion
+
+    #region Update
+
     // Update is called once per frame
     void Update()
     {
@@ -69,6 +79,7 @@ public class GUIManager : MonoBehaviour
         TextUpdate();
         EscapeScreenManagement();
     }
+    #endregion
 
     #region Health Management
     void HealthManagement()

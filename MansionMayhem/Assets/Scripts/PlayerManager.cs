@@ -471,7 +471,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     private void WeaponSwitch()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
             if(currentRangeWeapon == rangeWeapon.soundCannon)
             {
@@ -529,7 +529,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     private void Shield()
     {
-        if (Input.GetKey(KeyCode.E) && (canShield == true))
+        if (Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) && (canShield == true))
         {
             // Activate the Shield
             gameObject.transform.FindChild("Shield").gameObject.SetActive(true);

@@ -110,7 +110,25 @@ public class EnemyMovement : CharacterMovement
 
 
                 case enemyType.wraith:
+                    ultimateForce += pursue(player);
 
+                    // Jumping Movement
+                    if ((player.transform.position - transform.position).magnitude < 3f)
+                    {
+                        //maxSpeed = 5.5f;
+                        if (readyToMove)
+                        {
+                            ultimateForce += pursue(player) * 50;
+                            readyToMove = false;
+                            resettingMovement = true;
+                        }
+                        else if (resettingMovement)
+                        {
+                            resettingMovement = false;
+                            Invoke("ResetMoveBool", 5);
+
+                        }
+                    }
                     break;
                 #endregion
 
@@ -170,12 +188,12 @@ public class EnemyMovement : CharacterMovement
                     ultimateForce += seek(player.transform.position);
 
                     // Jumping Movement
-                    if ((player.transform.position - transform.position).magnitude < (gameObject.GetComponent<EnemyManager>().seekDistance / 5))
+                    if ((player.transform.position - transform.position).magnitude < 1.75f)
                     {
                         //maxSpeed = 5.5f;
                         if (readyToMove)
                         {
-                            ultimateForce += seek(player.transform.position) * 50;
+                            ultimateForce += seek(player.transform.position) * 75;
                             readyToMove = false;
                             resettingMovement = true;
                         }
@@ -183,7 +201,6 @@ public class EnemyMovement : CharacterMovement
                         {
                             resettingMovement = false;
                             Invoke("ResetMoveBool", 3);
-
                         }
                     }
                     break;
@@ -191,7 +208,7 @@ public class EnemyMovement : CharacterMovement
                     ultimateForce += pursue(player);
 
                     // Jumping Movement
-                    if ((player.transform.position - transform.position).magnitude < (gameObject.GetComponent<EnemyManager>().seekDistance / 5))
+                    if ((player.transform.position - transform.position).magnitude < 1.75f)
                     {
                         //maxSpeed = 5.5f;
                         if (readyToMove)

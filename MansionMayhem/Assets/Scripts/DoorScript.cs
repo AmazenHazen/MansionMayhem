@@ -13,33 +13,32 @@ public class DoorScript : MonoBehaviour
     #region Travel Method
     public void Travel(GameObject player)
     {
-        if (requirements.Count == 0)
+
+        if (linkedDoor.name == "topdoor")
         {
-            if (linkedDoor.name == "topdoor")
-            {
-                player.transform.position = linkedDoor.transform.position + new Vector3(0, -.5f, 0);
-            }
-            if (linkedDoor.name == "bottomdoor")
-            {
-                player.transform.position = linkedDoor.transform.position + new Vector3(0, .5f, 0);
-            }
-            if (linkedDoor.name == "leftdoor")
-            {
-                player.transform.position = linkedDoor.transform.position + new Vector3(.5f, 0, 0);
-            }
-            if (linkedDoor.name == "rightdoor")
-            {
-                player.transform.position = linkedDoor.transform.position + new Vector3(-.5f, 0, 0);
-            }
-            if (linkedDoor.name == "upstairs")
-            {
-                player.transform.position = linkedDoor.transform.position + new Vector3(0, -.5f, 0);
-            }
-            if (linkedDoor.name == "downstairs")
-            {
-                player.transform.position = linkedDoor.transform.position + new Vector3(0, .5f, 0);
-            }
+            player.transform.position = linkedDoor.transform.position + new Vector3(0, -.5f, 0);
         }
+        if (linkedDoor.name == "bottomdoor")
+        {
+            player.transform.position = linkedDoor.transform.position + new Vector3(0, .5f, 0);
+        }
+        if (linkedDoor.name == "leftdoor")
+        {
+            player.transform.position = linkedDoor.transform.position + new Vector3(.5f, 0, 0);
+        }
+        if (linkedDoor.name == "rightdoor")
+        {
+            player.transform.position = linkedDoor.transform.position + new Vector3(-.5f, 0, 0);
+        }
+        if (linkedDoor.name == "upstairs")
+        {
+            player.transform.position = linkedDoor.transform.position + new Vector3(0, -.5f, 0);
+        }
+        if (linkedDoor.name == "downstairs")
+        {
+            player.transform.position = linkedDoor.transform.position + new Vector3(0, .5f, 0);
+        }
+
     }
 
     #endregion

@@ -264,6 +264,9 @@ public enum itemType
     quest,
     key,
     #endregion
+
+    healthKit,
+    goldenHeart,
 }
 #endregion
 

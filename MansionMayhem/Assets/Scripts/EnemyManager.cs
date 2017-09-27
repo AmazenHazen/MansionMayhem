@@ -150,11 +150,14 @@ public class EnemyManager : MonoBehaviour
                 parent.GetComponent<EnemyManager>().enemyAbilityObjects.Remove(gameObject);
             }
  
-
+            
             // Tell the abilities that the owner is dead
             foreach (GameObject ability in enemyAbilityObjects)
             {
-                ability.GetComponent<BlobScript>().ownerAlive = false;
+                if (ability.GetComponent<BlobScript>() != null)
+                {
+                    ability.GetComponent<BlobScript>().ownerAlive = false;
+                }
             }
 
 

@@ -278,9 +278,15 @@ public enum direction
 #endregion
 
 #region RoomTypes
-public enum roomType
+public enum RoomType
 {
-    Entrance,
+    entrance,
+    elevator,
+    boss,
+    small,
+    medium,
+    large,
+    /*
     CloakRoom,
     GrandFoyer,
     LivingRoom,
@@ -296,7 +302,6 @@ public enum roomType
     HunterRoom,
     BoilerRoom,
     FurnaceRoom,
-    UndergroundLake,
-    Elevator,
+    UndergroundLake,*/
 }
 #endregion

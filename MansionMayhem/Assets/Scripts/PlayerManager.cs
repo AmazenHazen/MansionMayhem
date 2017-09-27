@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
     private float shieldLife;
     private bool invincibility;
     private bool canTravel;
-    private bool canShoot;
+    public bool canShoot;
     private bool canBurst;
     private bool canMelee;
     private bool canShield;
@@ -403,6 +403,8 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     void ShootBullet(int bulletPrefab)
     {
+        Debug.Log("Firing Bullet" + bulletPrefab);
+        Debug.Log(canShoot);
         GameObject bulletCopy;
         // Shoot the bullet
         bulletCopy = Instantiate(playerBulletPrefabs[bulletPrefab], transform.position, transform.rotation) as GameObject;
@@ -418,7 +420,9 @@ public class PlayerManager : MonoBehaviour
             bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
         }
         bulletCount++;
+
         JustShot();
+
     }
 
 
@@ -428,9 +432,12 @@ public class PlayerManager : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            ShootBullet(4);
-            yield return new WaitForSeconds(delayTime);
-            //Debug.Log("Burst");
+            if (currentRangeWeapon == rangeWeapon.soundCannon)
+            {
+                ShootBullet(4);
+                yield return new WaitForSeconds(delayTime);
+                //Debug.Log("Burst");
+            }
         }
         Invoke("ResetBurst", .5f);
     }
@@ -442,6 +449,7 @@ public class PlayerManager : MonoBehaviour
     void JustShot()
     {
         // Player Can't shoot for .5 seconds
+        //Debug.Log("We Just Shot!");
         canShoot = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
         Invoke("ResetShooting", .5f);
@@ -473,8 +481,11 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
-            if(currentRangeWeapon == rangeWeapon.soundCannon)
+            // Stop the sound Courotine
+
+            if (currentRangeWeapon == rangeWeapon.soundCannon)
             {
+                //StopCoroutine(sound);
                 currentRangeWeapon = 0;
             }
             else

@@ -285,6 +285,43 @@ public abstract class CharacterMovement : MonoBehaviour
     }
 
     /// <summary>
+    /// Enemy dodges a bullet
+    /// </summary>
+    /// <param name="targetPos"></param>
+    /// <returns></returns>
+    public Vector3 dodge(GameObject tar)
+    {
+        // step 1: Find the Future Position of the target
+        Vector3 futurePos = tar.transform.position + tar.transform.up;
+
+        // Step 1.5: If the target is too close scale the futurePos so you aren't suicidal
+        if ((position - tar.transform.position).magnitude < 2)
+        {
+            Vector3 scaledForward = tar.transform.up;
+            scaledForward.x = tar.transform.up.x * .5f;
+            scaledForward.y = tar.transform.up.y * .5f;
+            scaledForward.z = 0f;
+            futurePos = tar.transform.position + scaledForward;
+        }
+
+        // Step 2: Find the desired velocity
+        Vector3 desiredVelocity = position - futurePos;
+
+
+        // Step 3: Scale Desired to maximum speed
+        //         so I move as fast as possible
+        desiredVelocity.Normalize();
+        desiredVelocity *= currentSpeed;
+
+        // Step 4: Calculate your Steering Force
+        Vector3 steeringForce = desiredVelocity - velocity;
+
+        // Step 5: Return the Steering force
+        return steeringForce;
+
+    }
+
+    /// <summary>
     /// Wander Method that returns a steering force based on a future position and wandering angle
     /// </summary>
     /// <returns></returns>

@@ -31,14 +31,28 @@ public class RoomScript : MonoBehaviour
     public float length;
     public float width;
 
+    // Type of room
+    public RoomType roomType;
+
     void Start()
     {
 
         #region Screw Spawning
         // Determine how many screws in the room
-        screwCount = Random.Range(5, 15);
-        
-        // Spawn the screws (and different types as well
+        if (roomType == RoomType.small)
+        {
+            screwCount = Random.Range(5, 15);
+        }
+        else if (roomType == RoomType.medium)
+        {
+            screwCount = Random.Range(15, 20);
+        }
+        else if (roomType == RoomType.large)
+        {
+            screwCount = Random.Range(25, 35);
+        }
+
+                // Spawn the screws (and different types as well
         for (int i=0; i<screwCount; i++)
         {
             screwRNG = Random.Range(0, 100);

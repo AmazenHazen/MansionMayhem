@@ -5,7 +5,7 @@ using UnityEngine;
 public class ParticleGunScript : MonoBehaviour
 {
     // Set owner of the gameObject
-    public GameObject owner;
+    private GameObject owner;
     public GameObject collidingPerson;
     public rangeWeapon particleGun;
     string ownerTag;
@@ -15,6 +15,8 @@ public class ParticleGunScript : MonoBehaviour
 
     void Start()
     {
+        owner = transform.parent.gameObject;
+
         ownerTag = owner.tag;
 
         if (particleGun == rangeWeapon.flamethrower)

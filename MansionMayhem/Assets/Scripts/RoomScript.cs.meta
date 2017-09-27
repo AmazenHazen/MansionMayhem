@@ -1,10 +1,28 @@
 fileFormatVersion: 2
 guid: abc915a58e64ca345b6ca3834e02b118
-timeCreated: 1491583001
+timeCreated: 1506539246
 licenseType: Pro
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - normalScrew: {fileID: 1038401164572658, guid: c1507f95de6d0e34080485bc0fd99527,
+      type: 2}
+  - redScrew: {fileID: 1448527772713106, guid: b7eca079ba45a2141b7c78a3769e5d12, type: 2}
+  - goldScrew: {fileID: 1857057554511350, guid: e67f67ce55246f247ade31d44045707d,
+      type: 2}
+  - heart: {fileID: 1394164590356530, guid: 6b6362b791a4fce479bd78ac580f47d4, type: 2}
+  - firstaidKit: {fileID: 1679795908161136, guid: fea1b83af319ccd45a5accd924da3071,
+      type: 2}
+  - healthPotion: {fileID: 1737856458660228, guid: a7c567c1a1363254b875b45598014e0f,
+      type: 2}
+  - goldenHeart: {fileID: 1759000569655106, guid: 6d6556fb8402c0346b8702fecdae6630,
+      type: 2}
+  - topRoom: {instanceID: 0}
+  - bottomRoom: {instanceID: 0}
+  - leftRoom: {instanceID: 0}
+  - rightRoom: {instanceID: 0}
+  - upStairsRoom: {instanceID: 0}
+  - downStairsRoom: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

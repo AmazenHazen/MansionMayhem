@@ -34,8 +34,17 @@ public class PlayerManager : MonoBehaviour
     GameObject FrostGun;
     GameObject Flamethrower;
     bool frostGunAvailable;
-
+    
     Coroutine sound;
+
+    // Variables for the level
+    public List<GameObject> playerItems;
+    private int itemCount;
+
+
+    // Unlockable abilities
+    public bool magnet;
+    public float magnetDistance;
     #endregion
 
     #region PlayerProperties
@@ -100,6 +109,10 @@ public class PlayerManager : MonoBehaviour
 
         // Initializing Lists
         playerBullets = new List<GameObject>();
+
+        // Temp variables
+        magnet = true;
+        magnetDistance = 1.5f;
     }
     #endregion
 
@@ -137,13 +150,36 @@ public class PlayerManager : MonoBehaviour
                 //Debug.Log("Door");
 
                 // Move the player to the new room
-                if(canTravel == true)
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+                {
+                    // Unlock the door
+                    foreach(GameObject item in playerItems)
+                    {
+                        foreach(GameObject requirement in collider.gameObject.GetComponent<DoorScript>().requirements)
+                        {
+                            if(item == requirement)
+                            {
+                                // Remove the player's item
+                                playerItems.Remove(item);
+
+                                // Remove the requirement
+                                collider.gameObject.GetComponent<DoorScript>().requirements.Remove(requirement);
+
+                                // Debug Statment
+                                Debug.Log("Using Item: " + item);
+                            }
+                        }
+                    }
+                }
+
+                if(canTravel == true && collider.gameObject.GetComponent<DoorScript>().requirements.Count == 0)
                 {
                     Debug.Log("Travel");
                     collider.gameObject.GetComponent<DoorScript>().Travel(gameObject);
                     // Activate just traveled method
                     JustTraveled();
                 }
+
 
                 break;
 
@@ -223,7 +259,8 @@ public class PlayerManager : MonoBehaviour
                 itemType itemVarCopy = collider.gameObject.GetComponent<ItemScript>().itemVar;
                 switch (itemVarCopy)
                 {
-                    #region Health/Screws/Quest Pickups
+                    #region Health Pickups
+                        // Heart
                     case itemType.heartPickup:
                         currentLife++;
                         if (currentLife > maxLife)
@@ -231,6 +268,8 @@ public class PlayerManager : MonoBehaviour
                             currentLife = maxLife;
                         }
                         break;
+
+                        // Health Potion
                     case itemType.healthPotionPickup:
                         currentLife += 3;
                         if(currentLife>maxLife)
@@ -238,6 +277,28 @@ public class PlayerManager : MonoBehaviour
                             currentLife = maxLife;
                         }
                         break;
+
+                        // Health Kit
+                    case itemType.healthKit:
+                        currentLife+= 5;
+                        if (currentLife > maxLife)
+                        {
+                            currentLife = maxLife;
+                        }
+                        break;
+
+                    // Golden Heart
+                    case itemType.goldenHeart:
+                        currentLife += 10;
+                        if (currentLife > maxLife)
+                        {
+                            currentLife = maxLife;
+                        }
+                        break;
+                    #endregion
+
+                    #region Screw Pickups
+
                     case itemType.normalScrewPickup:
                         GameManager.screws++;
                         break;
@@ -247,11 +308,19 @@ public class PlayerManager : MonoBehaviour
                     case itemType.goldenScrewPickup:
                         GameManager.screws += 10;
                         break;
+
+                    #endregion
+
+                    #region Level Pickups
                     case itemType.quest:
+                        // Add the object to the List
+                        playerItems.Add(collider.gameObject);
                         collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<ArtifactScript>().requirements.Remove(collider.gameObject);
                         break;
                     case itemType.key:
-                        collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<DoorScript>().requirements.Remove(collider.gameObject);
+                        // Add the key to the List
+                        playerItems.Add(collider.gameObject);
+                        //collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<DoorScript>().requirements.Remove(collider.gameObject);
                         break;
 
                         #endregion
@@ -260,7 +329,6 @@ public class PlayerManager : MonoBehaviour
                 // At the end of an item collision destroy the gameobject
                 Destroy(collider.gameObject);
                 break;
-            #endregion
 
             #region workbench
             case "workbench":
@@ -291,7 +359,9 @@ public class PlayerManager : MonoBehaviour
                 }
 
                 break;
-        #endregion  
+                #endregion
+
+            #endregion
         }
 
     }

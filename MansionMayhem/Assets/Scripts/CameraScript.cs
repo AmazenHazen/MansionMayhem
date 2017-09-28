@@ -23,7 +23,7 @@ public class CameraScript : MonoBehaviour
     private void FollowPlayer()
     {
         cameraLoc = player.transform.position;
-        cameraLoc.z = -10;
+        cameraLoc.z = player.transform.position.z-10;
         transform.position = cameraLoc;
     }
     #endregion

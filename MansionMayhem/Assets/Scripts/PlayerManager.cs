@@ -24,7 +24,6 @@ public class PlayerManager : MonoBehaviour
 
     // Weapon Variables
     private rangeWeapon currentRangeWeapon;
-    private meleeWeapon currentMeleeWeapon;
     private trinkets currentTrinket;
     public List<GameObject> playerBullets;
     public List<GameObject> playerBlobs;
@@ -103,7 +102,6 @@ public class PlayerManager : MonoBehaviour
         poisoned = false;
         poisonCounter = 0;
         currentRangeWeapon = rangeWeapon.antiEctoPlasmator;
-        currentMeleeWeapon = meleeWeapon.silverknife;
         FrostGun = transform.FindChild("FrostGun").gameObject;
         Flamethrower = transform.FindChild("Flamethrower").gameObject;
 
@@ -242,6 +240,8 @@ public class PlayerManager : MonoBehaviour
                     GUIManager.pausedGame = true;
                     GUIManager.usingOtherInterface = true;
                     Time.timeScale = 0;
+
+                    collider.gameObject.GetComponent<NPC>().talkingBool = true;
 
                     Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);
                 }
@@ -422,8 +422,6 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && canShoot == true)
         {
-            GameObject bulletCopy;
-
             switch (currentRangeWeapon)
             {
                 case rangeWeapon.aetherLightBow:

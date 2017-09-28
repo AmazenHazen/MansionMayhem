@@ -17,7 +17,10 @@ public class PlayerMovement : CharacterMovement
     // Update for Player
     protected override void Update()
     {
-        Rotate();
+        if (GUIManager.pausedGame == false)
+        {
+            Rotate();
+        }
         base.Update();
     }
     #endregion

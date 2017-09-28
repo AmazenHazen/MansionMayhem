@@ -42,7 +42,7 @@ public class ItemScript : MonoBehaviour
             Vector3 steeringForce = desiredVelocity;
 
             // Move the screw towards the player
-            rb.AddForce(desiredVelocity);
+            rb.AddForce(steeringForce);
         }
     }
 

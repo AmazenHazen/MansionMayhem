@@ -237,8 +237,19 @@ public enum BossEnum
 #endregion
 #endregion
 
-#region itemTypes
-// Enums for ItemTypes
+
+#region NPC Enums
+public enum ResponseType
+{
+    sayNothing,
+    sayYes,
+    sayNo,
+
+}
+#endregion
+
+    #region itemTypes
+    // Enums for ItemTypes
 public enum itemType
 {
     #region Ammo

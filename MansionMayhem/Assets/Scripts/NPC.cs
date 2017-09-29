@@ -20,11 +20,19 @@ public class NPC : CharacterMovement
     public GameObject dialogBox;
     public Text dialogText;
 
+    public List<GameObject> Options;
+    public List<ResponseType> Responses;
+
+    // Reference to the current line for dialog
+    // reference to the last line for dialog
     public int currentLine;
     public int endAtLine;
 
+    // Talking bools
     public bool talkingBool;
+    public bool optionBool;
 
+    public int optionNumber;
     #endregion
 
     #region Start Method
@@ -67,7 +75,9 @@ public class NPC : CharacterMovement
     }
     #endregion
 
-
+    /// <summary>
+    /// Talking to script that handles basic text
+    /// </summary>
     public void TalkingTo()
     {
         // Sets the text box to the first/current line of dialog
@@ -78,33 +88,96 @@ public class NPC : CharacterMovement
             dialogBox.SetActive(true);
         }
         // Advance the text if the player hits Enter or Space
-        else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && (optionBool == false))
         {
             currentLine++;
+        }
+
+        // 2 Dialog Options
+        // Dialog Options designated with a * at the beginning of the line
+        if(textLines[currentLine+1][0] == '*')
+        {
+            // Set the optionBool to true
+            optionBool = true;
+
+            // Find how many options the player has
+            optionNumber = textLines[currentLine+1][1] - 48;
+
+            for(int i = 0; i<optionNumber; i++)
+            {
+                Options[i].transform.GetChild(0).GetComponent<Text>().text = textLines[(currentLine + 2) + i];
+                Options[i].SetActive(true);
+            }
         }
 
         // Don't let the user go past the endline
         if(currentLine>endAtLine)
         {
-            // Return the Game World to normal time
-            // Pause the gameplay
-            // Set pauseGame to true
-            GUIManager.pausedGame = false;
-            GUIManager.usingOtherInterface = false;
-            Time.timeScale = 1;
-
-            // Set the Talking to bool to false
-            talkingBool = false;
-
-            // Set the dialog box off
-            dialogBox.SetActive(false);
-
-            // Set the dialog to the beginning
-            currentLine = 0;
-
+            //end the dialogue if at the end
+            endDialogue();
         }
 
     }
+
+    public void ChooseDialogOption(ResponseType responseChosen)
+    {
+        // Have a response bool
+        bool foundResponse;
+
+
+        if (responseChosen == ResponseType.sayYes)
+        {
+            for (int i = currentLine; i < endAtLine; i++)
+            {
+                if (textLines[currentLine] == "+++")
+                {
+                    foundResponse = true;
+                    return;
+                }
+                currentLine++;
+            }
+        }
+
+        if (responseChosen == ResponseType.sayNo)
+        {
+            for (int i = currentLine; i < endAtLine; i++)
+            {
+                if (textLines[currentLine] == "---")
+                {
+                    foundResponse = true;
+                    return;
+                }
+                currentLine++;
+            }
+        }
+        if (responseChosen == ResponseType.sayNothing)
+        {
+            endDialogue();
+        }
+    }
+
+    /// <summary>
+    /// Helper method to end text
+    /// </summary>
+    public void endDialogue()
+    {
+        // Return the Game World to normal time
+        // Pause the gameplay
+        // Set pauseGame to true
+        GUIManager.pausedGame = false;
+        GUIManager.usingOtherInterface = false;
+        Time.timeScale = 1;
+
+        // Set the Talking to bool to false
+        talkingBool = false;
+
+        // Set the dialog box off
+        dialogBox.SetActive(false);
+
+        // Set the dialog to the beginning
+        currentLine = 0;
+    }
+
 
     #region CalcSteerForce
     // Call the necessary Forces on the player

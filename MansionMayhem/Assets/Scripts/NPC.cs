@@ -11,7 +11,6 @@ public class NPC : CharacterMovement
     public GameObject player;
     public float awareDistance;
 
-
     // For Text Files
     public TextAsset textFile;
     public string[] textLines;
@@ -20,8 +19,11 @@ public class NPC : CharacterMovement
     public GameObject dialogBox;
     public Text dialogText;
 
+    // Variables to track dialogue options
     public List<GameObject> Options;
-    public List<ResponseType> Responses;
+    public ResponseType[] Responses;
+    public string playerChoices;
+    public int optionNumber;            // Number of options for current question
 
     // Reference to the current line for dialog
     // reference to the last line for dialog
@@ -29,10 +31,10 @@ public class NPC : CharacterMovement
     public int endAtLine;
 
     // Talking bools
+    public bool setUpTalking;
     public bool talkingBool;
     public bool optionBool;
 
-    public int optionNumber;
     #endregion
 
     #region Start Method
@@ -40,6 +42,10 @@ public class NPC : CharacterMovement
     public override void Start()
     {
         player = GameObject.FindGameObjectWithTag("player");
+        setUpTalking = true;
+
+        // Creates an Array for responses
+        Responses = new ResponseType[5];
 
         // Check if the NPC has a text file
         if(textFile != null)
@@ -54,6 +60,7 @@ public class NPC : CharacterMovement
             endAtLine = textLines.Length - 1;
         }
 
+        
 
         base.Start();
 
@@ -75,11 +82,15 @@ public class NPC : CharacterMovement
     }
     #endregion
 
+    #region Main Talking Method
     /// <summary>
     /// Talking to script that handles basic text
     /// </summary>
     public void TalkingTo()
     {
+        // Set up the dialog
+        DialogSetUp();
+
         // Sets the text box to the first/current line of dialog
         dialogText.text = textLines[currentLine];
 
@@ -93,69 +104,221 @@ public class NPC : CharacterMovement
             currentLine++;
         }
 
-        // 2 Dialog Options
+        // Check for dialog options
         // Dialog Options designated with a * at the beginning of the line
-        if(textLines[currentLine+1][0] == '*')
-        {
-            // Set the optionBool to true
-            optionBool = true;
-
-            // Find how many options the player has
-            optionNumber = textLines[currentLine+1][1] - 48;
-
-            for(int i = 0; i<optionNumber; i++)
-            {
-                Options[i].transform.GetChild(0).GetComponent<Text>().text = textLines[(currentLine + 2) + i];
-                Options[i].SetActive(true);
-            }
-        }
+        CheckForOptions();
+        CheckCommand();
 
         // Don't let the user go past the endline
-        if(currentLine>endAtLine)
+        if(currentLine==endAtLine)
         {
+            Debug.Log("Exit Dialog");
+
             //end the dialogue if at the end
             endDialogue();
         }
 
     }
+    #endregion
 
+    #region DialogSetUp
+    public void DialogSetUp()
+    {
+        if (setUpTalking == true)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = gameObject;
+            }
+            setUpTalking = false;
+        }
+    }
+    #endregion
+
+    #region Special Commands
+    public void CheckCommand()
+    {
+        bool endOfCommand = false;
+        string fullOptionText = textLines[currentLine];
+        string commandText = "";
+
+        if (textLines[currentLine][0] == '[')
+        {
+            // Loops through
+            // Saves the text between the square brackets
+            for (int i = 1; i < fullOptionText.Length; i++)
+            {
+                if (fullOptionText[i] == ']')
+                {
+                    endOfCommand = true;
+                }
+                else if (endOfCommand != true)
+                {
+                    commandText += fullOptionText[i];
+                }
+            }
+        }
+        Debug.Log("Command: " + commandText);
+
+        switch(commandText)
+        {
+            case "exit":
+                endDialogue();
+                break;
+        }
+    }
+    #endregion
+
+    #region Text Option Handling
+    #region Choose Dialog Option
+    /// <summary>
+    /// Moves the current text to the Correct Response
+    /// </summary>
+    /// <param name="responseChosen"></param>
     public void ChooseDialogOption(ResponseType responseChosen)
     {
-        // Have a response bool
-        bool foundResponse;
-
-
         if (responseChosen == ResponseType.sayYes)
         {
+            playerChoices += "+";
+
             for (int i = currentLine; i < endAtLine; i++)
             {
-                if (textLines[currentLine] == "+++")
+                if (textLines[i][0] == '+')
                 {
-                    foundResponse = true;
+                    Debug.Log("Chose Yes!");
+                    EndOptions();
+                    currentLine = i;
                     return;
                 }
-                currentLine++;
             }
         }
 
         if (responseChosen == ResponseType.sayNo)
         {
+            playerChoices += "-";
             for (int i = currentLine; i < endAtLine; i++)
             {
-                if (textLines[currentLine] == "---")
+                if (textLines[i][0] == '-')
                 {
-                    foundResponse = true;
+                    Debug.Log("Chose No!");
+                    EndOptions();
+                    currentLine = i;
                     return;
                 }
-                currentLine++;
             }
         }
         if (responseChosen == ResponseType.sayNothing)
         {
             endDialogue();
         }
-    }
 
+    }
+    #endregion
+
+    #region OptionSetup
+    public void CheckForOptions()
+    {
+        if (currentLine + 1 < endAtLine)
+        {
+            if (textLines[currentLine + 1][0] == '*')
+            {
+                // Set the optionBool to true
+                optionBool = true;
+
+                // Find how many options the player has
+                optionNumber = textLines[currentLine + 1][1] - 48;
+
+                // Set the buttons
+                for (int i = 0; i < optionNumber; i++)
+                {
+                    string fullOptionText = textLines[(currentLine + 2) + i];
+
+                    // Bool if we are looking at a button text
+                    bool buttonTextBool = true;
+                    // String for the response
+                    string buttonText = "";
+                    // Bool to see if we are looking at response type
+                    bool responseTextBool = false;
+                    // String for the type of response
+                    string responseOptionText = "";
+
+
+                    // Loops through
+                    // Puts the text before square brckets on the button
+                    // and saves the text in the square brackets as a response type
+                    for (int j = 0; j < fullOptionText.Length; j++)
+                    {
+                        // If you hit the last square bracket then the responseValue the button has has ended
+                        if (fullOptionText[j] == ']')
+                        {
+                            responseTextBool = false;
+                        }
+                        // Record down what the Response type is if in the square brackets
+                        if (responseTextBool == true)
+                        {
+                            responseOptionText += fullOptionText[j];
+                        }
+
+                        // If you hit the first square bracket then the buttonText is finished
+                        if (fullOptionText[j] == '[')
+                        {
+                            buttonTextBool = false;
+                            responseTextBool = true;
+                        }
+                        // If the buttonText bool is true record the text down
+                        if (buttonTextBool == true)
+                        {
+                            buttonText += fullOptionText[j];
+                        }
+
+                    }
+
+                    //Debug.Log("Button 1: " + buttonText + " Response Value: " + responseOptionText);
+
+                    // Compares the response text to change it to a Response type
+                    // Assign each ResponseType to a button.
+                    switch (responseOptionText)
+                    {
+                        case "sayYes":
+                            Responses[i] = ResponseType.sayYes;
+                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.sayYes;
+                            break;
+                        case "sayNo":
+                            Responses[i] = ResponseType.sayNo;
+                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.sayNo;
+                            break;
+                        case "saySomething":
+                            Responses[i] = ResponseType.sayNothing;
+                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.sayNothing;
+                            break;
+                    }
+
+
+                    // Set the text on the button
+                    Options[i].transform.GetChild(0).GetComponent<Text>().text = buttonText;
+                    // Activate the buttons
+                    Options[i].SetActive(true);
+                }
+            }
+        }
+    }
+    #endregion
+
+    #region OptionEnd
+    public void EndOptions()
+    {
+        optionBool = false;
+        //Turn off options for new text
+        for (int i = 0; i < 5; i++)
+        {
+            // Activate the buttons
+            Options[i].SetActive(false);
+        }
+    }
+    #endregion
+    #endregion
+
+    #region End Dialogue helping method
     /// <summary>
     /// Helper method to end text
     /// </summary>
@@ -174,11 +337,22 @@ public class NPC : CharacterMovement
         // Set the dialog box off
         dialogBox.SetActive(false);
 
+        // Set playerChoices to null
+        playerChoices = null;
+
         // Set the dialog to the beginning
         currentLine = 0;
+
+        // Turn setUpTalking to false so that next time you talk to the NPC
+        // It sets them as the current NPC
+        setUpTalking = false;
+
+        //Turn off options for next time you talk to NPCs
+        EndOptions();
     }
+    #endregion
 
-
+    #region Movement Methods
     #region CalcSteerForce
     // Call the necessary Forces on the player
     protected override void CalcSteeringForces()
@@ -230,5 +404,6 @@ public class NPC : CharacterMovement
             currentSpeed = 6f;
         }
     }
+    #endregion
     #endregion
 }

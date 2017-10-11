@@ -86,7 +86,7 @@
     <Compile Include="Assets\Scripts\ChangeMusic.cs" />
     <Compile Include="Assets\Scripts\CharacterMovement.cs" />
     <Compile Include="Assets\Scripts\ClickToLoadAsync.cs" />
-    <Compile Include="Assets\Scripts\DialogBoxManager.cs" />
+    <Compile Include="Assets\Scripts\DialogOptionScript.cs" />
     <Compile Include="Assets\Scripts\DontDestroy.cs" />
     <Compile Include="Assets\Scripts\DoorScript.cs" />
     <Compile Include="Assets\Scripts\Encyclopedia.cs" />

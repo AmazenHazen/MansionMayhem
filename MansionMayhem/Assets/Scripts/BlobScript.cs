@@ -26,13 +26,14 @@ public class BlobScript : MonoBehaviour
 
         if (blobComposite == bulletTypes.antiEctoPlasm)
         {
-            damage = .00001f;
+            damage = .003f;
             isPoisonous = false;
         }
 
         //Enemy Blob
         if (blobComposite == bulletTypes.ectoPlasm)
         {
+            damage = .0001f;
             isPoisonous = true;
         }
 

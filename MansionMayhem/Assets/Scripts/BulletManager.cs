@@ -10,7 +10,9 @@ public class BulletManager : MonoBehaviour {
     public float speed;
     public bool isPoisonous;
     private float damage;
+    public bool canDamage; // Debug so only one enemy can be hit with a bullet
     public bulletTypes bulletType;
+
 
     // Speed Variables
     private Vector3 velocity;
@@ -28,13 +30,17 @@ public class BulletManager : MonoBehaviour {
     // Use this for initialization
     public void BulletStart(GameObject shooter)
     {
+        // Set can Damage to true
+        canDamage = true;
+
+        // Set the owner of the shooter and the position of the shot
         owner = shooter;
         startPos = transform.position;
 
         // Set the tag to a copy
         ownerTag = owner.tag;
 
-        // Set bullet speed depending on the bullet
+        // Set bullet speed depending on the bullet for the player
         #region Player Bullets
         if (ownerTag == "player")
         {
@@ -67,6 +73,7 @@ public class BulletManager : MonoBehaviour {
         }
         #endregion
 
+        // Get the damage from the enemy that shot the bullet (for the enemy)
         #region Enemy Bullets
         else if (ownerTag == "enemy")
         {
@@ -88,6 +95,10 @@ public class BulletManager : MonoBehaviour {
 
     public void BulletShotgunStart(GameObject shooter)
     {
+        // Set can Damage to true
+        canDamage = true;
+
+        // Set the owner of the shooter and the position of the shot
         owner = shooter;
         startPos = transform.position;
 
@@ -108,24 +119,41 @@ public class BulletManager : MonoBehaviour {
     }
     #endregion
 
-    #region All Bullet Management Helper Methods
+    #region bulletUpdate
     // Update is called once per frame
     void Update()
     {
-
+        // Check to make sure the bullet didn't go too far
+        if ((transform.position - startPos).magnitude > 20)
+        {
+            if (ownerTag == "player")
+            {
+                PlayerBulletDestroy();
+            }
+            if (ownerTag == "enemy" || ownerTag == "boss")
+            {
+                EnemyBulletDestroy();
+            }
+        }
+        
+        // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
         if (bulletType == bulletTypes.antiEctoPlasm && ownerTag == "player" && (startPos - transform.position).magnitude > 4)
         {
             AntiEctoPlasmBlob();
 
-            // Remove and Destroy bullet
-            owner.GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
-            owner.GetComponent<PlayerManager>().BulletCount--;
-            Destroy(this.gameObject);
+            PlayerBulletDestroy();
         }
         Move();
 
     }
+    #endregion
 
+    #region All Bullet Management Helper Methods
+
+    #region Move Method
+    /// <summary>
+    /// Moves the bullet across the screen
+    /// </summary>
     private void Move()
     {
         if(bulletType == bulletTypes.aetherlight)
@@ -136,7 +164,6 @@ public class BulletManager : MonoBehaviour {
         velocity = transform.up * speed * Time.deltaTime;
         transform.position += velocity;
     }
-
     #endregion
 
     #region PlayerBullet Special Helper Methods
@@ -169,8 +196,40 @@ public class BulletManager : MonoBehaviour {
             blobCopy.GetComponent<BlobScript>().BlobStart(owner);
         }
     }
-    
 
+
+    #endregion
+
+    #region Enemy Destroy Bullet Helper Methods
+
+    /// <summary>
+    /// Enemy Bullet Destory Method
+    /// </summary>
+    private void EnemyBulletDestroy()
+    {
+        // Check to make sure the enemy hasn't already been killed
+        if (owner != null)
+        {
+            // Delete the bullet reference in the Enemy Manager
+            owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
+            owner.GetComponent<EnemyManager>().BulletCount--;
+        }
+        // Delete the bullet
+        Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// Player Bullet Destory Method
+    /// </summary>
+    private void PlayerBulletDestroy()
+    {
+        // Remove and Destroy bullet
+        owner.GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
+        owner.GetComponent<PlayerManager>().BulletCount--;
+        Destroy(this.gameObject);
+    }
+
+    #endregion
     #endregion
 
     #region CollisionDetection
@@ -222,8 +281,9 @@ public class BulletManager : MonoBehaviour {
 
         #region Enemy Collision with playerBullet
         // If bullet runs into an enemy
-        else if ((collider.tag == "enemy" || collider.tag == "boss") && ownerTag == "player")
+        else if ((collider.tag == "enemy" || collider.tag == "boss") && ownerTag == "player" && canDamage == true)
         {
+            canDamage = false;
             Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
 
             // Damage Enemy
@@ -236,9 +296,7 @@ public class BulletManager : MonoBehaviour {
             }
 
             // Delete the player bullet
-            owner.GetComponent<PlayerManager>().playerBullets.Remove(gameObject);
-            owner.GetComponent<PlayerManager>().BulletCount--;
-            Destroy(gameObject);
+            PlayerBulletDestroy();
 
 
         }
@@ -289,15 +347,7 @@ public class BulletManager : MonoBehaviour {
                 SplatterWeb();
             }
 
-            // Check to make sure the enemy hasn't already been killed
-            if (owner != null)
-            {
-                // Delete the bullet reference in the Enemy Manager
-                owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
-                owner.GetComponent<EnemyManager>().BulletCount--;
-            }
-            // Delete the bullet
-            Destroy(gameObject);
+            EnemyBulletDestroy();
         }
         #endregion
 
@@ -321,26 +371,15 @@ public class BulletManager : MonoBehaviour {
                 SplatterWeb();
             }
 
-
             // Check to make sure the enemy hasn't already been killed
             if (ownerTag == "player")
             {
-                // Delete the bullet reference in the Player Manager
-                GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
-                GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
+                PlayerBulletDestroy();
             }
             if (ownerTag == "enemy" || ownerTag == "boss")
             {
-                // Check to make sure the enemy hasn't already been killed
-                if (owner != null)
-                {
-                    // Delete the bullet reference in the Enemy Manager
-                    owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
-                    owner.GetComponent<EnemyManager>().BulletCount--;
-                }
+                EnemyBulletDestroy();
             }
-            // Delete the Bullet
-            Destroy(gameObject);
         }
         #endregion
 

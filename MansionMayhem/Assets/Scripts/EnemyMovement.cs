@@ -47,23 +47,21 @@ public class EnemyMovement : CharacterMovement
             // Basic Enemy Movement
             switch (gameObject.GetComponent<EnemyManager>().monster)
             {
-        
                 #region spiders
                 case enemyType.smallSpider:
                     // Seek
                     ultimateForce += seek(player.transform.position);
                     break;
                 case enemyType.blackWidow:
-
+                    ultimateForce += pursue(player);
                     break;
                 case enemyType.redTermis:
-
+                    ultimateForce += pursue(player);
                     break;
                 case enemyType.tarantula:
-
+                    // No movement
                     break;
-                case enemyType.wolfSpider:
-                    
+                case enemyType.wolfSpider:     
                     // Jumping Movement
                     if (readyToMove)
                     {
@@ -75,15 +73,28 @@ public class EnemyMovement : CharacterMovement
                     {
                         resettingMovement = false;
                         Invoke("ResetMoveBool", 1);
-
                     }
                     break;
                 case enemyType.silkSpinnerSpider:
-                    // flee
-                    //ultimateForce += flee(player.transform.position);
                     ultimateForce += pursue(player);
                     break;
+                case enemyType.fatalCrimson:
+                    if (readyToMove)
+                    {
+                        ultimateForce += seek(player.transform.position) * 100;
+                        readyToMove = false;
+                        resettingMovement = true;
+                    }
+                    else if (resettingMovement)
+                    {
+                        resettingMovement = false;
+                        Invoke("ResetMoveBool", 1);
+                    }
+                    break;
 
+                case enemyType.spiderQueen:
+                    ultimateForce += pursue(player);
+                    break;
 
                 #endregion
 
@@ -130,6 +141,12 @@ public class EnemyMovement : CharacterMovement
                         }
                     }
                     break;
+
+                case enemyType.bansheeMistress:
+
+                    break;
+
+
                 #endregion
 
                 #region demons
@@ -172,13 +189,20 @@ public class EnemyMovement : CharacterMovement
 
                     break;
 
+                case enemyType.demonLord:
+
+                    break;
+                case enemyType.cerberus:
+
+                    break;
+
                 #endregion
 
                 #region zombies
                 case enemyType.crawlingHand:
                     ultimateForce += seek(player.transform.position);
                     break;
-                case enemyType.crawlerZombie:
+                case enemyType.crawlingZombie:
                     ultimateForce += seek(player.transform.position);
                     break;
                 case enemyType.basicZombie:
@@ -234,22 +258,26 @@ public class EnemyMovement : CharacterMovement
                 case enemyType.tankZombie:
                     ultimateForce += seek(player.transform.position);
                     break;
+                case enemyType.zombiehordeLeader:
+                    ultimateForce += pursue(player);
+                    break;
+
 
 
 
                 #endregion
 
                 #region skeletons
-                case enemyType.charredSkeleton:
-
+                case enemyType.basicSkeleton:
+                    ultimateForce += seek(player.transform.position);
                     break;
 
                 case enemyType.archerSkeleton:
 
                     break;
 
-                case enemyType.knightSkeleton:
-
+                case enemyType.warriorSkeleton:
+                    ultimateForce += seek(player.transform.position);
                     break;
 
                 case enemyType.mageSkeleton:
@@ -257,9 +285,15 @@ public class EnemyMovement : CharacterMovement
                     break;
 
                 case enemyType.giantSkeleton:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+                case enemyType.skeletonDragon:
 
                     break;
 
+                case enemyType.necromancer:
+
+                    break;
 
                 #endregion
 
@@ -273,7 +307,7 @@ public class EnemyMovement : CharacterMovement
                     break;
 
 
-                case enemyType.acidicMuck:
+                case enemyType.purpleSludgeMuck:
                     ultimateForce += seek(player.transform.position);
                     break;
 
@@ -287,8 +321,7 @@ public class EnemyMovement : CharacterMovement
                 case enemyType.shadow:
 
                     break;
-
-                case enemyType.shadowBeast:
+                case enemyType.shadowBehemoth:
 
                     break;
                 #endregion
@@ -305,79 +338,53 @@ public class EnemyMovement : CharacterMovement
                 case enemyType.acidicElemental:
 
                     break;
+
+                case enemyType.pyreLord:
+
+                    break;
+
+                #endregion
+
+                #region Beasts
+                case enemyType.shadowBeast:
+
+                    break;
+                case enemyType.flameBeast:
+
+                    break;
+                case enemyType.boneBeast:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+                case enemyType.bloodBeast:
+
+                    break;
+
+                #endregion
+
+                #region bats
+                case enemyType.basicBat:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+                case enemyType.giantBat:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+                case enemyType.bloodBat:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+                case enemyType.giantBloodBat:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+
                 #endregion
 
                 #region other
                 case enemyType.gargoyle:
 
                     break;
-                case enemyType.possessedArmor:
-
-                    break;
 
                 #endregion
 
-                #region Bosses
-                case enemyType.giantGhast:
-
-                    break;
-
-                case enemyType.bansheeMistress:
-
-                    break;
-
-                case enemyType.demonLord:
-
-                    break;
-
-                case enemyType.cerberus:
-
-                    break;
-
-                case enemyType.lilith:
-
-                    break;
-
-                case enemyType.skeletonDragon:
-
-                    break;
-
-                case enemyType.necromancer:
-
-                    break;
-
-
-                case enemyType.zombiehordeLeader:
-                    ultimateForce += pursue(player);
-                    break;
-
-
-                case enemyType.grimReaper:
-
-                    break;
-
-
-                case enemyType.shadowBehemoth:
-
-                    break;
-
-
-                case enemyType.spiderQueen:
-                    ultimateForce += pursue(player);
-                    break;
-
-
-                case enemyType.pyreLord:
-
-                    break;
-
-                case enemyType.dreor:
-                    break;
-
-
-                    #endregion
-
-                    #region default monster
+                #region default monster
                     default:
 
                     break;

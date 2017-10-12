@@ -99,87 +99,115 @@ public enum bulletOwners
 #region EnemyTypes
 public enum enemyType
 {
-    // Spiders
-    smallSpider,                    //art done
-    blackWidow, // Venom            //art done
-    redTermis,  // Venom            //art done
-    fatalCrimson,   // Venom        //art done
-    noxiousLongleg, // Venom        //art done
-    tarantula,  // Huge             //art done
-    wolfSpider, // Jumps            //art done
-    silkSpinnerSpider, // Webs      //art done
+    // Spiders (0-20)
+    smallSpider = 0,                    //art done
+    blackWidow = 1, // Venom            //art done
+    redTermis = 2,  // Venom            //art done
+    fatalCrimson = 3,   // Venom        //art done
+    noxiousLongleg = 4, // Venom        //art done
+    tarantula = 5,  // Huge             //art done
+    wolfSpider = 6, // Jumps            //art done
+    silkSpinnerSpider = 7, // Webs      //art done
+    spiderQueen = 10,        //Spider Boss   art done
 
-    // Ghosts   // Can move through objects
-    basicGhost, 
-    ghostknight,
-    ghosthead,
-    banshee,
-    wraith,
+    // Ghosts (30-50)
+    // Can move through objects
+    basicGhost = 30, 
+    ghostknight = 31,
+    ghosthead = 32,
+    banshee = 33,
+    wraith = 34,
+    bansheeMistress = 35,    //Ghost Boss
 
-    // Zombie
-    crawlingHand,       // art done
-    basicZombie,        // art done
-    crawlerZombie,      // art done
-    gasZombie,          // art done
-    spitterZombie,      // art done
-    fatZombie,          // art done
-    stalkerZombie,      // art done
-    tankZombie,         // art done
+    // Zombies (60-80)
+    crawlingHand = 60,       // art done
+    basicZombie = 61,        // art done
+    crawlingZombie = 62,      // art done
+    gasZombie = 63,          // art done
+    stalkerZombie = 64,      // art done
+    spitterZombie = 65,      // art done
+    fatZombie = 66,          // art done
+    tankZombie = 67,         // art done
+    necroZombie = 68,
+    elitezombie = 69,
+    zombiehordeLeader = 70,  //Zombie Boss   
+    runnerZombie = 71,
 
-    // Skeletons
-    flameSkull,
-    archerSkeleton,
-    knightSkeleton,
-    charredSkeleton,
-    mageSkeleton,
-    giantSkeleton,
+    // Skeletons (90 - 110)
+    skeleHand = 90,
+    flameSkull = 91,
+    archerSkeleton = 92,
+    warriorSkeleton = 93,
+    charredSkeleton = 94,
+    mageSkeleton = 95,
+    giantSkeleton = 96,
+    skeletonDragon = 97,     //Skeleton Boss 
+    necromancer = 98,        //Skeleton Boss 
+    skeleGiant = 99,
+    knightSkeleton = 100,
+    basicSkeleton = 101,
 
-    // Demons
-    imp, // art done
-    boneDemon,  // art done
-    shadowDemon,    // art done
-    spikeDemon,     // art done
-    slasherDemon,
-    corruptedDemon,    // art done
-    infernalDemon,      // art done
-    frostDemon,         // art done
-    hellhound,
-    fury,
+    // Demons (120-140)
+    imp = 120, // art done
+    frostimp = 121, // art done
+    darkimp = 122, // art done
+    boneDemon = 123,  // art done
+    shadowDemon = 124,    // art done
+    spikeDemon = 125,     // art done
+    slasherDemon = 126,
+    corruptedDemon = 127,    // art done
+    infernalDemon = 128,      // art done
+    frostDemon = 129,         // art done
+    darkDemon = 130,         // art done
+    hellhound = 131,
+    fury = 132,
+    gargoyle = 133,           // art done
+    demonLord = 134,          //Demon Boss    art done
+    cerberus = 135,           //Demon Boss
 
-    // Shadow
-    shadeKnight,
-    shadow,             // art done
-    shadowBeast,
+    // Shadow (150-170)
+    shadeKnight = 150,
+    shadow = 151,             // art done
+    shadowBehemoth = 152,     //Shadow Boss
 
-    // Elementals
-    infernalElemental,   //Burn
-    blackFireElemental,  //Burn
-    acidicElemental,     //Venom
 
-    // Mucks
-    blackMuck,          // art done
-    ectoplasmMuck,      // art done
-    acidicMuck,         // art done
+    // Mucks (180-200)
+    blackMuck = 180,          // art done
+    purpleSludgeMuck = 181,      // art done
+    ectoplasmMuck = 182,         // art done
 
-    // Other
-    gargoyle,           // art done
-    possessedArmor,
-    // Muscle Monster   // art done
+    // Elementals (210-220)
+    infernalElemental = 210,   //Burn
+    blackFireElemental = 211,  //Burn
+    acidicElemental = 212,     //Venom
+    pyreLord = 213,           //Elemental Boss
+    darkElemental = 214,
+
+    // Beasts (230-250)
+    shadowBeast = 230,
+    bloodBeast = 231,
+    boneBeast = 232,
+    flameBeast = 233,
+
+    // Bats (260-280)
+    basicBat = 260,
+    giantBat = 261,
+    bloodBat = 262,
+    giantBloodBat = 263,
+
 
     // Boss
+    /*
     giantGhast,         //Ghost Boss
-    bansheeMistress,    //Ghost Boss
-    demonLord,          //Demon Boss    art done
-    cerberus,           //Demon Boss
     lilith,             //Demon Boss
-    skeletonDragon,     //Skeleton Boss 
-    necromancer,        //Skeleton Boss 
-    zombiehordeLeader,  //Zombie Boss   
     grimReaper,         //Shadow Boss
-    shadowBehemoth,     //Shadow Boss
-    spiderQueen,        //Spider Boss   art done
-    pyreLord,           //Elemental Boss
     dreor,              //None
+    */
+
+    // Other
+    //possessedArmor ,
+    // Muscle Monster   // art done
+
 }
 #endregion
 
@@ -202,6 +230,7 @@ public enum enemyClass
     Shadow,
     Snake,
     Mummies,
+    bats,
 }
 #endregion
 

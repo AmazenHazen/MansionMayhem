@@ -231,23 +231,6 @@ public class PlayerManager : MonoBehaviour
                 break;
             #endregion
 
-            #region NPC
-            case "npc":
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-                {
-                    // Pause the gameplay
-                    // Set pauseGame to true
-                    GUIManager.pausedGame = true;
-                    GUIManager.usingOtherInterface = true;
-                    Time.timeScale = 0;
-
-                    collider.gameObject.GetComponent<NPC>().talkingBool = true;
-
-                    Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);
-                }
-                break;
-            #endregion
-
             #region Items
             // Items
             case "item":
@@ -330,6 +313,41 @@ public class PlayerManager : MonoBehaviour
                 Destroy(collider.gameObject);
                 break;
 
+
+
+            #endregion
+
+            #region artifact
+            case "artifact":
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+
+                    // Debug Line
+                    Debug.Log("Using Artifact:");
+
+                    collider.gameObject.GetComponent<ArtifactScript>().Activate();
+                }
+
+                break;
+                #endregion
+
+            #region NPC
+            case "npc":
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+                {
+                    // Pause the gameplay
+                    // Set pauseGame to true
+                    GUIManager.pausedGame = true;
+                    GUIManager.usingOtherInterface = true;
+                    Time.timeScale = 0;
+
+                    collider.gameObject.GetComponent<NPC>().talkingBool = true;
+
+                    Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);
+                }
+                break;
+            #endregion
+
             #region workbench
             case "workbench":
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
@@ -347,20 +365,21 @@ public class PlayerManager : MonoBehaviour
                 break;
             #endregion
 
-            #region artifact
-            case "artifact":
-                if (Input.GetKeyDown(KeyCode.Space))
+            #region chest
+            case "chest":
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
                 {
+                    // Pause the gameplay
+                    // Set pauseGame to true
+                    /*
+                    GUIManager.pausedGame = true;
+                    GUIManager.usingOtherInterface = true;
+                    Time.timeScale = 0;
+                    */
 
-                    // Debug Line
-                    Debug.Log("Using Artifact:");
-
-                    collider.gameObject.GetComponent<ArtifactScript>().Activate();
+                    collider.gameObject.GetComponent<ChestScript>().OpenChest();
                 }
-
                 break;
-                #endregion
-
             #endregion
         }
 
@@ -709,62 +728,4 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #endregion
-
-    #region Save and Load Methods
-    /*
-    // This will work for everything but web
-    public void Save()
-    {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/MansionMayhem.dat");
-
-        PlayerData data = new PlayerData();
-
-        // Puts the Variables that need to be saved into the data Class
-        data.screws = screws;
-
-
-        // Serialize the data
-        bf.Serialize(file, data);
-        file.Close();
-    }
-
-    public void Load()
-    {
-        // Check to see if a save file already exists
-        if(File.Exists(Application.persistentDataPath + "/MansionMayhem.dat"))
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/MansionMayhem.dat", FileMode.Open);
-            PlayerData data = (PlayerData)bf.Deserialize(file);
-            file.Close();
-
-            // Set variables based on the save file
-            screws = data.screws;
-        }
-        else
-        {
-            // Variables that are not saved are set to original value otherwise
-            screws = 0;
-
-        }
-    }
-    */
-    #endregion
 }
-
-#region Data Container for saving
-/*
-/// <summary>
-/// Class for Saving
-/// Just a class that is a "DATA Container" that allows writing the data to a save file
-/// </summary>
-[Serializable]
-class PlayerData
-{
-    // All saved data here
-    public int screws;
-
-}
-*/
-#endregion

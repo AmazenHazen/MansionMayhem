@@ -482,7 +482,7 @@ public abstract class CharacterMovement : MonoBehaviour
         switch (collider.tag)
         {
             // Obstacles
-
+            
             // Left Wall
             case "leftwall":
                 //Debug.Log("LeftWall");
@@ -531,6 +531,7 @@ public abstract class CharacterMovement : MonoBehaviour
                 transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .01f));
 
                 break;
+                
         }
         #endregion
     }

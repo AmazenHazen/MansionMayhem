@@ -101,7 +101,7 @@ public class EnemyMovement : CharacterMovement
                 #region ghosts
                 // Ghosts
                 case enemyType.basicGhost:
-
+                    ultimateForce += seek(player.transform.position);
                     break;
 
 

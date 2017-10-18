@@ -136,7 +136,7 @@ public class PlayerManager : MonoBehaviour
     /// This includes: Screws, Health, Ammo, Enemies, Walls, and Furniture.
     /// </summary>
     /// <param name="collider"></param>
-    void OnTriggerStay2D(Collider2D collider)
+    public void playerCollisionMethod(Collider2D collider)
     {
         // Get the tag associated with the collision
         switch (collider.tag)

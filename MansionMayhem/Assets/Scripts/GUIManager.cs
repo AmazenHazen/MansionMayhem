@@ -208,7 +208,7 @@ public class GUIManager : MonoBehaviour
     #region Debugging section
     void OnGUI()
     {
-        //GUI.Label(new Rect(100, 10, 400, 50), "Health: " + health);
+        GUI.Label(new Rect(100, 10, 400, 50), "Health: " + health);
     }
     #endregion
 }

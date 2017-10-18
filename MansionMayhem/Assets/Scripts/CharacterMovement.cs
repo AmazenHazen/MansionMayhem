@@ -475,7 +475,7 @@ public abstract class CharacterMovement : MonoBehaviour
     /// </summary>
     protected abstract void RevertSpeed();
 
-
+    /*
     /// <summary>
     /// If a character collides with a wall, move them off
     /// </summary>
@@ -572,8 +572,10 @@ public abstract class CharacterMovement : MonoBehaviour
                 break;
                 #endregion
         }
-
+    
     }
+        */
+    
     #endregion
 
 }

@@ -475,68 +475,105 @@ public abstract class CharacterMovement : MonoBehaviour
     /// </summary>
     protected abstract void RevertSpeed();
 
-    
+
+    /// <summary>
+    /// If a character collides with a wall, move them off
+    /// </summary>
+    /// <param name="collider"></param>
     void OnTriggerStay2D(Collider2D collider)
     {
         #region Walls
         switch (collider.tag)
         {
-            // Obstacles
-            
-            // Left Wall
-            case "leftwall":
-                //Debug.Log("LeftWall");
-                //gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            case "wall":
+                if (gameObject.GetComponent<CircleCollider2D>().enabled)
+                {
+                    // top collision
+                    if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.max.y < gameObject.GetComponent<CircleCollider2D>().bounds.max.y)
+                    {
+                        Debug.Log("Detectedtopcollision");
+                        // set x velocity to 0
+                        velocity.y = 0;
+                        acceleration.y = 0;
+                        transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.y + (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + gameObject.GetComponent<CircleCollider2D>().bounds.extents.y + .1f));
+                    }
+                    // Bottom Collision
+                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.min.y > gameObject.GetComponent<CircleCollider2D>().bounds.min.y)
+                    {
+                        Debug.Log("Detectedbottomcollision");
+                        // set x velocity to 0
+                        velocity.y = 0;
+                        acceleration.y = 0;
+                        transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.y - (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + gameObject.GetComponent<CircleCollider2D>().bounds.extents.y + .1f));
+                    }
+                    
+                    // Left Collision
+                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.min.x > gameObject.GetComponent<CircleCollider2D>().bounds.min.x)
+                    {
+                        Debug.Log("Detected left collision");
+                        // set x velocity to 0
+                        velocity.x = 0;
+                        acceleration.x = 0;
+                        // Puts the player on the edge (does this by taking the position of the wall + [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
+                        transform.position = new Vector2(collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.x - (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + gameObject.gameObject.GetComponent<CircleCollider2D>().bounds.extents.x + .1f), transform.position.y);
+                    }
+                    // right collision
+                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.max.x < gameObject.GetComponent<CircleCollider2D>().bounds.max.x)
+                    {
+                        Debug.Log("Detectedrightcollision");
+                        // set x velocity to 0
+                        velocity.x = 0;
+                        acceleration.x = 0;
+                        transform.position = new Vector2(collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.x + (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + gameObject.GetComponent<CircleCollider2D>().bounds.extents.x + .1f), transform.position.y);
+                    }
+                }
+                else if (gameObject.GetComponent<BoxCollider2D>().enabled)
+                {
+                    // Left Collision
+                    if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.min.x > gameObject.GetComponent<BoxCollider2D>().bounds.min.x)
+                    {
+                        Debug.Log("Detected left collision");
+                        // set x velocity to 0
+                        velocity.x = 0;
+                        acceleration.x = 0;
+                        // Puts the player on the edge (does this by taking the position of the wall + [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
+                        transform.position = new Vector2(collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.x - (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + gameObject.gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + .1f), transform.position.y);
+                    }
+                    // right collision
+                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.max.x < gameObject.GetComponent<BoxCollider2D>().bounds.max.x)
+                    {
+                        Debug.Log("Detectedrightcollision");
+                        // set x velocity to 0
+                        velocity.x = 0;
+                        acceleration.x = 0;
+                        transform.position = new Vector2(collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.x + (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + .1f), transform.position.y);
+                    }
+                    // top collision
+                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.max.y < gameObject.GetComponent<BoxCollider2D>().bounds.max.y)
+                    {
+                        Debug.Log("Detectedtopcollision");
+                        // set x velocity to 0
+                        velocity.y = 0;
+                        acceleration.y = 0;
+                        transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.y + (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + .1f));
+                    }
+                    // Bottom Collision
+                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.min.y > gameObject.GetComponent<BoxCollider2D>().bounds.min.y)
+                    {
+                        Debug.Log("Detectedbottomcollision");
+                        // set x velocity to 0
+                        velocity.y = 0;
+                        acceleration.y = 0;
+                        transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.y - (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + .1f));
+                    }
 
-                // set x velocity to 0
-                velocity.x = 0;
-                acceleration.x = 0;
-                // Puts the player on the edge (does this by taking the position of the wall + [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .01f), transform.position.y);
+                    //transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .01f), transform.position.y);
+                }
                 break;
-
-            // Right Wall
-            case "rightwall":
-                //Debug.Log("RightWall");
-                //gameObject.GetComponent<SpriteRenderer>().color = Color.green;
-
-                // set x velocity to 0
-                velocity.x = 0;
-                acceleration.x = 0;
-                // Puts the player on the edge (does this by taking the position of the wall - [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x - (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .01f), transform.position.y);
-                break;
-
-            // Top Wall
-            case "topwall":
-                //Debug.Log("TopWall");
-                //gameObject.GetComponent<SpriteRenderer>().color = Color.green;
-
-                // set x velocity to 0
-                velocity.y = 0;
-                acceleration.y = 0;
-                // Puts the player on the edge (does this by taking the position of the wall - [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y - (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .01f));
-                break;
-
-            // Bottom Wall
-            case "bottomwall":
-                //Debug.Log("BottomWall");
-                //gameObject.GetComponent<SpriteRenderer>().color = Color.green;
-
-                // set y velocity to 0
-                velocity.y = 0;
-                acceleration.y = 0;
-                // Puts the player on the edge (does this by taking the position of the wall + the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall)
-                transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.y + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + gameObject.GetComponent<SpriteRenderer>().bounds.extents.y + .01f));
-
-                break;
-                
+                #endregion
         }
-        #endregion
+
     }
-
-
     #endregion
 
 }

@@ -242,7 +242,7 @@ public class BulletManager : MonoBehaviour {
     {
         // If the bullet Runs into a wall
         #region Wall Collision
-        if (collider.tag == "leftwall" || collider.tag == "rightwall" || collider.tag == "topwall" || collider.tag == "bottomwall")
+        if (collider.tag == "wall")
         {
             // Delete the player bullet
             //Debug.Log("Wall!");

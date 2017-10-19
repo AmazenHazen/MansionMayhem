@@ -41,7 +41,15 @@ public class NPC : CharacterMovement
     // Use this for initialization
     public override void Start()
     {
+        // Find the player game object
         player = GameObject.FindGameObjectWithTag("player");
+        
+        // Get the dialog boxes for dialog
+        dialogBox = GameObject.Find("DialogBox");
+        //dialogText = GameObject.Find("DialogText").GUIText;
+
+
+
         setUpTalking = true;
 
         // Creates an Array for responses
@@ -124,6 +132,7 @@ public class NPC : CharacterMovement
     #region DialogSetUp
     public void DialogSetUp()
     {
+
         if (setUpTalking == true)
         {
             for (int i = 0; i < 5; i++)

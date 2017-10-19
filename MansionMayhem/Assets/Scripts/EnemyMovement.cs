@@ -228,6 +228,10 @@ public class EnemyMovement : CharacterMovement
                         }
                     }
                     break;
+                case enemyType.runnerZombie:
+                    ultimateForce += seek(player.transform.position);
+                    break;
+
                 case enemyType.gasZombie:
                     ultimateForce += pursue(player);
 

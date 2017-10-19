@@ -146,6 +146,16 @@ public class PlayerManager : MonoBehaviour
             // Obstacles
             case "door":
                 //Debug.Log("Door");
+                
+
+                // Travel first
+                if (canTravel == true)
+                {
+                    Debug.Log("Travel");
+                    collider.gameObject.GetComponent<DoorScript>().Travel(gameObject);
+                    // Activate just traveled method
+                    JustTraveled();
+                }
 
                 // Move the player to the new room
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
@@ -160,25 +170,15 @@ public class PlayerManager : MonoBehaviour
                                 // Remove the player's item
                                 playerItems.Remove(item);
 
-                                // Remove the requirement
-                                collider.gameObject.GetComponent<DoorScript>().requirements.Remove(requirement);
+                                // Remove the requirement throught the door helper method
+                                collider.gameObject.GetComponent<DoorScript>().removeRequirement(item);
 
                                 // Debug Statment
-                                Debug.Log("Using Item: " + item);
+                                Debug.Log("Using Item: " + item);                                                                                           
                             }
                         }
                     }
-                }
-
-                if(canTravel == true && collider.gameObject.GetComponent<DoorScript>().requirements.Count == 0)
-                {
-                    Debug.Log("Travel");
-                    collider.gameObject.GetComponent<DoorScript>().Travel(gameObject);
-                    // Activate just traveled method
-                    JustTraveled();
-                }
-
-
+                }     
                 break;
 
             #endregion
@@ -408,7 +408,7 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    #region TravelBool Helper Methods
+    #region Bool Helper Methods
     /// <summary>
     /// Resets the player to not having invincibility
     /// </summary>

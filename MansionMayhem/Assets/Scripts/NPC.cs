@@ -16,8 +16,8 @@ public class NPC : CharacterMovement
     public string[] textLines;
 
     // Reference to the GUI
-    public GameObject dialogBox;
-    public Text dialogText;
+    private GameObject dialogBox;
+    private GameObject dialogText;
 
     // Variables to track dialogue options
     public List<GameObject> Options;
@@ -46,8 +46,13 @@ public class NPC : CharacterMovement
         
         // Get the dialog boxes for dialog
         dialogBox = GameObject.Find("DialogBox");
-        //dialogText = GameObject.Find("DialogText").GUIText;
+        dialogText = dialogBox.transform.FindChild("DialogText").gameObject;
 
+        // Get the options for option dialog
+        for(int i =0; i<5; i++)
+        {
+            Options.Add(dialogBox.transform.FindChild("Options").GetChild(i).gameObject);
+        }
 
 
         setUpTalking = true;
@@ -71,8 +76,6 @@ public class NPC : CharacterMovement
         
 
         base.Start();
-
-
     }
     #endregion
 
@@ -100,7 +103,7 @@ public class NPC : CharacterMovement
         DialogSetUp();
 
         // Sets the text box to the first/current line of dialog
-        dialogText.text = textLines[currentLine];
+        dialogText.GetComponent<Text>().text = textLines[currentLine];
 
         if(dialogBox.activeSelf == false)
         {

@@ -7,7 +7,7 @@ public class GUIManager : MonoBehaviour
 {
 
     #region Attributes
-    public GameObject player;
+    private GameObject player;
 
     // Health Management
     int colorIndex;
@@ -45,6 +45,8 @@ public class GUIManager : MonoBehaviour
     // Start is called when the GUI is initialized
     void Start()
     {
+        player = GameObject.Find("Player");
+
         if (GameObject.Find("LevelManager").GetComponent<LevelManager>().levelObjective == levelType.boss)
         {
             boss = GameObject.Find("LevelManager").GetComponent<LevelManager>().boss;

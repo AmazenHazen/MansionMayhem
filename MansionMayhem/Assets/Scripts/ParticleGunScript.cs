@@ -56,11 +56,11 @@ public class ParticleGunScript : MonoBehaviour
         // Player particle System Collides with Enemy
         if ((collider.tag == "enemy" || collider.tag == "boss") && ownerTag == "player")
         {
-            if (particleGun == rangeWeapon.cryoGun && collider.gameObject.GetComponent<EnemyMovement>().currentSpeed > 1.5f)
+            if (particleGun == rangeWeapon.cryoGun && collider.gameObject.GetComponent<EnemyMovement>().CurrentSpeed > 1.5f)
             {
                 // Frost gun slows down enemy as well
-                collider.gameObject.GetComponent<EnemyMovement>().beingSlowed = true;
-                collider.gameObject.GetComponent<EnemyMovement>().currentSpeed -= .05f;
+                collider.gameObject.GetComponent<EnemyMovement>().BeingSlowed = true;
+                collider.gameObject.GetComponent<EnemyMovement>().CurrentSpeed -= .05f;
             }
             if ((particleGun == rangeWeapon.flamethrower) && damage<.05f)
             {

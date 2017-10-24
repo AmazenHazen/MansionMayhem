@@ -270,11 +270,18 @@ public enum BossEnum
 #region NPC Enums
 public enum ResponseType
 {
-    sayNothing,
-    sayYes,
-    sayNo,
-
+    SayNothing,
+    SayYes,
+    SayNo,
 }
+public enum QuestStatus
+{
+    NotStarted,
+    Started,
+    PartialCompletion,
+    Completed,
+}
+
 #endregion
 
     #region itemTypes

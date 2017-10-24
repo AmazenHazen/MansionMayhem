@@ -37,7 +37,7 @@ public class EnemyManager : MonoBehaviour
     
     // Ability Management
     public List<bool> canUseAbility;
-    public List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
+    private List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
     public List<GameObject> enemyBullets;           // a list keeping track of all of the current bullets on the screen
     public List<GameObject> enemyAbilityObjects;    // a list keeping track of all of the abilities out for a specific ability
     private GameObject parent;
@@ -83,6 +83,7 @@ public class EnemyManager : MonoBehaviour
         canShoot = true; // Set to true if player gets within distance of the enemy
 
         // Adds a list of true for each ability
+        abilityCount = new List<int>();
         for(int i = 0; i<enemyAbilityPrefabs.Count; i++)
         {
             canUseAbility.Add(true);

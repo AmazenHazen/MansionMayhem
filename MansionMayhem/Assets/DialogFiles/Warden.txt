@@ -6,11 +6,11 @@ Will you assist me in defeating Deathcrutch.
 
 Can you help me break out from my Demon Pact so I can return to my realm?
 *2
-Death to DeathCrutch![sayYes]
-No[sayNo]
+Death to DeathCrutch![SayYes]
+No[SayNo]
 
 +Here are the keys to enter the prison. Good luck!
-[missionActivation]
+[StartQuest]
 [exit]
 
 -Ok, well then I can't let you into the jail then.

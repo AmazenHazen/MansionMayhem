@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
 
     // Requirement Variables
     public GameObject boss;
+    public GameObject taskNPC;
     GameObject[] getListArray;
     public List<GameObject> levelRequirements;
 
@@ -27,15 +28,6 @@ public class LevelManager : MonoBehaviour
                     levelRequirements.Add(getListArray[i]);
                 }
                 break;
-            case levelType.task:
-                // Find all enemies (objects with tag enemy) and put them in the list.
-                getListArray = GameObject.FindGameObjectsWithTag("task");
-
-                for (int i = 0; i < getListArray.Length; i++)
-                {
-                    levelRequirements.Add(getListArray[i]);
-                }
-                break;
         }
     }
 
@@ -48,12 +40,19 @@ public class LevelManager : MonoBehaviour
     void CheckLevelCompletion()
     {
         // Case: Extermination or task requires the requirement list to be empty or 0
-        if (levelObjective == levelType.extermination || levelObjective == levelType.task)
+        if (levelObjective == levelType.extermination)
         {
             if (levelRequirements.Count == 0)
             {
                 //Advance the level
                 AdvanceLevel();
+            }
+        }
+        else if(levelObjective == levelType.task)
+        {
+            if(taskNPC.gameObject.GetComponent<NPC>())
+            {
+
             }
         }
         else if (levelObjective == levelType.boss)

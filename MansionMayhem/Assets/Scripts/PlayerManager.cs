@@ -341,7 +341,7 @@ public class PlayerManager : MonoBehaviour
                     GUIManager.usingOtherInterface = true;
                     Time.timeScale = 0;
 
-                    collider.gameObject.GetComponent<NPC>().talkingBool = true;
+                    collider.gameObject.GetComponent<NPC>().TalkingBool = true;
 
                     Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);
                 }

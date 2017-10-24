@@ -7,29 +7,47 @@ public abstract class CharacterMovement : MonoBehaviour
 
     #region Movement Variables
     // Vectors for force-based movement
-    public Vector3 position;
-    public Vector3 direction;
-    public Vector3 velocity;
-    public Vector3 acceleration;
+    private Vector3 position;
+    private Vector3 direction;
+    private Vector3 velocity;
+    private Vector3 acceleration;
     public float mass;
     public float maxSpeed;
-    public float currentSpeed;
     public float frictionVar;
 
     // Rotation Variables
     protected Quaternion angle;
-    public float angleOfRotation;
+    protected float angleOfRotation;
 
     // Variables for wandering
     Vector3 futurePosition;
-    public float wanderDistance;
-    public float wandRadius;
     private float wandAngle;
+    // Private for now, will make them public if I add wandering back in
+    private float wanderDistance;
+    private float wandRadius;
 
-    // bool for slowing down and speeding up characters
-    public bool beingSlowed;
-    public bool beingSped;
+    // variables for slowing down and speeding up characters
+    protected float currentSpeed;
+    protected bool beingSlowed;
+    protected bool beingSped;
+    #endregion
 
+    #region Movement Properties
+    public float CurrentSpeed
+    {
+        get { return currentSpeed; }
+        set { currentSpeed = value; }
+    }
+    public bool BeingSlowed
+    {
+        get { return beingSlowed; }
+        set { beingSlowed = value; }
+    }
+    public bool BeingSped
+    {
+        get { return beingSped; }
+        set { beingSped = value; }
+    }
     #endregion
 
     #region Start and Update for Movement

@@ -7,34 +7,46 @@ public class NPC : CharacterMovement
 {
     #region Attributes
     // Attributes
-    public string charName;
+    private string charName;
     public GameObject player;
     public float awareDistance;
 
     // For Text Files
-    public TextAsset textFile;
-    public string[] textLines;
+    public TextAsset initialTextFile;
+    public TextAsset startedQuestTextFile;
+    public TextAsset completedQuestTextFile;
+    private string[] textLines;
 
     // Reference to the GUI
     private GameObject dialogBox;
     private GameObject dialogText;
 
     // Variables to track dialogue options
-    public List<GameObject> Options;
-    public ResponseType[] Responses;
-    public string playerChoices;
-    public int optionNumber;            // Number of options for current question
+    private List<GameObject> Options;
+    private ResponseType[] Responses;
+    private string playerChoices;
+    private int optionNumber;            // Number of options for current question
 
     // Reference to the current line for dialog
     // reference to the last line for dialog
-    public int currentLine;
-    public int endAtLine;
+    private int currentLine;
+    private int endAtLine;
 
     // Talking bools
-    public bool setUpTalking;
-    public bool talkingBool;
-    public bool optionBool;
+    private bool setUpTalking;
+    private bool talkingBool;
+    private bool optionBool;
 
+    // Quest Variables
+    QuestStatus currentQuestStatus;
+    #endregion
+
+    #region NPC properties
+    public bool TalkingBool
+    {
+        get { return talkingBool; }
+        set { talkingBool = value; }
+    }
     #endregion
 
     #region Start Method
@@ -48,7 +60,9 @@ public class NPC : CharacterMovement
         dialogBox = GameObject.Find("DialogBox");
         dialogText = dialogBox.transform.FindChild("DialogText").gameObject;
 
+
         // Get the options for option dialog
+        Options = new List<GameObject>();
         for(int i =0; i<5; i++)
         {
             Options.Add(dialogBox.transform.FindChild("Options").GetChild(i).gameObject);
@@ -61,17 +75,11 @@ public class NPC : CharacterMovement
         Responses = new ResponseType[5];
 
         // Check if the NPC has a text file
-        if(textFile != null)
-        {
-            // Create an array of text with the different lines of the text file
-            textLines = textFile.text.Split('\n');
-        }
+        TextFileSetUp(initialTextFile);
 
-        // If number of lines isn't specified then go through the text file
-        if(endAtLine == 0)
-        {
-            endAtLine = textLines.Length - 1;
-        }
+
+        // Start the quest status of the NPC to not started
+        currentQuestStatus = QuestStatus.NotStarted;
 
         base.Start();
     }
@@ -91,48 +99,71 @@ public class NPC : CharacterMovement
     }
     #endregion
 
+
+    #region dialogue helper methods
+    /// <summary>
+    /// Helper method that takes checks whether there is a valid text file and set it as the current tect for the NPC
+    /// </summary>
+    /// <param name="textFile"></param>
+    public void TextFileSetUp(TextAsset textFile)
+    {
+        // Check if the NPC has a text file
+        if (textFile != null)
+        {
+            // Create an array of text with the different lines of the text file
+            textLines = textFile.text.Split('\n');
+        }
+
+        // Set endAtLine to the textLines length - 1
+        endAtLine = textLines.Length - 1;
+
+    }
+#endregion
+
     #region Main Talking Method
     /// <summary>
     /// Talking to script that handles basic text
     /// </summary>
     public void TalkingTo()
-    {
-        // Set up the dialog
-        DialogSetUp();
-
-        // Sets the text box to the first/current line of dialog
-        dialogText.GetComponent<Text>().text = textLines[currentLine];
-
-        if(dialogBox.activeSelf == false)
         {
-            dialogBox.SetActive(true);
+            // Set up the dialog
+            DialogSetUp();
+
+            // Sets the text box to the first/current line of dialog
+            dialogText.GetComponent<Text>().text = textLines[currentLine];
+
+            if(dialogBox.activeSelf == false)
+            {
+                dialogBox.SetActive(true);
+            }
+            // Advance the text if the player hits Enter or Space
+            else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && (optionBool == false))
+            {
+                currentLine++;
+            }
+
+            // Check for dialog options
+            // Dialog Options designated with a * at the beginning of the line
+            CheckForOptions();
+            CheckCommand();
+
+            // Don't let the user go past the endline
+            if(currentLine==endAtLine)
+            {
+                Debug.Log("Exit Dialog");
+
+                //end the dialogue if at the end
+                endDialogue();
+            }
+
         }
-        // Advance the text if the player hits Enter or Space
-        else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && (optionBool == false))
-        {
-            currentLine++;
-        }
+        #endregion
 
-        // Check for dialog options
-        // Dialog Options designated with a * at the beginning of the line
-        CheckForOptions();
-        CheckCommand();
 
-        // Don't let the user go past the endline
-        if(currentLine==endAtLine)
-        {
-            Debug.Log("Exit Dialog");
-
-            //end the dialogue if at the end
-            endDialogue();
-        }
-
-    }
-    #endregion
 
     #region DialogSetUp
     public void DialogSetUp()
-    {
+        {
 
         if (setUpTalking == true)
         {
@@ -172,7 +203,18 @@ public class NPC : CharacterMovement
 
         switch(commandText)
         {
-            case "exit":
+            case "StartQuest":
+                currentQuestStatus = QuestStatus.Started;
+                TextFileSetUp(startedQuestTextFile);
+                currentLine = 0;
+                endDialogue();
+                break;
+
+            case "CompleteQuest":
+                currentQuestStatus = QuestStatus.Completed;
+                break;
+
+            case "Exit":
                 endDialogue();
                 break;
         }
@@ -187,7 +229,7 @@ public class NPC : CharacterMovement
     /// <param name="responseChosen"></param>
     public void ChooseDialogOption(ResponseType responseChosen)
     {
-        if (responseChosen == ResponseType.sayYes)
+        if (responseChosen == ResponseType.SayYes)
         {
             playerChoices += "+";
 
@@ -197,13 +239,13 @@ public class NPC : CharacterMovement
                 {
                     Debug.Log("Chose Yes!");
                     EndOptions();
-                    currentLine = i;
+                    currentLine = ++i;
                     return;
                 }
             }
         }
 
-        if (responseChosen == ResponseType.sayNo)
+        if (responseChosen == ResponseType.SayNo)
         {
             playerChoices += "-";
             for (int i = currentLine; i < endAtLine; i++)
@@ -212,12 +254,13 @@ public class NPC : CharacterMovement
                 {
                     Debug.Log("Chose No!");
                     EndOptions();
-                    currentLine = i;
+                    currentLine = ++i;
                     return;
                 }
             }
         }
-        if (responseChosen == ResponseType.sayNothing)
+
+        if (responseChosen == ResponseType.SayNothing)
         {
             endDialogue();
         }
@@ -289,17 +332,17 @@ public class NPC : CharacterMovement
                     // Assign each ResponseType to a button.
                     switch (responseOptionText)
                     {
-                        case "sayYes":
-                            Responses[i] = ResponseType.sayYes;
-                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.sayYes;
+                        case "SayYes":
+                            Responses[i] = ResponseType.SayYes;
+                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayYes;
                             break;
-                        case "sayNo":
-                            Responses[i] = ResponseType.sayNo;
-                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.sayNo;
+                        case "SayNo":
+                            Responses[i] = ResponseType.SayNo;
+                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNo;
                             break;
-                        case "saySomething":
-                            Responses[i] = ResponseType.sayNothing;
-                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.sayNothing;
+                        case "SayNothing":
+                            Responses[i] = ResponseType.SayNothing;
+                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNothing;
                             break;
                     }
 
@@ -416,4 +459,5 @@ public class NPC : CharacterMovement
     }
     #endregion
     #endregion
+
 }

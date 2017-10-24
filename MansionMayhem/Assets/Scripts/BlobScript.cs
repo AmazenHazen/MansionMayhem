@@ -98,14 +98,14 @@ public class BlobScript : MonoBehaviour
             if (slowsPlayer)
             {
                 // Webs slows down player
-                collider.gameObject.GetComponent<PlayerMovement>().beingSlowed = true;
-                collider.gameObject.GetComponent<PlayerMovement>().currentSpeed -= .025f;
+                collider.gameObject.GetComponent<PlayerMovement>().BeingSlowed = true;
+                collider.gameObject.GetComponent<PlayerMovement>().CurrentSpeed -= .025f;
             }
 
             if (slippy)
             {
-                collider.gameObject.GetComponent<PlayerMovement>().beingSped = true;
-                collider.gameObject.GetComponent<PlayerMovement>().currentSpeed += .025f;
+                collider.gameObject.GetComponent<PlayerMovement>().BeingSped = true;
+                collider.gameObject.GetComponent<PlayerMovement>().CurrentSpeed += .025f;
             }
         }
         #endregion

@@ -1,0 +1,13 @@
+Welcome back! Have you gotten the items I need for the the ritual circle?
+*2
+Yes[SayYes]
+No[SayNo]
+
+
+
+
+-
+Remember you need to restore the Demon Circle north of me.
+What you need to collect is a vial of blood, a black twisted demon horn, and the demonic tome.
+Good luck on finding them!
+[Exit]

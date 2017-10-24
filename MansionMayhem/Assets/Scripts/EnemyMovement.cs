@@ -7,8 +7,8 @@ public class EnemyMovement : CharacterMovement
     #region Additional Movement Variables
     // Variables for enemy targeting
     public GameObject player;
-    public bool readyToMove;
-    public bool resettingMovement;
+    private bool readyToMove;
+    private bool resettingMovement;
 
     // Attributes for CalcSteeringForces Method
     public float maxForce;

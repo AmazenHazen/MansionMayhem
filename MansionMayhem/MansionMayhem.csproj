@@ -109,7 +109,8 @@
     <Compile Include="Assets\Scripts\RoomScript.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\DialogFiles\Charlie.txt.txt" />
+    <None Include="Assets\DialogFiles\Charlie\CharlieInitial.txt" />
+    <None Include="Assets\DialogFiles\Charlie\CharlieStarted.txt" />
     <None Include="Assets\DialogFiles\Warden.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

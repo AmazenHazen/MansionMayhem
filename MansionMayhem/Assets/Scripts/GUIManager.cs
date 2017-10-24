@@ -67,6 +67,8 @@ public class GUIManager : MonoBehaviour
         usingOtherInterface = false;
         Time.timeScale = 1;
         escapeScreen.SetActive(false);
+
+        GameObject.Find("DialogBox").SetActive(false);
     }
 
     #endregion

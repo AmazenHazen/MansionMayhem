@@ -75,6 +75,7 @@
      <Compile Include="Assets\Scripts\PlayerMapScript.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\RoomScript.cs" />
+     <None Include="Assets\DialogFiles\Warden.txt" />
      <None Include="Assets\DialogFiles\Charlie.txt.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

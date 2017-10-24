@@ -73,8 +73,6 @@ public class NPC : CharacterMovement
             endAtLine = textLines.Length - 1;
         }
 
-        
-
         base.Start();
     }
     #endregion

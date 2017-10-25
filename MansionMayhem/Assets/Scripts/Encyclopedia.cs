@@ -284,7 +284,7 @@ public enum QuestStatus
 
 #endregion
 
-    #region itemTypes
+#region itemTypes
     // Enums for ItemTypes
 public enum itemType
 {

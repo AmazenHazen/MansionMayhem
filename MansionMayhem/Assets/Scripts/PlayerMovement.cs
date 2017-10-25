@@ -100,6 +100,7 @@ public class PlayerMovement : CharacterMovement
     }
     #endregion
 
+    #region CurrentSpeed Helper Method
     /// <summary>
     /// Returns Speed to Max Speed
     /// </summary>
@@ -129,4 +130,5 @@ public class PlayerMovement : CharacterMovement
             currentSpeed = 6f;
         }
     }
+    #endregion
 }

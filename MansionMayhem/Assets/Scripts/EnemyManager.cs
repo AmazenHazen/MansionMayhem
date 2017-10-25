@@ -20,7 +20,7 @@ public class EnemyManager : MonoBehaviour
     public float damage;                       // Damage caused when the player is hit by the monster (collision)
     public float seekDistance;                 // The distance at which an enemy can sense where you are
     public float rangeDamage;                       // Damage caused when the player is hit by the monster (collision)
-    public float timeBetweenShots;
+    public float timeBetweenShots;                 // time between bullets
     public List<GameObject> enemyBulletPrefabs; // Prefabs of Bullets shot
     public List<GameObject> enemyAbilityPrefabs;// Prefab of Ability being used (Webs, Slime, Etc.)
     public List<abilityType> abilityTypes;      // Determines the ability of the enemy
@@ -36,14 +36,14 @@ public class EnemyManager : MonoBehaviour
     private bool hitByMeleeBool;                 // Determines if the enemy has been hit by a melee attack by the player
     
     // Ability Management
-    public List<bool> canUseAbility;
+    private List<bool> canUseAbility;
     private List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
     public List<GameObject> enemyBullets;           // a list keeping track of all of the current bullets on the screen
     public List<GameObject> enemyAbilityObjects;    // a list keeping track of all of the abilities out for a specific ability
+    public List<GameObject> enemyBlobs;
     private GameObject parent;
 
     // Bullet Management
-    public List<GameObject> enemyBlobs;
     private int blobCount;
     private bool canShoot;
     public int bulletCount;
@@ -82,8 +82,9 @@ public class EnemyManager : MonoBehaviour
         // Sets up whether and enemy can shoot bullets or not
         canShoot = true; // Set to true if player gets within distance of the enemy
 
-        // Adds a list of true for each ability
+        // Adds a list of for tracking active abilities in the level and if you can use it
         abilityCount = new List<int>();
+        canUseAbility = new List<bool>();
         for(int i = 0; i<enemyAbilityPrefabs.Count; i++)
         {
             canUseAbility.Add(true);
@@ -93,6 +94,7 @@ public class EnemyManager : MonoBehaviour
         hitByMeleeBool = false; // Set true so player can get hit by melee
         enemyBullets = new List<GameObject>();
         enemyAbilityObjects = new List<GameObject>();
+        enemyBlobs = new List<GameObject>();
 
         // Sets up Player's HealthBar
         currentLife = maxHealth;

@@ -36,9 +36,10 @@ public class PlayerManager : MonoBehaviour
     
     Coroutine sound;
 
-    // Variables for the level
+    // Variables for the player's inventory
     public List<GameObject> playerItems;
-    private int itemCount;
+
+    //private int itemCount;
 
 
     // Unlockable abilities
@@ -108,6 +109,8 @@ public class PlayerManager : MonoBehaviour
         // Initializing Lists
         playerBullets = new List<GameObject>();
 
+        playerItems = new List<GameObject>();
+
         // Temp variables
         magnet = true;
         magnetDistance = 1.5f;
@@ -162,19 +165,22 @@ public class PlayerManager : MonoBehaviour
                 {
                     // Unlock the door
                     foreach(GameObject item in playerItems)
-                    {
+                    { 
                         foreach(GameObject requirement in collider.gameObject.GetComponent<DoorScript>().requirements)
                         {
                             if(item == requirement)
                             {
+                                // Debug Statment
+                                Debug.Log("Using Item: " + item);
+
                                 // Remove the player's item
                                 playerItems.Remove(item);
 
                                 // Remove the requirement throught the door helper method
                                 collider.gameObject.GetComponent<DoorScript>().removeRequirement(item);
 
-                                // Debug Statment
-                                Debug.Log("Using Item: " + item);                                                                                           
+                                GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(collider.gameObject);
+
                             }
                         }
                     }
@@ -240,6 +246,9 @@ public class PlayerManager : MonoBehaviour
 
                 // Make a copy of the type of item for determining what to do with it.
                 itemType itemVarCopy = collider.gameObject.GetComponent<ItemScript>().itemVar;
+                bool pickedUp = false;
+                GameObject itemCopy = collider.gameObject;
+
                 switch (itemVarCopy)
                 {
                     #region Health Pickups
@@ -250,6 +259,7 @@ public class PlayerManager : MonoBehaviour
                         {
                             currentLife = maxLife;
                         }
+                        pickedUp = true;
                         break;
 
                         // Health Potion
@@ -259,6 +269,7 @@ public class PlayerManager : MonoBehaviour
                         {
                             currentLife = maxLife;
                         }
+                        pickedUp = true;
                         break;
 
                         // Health Kit
@@ -268,6 +279,7 @@ public class PlayerManager : MonoBehaviour
                         {
                             currentLife = maxLife;
                         }
+                        pickedUp = true;
                         break;
 
                     // Golden Heart
@@ -277,6 +289,7 @@ public class PlayerManager : MonoBehaviour
                         {
                             currentLife = maxLife;
                         }
+                        pickedUp = true;
                         break;
                     #endregion
 
@@ -284,33 +297,48 @@ public class PlayerManager : MonoBehaviour
 
                     case itemType.normalScrewPickup:
                         GameManager.screws++;
+                        pickedUp = true;
                         break;
                     case itemType.redScrewPickup:
                         GameManager.screws += 5;
+                        pickedUp = true;
                         break;
                     case itemType.goldenScrewPickup:
                         GameManager.screws += 10;
+                        pickedUp = true;
                         break;
 
                     #endregion
 
                     #region Level Pickups
                     case itemType.quest:
-                        // Add the object to the List
+                        // Add the object to the Inventory
+
+                        //pickedUp = AddItem(collider.gameObject);
                         playerItems.Add(collider.gameObject);
-                        collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<ArtifactScript>().requirements.Remove(collider.gameObject);
+                        pickedUp = true;
+
+                        // Add the item to the GUI
+                        GameObject.Find("HUDCanvas").GetComponent<GUIManager>().AddItemGUI(itemCopy);
+                        Debug.Log("Made it past adding the item to GUI");
+                        //collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<ArtifactScript>().requirements.Remove(collider.gameObject);
                         break;
                     case itemType.key:
-                        // Add the key to the List
+                        // Add the key to the Inventory
                         playerItems.Add(collider.gameObject);
+                        pickedUp = true;
+                        GameObject.Find("HUDCanvas").GetComponent<GUIManager>().AddItemGUI(itemCopy);
                         //collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<DoorScript>().requirements.Remove(collider.gameObject);
                         break;
-
+                        
                         #endregion
                 }
-
                 // At the end of an item collision destroy the gameobject
-                Destroy(collider.gameObject);
+                if (pickedUp == true)
+                {
+                    Destroy(collider.gameObject);
+                }
+
                 break;
 
 
@@ -727,5 +755,45 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
+    #endregion
+
+    #region Inventory Helper Methods
+    public bool AddItem(GameObject item)
+    {
+        Debug.Log("Length" + playerItems.Count);
+        // Loop through the inventory
+        for (int i = 0; i < playerItems.Count; i++)
+        {
+            // If there is an empty spot add the item
+            if (playerItems[i] == null)
+            {
+                // Set the inventory space to that item
+                playerItems.Add(item);
+                Debug.Log("Added" + i);
+                Debug.Log("Added Item to Inventory");
+                // Return true
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool RemoveItem(GameObject item)
+    {
+        // Loop through the inventory
+        for (int i = 0; i < playerItems.Count; i++)
+        {
+            // If you find what you are removing than remove it
+            if (playerItems[i] == item)
+            {
+                // Set the inventory space to null
+                playerItems.Remove(item);
+                // Return true
+                return true;
+            }
+        }
+        return false;
+    }
     #endregion
 }

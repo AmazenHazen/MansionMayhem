@@ -12,9 +12,12 @@ public class GUIManager : MonoBehaviour
     // Health Management
     int colorIndex;
     private float health;
-    public List<Color> HealthColors;
+    private List<Color> HealthColors;
     public List<GameObject> FullHearts;
     public List<GameObject> HalfHearts;
+
+    // Inventory Management
+    public GameObject[] InventoryItems;
 
     // Boss Health Management
     public GameObject boss;
@@ -56,12 +59,15 @@ public class GUIManager : MonoBehaviour
         }
 
         // Health Management
+        HealthColors = new List<Color>();
         HealthColors.Add(new Color(0, 0, 0, 255));
         HealthColors.Add(new Color(186, 0, 0));
         HealthColors.Add(new Color(0, 186, 0));
         HealthColors.Add(new Color(186, 0, 186));
         HealthColors.Add(new Color(186, 186, 186));
         HealthColors.Add(new Color(186, 186, 186));
+
+        // Inventory Management
 
         pausedGame = false;
         usingOtherInterface = false;
@@ -206,6 +212,48 @@ public class GUIManager : MonoBehaviour
         escapeScreen.SetActive(false);
         pausedGame = false;
         Time.timeScale = 1;
+    }
+    #endregion
+
+    #region Inventory Management
+    public bool AddItemGUI(GameObject item)
+    {
+        // Loop through the inventory
+        for (int i = 0; i < InventoryItems.Length; i++)
+        {
+            // If there is an empty spot add the item
+            if (InventoryItems[i].GetComponent<SpriteRenderer>().sprite == null)
+            {
+                // Set the inventory space to that item
+                InventoryItems[i].GetComponent<SpriteRenderer>().sprite = item.GetComponent<SpriteRenderer>().sprite;
+                InventoryItems[i].GetComponent<SpriteRenderer>().transform.localScale = item.gameObject.transform.localScale * 200;
+
+                // Debug
+                Debug.Log("Item Added to GUI " + item);
+
+                // Return true
+                return true;
+            }
+        }
+
+        return false;
+    }
+    public bool RemoveItemGUI(GameObject item)
+    {
+        // Loop through the inventory
+        for (int i = 0; i < InventoryItems.Length; i++)
+        {
+            // If there is an empty spot add the item
+            if (InventoryItems[i].GetComponent<SpriteRenderer>().sprite == item.GetComponent<SpriteRenderer>().sprite)
+            {
+                // Set the inventory space to that item
+                InventoryItems[i].GetComponent<SpriteRenderer>().sprite = null;
+                // Return true
+                return true;
+            }
+        }
+
+        return false;
     }
     #endregion
 

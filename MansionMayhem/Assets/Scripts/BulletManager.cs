@@ -13,7 +13,6 @@ public class BulletManager : MonoBehaviour {
     public bool canDamage; // Debug so only one enemy can be hit with a bullet
     public bulletTypes bulletType;
 
-
     // Speed Variables
     private Vector3 velocity;
     public Vector3 direction;
@@ -24,6 +23,11 @@ public class BulletManager : MonoBehaviour {
     private Vector3 startPos;
     public GameObject antiEctoPlasmBlob;
     public GameObject webBlob;
+
+
+    // Variables for seeking bulletMethod
+    private GameObject closestEnemy = null;
+    private float closestDistance = Mathf.Infinity;
     #endregion
 
     #region BulletStartMethod
@@ -143,6 +147,11 @@ public class BulletManager : MonoBehaviour {
 
             PlayerBulletDestroy();
         }
+
+        if(bulletType == bulletTypes.electron && ownerTag == "player")
+        {
+            SeekingBullet();
+        }
         Move();
 
     }
@@ -180,10 +189,12 @@ public class BulletManager : MonoBehaviour {
 
     }
 
-    
-    void SplatterWeb()
+    /// <summary>
+    /// Method that splatters a blob where a bullet lands
+    /// </summary>
+    void SplatterBlob()
     {
-
+        // First Instantiate a blob where the bullet is
         GameObject blobCopy = Instantiate(webBlob, transform.position, transform.rotation);
 
         // Check to make sure the enemy hasn't already been killed
@@ -197,8 +208,40 @@ public class BulletManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Seek a Target
+    /// </summary>
+    /// <param name="targetPos"></param>
+    /// <returns></returns>
+    public void SeekingBullet()
+    {
+        // Find the closest enemy
+        
+
+
+        // Create an instance of the Rigidbody
+        Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
+
+        // Step 1: Find Desired Velocity
+        // This is the vector pointing from myself to my target
+        Vector3 desiredVelocity = /*targetPos*/ - transform.position;
+
+        // Step 2: Scale Desired to maximum speed
+        //         so I move as fast as possible
+        desiredVelocity.Normalize();
+        desiredVelocity *= speed;
+
+        // Step 3: Calculate your Steering Force
+        Vector3 steeringForce = desiredVelocity - velocity;
+
+        // Step 4: Apply the steeringForce
+        rb.AddForce(steeringForce);
+    }
+
 
     #endregion
+
+
 
     #region Enemy Destroy Bullet Helper Methods
 
@@ -254,7 +297,7 @@ public class BulletManager : MonoBehaviour {
             }
             if (bulletType == bulletTypes.splatterWeb)
             {
-                SplatterWeb();
+                SplatterBlob();
             }
 
 
@@ -344,7 +387,7 @@ public class BulletManager : MonoBehaviour {
 
             if (bulletType == bulletTypes.splatterWeb)
             {
-                SplatterWeb();
+                SplatterBlob();
             }
 
             EnemyBulletDestroy();
@@ -368,7 +411,7 @@ public class BulletManager : MonoBehaviour {
             // If the bullet is also a splatter web spawn a web
             if (bulletType == bulletTypes.splatterWeb)
             {
-                SplatterWeb();
+                SplatterBlob();
             }
 
             // Check to make sure the enemy hasn't already been killed

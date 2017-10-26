@@ -87,6 +87,7 @@ public enum bulletTypes
     web,
     splatterWeb,
     blackSlime,
+    electron,
 }
 
 public enum bulletOwners
@@ -298,7 +299,6 @@ public enum ItemType
 
     #endregion
 
-
     #region Health Pickups
     HeartPickup = 10,
     HealthPotionPickup = 11,
@@ -314,6 +314,11 @@ public enum ItemType
     DemonicKey = 24,
     EyeKey = 25,
     RedKey = 26,
+    WebKey = 27,
+    IcedKey = 28,
+    FireKey = 29,
+    BlueKey = 30,
+    MoonKey = 31,
     #endregion
 
     #region Quest Items

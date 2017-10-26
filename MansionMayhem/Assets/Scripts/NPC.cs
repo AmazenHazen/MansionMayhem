@@ -380,7 +380,7 @@ public class NPC : CharacterMovement
         // Return the Game World to normal time
         // Pause the gameplay
         // Set pauseGame to true
-        GUIManager.pausedGame = false;
+        GameManager.currentGameState = GameState.Play;
         GUIManager.usingOtherInterface = false;
         Time.timeScale = 1;
 

@@ -63,6 +63,7 @@
      <Compile Include="Assets\Scripts\GUIManager.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\HealthBar.cs" />
+     <Compile Include="Assets\Scripts\InteractableObjectScript.cs" />
      <Compile Include="Assets\Scripts\ItemScript.cs" />
      <Compile Include="Assets\Scripts\LevelLocation.cs" />
      <Compile Include="Assets\Scripts\LevelManager.cs" />

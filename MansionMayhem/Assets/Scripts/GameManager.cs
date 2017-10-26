@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     // Level Variables
     public static int currentLevel;
 
+    public static GameState currentGameState;
 
 
 
@@ -46,6 +47,9 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        // Start the currentGameState to MainMenu
+        currentGameState = GameState.MainMenu;
+
         // Load the save file if starting the game up
         Load();
 

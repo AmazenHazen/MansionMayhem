@@ -34,13 +34,14 @@ public class GUIManager : MonoBehaviour
     public Text levelText;
 
     // Variables for escape screen
-    public static bool pausedGame;
     public GameObject escapeScreen;
+
+    // Variables for Instructions Screen
+    public GameObject instructionsScreen;
 
 
     // Variables for talking to NPC/Workbench
     public static bool usingOtherInterface;
-
     #endregion
 
     #region Start
@@ -69,7 +70,6 @@ public class GUIManager : MonoBehaviour
 
         // Inventory Management
 
-        pausedGame = false;
         usingOtherInterface = false;
         Time.timeScale = 1;
         escapeScreen.SetActive(false);
@@ -187,30 +187,30 @@ public class GUIManager : MonoBehaviour
     #region Escape Screen Management
     public void EscapeScreenManagement()
     {
-        if (usingOtherInterface == false)
+
+        if (Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true && GameManager.currentGameState == GameState.Paused)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true)
-            {
-                ContinueGame();
-            }
-            else if (Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false)
-            {
-                PauseGame();
-            }
+            ContinueGame();
         }
+        else if (Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false && GameManager.currentGameState != GameState.Paused)
+        {
+            PauseGame();
+        }
+
 
     }
 
     public void PauseGame()
     {
         escapeScreen.SetActive(true);
-        pausedGame = true;
+        GameManager.currentGameState = GameState.Paused;
         Time.timeScale = 0;
     }
     public void ContinueGame()
     {
         escapeScreen.SetActive(false);
-        pausedGame = false;
+        instructionsScreen.SetActive(false);
+        GameManager.currentGameState = GameState.Play;
         Time.timeScale = 1;
     }
     #endregion
@@ -238,22 +238,10 @@ public class GUIManager : MonoBehaviour
 
         return false;
     }
-    public bool RemoveItemGUI(GameObject item)
+    public void RemoveItemGUI(int inventoryLocation)
     {
-        // Loop through the inventory
-        for (int i = 0; i < InventoryItems.Length; i++)
-        {
-            // If there is an empty spot add the item
-            if (InventoryItems[i].GetComponent<SpriteRenderer>().sprite == item.GetComponent<SpriteRenderer>().sprite)
-            {
-                // Set the inventory space to that item
-                InventoryItems[i].GetComponent<SpriteRenderer>().sprite = null;
-                // Return true
-                return true;
-            }
-        }
-
-        return false;
+        // Set the inventory space to that item
+        InventoryItems[inventoryLocation].GetComponent<SpriteRenderer>().sprite = null;
     }
     #endregion
 

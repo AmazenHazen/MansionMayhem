@@ -37,7 +37,7 @@ public class PlayerManager : MonoBehaviour
     Coroutine sound;
 
     // Variables for the player's inventory
-    public List<GameObject> playerItems;
+    public ItemType[] playerItems;
 
     //private int itemCount;
 
@@ -109,8 +109,12 @@ public class PlayerManager : MonoBehaviour
         // Initializing Lists
         playerBullets = new List<GameObject>();
 
-        playerItems = new List<GameObject>();
-
+        playerItems = new ItemType[6];
+        for(int i = 0; i<playerItems.Length; i++)
+        {
+            playerItems[i] = ItemType.NoItem;
+        }
+        
         // Temp variables
         magnet = true;
         magnetDistance = 1.5f;
@@ -123,7 +127,7 @@ public class PlayerManager : MonoBehaviour
     {
         CheckStatusConditions();
         WeaponSwitch();
-        if (GUIManager.pausedGame == false)
+        if (GameManager.currentGameState != GameState.Paused)
         {
             Shoot();
         }
@@ -160,30 +164,11 @@ public class PlayerManager : MonoBehaviour
                     JustTraveled();
                 }
 
-                // Move the player to the new room
+                // Using interaction to unlock the door
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
                 {
                     // Unlock the door
-                    foreach(GameObject item in playerItems)
-                    { 
-                        foreach(GameObject requirement in collider.gameObject.GetComponent<DoorScript>().requirements)
-                        {
-                            if(item == requirement)
-                            {
-                                // Debug Statment
-                                Debug.Log("Using Item: " + item);
-
-                                // Remove the player's item
-                                playerItems.Remove(item);
-
-                                // Remove the requirement throught the door helper method
-                                collider.gameObject.GetComponent<DoorScript>().removeRequirement(item);
-
-                                GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(collider.gameObject);
-
-                            }
-                        }
-                    }
+                    UseItem(collider.gameObject);
                 }     
                 break;
 
@@ -245,7 +230,7 @@ public class PlayerManager : MonoBehaviour
 
 
                 // Make a copy of the type of item for determining what to do with it.
-                itemType itemVarCopy = collider.gameObject.GetComponent<ItemScript>().itemVar;
+                ItemType itemVarCopy = collider.gameObject.GetComponent<ItemScript>().itemVar;
                 bool pickedUp = false;
                 GameObject itemCopy = collider.gameObject;
 
@@ -253,7 +238,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     #region Health Pickups
                         // Heart
-                    case itemType.heartPickup:
+                    case ItemType.HeartPickup:
                         currentLife++;
                         if (currentLife > maxLife)
                         {
@@ -263,7 +248,7 @@ public class PlayerManager : MonoBehaviour
                         break;
 
                         // Health Potion
-                    case itemType.healthPotionPickup:
+                    case ItemType.HealthPotionPickup:
                         currentLife += 3;
                         if(currentLife>maxLife)
                         {
@@ -273,7 +258,7 @@ public class PlayerManager : MonoBehaviour
                         break;
 
                         // Health Kit
-                    case itemType.healthKit:
+                    case ItemType.HealthKit:
                         currentLife+= 5;
                         if (currentLife > maxLife)
                         {
@@ -283,7 +268,7 @@ public class PlayerManager : MonoBehaviour
                         break;
 
                     // Golden Heart
-                    case itemType.goldenHeart:
+                    case ItemType.GoldenHeart:
                         currentLife += 10;
                         if (currentLife > maxLife)
                         {
@@ -295,15 +280,15 @@ public class PlayerManager : MonoBehaviour
 
                     #region Screw Pickups
 
-                    case itemType.normalScrewPickup:
+                    case ItemType.NormalScrewPickup:
                         GameManager.screws++;
                         pickedUp = true;
                         break;
-                    case itemType.redScrewPickup:
+                    case ItemType.RedScrewPickup:
                         GameManager.screws += 5;
                         pickedUp = true;
                         break;
-                    case itemType.goldenScrewPickup:
+                    case ItemType.GoldenScrewPickup:
                         GameManager.screws += 10;
                         pickedUp = true;
                         break;
@@ -311,26 +296,16 @@ public class PlayerManager : MonoBehaviour
                     #endregion
 
                     #region Level Pickups
-                    case itemType.quest:
+                    // Keys and Quest Items go through the default item handler and are added to the player's inventory
+                    default:
                         // Add the object to the Inventory
+                        pickedUp = AddItem(collider.gameObject.GetComponent<ItemScript>().itemVar);
 
-                        //pickedUp = AddItem(collider.gameObject);
-                        playerItems.Add(collider.gameObject);
-                        pickedUp = true;
-
-                        // Add the item to the GUI
+                        // Add the item graphic to the GUI
                         GameObject.Find("HUDCanvas").GetComponent<GUIManager>().AddItemGUI(itemCopy);
                         Debug.Log("Made it past adding the item to GUI");
                         //collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<ArtifactScript>().requirements.Remove(collider.gameObject);
                         break;
-                    case itemType.key:
-                        // Add the key to the Inventory
-                        playerItems.Add(collider.gameObject);
-                        pickedUp = true;
-                        GameObject.Find("HUDCanvas").GetComponent<GUIManager>().AddItemGUI(itemCopy);
-                        //collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<DoorScript>().requirements.Remove(collider.gameObject);
-                        break;
-                        
                         #endregion
                 }
                 // At the end of an item collision destroy the gameobject
@@ -346,18 +321,32 @@ public class PlayerManager : MonoBehaviour
             #endregion
 
             #region artifact
-            case "artifact":
+            case "InteractableObject":
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
 
                     // Debug Line
-                    Debug.Log("Using Artifact:");
+                    Debug.Log("Using Interactable Object:" + collider.gameObject);
 
                     collider.gameObject.GetComponent<ArtifactScript>().Activate();
                 }
 
                 break;
-                #endregion
+            #endregion
+
+            #region interactableObject
+            case "interactableobject":
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+
+                    // Debug Line
+                    Debug.Log("Using Interactable Object:" + collider.gameObject);
+
+                    UseItem(collider.gameObject);
+                }
+
+                break;
+            #endregion
 
             #region NPC
             case "npc":
@@ -365,7 +354,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     // Pause the gameplay
                     // Set pauseGame to true
-                    GUIManager.pausedGame = true;
+                    GameManager.currentGameState = GameState.Paused;
                     GUIManager.usingOtherInterface = true;
                     Time.timeScale = 0;
 
@@ -382,7 +371,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     // Pause the gameplay
                     // Set pauseGame to true
-                    GUIManager.pausedGame = true;
+                    GameManager.currentGameState = GameState.Paused;
                     GUIManager.usingOtherInterface = true;
                     Time.timeScale = 0;
 
@@ -758,17 +747,83 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region Inventory Helper Methods
-    public bool AddItem(GameObject item)
+    public void UseItem(GameObject interactingObject)
     {
-        Debug.Log("Length" + playerItems.Count);
+        #region Door
+        // If the object is a door
+        if (interactingObject.GetComponent<DoorScript>())
+        {
+            // Unlock the door
+            for (int i = 0; i < playerItems.Length; i++)
+            {
+                foreach (ItemType requirement in interactingObject.GetComponent<DoorScript>().requirements)
+                {
+                    if (playerItems[i] == requirement)
+                    {
+                        // Debug Statment
+                        Debug.Log("Using Item: " + playerItems[i]);
+
+                        // Remove the requirement throught the door helper method
+                        interactingObject.GetComponent<DoorScript>().removeRequirement(playerItems[i]);
+
+                        // Remove inventory graphic
+                        GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(i);
+
+                        // Remove the player's item
+                        playerItems[i] = ItemType.NoItem;
+
+                        // Break out of the loop
+                        break;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region InteractableObject
+        // If the object is an interactable Object
+        if (interactingObject.GetComponent<InteractableObjectScript>())
+        {
+            // Unlock the door
+            for (int i = 0; i < playerItems.Length; i++)
+            {
+                foreach (ItemType requirement in interactingObject.GetComponent<InteractableObjectScript>().requirements)
+                {
+                    if (playerItems[i] == requirement)
+                    {
+                        // Debug Statment
+                        Debug.Log("Using Item: " + playerItems[i]);
+
+                        // Remove the requirement throught the door helper method
+                        interactingObject.GetComponent<InteractableObjectScript>().removeRequirement(playerItems[i]);
+
+                        // Remove inventory graphic
+                        GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(i);
+
+                        // Remove the player's item
+                        playerItems[i] = ItemType.NoItem;
+
+                        // Break out of the loop
+                        break;
+                    }
+                }
+            }
+        }
+        #endregion
+
+    }
+
+    public bool AddItem(ItemType item)
+    {
+        Debug.Log("Length" + playerItems.Length);
         // Loop through the inventory
-        for (int i = 0; i < playerItems.Count; i++)
+        for (int i = 0; i < playerItems.Length; i++)
         {
             // If there is an empty spot add the item
-            if (playerItems[i] == null)
+            if (playerItems[i] == ItemType.NoItem)
             {
                 // Set the inventory space to that item
-                playerItems.Add(item);
+                playerItems[i] = item;
                 Debug.Log("Added" + i);
                 Debug.Log("Added Item to Inventory");
                 // Return true
@@ -779,16 +834,16 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
-    public bool RemoveItem(GameObject item)
+    public bool RemoveItem(ItemType item)
     {
         // Loop through the inventory
-        for (int i = 0; i < playerItems.Count; i++)
+        for (int i = 0; i < playerItems.Length; i++)
         {
             // If you find what you are removing than remove it
             if (playerItems[i] == item)
             {
                 // Set the inventory space to null
-                playerItems.Remove(item);
+                playerItems[i] = ItemType.NoItem;
                 // Return true
                 return true;
             }

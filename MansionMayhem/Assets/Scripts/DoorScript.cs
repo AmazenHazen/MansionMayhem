@@ -6,12 +6,10 @@ public class DoorScript : MonoBehaviour
 {
     #region Attributes
     public GameObject linkedDoor;
-    public List<GameObject> requirements;
+    public List<ItemType> requirements;
     public Sprite lockedSprite;
     private Sprite unlockedSprite;
-
     #endregion
-
 
 
     #region
@@ -37,7 +35,7 @@ public class DoorScript : MonoBehaviour
     }
     #endregion
 
-    public void removeRequirement(GameObject item)
+    public void removeRequirement(ItemType item)
     {
         requirements.Remove(item);
 

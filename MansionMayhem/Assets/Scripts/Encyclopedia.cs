@@ -10,7 +10,7 @@ public enum GameState
 {
     MainMenu,
     Instructions,
-    Game,
+    Play,
     Paused,
     GameOver,
     LevelAdvance,
@@ -47,6 +47,7 @@ public enum rangeWeapon
     hellfireshotgun = 4,    // Shotgun
     flamethrower = 5,   // Flamethrower
     soundCannon = 6,    // Three Round Burst Sound Cannon
+    ElectronSeeker = 7, // Gun with seeking bullets
 }
 
 /// <summary>
@@ -266,7 +267,6 @@ public enum BossEnum
 #endregion
 #endregion
 
-
 #region NPC Enums
 public enum ResponseType
 {
@@ -286,34 +286,44 @@ public enum QuestStatus
 
 #region itemTypes
     // Enums for ItemTypes
-public enum itemType
+public enum ItemType
 {
-    #region Ammo
+    NoItem = -1,
+
+    #region Currency
     // Player Ammo Items
-    normalScrewPickup,
-    redScrewPickup,
-    goldenScrewPickup,
-    antiEctoplasmAmmo,
-    aetherLightAmmo,
-    heartPickup,
-    healthPotionPickup,
+    NormalScrewPickup = 0,
+    RedScrewPickup = 1,
+    GoldenScrewPickup = 2,
+
     #endregion
 
-    #region Weapons
+
+    #region Health Pickups
+    HeartPickup = 10,
+    HealthPotionPickup = 11,
+    HealthKit = 12,
+    GoldenHeart = 13,
+    #endregion
+
+    #region Keys
+    GoldKey = 20,
+    SilverKey = 21,
+    BronzeKey = 22,
+    BoneKey = 23,
+    DemonicKey = 24,
+    EyeKey = 25,
+    RedKey = 26,
+    #endregion
+
+    #region Quest Items
     // Weapon
-    aetherLightBow,
-    antiEctoplasmGun,
-    antiMatterGun,
+    TwistedDemonHorn = 50,
+    VialOfBlood =51,
+    RedChalk =52,
+    DemonicTome =53,
     #endregion
 
-    #region Quest Pieces
-    // Quest Pieces
-    quest,
-    key,
-    #endregion
-
-    healthKit,
-    goldenHeart,
 }
 #endregion
 

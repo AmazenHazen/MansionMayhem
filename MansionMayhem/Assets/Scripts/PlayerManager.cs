@@ -17,6 +17,7 @@ public class PlayerManager : MonoBehaviour
     private bool canBurst;
     private bool canMelee;
     private bool canShield;
+    public int maxBullets;
 
     // Status Conditions
     int poisonCounter;
@@ -106,6 +107,7 @@ public class PlayerManager : MonoBehaviour
         currentRangeWeapon = rangeWeapon.antiEctoPlasmator;
         FrostGun = transform.FindChild("FrostGun").gameObject;
         Flamethrower = transform.FindChild("Flamethrower").gameObject;
+        maxBullets = 4;
 
         // Initializing Lists
         playerBullets = new List<GameObject>();
@@ -132,7 +134,8 @@ public class PlayerManager : MonoBehaviour
         {
             Shoot();
         }
-        blobManagement();
+        BlobManagement();
+        BulletManagement();
         Melee();
         Shield();
     }
@@ -601,23 +604,49 @@ public class PlayerManager : MonoBehaviour
             }
 
             // Stop the sound Courotine
-            StopCoroutine(sound);
+            //StopCoroutine(sound);
 
             switch(currentRangeWeapon)
             {
                 case rangeWeapon.aetherLightBow:
+                    timeBetweenShots = .5f;
+                    maxBullets = 3;
+                    break;
                 case rangeWeapon.antiEctoPlasmator:
+                    timeBetweenShots = .5f;
+                    maxBullets = 3;
+                    break;
                 case rangeWeapon.hellfireshotgun:
+                    timeBetweenShots = .5f;
+                    maxBullets = 15;
+                    break;
                 case rangeWeapon.laserpistol:
+                    timeBetweenShots = .5f;
+                    maxBullets = 4;
+                    break;
                 case rangeWeapon.soundCannon:
                     timeBetweenShots = .5f;
+                    maxBullets = 12;
                     break;
                 case rangeWeapon.ElectronSeeker:
                     timeBetweenShots = 1.0f;
+                    maxBullets = 4;
                     break;
             }
         }
     }
+
+    void BulletManagement()
+    {
+        if (playerBullets.Count > maxBullets)
+        {
+            GameObject playerBulletCopy = playerBullets[0];
+            bulletCount--;
+            playerBullets.Remove(playerBulletCopy);
+            Destroy(playerBulletCopy);
+        }
+    }
+
     #endregion
 
     #region Melee Helper Methods
@@ -752,7 +781,7 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region Blob Management
-    void blobManagement()
+    void BlobManagement()
     {
         if(blobCount>3)
         {

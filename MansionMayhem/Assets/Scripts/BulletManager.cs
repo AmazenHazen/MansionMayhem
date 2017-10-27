@@ -165,7 +165,9 @@ public class BulletManager : MonoBehaviour {
         if (bulletType == bulletTypes.electron && ownerTag == "player")
         {
             GameObject enemy = FindClosestEnemy();
-            if ((transform.position - enemy.transform.position).magnitude < 4 && (startPos - transform.position).magnitude > 1f)
+
+
+            if ((transform.position - enemy.transform.position).magnitude < 4 && (startPos - transform.position).magnitude > 1f && enemy!=null)
             {
                 SeekingBullet();
             }

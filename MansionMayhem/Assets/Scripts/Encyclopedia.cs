@@ -88,6 +88,7 @@ public enum bulletTypes
     splatterWeb,
     blackSlime,
     electron,
+    ElectronBall,
 }
 
 public enum bulletOwners

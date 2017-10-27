@@ -21,13 +21,10 @@ public class BulletManager : MonoBehaviour {
 
     // Additional Variables for special weapons/bullets
     private Vector3 startPos;
-    public GameObject antiEctoPlasmBlob;
-    public GameObject webBlob;
+    public GameObject secondaryBullet;
 
-
-    // Variables for seeking bulletMethod
-    private GameObject closestEnemy = null;
-    private float closestDistance = Mathf.Infinity;
+    // Variables for enemy seeking bullets
+    public GameObject[] enemyArray;
     #endregion
 
     #region BulletStartMethod
@@ -63,14 +60,14 @@ public class BulletManager : MonoBehaviour {
                     return;
                 case bulletTypes.sound:
                     speed = 5f;
-                    damage = 1;
-                    return;
-                case bulletTypes.hellFire:
-                    speed = 5f;
-                    damage = 1;
+                    damage = .75f;
                     return;
                 case bulletTypes.laser:
                     speed = 4f;
+                    damage = 1;
+                    return;
+                case bulletTypes.ElectronBall:
+                    speed = 3f;
                     damage = 1;
                     return;
             }
@@ -121,6 +118,23 @@ public class BulletManager : MonoBehaviour {
         // Spread of the bullets
         transform.Rotate(0, 0, rotationAngle);
     }
+
+    public void ElectronStart(GameObject shooter)
+    {
+        // Set can Damage to true
+        canDamage = true;
+
+        // Set the owner of the shooter and the position of the shot
+        owner = shooter;
+        startPos = transform.position;
+
+        // Set the tag to a copy
+        ownerTag = owner.tag;
+
+        speed = 3f;
+        damage = .4f;
+    }
+
     #endregion
 
     #region bulletUpdate
@@ -144,16 +158,26 @@ public class BulletManager : MonoBehaviour {
         if (bulletType == bulletTypes.antiEctoPlasm && ownerTag == "player" && (startPos - transform.position).magnitude > 4)
         {
             AntiEctoPlasmBlob();
-
             PlayerBulletDestroy();
         }
 
-        if(bulletType == bulletTypes.electron && ownerTag == "player")
+        // For electrons seek the closest enemy
+        if (bulletType == bulletTypes.electron && ownerTag == "player")
         {
-            SeekingBullet();
+            GameObject enemy = FindClosestEnemy();
+            if ((transform.position - enemy.transform.position).magnitude < 4 && (startPos - transform.position).magnitude > 1f)
+            {
+                SeekingBullet();
+            }
+            else
+            {
+                Move();
+            }
         }
-        Move();
-
+        else
+        {
+            Move();
+        }
     }
     #endregion
 
@@ -179,7 +203,7 @@ public class BulletManager : MonoBehaviour {
     void AntiEctoPlasmBlob()
     {
 
-        GameObject blobCopy = Instantiate(antiEctoPlasmBlob, transform.position, transform.rotation);
+        GameObject blobCopy = Instantiate(secondaryBullet, transform.position, transform.rotation);
 
         // Add Anti-Ectoplasm Blob
         owner.GetComponent<PlayerManager>().playerBlobs.Add(blobCopy);
@@ -195,7 +219,7 @@ public class BulletManager : MonoBehaviour {
     void SplatterBlob()
     {
         // First Instantiate a blob where the bullet is
-        GameObject blobCopy = Instantiate(webBlob, transform.position, transform.rotation);
+        GameObject blobCopy = Instantiate(secondaryBullet, transform.position, transform.rotation);
 
         // Check to make sure the enemy hasn't already been killed
         if (owner != null)
@@ -215,16 +239,12 @@ public class BulletManager : MonoBehaviour {
     /// <returns></returns>
     public void SeekingBullet()
     {
-        // Find the closest enemy
-        
-
-
         // Create an instance of the Rigidbody
         Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
 
         // Step 1: Find Desired Velocity
         // This is the vector pointing from myself to my target
-        Vector3 desiredVelocity = /*targetPos*/ - transform.position;
+        Vector3 desiredVelocity = FindClosestEnemy().transform.position - transform.position;
 
         // Step 2: Scale Desired to maximum speed
         //         so I move as fast as possible
@@ -238,10 +258,28 @@ public class BulletManager : MonoBehaviour {
         rb.AddForce(steeringForce);
     }
 
+    private void ElectronSpawn()
+    {
+        
+        // Spawn 5 elctrons
+        for (int i = 0; i < 5; i++)
+        {
+            float rotationAngle = owner.transform.rotation.z;  // Gets current Angle
+
+            // Instantiate an electron
+            GameObject electronCopy = Instantiate(secondaryBullet, transform.position, transform.rotation);
+            
+            // Change the rotation for each bullet
+            rotationAngle += 72;
+            transform.Rotate(new Vector3(0,0, rotationAngle));
+
+            // Call the special start method to spawn elections
+            electronCopy.GetComponent<BulletManager>().ElectronStart(owner);
+        }
+    }
+
 
     #endregion
-
-
 
     #region Enemy Destroy Bullet Helper Methods
 
@@ -273,7 +311,36 @@ public class BulletManager : MonoBehaviour {
     }
 
     #endregion
+
+    #region otherHelperMethods
+    public GameObject FindClosestEnemy()
+    {
+        enemyArray = GameObject.FindGameObjectsWithTag("enemy");
+
+        // Find the closest enemy
+        GameObject closestEnemy = null;
+        float closestDistance = Mathf.Infinity;
+        float currentDistance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemyArray)
+        {
+            currentDistance = (enemy.transform.position - transform.position).magnitude;
+
+            if (currentDistance < closestDistance)
+            {
+                closestEnemy = enemy;
+                closestDistance = currentDistance;
+            }
+        }
+
+        return closestEnemy;
+    }
     #endregion
+
+
+
+    #endregion
+
 
     #region CollisionDetection
     /// <summary>
@@ -299,7 +366,10 @@ public class BulletManager : MonoBehaviour {
             {
                 SplatterBlob();
             }
-
+            if(bulletType == bulletTypes.ElectronBall)
+            {
+                ElectronSpawn();
+            }
 
             // Remove refernece to the bullet
             if (ownerTag == "player")
@@ -308,7 +378,7 @@ public class BulletManager : MonoBehaviour {
                 GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
                 GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
             }
-            if(ownerTag == "enemy" || ownerTag == "boss")
+            if (ownerTag == "enemy" || ownerTag == "boss")
             {
                 // Check to make sure the enemy hasn't already been killed
                 if (owner != null)
@@ -336,6 +406,10 @@ public class BulletManager : MonoBehaviour {
             if (bulletType == bulletTypes.antiEctoPlasm)
             {
                 AntiEctoPlasmBlob();
+            }
+            if (bulletType == bulletTypes.ElectronBall)
+            {
+                ElectronSpawn();
             }
 
             // Delete the player bullet
@@ -426,7 +500,7 @@ public class BulletManager : MonoBehaviour {
         }
         #endregion
 
-        }
+    }
     #endregion
 }
 

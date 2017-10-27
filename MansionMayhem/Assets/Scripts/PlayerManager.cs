@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     private float shieldLife;
     private bool invincibility;
     private bool canTravel;
+    private float timeBetweenShots = .5f;
     public bool canShoot;
     private bool canBurst;
     private bool canMelee;
@@ -461,6 +462,7 @@ public class PlayerManager : MonoBehaviour
             switch (currentRangeWeapon)
             {
                 case rangeWeapon.aetherLightBow:
+                    
                     ShootBullet(0);
                     break;
                 case rangeWeapon.antiEctoPlasmator:
@@ -486,6 +488,9 @@ public class PlayerManager : MonoBehaviour
                         sound = StartCoroutine(SoundCannonShoot(4, .05f));
                         canBurst = false;
                     }
+                    break;
+                case rangeWeapon.ElectronSeeker:
+                    ShootBullet(5);
                     break;
                 case rangeWeapon.cryoGun:
                     FrostGun.SetActive(true);
@@ -556,7 +561,7 @@ public class PlayerManager : MonoBehaviour
         //Debug.Log("We Just Shot!");
         canShoot = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
-        Invoke("ResetShooting", .5f);
+        Invoke("ResetShooting", timeBetweenShots);
     }
 
     /// <summary>
@@ -585,16 +590,31 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
-            // Stop the sound Courotine
-
-            if (currentRangeWeapon == rangeWeapon.soundCannon)
+            // Increment the current range weapon
+            if (currentRangeWeapon != rangeWeapon.ElectronSeeker)
             {
-                //StopCoroutine(sound);
-                currentRangeWeapon = 0;
+                currentRangeWeapon++;
             }
             else
             {
-                currentRangeWeapon++;
+                currentRangeWeapon = 0;
+            }
+
+            // Stop the sound Courotine
+            StopCoroutine(sound);
+
+            switch(currentRangeWeapon)
+            {
+                case rangeWeapon.aetherLightBow:
+                case rangeWeapon.antiEctoPlasmator:
+                case rangeWeapon.hellfireshotgun:
+                case rangeWeapon.laserpistol:
+                case rangeWeapon.soundCannon:
+                    timeBetweenShots = .5f;
+                    break;
+                case rangeWeapon.ElectronSeeker:
+                    timeBetweenShots = 1.0f;
+                    break;
             }
         }
     }

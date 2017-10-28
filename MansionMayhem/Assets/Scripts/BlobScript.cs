@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Timers;
+using System;
 
 public class BlobScript : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class BlobScript : MonoBehaviour
     public bool ownerAlive;
     public bool slowsPlayer;
     public bool slippy;
+    public int portalNum;
+    public GameObject otherPortal;
 
     // Use this for initialization
     public void BlobStart(GameObject shooter)
@@ -45,6 +48,15 @@ public class BlobScript : MonoBehaviour
         if (blobComposite == bulletTypes.blackSlime)
         {
             slippy = true;
+        }
+        if(blobComposite == bulletTypes.Portal)
+        {
+            int tempPortalNum = owner.GetComponent<PlayerManager>().PortalNum;
+            portalNum = tempPortalNum;
+            tempPortalNum++;
+            tempPortalNum %= 2;
+            Debug.Log(tempPortalNum);
+            owner.GetComponent<PlayerManager>().PortalNum = tempPortalNum;
         }
 
     }
@@ -110,7 +122,39 @@ public class BlobScript : MonoBehaviour
         }
         #endregion
 
+        #region Player Collision with playerblob
+        else if (collider.tag == "player" && (ownerTag == "player"))
+        {
+            if (blobComposite == bulletTypes.Portal)
+            {
+                // Find the other portal
+                GameObject[] portalArray = GameObject.FindGameObjectsWithTag("portal");
+
+                foreach (GameObject portal in portalArray)
+                {
+                    //Debug.Log("First Portal Num: " + portal.GetComponent<BlobScript>().portalNum);
+                    //Debug.Log("Second Portal Num: " + portalNum);
+
+
+                    if (portal.GetComponent<BlobScript>().portalNum == ((portalNum + 1) % 2))
+                    {
+                        // Assign the other portal
+                        otherPortal = portal;
+                        // Teleport the player to the other portal
+                        if (owner.GetComponent<PlayerManager>().canTravel)
+                        {
+                            owner.transform.position = otherPortal.transform.position;
+                            owner.GetComponent<PlayerManager>().JustTraveled();
+                        }
+                    }
+                }
+
+            }
+        }
+        #endregion
+
     }
+
     #endregion
 
 

@@ -48,6 +48,7 @@ public enum rangeWeapon
     flamethrower = 5,   // Flamethrower
     soundCannon = 6,    // Three Round Burst Sound Cannon
     ElectronSeeker = 7, // Gun with seeking bullets
+    PortalGun = 8,
 }
 
 /// <summary>
@@ -89,6 +90,8 @@ public enum bulletTypes
     blackSlime,
     electron,
     ElectronBall,
+    PortalShot,
+    Portal,
 }
 
 public enum bulletOwners

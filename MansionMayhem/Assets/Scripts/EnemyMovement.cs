@@ -436,7 +436,7 @@ public class EnemyMovement : CharacterMovement
     /// </summary>
     void ResetMoveBool()
     {
-        Debug.Log("Reset");
+        //Debug.Log("Reset");
         readyToMove = true;
         resettingMovement = false;
     }

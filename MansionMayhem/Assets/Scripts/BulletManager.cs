@@ -25,6 +25,10 @@ public class BulletManager : MonoBehaviour {
 
     // Variables for enemy seeking bullets
     public GameObject[] enemyArray;
+    private GameObject[] bossArray;
+
+    // Variable for portal gunbullet
+    private int portalNum;
     #endregion
 
     #region BulletStartMethod
@@ -70,20 +74,34 @@ public class BulletManager : MonoBehaviour {
                     speed = 3f;
                     damage = 1;
                     return;
+                case bulletTypes.electron:
+                    speed = 3f;
+                    damage = .4f;
+                    return;
+                case bulletTypes.PortalShot:
+                    speed = 4f;
+                    damage = .1f;
+                    return;
+                case bulletTypes.hellFire:
+                    speed = 5f;
+                    damage = .5f;
+
+                    // Determining Shotgun pellets rotation
+                    float rotationAngle = owner.transform.rotation.z;  // Gets current Angle
+
+                    // Determine a random Angle
+                    rotationAngle += Random.Range(-20, 20);
+
+                    // Spread of the bullets
+                    transform.Rotate(0, 0, rotationAngle);
+                    return;
             }
         }
         #endregion
 
         // Get the damage from the enemy that shot the bullet (for the enemy)
         #region Enemy Bullets
-        else if (ownerTag == "enemy")
-        {
-            damage = owner.GetComponent<EnemyManager>().rangeDamage;
-
-            //Static for enemy bullets rn
-            speed = 5f;
-        }
-        else if (ownerTag == "boss")
+        else if (ownerTag == "enemy" || ownerTag == "boss")
         {
             damage = owner.GetComponent<EnemyManager>().rangeDamage;
 
@@ -92,47 +110,6 @@ public class BulletManager : MonoBehaviour {
         }
         #endregion
 
-    }
-
-    public void BulletShotgunStart(GameObject shooter)
-    {
-        // Set can Damage to true
-        canDamage = true;
-
-        // Set the owner of the shooter and the position of the shot
-        owner = shooter;
-        startPos = transform.position;
-
-        // Set the tag to a copy
-        ownerTag = owner.tag;
-
-        speed = 5f;
-        damage = .5f;
-
-        // Determining Shotgun pellets rotation
-        float rotationAngle=owner.transform.rotation.z;  // Gets current Angle
-
-        // Determine a random Angle
-        rotationAngle += Random.Range(-20, 20);
-
-        // Spread of the bullets
-        transform.Rotate(0, 0, rotationAngle);
-    }
-
-    public void ElectronStart(GameObject shooter)
-    {
-        // Set can Damage to true
-        canDamage = true;
-
-        // Set the owner of the shooter and the position of the shot
-        owner = shooter;
-        startPos = transform.position;
-
-        // Set the tag to a copy
-        ownerTag = owner.tag;
-
-        speed = 3f;
-        damage = .4f;
     }
 
     #endregion
@@ -157,7 +134,15 @@ public class BulletManager : MonoBehaviour {
         // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
         if (bulletType == bulletTypes.antiEctoPlasm && ownerTag == "player" && (startPos - transform.position).magnitude > 4)
         {
-            AntiEctoPlasmBlob();
+            PlayerBlob();
+            PlayerBulletDestroy();
+        }
+
+        // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
+
+        if (bulletType == bulletTypes.PortalShot && ownerTag == "player" && (startPos - transform.position).magnitude > 5)
+        {
+            PlayerBlob();
             PlayerBulletDestroy();
         }
 
@@ -202,9 +187,8 @@ public class BulletManager : MonoBehaviour {
     #endregion
 
     #region PlayerBullet Special Helper Methods
-    void AntiEctoPlasmBlob()
+    void PlayerBlob()
     {
-
         GameObject blobCopy = Instantiate(secondaryBullet, transform.position, transform.rotation);
 
         // Add Anti-Ectoplasm Blob
@@ -270,13 +254,13 @@ public class BulletManager : MonoBehaviour {
 
             // Instantiate an electron
             GameObject electronCopy = Instantiate(secondaryBullet, transform.position, transform.rotation);
-            
+
             // Change the rotation for each bullet
             rotationAngle += 72;
             transform.Rotate(new Vector3(0,0, rotationAngle));
 
             // Call the special start method to spawn elections
-            electronCopy.GetComponent<BulletManager>().ElectronStart(owner);
+            electronCopy.GetComponent<BulletManager>().BulletStart(owner);
         }
     }
 
@@ -317,14 +301,29 @@ public class BulletManager : MonoBehaviour {
     #region otherHelperMethods
     public GameObject FindClosestEnemy()
     {
+
         enemyArray = GameObject.FindGameObjectsWithTag("enemy");
+        bossArray = GameObject.FindGameObjectsWithTag("boss");
 
         // Find the closest enemy
         GameObject closestEnemy = null;
         float closestDistance = Mathf.Infinity;
         float currentDistance = Mathf.Infinity;
 
+        // Loop through all of the enemies in the scene
         foreach (GameObject enemy in enemyArray)
+        {
+            currentDistance = (enemy.transform.position - transform.position).magnitude;
+
+            if (currentDistance < closestDistance)
+            {
+                closestEnemy = enemy;
+                closestDistance = currentDistance;
+            }
+        }
+
+        // Go through all of the boss's in the scene as well
+        foreach (GameObject enemy in bossArray)
         {
             currentDistance = (enemy.transform.position - transform.position).magnitude;
 
@@ -338,11 +337,7 @@ public class BulletManager : MonoBehaviour {
         return closestEnemy;
     }
     #endregion
-
-
-
     #endregion
-
 
     #region CollisionDetection
     /// <summary>
@@ -359,10 +354,10 @@ public class BulletManager : MonoBehaviour {
             // Delete the player bullet
             //Debug.Log("Wall!");
 
-            // if the bullet is antiEctoplasm also spawn a blob
-            if (bulletType == bulletTypes.antiEctoPlasm)
+            // if the bullet is antiEctoplasm or portal shot also spawn a blob
+            if (bulletType == bulletTypes.antiEctoPlasm || bulletType == bulletTypes.PortalShot)
             {
-                AntiEctoPlasmBlob();
+                PlayerBlob();
             }
             if (bulletType == bulletTypes.splatterWeb)
             {
@@ -398,16 +393,20 @@ public class BulletManager : MonoBehaviour {
         // If bullet runs into an enemy
         else if ((collider.tag == "enemy" || collider.tag == "boss") && ownerTag == "player" && canDamage == true)
         {
-            canDamage = false;
+            if (bulletType != bulletTypes.PortalShot)
+            {
+                canDamage = false;
+            }
+
             Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
 
             // Damage Enemy
             collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
 
-            // if the bullet is antiEctoplasm also spawn a blob
+            // if the bullet is antiEctoplasm or portal also spawn a blob
             if (bulletType == bulletTypes.antiEctoPlasm)
             {
-                AntiEctoPlasmBlob();
+                PlayerBlob();
             }
             if (bulletType == bulletTypes.ElectronBall)
             {
@@ -415,8 +414,10 @@ public class BulletManager : MonoBehaviour {
             }
 
             // Delete the player bullet
-            PlayerBulletDestroy();
-
+            if (bulletType != bulletTypes.PortalShot)
+            {
+                PlayerBulletDestroy();
+            }
 
         }
         #endregion
@@ -480,9 +481,9 @@ public class BulletManager : MonoBehaviour {
             Destroy(collider.gameObject);
 
             // if the bullet is antiEctoplasm also spawn a blob
-            if (bulletType == bulletTypes.antiEctoPlasm)
+            if (bulletType == bulletTypes.antiEctoPlasm || bulletType == bulletTypes.PortalShot)
             {
-                AntiEctoPlasmBlob();
+                PlayerBlob();
             }
             // If the bullet is also a splatter web spawn a web
             if (bulletType == bulletTypes.splatterWeb)

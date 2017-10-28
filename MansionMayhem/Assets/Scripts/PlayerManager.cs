@@ -11,13 +11,12 @@ public class PlayerManager : MonoBehaviour
     private float shieldMaxLife;
     private float shieldLife;
     private bool invincibility;
-    private bool canTravel;
+    public bool canTravel;
     private float timeBetweenShots = .5f;
     public bool canShoot;
     private bool canBurst;
     private bool canMelee;
     private bool canShield;
-    public int maxBullets;
 
     // Status Conditions
     int poisonCounter;
@@ -32,10 +31,11 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> playerBulletPrefabs;
     private int bulletCount;
     private int blobCount;
+    private int maxBullets;
+    private int maxBlobs;
+    public int portalNum;
     GameObject FrostGun;
     GameObject Flamethrower;
-    bool frostGunAvailable;
-    
     Coroutine sound;
 
     // Variables for the player's inventory
@@ -84,6 +84,11 @@ public class PlayerManager : MonoBehaviour
     {
         get { return currentRangeWeapon; }
     }
+    public int PortalNum
+    {
+        get { return portalNum; }
+        set { portalNum = value; }
+    }
 
     #endregion
 
@@ -108,6 +113,8 @@ public class PlayerManager : MonoBehaviour
         FrostGun = transform.FindChild("FrostGun").gameObject;
         Flamethrower = transform.FindChild("Flamethrower").gameObject;
         maxBullets = 4;
+        maxBlobs = 3;
+        portalNum = 0;
 
         // Initializing Lists
         playerBullets = new List<GameObject>();
@@ -433,7 +440,7 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// Resets the player to not having invincibility
     /// </summary>
-    void ResetTravelBool()
+    public void ResetTravelBool()
     {
         canTravel = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
@@ -442,7 +449,7 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// Starts player's invincibility frames
     /// </summary>
-    void JustTraveled()
+    public void JustTraveled()
     {
         // Player Gains Invincibility for 3 seconds
         canTravel = false;
@@ -464,8 +471,7 @@ public class PlayerManager : MonoBehaviour
         {
             switch (currentRangeWeapon)
             {
-                case rangeWeapon.aetherLightBow:
-                    
+                case rangeWeapon.aetherLightBow:                 
                     ShootBullet(0);
                     break;
                 case rangeWeapon.antiEctoPlasmator:
@@ -495,6 +501,9 @@ public class PlayerManager : MonoBehaviour
                 case rangeWeapon.ElectronSeeker:
                     ShootBullet(5);
                     break;
+                case rangeWeapon.PortalGun:
+                    ShootBullet(6);               
+                    break;
                 case rangeWeapon.cryoGun:
                     FrostGun.SetActive(true);
                     break;
@@ -522,15 +531,9 @@ public class PlayerManager : MonoBehaviour
         bulletCopy = Instantiate(playerBulletPrefabs[bulletPrefab], transform.position, transform.rotation) as GameObject;
         playerBullets.Add(bulletCopy);
 
-        // Special Start for shotgun
-        if (currentRangeWeapon == rangeWeapon.hellfireshotgun)
-        {
-            bulletCopy.GetComponent<BulletManager>().BulletShotgunStart(gameObject);
-        }
-        else
-        {
-            bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-        }
+        // Call Special start method for bullets
+        bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+
         bulletCount++;
 
         JustShot();
@@ -594,7 +597,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
             // Increment the current range weapon
-            if (currentRangeWeapon != rangeWeapon.ElectronSeeker)
+            if (currentRangeWeapon != rangeWeapon.PortalGun)
             {
                 currentRangeWeapon++;
             }
@@ -615,6 +618,7 @@ public class PlayerManager : MonoBehaviour
                 case rangeWeapon.antiEctoPlasmator:
                     timeBetweenShots = .5f;
                     maxBullets = 3;
+                    maxBlobs = 3;
                     break;
                 case rangeWeapon.hellfireshotgun:
                     timeBetweenShots = .5f;
@@ -631,6 +635,11 @@ public class PlayerManager : MonoBehaviour
                 case rangeWeapon.ElectronSeeker:
                     timeBetweenShots = 1.0f;
                     maxBullets = 4;
+                    break;
+                case rangeWeapon.PortalGun:
+                    timeBetweenShots = .75f;
+                    maxBullets = 3;
+                    maxBlobs = 2;
                     break;
             }
         }
@@ -783,7 +792,7 @@ public class PlayerManager : MonoBehaviour
     #region Blob Management
     void BlobManagement()
     {
-        if(blobCount>3)
+        if(blobCount>maxBlobs)
         {
             GameObject playerBlobCopy = playerBlobs[0];
             blobCount--;

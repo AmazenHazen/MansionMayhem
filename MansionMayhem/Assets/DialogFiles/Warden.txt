@@ -1,17 +1,16 @@
 Ahhh a human! It is the first time we have had one of you for awhile!
 I am a ghost, but I need your help before I can pass on to the next life.
 I am the warden of this penitentiary but have lost control to the gang leader, DeathCrutch.
-
 Will you assist me in defeating Deathcrutch.
-
-Can you help me break out from my Demon Pact so I can return to my realm?
 *2
 Death to DeathCrutch![SayYes]
 No[SayNo]
 
-+Here are the keys to enter the prison. Good luck!
++
+Here are the keys to enter the prison. Good luck!
 [StartQuest]
 [exit]
 
--Ok, well then I can't let you into the jail then.
+-
+Ok, well then I can't let you into the jail then.
 [exit]

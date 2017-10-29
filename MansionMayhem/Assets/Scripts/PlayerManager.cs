@@ -314,7 +314,7 @@ public class PlayerManager : MonoBehaviour
 
                         // Add the item graphic to the GUI
                         GameObject.Find("HUDCanvas").GetComponent<GUIManager>().AddItemGUI(itemCopy);
-                        Debug.Log("Made it past adding the item to GUI");
+                        //Debug.Log("Made it past adding the item to GUI");
                         //collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<ArtifactScript>().requirements.Remove(collider.gameObject);
                         break;
                         #endregion
@@ -347,13 +347,20 @@ public class PlayerManager : MonoBehaviour
 
             #region interactableObject
             case "interactableobject":
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
                 {
+                    // Pause the gameplay
+                    // Set pauseGame to true
+                    GameManager.currentGameState = GameState.Paused;
+                    GUIManager.usingOtherInterface = true;
+                    Time.timeScale = 0;
 
                     // Debug Line
                     Debug.Log("Using Interactable Object:" + collider.gameObject);
 
                     UseItem(collider.gameObject);
+
+                    collider.gameObject.GetComponent<InteractableObjectScript>().InteractBool = true;
                 }
 
                 break;
@@ -882,8 +889,8 @@ public class PlayerManager : MonoBehaviour
             {
                 // Set the inventory space to that item
                 playerItems[i] = item;
-                Debug.Log("Added" + i);
-                Debug.Log("Added Item to Inventory");
+                //Debug.Log("Added" + i);
+                //Debug.Log("Added Item to Inventory");
                 // Return true
                 return true;
             }

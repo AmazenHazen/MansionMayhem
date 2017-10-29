@@ -159,20 +159,18 @@ public class NPC : CharacterMovement
         }
         #endregion
 
-
-
     #region DialogSetUp
     public void DialogSetUp()
         {
 
-        if (setUpTalking == true)
-        {
-            for (int i = 0; i < 5; i++)
+            if (setUpTalking == true)
             {
-                Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = gameObject;
+                for (int i = 0; i < 5; i++)
+                {
+                    Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = gameObject;
+                }
+                setUpTalking = false;
             }
-            setUpTalking = false;
-        }
     }
     #endregion
 

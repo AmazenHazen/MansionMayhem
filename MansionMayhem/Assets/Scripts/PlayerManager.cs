@@ -511,6 +511,9 @@ public class PlayerManager : MonoBehaviour
                 case rangeWeapon.PortalGun:
                     ShootBullet(6);               
                     break;
+                case rangeWeapon.PlasmaCannon:
+                    //ChargeBullet(7);
+                    break;
                 case rangeWeapon.cryoGun:
                     FrostGun.SetActive(true);
                     break;
@@ -544,9 +547,31 @@ public class PlayerManager : MonoBehaviour
         bulletCount++;
 
         JustShot();
-
     }
 
+    /// <summary>
+    /// Launches a bullet
+    /// </summary>
+    void ChargeBullet(int bulletPrefab)
+    {
+        GameObject bulletCopy;
+        // Shoot the bullet
+
+        bulletCopy = Instantiate(playerBulletPrefabs[bulletPrefab], transform.position, transform.rotation) as GameObject;
+
+        while (Input.GetMouseButtonDown(0))
+        {
+            bulletCopy.transform.localScale = new Vector3(.01f*transform.localScale.x, .01f * transform.localScale.y, transform.localScale.z);
+        }
+        playerBullets.Add(bulletCopy);
+
+        // Call Special start method for bullets
+        bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+
+        bulletCount++;
+
+        JustShot();
+    }
 
 
     // Helper method for shooting bullets for sound Cannon
@@ -604,7 +629,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
             // Increment the current range weapon
-            if (currentRangeWeapon != rangeWeapon.PortalGun)
+            if (currentRangeWeapon != rangeWeapon.PlasmaCannon)
             {
                 currentRangeWeapon++;
             }

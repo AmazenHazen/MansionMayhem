@@ -71,8 +71,8 @@ public class BulletManager : MonoBehaviour {
                     damage = 1;
                     return;
                 case bulletTypes.ElectronBall:
-                    speed = 3f;
-                    damage = 1;
+                    speed = 3f * transform.localScale.x;
+                    damage = 1f * transform.localScale.x;
                     return;
                 case bulletTypes.electron:
                     speed = 3f;
@@ -81,6 +81,10 @@ public class BulletManager : MonoBehaviour {
                 case bulletTypes.PortalShot:
                     speed = 4f;
                     damage = .1f;
+                    return;
+                case bulletTypes.Plasma:
+                    speed = 5f;
+                    damage = .5f;
                     return;
                 case bulletTypes.hellFire:
                     speed = 5f;

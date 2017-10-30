@@ -49,6 +49,26 @@ public enum rangeWeapon
     soundCannon = 6,    // Three Round Burst Sound Cannon
     ElectronSeeker = 7, // Gun with seeking bullets
     PortalGun = 8,
+    PlasmaCannon = 9,
+}
+
+public enum bulletTypes
+{
+    laser,
+    aetherlight,
+    antiEctoPlasm, 
+    ice,
+    hellFire,
+    ectoPlasm,
+    sound,
+    web,
+    splatterWeb,
+    blackSlime,
+    electron,
+    ElectronBall,
+    PortalShot,
+    Portal,
+    Plasma,
 }
 
 /// <summary>
@@ -76,23 +96,6 @@ public enum trinkets
     drone,
 }
 
-public enum bulletTypes
-{
-    laser,
-    aetherlight,
-    antiEctoPlasm, 
-    ice,
-    hellFire,
-    ectoPlasm,
-    sound,
-    web,
-    splatterWeb,
-    blackSlime,
-    electron,
-    ElectronBall,
-    PortalShot,
-    Portal,
-}
 
 public enum bulletOwners
 {

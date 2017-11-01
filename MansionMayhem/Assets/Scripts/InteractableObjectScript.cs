@@ -77,7 +77,7 @@ public class InteractableObjectScript : MonoBehaviour
             dialogBox.SetActive(true);
         }
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && delayBool==false)
         {
             Debug.Log("End Interaction");
             //end the dialogue if at the end

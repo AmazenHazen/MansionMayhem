@@ -9,8 +9,8 @@ public class BulletManager : MonoBehaviour {
     //speed
     public float speed;
     public bool isPoisonous;
-    private float damage;
-    public bool canDamage; // Debug so only one enemy can be hit with a bullet
+    private float damage = .01f;
+    private bool canDamage = true; // Debug so only one enemy can be hit with a bullet
     public bulletTypes bulletType;
 
     // Speed Variables
@@ -71,8 +71,8 @@ public class BulletManager : MonoBehaviour {
                     damage = 1;
                     return;
                 case bulletTypes.ElectronBall:
-                    speed = 3f * transform.localScale.x;
-                    damage = 1f * transform.localScale.x;
+                    speed = 3f;
+                    damage = 1f;
                     return;
                 case bulletTypes.electron:
                     speed = 3f;
@@ -84,7 +84,7 @@ public class BulletManager : MonoBehaviour {
                     return;
                 case bulletTypes.Plasma:
                     speed = 5f;
-                    damage = .5f;
+                    damage = .5f * transform.localScale.x;
                     return;
                 case bulletTypes.hellFire:
                     speed = 5f;

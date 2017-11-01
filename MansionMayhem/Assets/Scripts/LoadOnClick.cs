@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LoadOnClick : MonoBehaviour
 {
@@ -17,8 +18,9 @@ public class LoadOnClick : MonoBehaviour
     /// <param name="level"></param>
     public void LoadScene(int level)
     {
-        Application.LoadLevel(level);
+        
         GameManager.currentLevel = level;
+        SceneManager.LoadScene(level);
     }
 
     /// <summary>
@@ -71,7 +73,7 @@ public class LoadOnClick : MonoBehaviour
     IEnumerator LoadLevelWithBar(int level)
     {
         // Load the level asynchronously
-        async = Application.LoadLevelAsync(level);
+        async = SceneManager.LoadSceneAsync(level);
 
         while (!async.isDone) // Check to see if the level is completely loaded
         {

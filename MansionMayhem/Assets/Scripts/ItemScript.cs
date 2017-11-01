@@ -23,7 +23,7 @@ public class ItemScript : MonoBehaviour
         // If the player has a magnet
         if (player.GetComponent<PlayerManager>().magnet && ((player.transform.position - gameObject.transform.position).magnitude < player.GetComponent<PlayerManager>().magnetDistance) && gameObject.GetComponent<Rigidbody2D>())
         {
-            Debug.Log("Magnetizing");
+            //Debug.Log("Magnetizing");
 
             // Create an instance of the Rigidbody
             Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();

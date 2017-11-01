@@ -23,8 +23,8 @@ public abstract class CharacterMovement : MonoBehaviour
     Vector3 futurePosition;
     private float wandAngle;
     // Private for now, will make them public if I add wandering back in
-    private float wanderDistance;
-    private float wandRadius;
+    private float wanderDistance=0;
+    private float wandRadius=0;
 
     // variables for slowing down and speeding up characters
     protected float currentSpeed;

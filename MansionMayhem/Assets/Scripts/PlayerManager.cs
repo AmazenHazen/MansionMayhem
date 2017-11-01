@@ -36,7 +36,10 @@ public class PlayerManager : MonoBehaviour
     public int portalNum;
     GameObject FrostGun;
     GameObject Flamethrower;
+    private float plasmaSizeVar;
+    private bool charging;
     Coroutine sound;
+    GameObject bulletCopy;
 
     // Variables for the player's inventory
     public ItemType[] playerItems;
@@ -115,6 +118,7 @@ public class PlayerManager : MonoBehaviour
         maxBullets = 4;
         maxBlobs = 3;
         portalNum = 0;
+        charging = false;
 
         // Initializing Lists
         playerBullets = new List<GameObject>();
@@ -512,7 +516,11 @@ public class PlayerManager : MonoBehaviour
                     ShootBullet(6);               
                     break;
                 case rangeWeapon.PlasmaCannon:
-                    //ChargeBullet(7);
+                    if (!charging)
+                    {
+                        plasmaSizeVar = 1;
+                    }
+                        ChargeBullet(7);
                     break;
                 case rangeWeapon.cryoGun:
                     FrostGun.SetActive(true);
@@ -526,6 +534,15 @@ public class PlayerManager : MonoBehaviour
         {
             Flamethrower.SetActive(false);
             FrostGun.SetActive(false);
+
+            if (charging == true)
+            {
+                // for charging bullets
+                charging = false;
+                bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+                bulletCount++;
+                JustShot();
+            }
         }
     }
 
@@ -536,7 +553,6 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Firing Bullet" + bulletPrefab);
         Debug.Log(canShoot);
-        GameObject bulletCopy;
         // Shoot the bullet
         bulletCopy = Instantiate(playerBulletPrefabs[bulletPrefab], transform.position, transform.rotation) as GameObject;
         playerBullets.Add(bulletCopy);
@@ -554,23 +570,22 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     void ChargeBullet(int bulletPrefab)
     {
-        GameObject bulletCopy;
         // Shoot the bullet
-
-        bulletCopy = Instantiate(playerBulletPrefabs[bulletPrefab], transform.position, transform.rotation) as GameObject;
-
-        while (Input.GetMouseButtonDown(0))
+        if (!charging)
         {
-            bulletCopy.transform.localScale = new Vector3(.01f*transform.localScale.x, .01f * transform.localScale.y, transform.localScale.z);
+            bulletCopy = Instantiate(playerBulletPrefabs[bulletPrefab], transform.position, transform.rotation) as GameObject;
+            playerBullets.Add(bulletCopy);
+            charging = true;
         }
-        playerBullets.Add(bulletCopy);
+        else
+        {
+            // Keep the bullet with the player and scale the bullet up
+            bulletCopy.transform.position = transform.position + transform.up;
+            bulletCopy.transform.rotation = transform.rotation;
+            plasmaSizeVar += 1f * Time.deltaTime;
+            bulletCopy.transform.localScale = new Vector3(plasmaSizeVar, plasmaSizeVar, transform.localScale.z);
 
-        // Call Special start method for bullets
-        bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-
-        bulletCount++;
-
-        JustShot();
+        }
     }
 
 
@@ -639,7 +654,10 @@ public class PlayerManager : MonoBehaviour
             }
 
             // Stop the sound Courotine
-            //StopCoroutine(sound);
+            if (sound != null)
+            {
+                StopCoroutine(sound);
+            }
 
             switch(currentRangeWeapon)
             {
@@ -669,7 +687,7 @@ public class PlayerManager : MonoBehaviour
                     maxBullets = 4;
                     break;
                 case rangeWeapon.PortalGun:
-                    timeBetweenShots = .75f;
+                    timeBetweenShots = .1f;
                     maxBullets = 3;
                     maxBlobs = 2;
                     break;

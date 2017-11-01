@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class GUIManager : MonoBehaviour
 {
 
@@ -188,11 +189,11 @@ public class GUIManager : MonoBehaviour
     public void EscapeScreenManagement()
     {
 
-        if (Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true && GameManager.currentGameState == GameState.Paused)
+        if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true) && GameManager.currentGameState == GameState.Paused)
         {
             ContinueGame();
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false && GameManager.currentGameState != GameState.Paused)
+        else if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false) && GameManager.currentGameState != GameState.Paused)
         {
             PauseGame();
         }
@@ -209,7 +210,7 @@ public class GUIManager : MonoBehaviour
     public void ContinueGame()
     {
         escapeScreen.SetActive(false);
-        instructionsScreen.SetActive(false);
+        //instructionsScreen.SetActive(false);
         GameManager.currentGameState = GameState.Play;
         Time.timeScale = 1;
     }

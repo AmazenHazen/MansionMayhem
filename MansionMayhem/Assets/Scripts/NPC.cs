@@ -38,7 +38,7 @@ public class NPC : CharacterMovement
     private bool optionBool;
 
     // Quest Variables
-    QuestStatus currentQuestStatus;
+    //QuestStatus currentQuestStatus;
     #endregion
 
     #region NPC properties
@@ -79,7 +79,7 @@ public class NPC : CharacterMovement
 
 
         // Start the quest status of the NPC to not started
-        currentQuestStatus = QuestStatus.NotStarted;
+        //currentQuestStatus = QuestStatus.NotStarted;
 
         base.Start();
     }
@@ -202,14 +202,14 @@ public class NPC : CharacterMovement
         switch(commandText)
         {
             case "StartQuest":
-                currentQuestStatus = QuestStatus.Started;
+                //currentQuestStatus = QuestStatus.Started;
                 TextFileSetUp(startedQuestTextFile);
                 currentLine = 0;
                 endDialogue();
                 break;
 
             case "CompleteQuest":
-                currentQuestStatus = QuestStatus.Completed;
+                //currentQuestStatus = QuestStatus.Completed;
                 break;
 
             case "Exit":

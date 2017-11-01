@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -79,7 +80,7 @@ public class LevelManager : MonoBehaviour
             GameObject.Find("GameHandler").GetComponent<GameManager>().Save();
         }
 
-        Application.LoadLevel(1);
+        SceneManager.LoadScene(1);
     }
 
 

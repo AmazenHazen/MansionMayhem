@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMapScript : MonoBehaviour {
 
@@ -74,7 +75,7 @@ public class PlayerMapScript : MonoBehaviour {
                 GameManager.currentLevel = destination.GetComponent<LevelLocation>().level;
 
                 // Enter the level
-                Application.LoadLevel(currentLocationIndex + 2);
+                SceneManager.LoadScene(currentLocationIndex + 2);
             }
         }
     }

@@ -24,6 +24,8 @@ public class LevelLocation : MonoBehaviour
             else
             {
                 unlocked = false;
+                gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+                gameObject.transform.GetChild(0).gameObject.SetActive(true);
             }
         }
         else

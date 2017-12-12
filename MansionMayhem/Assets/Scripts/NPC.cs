@@ -37,6 +37,12 @@ public class NPC : CharacterMovement
     private bool talkingBool;
     private bool optionBool;
 
+    // Scrolling Autotyping variables
+    private bool isTyping = false;
+    private bool cancelTyping = false;
+
+    private float typeSpeed = 0.0f;
+
     // Quest Variables
     //QuestStatus currentQuestStatus;
     #endregion
@@ -68,7 +74,7 @@ public class NPC : CharacterMovement
             Options.Add(dialogBox.transform.FindChild("Options").GetChild(i).gameObject);
         }
 
-
+        currentLine = 0;
         setUpTalking = true;
 
         // Creates an Array for responses
@@ -118,46 +124,100 @@ public class NPC : CharacterMovement
         endAtLine = textLines.Length - 1;
 
     }
-#endregion
+
+    private IEnumerator TextScroll (string lineOfText)
+    {
+        int letter = 0;
+        dialogText.GetComponent<Text>().text = "";
+        isTyping = true;
+        cancelTyping = false;
+
+        while(isTyping && !cancelTyping && (letter<lineOfText.Length - 1))
+        {
+            Debug.Log("Dialog Scrolling");
+
+            dialogText.GetComponent<Text>().text += lineOfText[letter];
+            letter++;
+
+            yield return new WaitForSeconds(typeSpeed);
+        }
+        dialogText.GetComponent<Text>().text = lineOfText;
+        isTyping = false;
+        cancelTyping = false;
+    }
+
+    #endregion
 
     #region Main Talking Method
     /// <summary>
     /// Talking to script that handles basic text
     /// </summary>
     public void TalkingTo()
+    {
+        // Set up the dialog
+        DialogSetUp();
+
+        // Sets the text box to the first/current line of dialog
+        //dialogText.GetComponent<Text>().text = textLines[currentLine];
+
+        if (dialogBox.activeSelf == false)
         {
-            // Set up the dialog
-            DialogSetUp();
+            // Activate the dialog box
+            dialogBox.SetActive(true);
 
-            // Sets the text box to the first/current line of dialog
-            dialogText.GetComponent<Text>().text = textLines[currentLine];
-
-            if(dialogBox.activeSelf == false)
-            {
-                dialogBox.SetActive(true);
-            }
-            // Advance the text if the player hits Enter or Space
-            else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && (optionBool == false))
-            {
-                currentLine++;
-            }
-
-            // Check for dialog options
-            // Dialog Options designated with a * at the beginning of the line
-            CheckForOptions();
-            CheckCommand();
-
-            // Don't let the user go past the endline
-            if(currentLine==endAtLine)
-            {
-                Debug.Log("Exit Dialog");
-
-                //end the dialogue if at the end
-                endDialogue();
-            }
-
+            // Start the scrolling text 
+            Debug.Log("Starting Dialog");
+            StartCoroutine(TextScroll(textLines[currentLine]));
         }
-        #endregion
+
+        // Advance the text if the player hits Enter or Space
+        else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        {
+            // if space and the text isn't scrolling, advance a line
+            if (!isTyping)
+            {
+                if (optionBool == false)
+                {
+                    currentLine++;
+                }
+
+                // Don't let the user go past the endline
+                if (currentLine == endAtLine)
+                {
+                    Debug.Log("Exit Dialog");
+
+                    //end the dialogue if at the end
+                    endDialogue();
+                }
+                // Otherwise start scrolling the text
+                else
+                {
+                    Debug.Log("Starting Dialog Scrolling if not at the end of the text");
+                    
+                    // Check to see if the line is already printed out
+                    if(dialogText.GetComponent<Text>().text != textLines[currentLine])
+                    { 
+                        // Otherwise start typing it out
+                        StartCoroutine(TextScroll(textLines[currentLine]));
+                    }
+                }
+            }
+            // If the text box is currently printing the text then cancel the scrolling
+            else if (isTyping && !cancelTyping)
+            {
+                Debug.Log("Cancel Typing");
+
+                cancelTyping = true;
+            }
+        }
+
+        // Check for dialog options
+        // Dialog Options designated with a * at the beginning of the line
+        CheckForOptions();
+        CheckCommand();
+
+    }
+    #endregion
 
     #region DialogSetUp
     public void DialogSetUp()
@@ -238,6 +298,7 @@ public class NPC : CharacterMovement
                     Debug.Log("Chose Yes!");
                     EndOptions();
                     currentLine = ++i;
+                    StartCoroutine(TextScroll(textLines[currentLine]));
                     return;
                 }
             }
@@ -253,6 +314,7 @@ public class NPC : CharacterMovement
                     Debug.Log("Chose No!");
                     EndOptions();
                     currentLine = ++i;
+                    StartCoroutine(TextScroll(textLines[currentLine]));
                     return;
                 }
             }
@@ -347,8 +409,12 @@ public class NPC : CharacterMovement
 
                     // Set the text on the button
                     Options[i].transform.GetChild(0).GetComponent<Text>().text = buttonText;
+
                     // Activate the buttons
-                    Options[i].SetActive(true);
+                    if (!isTyping)
+                    {
+                        Options[i].SetActive(true);
+                    }
                 }
             }
         }

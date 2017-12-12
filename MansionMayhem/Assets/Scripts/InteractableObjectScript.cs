@@ -25,6 +25,11 @@ public class InteractableObjectScript : MonoBehaviour
     public string interactingString;
 
 
+    // Scrolling Autotyping variables
+    private bool isTyping = false;
+    private bool cancelTyping = false;
+    private float typeSpeed = 0.0f;
+
     #region Interactables properties
     public bool InteractBool
     {
@@ -66,22 +71,66 @@ public class InteractableObjectScript : MonoBehaviour
     }
 
 
+
+    private IEnumerator TextScroll(string lineOfText)
+    {
+        int letter = 0;
+        dialogText.GetComponent<Text>().text = "";
+        isTyping = true;
+        cancelTyping = false;
+
+        while (isTyping && !cancelTyping && (letter < lineOfText.Length - 1))
+        {
+            Debug.Log("Dialog Scrolling");
+
+            dialogText.GetComponent<Text>().text += lineOfText[letter];
+            letter++;
+            Debug.Log("Letter: " + letter);
+            Debug.Log("LineofText: " + lineOfText);
+
+            yield return new WaitForSeconds(typeSpeed);
+        }
+        dialogText.GetComponent<Text>().text = lineOfText;
+        isTyping = false;
+        cancelTyping = false;
+    }
+
     public void InteractText()
     {
         // Sets the text box to the first/current line of dialog
-        dialogText.GetComponent<Text>().text = interactingString;
-
+        //dialogText.GetComponent<Text>().text = textLines[currentLine];
 
         if (dialogBox.activeSelf == false)
         {
+            // Activate the dialog box
             dialogBox.SetActive(true);
+
+            // Start the scrolling text 
+            Debug.Log("Starting Dialog");
+            StartCoroutine(TextScroll(interactingString));
         }
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && delayBool==false)
+        // Advance the text if the player hits Enter or Space
+        else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
         {
-            Debug.Log("End Interaction");
-            //end the dialogue if at the end
-            endDialogue();
+            // if space and the text isn't scrolling, advance a line
+            if (!isTyping)
+            {
+
+                Debug.Log("Exit Dialog");
+
+                //end the dialogue if at the end
+                endDialogue();
+
+            }
+            // If the text box is currently printing the text then cancel the scrolling
+            else if (isTyping && !cancelTyping)
+            {
+                Debug.Log("Cancel Typing");
+
+                cancelTyping = true;
+            }
+
         }
     }
 

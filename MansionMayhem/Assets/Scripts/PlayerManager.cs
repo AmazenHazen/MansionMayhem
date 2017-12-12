@@ -79,6 +79,10 @@ public class PlayerManager : MonoBehaviour
         get { return poisoned; }
         set { poisoned = value; }
     }
+    public bool Charging
+    {
+        get { return charging; }
+    }
     public int PoisonCounter
     {
         set { poisonCounter = value; }
@@ -582,9 +586,11 @@ public class PlayerManager : MonoBehaviour
             // Keep the bullet with the player and scale the bullet up
             bulletCopy.transform.position = transform.position + transform.up;
             bulletCopy.transform.rotation = transform.rotation;
-            plasmaSizeVar += 1f * Time.deltaTime;
+            if (plasmaSizeVar < 5)
+            {
+                plasmaSizeVar += 1f * Time.deltaTime;
+            }
             bulletCopy.transform.localScale = new Vector3(plasmaSizeVar, plasmaSizeVar, transform.localScale.z);
-
         }
     }
 
@@ -675,8 +681,8 @@ public class PlayerManager : MonoBehaviour
                     maxBullets = 15;
                     break;
                 case rangeWeapon.laserpistol:
-                    timeBetweenShots = .5f;
-                    maxBullets = 4;
+                    timeBetweenShots = .1f;
+                    maxBullets = 20;
                     break;
                 case rangeWeapon.soundCannon:
                     timeBetweenShots = .5f;
@@ -687,9 +693,13 @@ public class PlayerManager : MonoBehaviour
                     maxBullets = 4;
                     break;
                 case rangeWeapon.PortalGun:
-                    timeBetweenShots = .1f;
+                    timeBetweenShots = 1f;
                     maxBullets = 3;
                     maxBlobs = 2;
+                    break;
+                case rangeWeapon.PlasmaCannon:
+                    timeBetweenShots = .1f;
+                    maxBullets = 10;
                     break;
             }
         }

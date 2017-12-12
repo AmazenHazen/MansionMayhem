@@ -68,7 +68,7 @@ public class BulletManager : MonoBehaviour {
                     return;
                 case bulletTypes.laser:
                     speed = 4f;
-                    damage = 1;
+                    damage = .1f;
                     return;
                 case bulletTypes.ElectronBall:
                     speed = 3f;
@@ -84,7 +84,7 @@ public class BulletManager : MonoBehaviour {
                     return;
                 case bulletTypes.Plasma:
                     speed = 5f;
-                    damage = .5f * transform.localScale.x;
+                    damage = .5f * Mathf.Pow(transform.localScale.x, 1.5f);
                     return;
                 case bulletTypes.hellFire:
                     speed = 5f;
@@ -373,11 +373,12 @@ public class BulletManager : MonoBehaviour {
             }
 
             // Remove refernece to the bullet
-            if (ownerTag == "player")
+            if ((ownerTag == "player" && bulletType!=bulletTypes.Plasma) || (bulletType==bulletTypes.Plasma && owner.GetComponent<PlayerManager>().Charging == false))
             {
                 // Delete the bullet reference in the Player Manager
                 GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
                 GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
+                Destroy(gameObject);
             }
             if (ownerTag == "enemy" || ownerTag == "boss")
             {
@@ -388,8 +389,8 @@ public class BulletManager : MonoBehaviour {
                     owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
                     owner.GetComponent<EnemyManager>().BulletCount--;
                 }
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
         }
         #endregion
 

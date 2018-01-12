@@ -12,6 +12,10 @@ public class EnemyMovement : CharacterMovement
 
     // Attributes for CalcSteeringForces Method
     public float maxForce;
+
+
+    // Current enemy phase
+    int phase;
     #endregion
 
     #region Start Method
@@ -28,6 +32,8 @@ public class EnemyMovement : CharacterMovement
     protected override void Update()
     {
         base.Update();
+        phase = gameObject.GetComponent<EnemyManager>().Phase;
+
     }
     #endregion
 
@@ -146,7 +152,31 @@ public class EnemyMovement : CharacterMovement
 
                     break;
 
+                case enemyType.prisonLeader:
+                    // First Phase: Stationary summoning ghost heads
+                    // Do nothing here for movement
 
+                    // Second Phase: Seek Player and throwing weights
+                    if (phase == 1)
+                    {
+                        // Seek
+                        ultimateForce += seek(player.transform.position);
+                    }
+                    if (phase == 2)
+                    {
+                        // Seek
+                        ultimateForce += pursue(player);
+                    }
+
+                    // Third Phase he gets faster
+                    if (phase == 2 && maxSpeed!=7)
+                    {
+                        mass = 1.75f;
+                        maxSpeed = 7;
+                    }
+
+
+                    break;
                 #endregion
 
                 #region demons

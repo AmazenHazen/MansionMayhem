@@ -239,6 +239,33 @@ public class PlayerManager : MonoBehaviour
                     StartInvincibility();
                 }
                 break;
+            case "enemyweapon":
+                if (invincibility == false)
+                {
+
+                    //Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
+                    currentLife -= collider.gameObject.GetComponent<EnemyWeaponScript>().damage;
+
+                    // Heal the enemy if hit and a vampyric enemy
+                    if (collider.gameObject.GetComponent<EnemyWeaponScript>().vampyric == true)
+                    {
+                        // Call the vampyric heal method
+                        collider.gameObject.GetComponent<EnemyWeaponScript>().owner.GetComponent<EnemyManager>().VampyricHeal();
+                    }
+
+
+                    // Poison the player if the enemy is poisonous
+                    // The Enemy Poisons the player with the melee attack if poisonous
+                    if (collider.gameObject.GetComponent<EnemyWeaponScript>().isPoisonous == true)
+                    {
+                        // Set poison to true and reset the counter
+                        StartPoison();
+                    }
+
+                    StartInvincibility();
+                }
+                break;
+
             #endregion
 
             #region Items

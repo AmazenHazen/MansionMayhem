@@ -109,8 +109,16 @@ public class BulletManager : MonoBehaviour {
         {
             damage = owner.GetComponent<EnemyManager>().rangeDamage;
 
-            //Static for enemy bullets rn
-            speed = 5f;
+            switch (bulletType)
+            {
+                case bulletTypes.Weight:
+                    speed = 12f;
+                    return;
+                default:
+                    //Static for enemy bullets rn
+                    speed = 5f;
+                    return;
+            }
         }
         #endregion
 
@@ -122,8 +130,8 @@ public class BulletManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        // Check to make sure the bullet didn't go too far
-        if ((transform.position - startPos).magnitude > 20)
+        // Check to make sure the bullet didn't go too far or is moving too slow
+        if ((transform.position - startPos).magnitude > 20 || speed<0)
         {
             if (ownerTag == "player")
             {
@@ -134,6 +142,7 @@ public class BulletManager : MonoBehaviour {
                 EnemyBulletDestroy();
             }
         }
+
         
         // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
         if (bulletType == bulletTypes.antiEctoPlasm && ownerTag == "player" && (startPos - transform.position).magnitude > 4)
@@ -184,6 +193,10 @@ public class BulletManager : MonoBehaviour {
         {
             speed+=.5f;
             damage = speed * .2f;
+        }
+        if (bulletType == bulletTypes.Weight)
+        {
+            speed -= Mathf.Pow(.1f, .9f);
         }
         velocity = transform.up * speed * Time.deltaTime;
         transform.position += velocity;

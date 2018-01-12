@@ -29,12 +29,13 @@ Z:\IGMProfile\Documents\MansionMayhem\MansionMayhem\obj\Debug\Assembly-CSharp.dl
 Z:\IGMProfile\Documents\MansionMayhem\MansionMayhem\obj\Debug\Assembly-CSharp.pdb
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\Assembly-CSharp.dll
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\nunit.framework.dll
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEditor.dll
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.Analytics.dll
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.dll
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.HoloLens.dll
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.Networking.dll
-C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.dll
+C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.TestRunner.dll
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.UI.dll
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.VR.dll
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\Mono.Cecil.dll
@@ -49,9 +50,11 @@ C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionM
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEditor.xml
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.UI.xml
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.Networking.xml
-C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.xml
+C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.TestRunner.xml
+C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\nunit.framework.xml
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.Analytics.xml
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.HoloLens.xml
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\Temp\bin\Debug\UnityEngine.VR.xml
+C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\obj\Debug\Assembly-CSharp.dll
 C:\Users\Alex Hazen\Documents\Game Projects\MansionMayhem\MansionMayhem\MansionMayhem\obj\Debug\Assembly-CSharp.pdb

@@ -29,7 +29,7 @@ public enum levelType
 }
 #endregion
 
-#region PlayerWeapons
+#region Weapons
 /// <summary>
 /// Enum that contains all levels available
 /// </summary>
@@ -69,6 +69,7 @@ public enum bulletTypes
     PortalShot,
     Portal,
     Plasma,
+    Weight,
 }
 
 /// <summary>
@@ -127,6 +128,8 @@ public enum enemyType
     banshee = 33,
     wraith = 34,
     bansheeMistress = 35,    //Ghost Boss
+    prisonerGhost = 36,
+    prisonLeader = 37,
 
     // Zombies (60-80)
     crawlingHand = 60,       // art done
@@ -264,6 +267,15 @@ public enum movementType
     mimic,  // Moves when the player moves
     notLookingSeek, // Moves when the player isn't looking at it
 }
+#endregion
+
+#region Enemy Weapons
+public enum EnemyWeapon
+{
+    leftchain,
+    rightchain,
+}
+
 #endregion
 
 #region Boss

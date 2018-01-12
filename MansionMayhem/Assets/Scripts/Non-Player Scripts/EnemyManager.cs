@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-
     #region Enemy Attributes
     // Attributes Set by editor
     // Enemy Behavior variables
@@ -19,34 +18,39 @@ public class EnemyManager : MonoBehaviour
     public float maxHealth;                    // The amount of health the enemy spawns with
     public float damage;                       // Damage caused when the player is hit by the monster (collision)
     public float seekDistance;                 // The distance at which an enemy can sense where you are
-    public float rangeDamage;                       // Damage caused when the player is hit by the monster (collision)
-    public float timeBetweenShots;                 // time between bullets
+    public float rangeDamage;                   // Damage caused when the player is hit by the monster (collision)
+    public float timeBetweenShots;              // time between bullets
     public List<GameObject> enemyBulletPrefabs; // Prefabs of Bullets shot
     public List<GameObject> enemyAbilityPrefabs;// Prefab of Ability being used (Webs, Slime, Etc.)
+    public List<GameObject> enemyWeapons;       // Additional Weapons of the enemy
     public List<abilityType> abilityTypes;      // Determines the ability of the enemy
     public List<float> timeBetweenAbilities;    // Determines how long to wait between abilities
     public List<int> abilityRestrictionNumber;  // The number ascociated with the ability to determine how many ability object there can be in the scene
 
 
     // Basic Monster Attributes
-    private float currentLife;                  // The current health the enemy has
-    
+    protected float currentLife;                  // The current health the enemy has
+
     // Attack Variables - all set in the Prefab Instance
-    private bool invincibility;                 // Gives Enemy brief invincibility when hit by a melee attack
-    private bool hitByMeleeBool;                 // Determines if the enemy has been hit by a melee attack by the player
-    
+    protected bool invincibility;                 // Gives Enemy brief invincibility when hit by a melee attack
+    protected bool hitByMeleeBool;                 // Determines if the enemy has been hit by a melee attack by the player
+
     // Ability Management
-    private List<bool> canUseAbility;
-    private List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
+    protected List<bool> canUseAbility;
+    protected List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
     public List<GameObject> enemyBullets;           // a list keeping track of all of the current bullets on the screen
     public List<GameObject> enemyAbilityObjects;    // a list keeping track of all of the abilities out for a specific ability
     public List<GameObject> enemyBlobs;
-    private GameObject parent;
+    protected GameObject parent;
+    protected int parentAbilityNum;
 
     // Bullet Management
-    private int blobCount;
-    private bool canShoot;
+    protected int blobCount;
+    protected bool canShoot;
     public int bulletCount;
+
+    // Boss Management
+    public int phase;
     #endregion
 
     #region EnemyProperties
@@ -73,6 +77,15 @@ public class EnemyManager : MonoBehaviour
     {
         set { parent = value; }
     }
+    public int ParentAbilityNum
+    {
+        set { parentAbilityNum = value; }
+    }
+    public int Phase
+    {
+        get { return phase; }
+        set { phase = value; }
+    }
     #endregion
 
     #region Initialization for Enemy
@@ -91,12 +104,12 @@ public class EnemyManager : MonoBehaviour
             abilityCount.Add(0);
         }
 
-        hitByMeleeBool = false; // Set true so player can get hit by melee
+        hitByMeleeBool = false; // Set true so enemy can get hit by melee
         enemyBullets = new List<GameObject>();
         enemyAbilityObjects = new List<GameObject>();
         enemyBlobs = new List<GameObject>();
 
-        // Sets up Player's HealthBar
+        // Sets up Enemy's HealthBar
         currentLife = maxHealth;
         gameObject.GetComponent<HealthBar>().HealthBarInstantiate();
     }
@@ -108,13 +121,47 @@ public class EnemyManager : MonoBehaviour
         // Check for death first
         death();
 
-        // Enemy Shooting
-        if(hasBullets == true && canShoot==true && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
+        #region Special Movement and shoot methods (For bosses mostly)
+        switch (monster)
         {
-            Shoot();
-        }
+            case enemyType.prisonLeader:
+                if (phase == 0)
+                {
+                    canShoot = false;
+                }
 
-        // Enemy Abilities
+                // Forwarding the phase depending on the Prisoner Leader's health
+                if ((currentLife / maxHealth) < .666f && phase == 0)
+                {
+                    phase++;
+                    canShoot = true;
+                    timeBetweenAbilities[0] = Mathf.Infinity;
+                }
+                if ((currentLife / maxHealth) < .333f && phase == 1)
+                {
+                    phase++;
+                    for(int i=0; i<enemyWeapons.Count; i++)
+                    {
+                        enemyWeapons[i].GetComponent<EnemyWeaponScript>().speed = 4f;
+                    }
+                }
+
+                break;
+            default:
+
+                break;
+        }
+        #endregion
+
+
+
+        // Enemy Shooting allows any enemy to shoot when possible
+        if (hasBullets == true && canShoot==true && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
+            {
+                Shoot();
+            }
+
+        // Enemy Abilities - allows any enemy to shoot when possible
         for (int i = 0; i < enemyAbilityPrefabs.Count; i++)
         {
             if (hasAbility == true)
@@ -132,7 +179,7 @@ public class EnemyManager : MonoBehaviour
                 abilityManagement(i);
             }
         }
-
+        
 
     }
     #endregion
@@ -150,6 +197,7 @@ public class EnemyManager : MonoBehaviour
             // Tell the parent of it that it died
             if(parent!= null)
             {
+                parent.GetComponent<EnemyManager>().abilityCount[parentAbilityNum]--;
                 parent.GetComponent<EnemyManager>().enemyAbilityObjects.Remove(gameObject);
             }
  
@@ -204,7 +252,7 @@ public class EnemyManager : MonoBehaviour
     void ResetShooting()
     {
         canShoot = true;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
     #endregion
 
@@ -213,7 +261,7 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// Shooting Method
     /// </summary>
-    void Ability(abilityType ability, int abilityIndex)
+    protected void Ability(abilityType ability, int abilityIndex)
     {
         GameObject abilityObject;
 
@@ -236,14 +284,19 @@ public class EnemyManager : MonoBehaviour
 
             case abilityType.babies:
                 //Debug.Log("Giving Birth!");
-                abilityObject = Instantiate(enemyAbilityPrefabs[abilityIndex], transform.position, transform.rotation);
-                abilityObject.GetComponent<EnemyManager>().Parent = gameObject;
+                if (!(abilityRestrictionNumber[abilityIndex] == abilityCount[abilityIndex]))
+                {
 
-                // Add it to a list of babies
-                enemyAbilityObjects.Add(abilityObject);
+                    abilityObject = Instantiate(enemyAbilityPrefabs[abilityIndex], transform.position, transform.rotation);
+                    abilityObject.GetComponent<EnemyManager>().Parent = gameObject;
+                    abilityObject.GetComponent<EnemyManager>().ParentAbilityNum = abilityIndex;
 
-                // Increase the number of ability objects
-                abilityCount[abilityIndex]++;
+                    // Add it to a list of babies
+                    enemyAbilityObjects.Add(abilityObject);
+
+                    // Increase the number of ability objects
+                    abilityCount[abilityIndex]++;
+                }
                 break;
         }
     }
@@ -255,7 +308,7 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     /// <param name="abilityIndex"></param>
 
-    void JustAbilitied(int abilityIndex)
+    protected void JustAbilitied(int abilityIndex)
     {
         // Set the ability to use the ability to false
         canUseAbility[abilityIndex] = false;
@@ -275,19 +328,33 @@ public class EnemyManager : MonoBehaviour
         //gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
-    void abilityManagement(int abilityIndex)
+    protected void abilityManagement(int abilityIndex)
     {
         // Managing the number of ability objects on screen
         for (int i = 0; i < enemyAbilityPrefabs.Count; i++)
         {
             if (abilityCount[abilityIndex] > abilityRestrictionNumber[abilityIndex])
             {
-                //Debug.Log("In ability Management");
-                GameObject playerAbilityCopy = enemyAbilityObjects[0];
+                if (abilityTypes[abilityIndex] == abilityType.blobs)
+                {
+                    //Debug.Log("In ability Management");
+                    GameObject playerAbilityCopy = enemyAbilityObjects[0];
 
-                enemyAbilityObjects.Remove(playerAbilityCopy);
-                Destroy(playerAbilityCopy);
-                abilityCount[abilityIndex]--;
+                    enemyAbilityObjects.Remove(playerAbilityCopy);
+                    Destroy(playerAbilityCopy);
+                    abilityCount[abilityIndex]--;
+                }
+                /* Don't need this, the restriction is done before spawning a new baby
+                if (abilityTypes[abilityIndex] == abilityType.babies)
+                {
+                    //Debug.Log("In ability Management");
+                    GameObject playerAbilityCopy = enemyAbilityObjects[abilityRestrictionNumber[abilityIndex]];
+
+                    enemyAbilityObjects.Remove(playerAbilityCopy);
+                    Destroy(playerAbilityCopy);
+                    abilityCount[abilityIndex]--;
+                }
+                */
             }
         }
     }

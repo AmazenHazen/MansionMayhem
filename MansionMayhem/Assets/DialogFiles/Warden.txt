@@ -8,6 +8,8 @@ No[SayNo]
 
 +
 Here are the keys to enter the prison. Good luck!
+$
+[GiveItem](SilverKey)
 [StartQuest]
 [exit]
 

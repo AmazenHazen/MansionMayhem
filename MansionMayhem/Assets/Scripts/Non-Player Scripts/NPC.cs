@@ -240,12 +240,14 @@ public class NPC : CharacterMovement
         bool endOfCommand = false;
         string fullOptionText = textLines[currentLine];
         string commandText = "";
+        string secondayCommand = "";
+        int i = 0;
 
         if (textLines[currentLine][0] == '[')
         {
             // Loops through
             // Saves the text between the square brackets
-            for (int i = 1; i < fullOptionText.Length; i++)
+            for (i = 1; i < fullOptionText.Length; i++)
             {
                 if (fullOptionText[i] == ']')
                 {
@@ -256,16 +258,41 @@ public class NPC : CharacterMovement
                     commandText += fullOptionText[i];
                 }
             }
-        }
-        Debug.Log("Command: " + commandText);
 
-        switch(commandText)
+            // Secondary command set to object
+            if(commandText == "GiveItem")
+            {
+                // Loops through
+                // Saves the text between the square brackets
+                for (i++; i < fullOptionText.Length; i++)
+                {
+                    if (fullOptionText[i] == ')')
+                    {
+                        endOfCommand = true;
+                    }
+                    else if (endOfCommand != true)
+                    {
+                        secondayCommand += fullOptionText[i];
+                    }
+                }
+            }
+        }
+        Debug.Log("Command: " + commandText + secondayCommand);
+        
+
+
+        switch (commandText)
         {
             case "StartQuest":
                 //currentQuestStatus = QuestStatus.Started;
                 TextFileSetUp(startedQuestTextFile);
                 currentLine = 0;
                 endDialogue();
+                break;
+
+            case "GiveItem":
+                //currentQuestStatus = QuestStatus.Started;
+                Debug.Log("Gave player: " + secondayCommand);
                 break;
 
             case "CompleteQuest":

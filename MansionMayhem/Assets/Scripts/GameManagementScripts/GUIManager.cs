@@ -18,7 +18,9 @@ public class GUIManager : MonoBehaviour
     public List<GameObject> HalfHearts;
 
     // Inventory Management
+    public GameObject InventoryPanel;
     public GameObject[] InventoryItems;
+    bool minimized;
 
     // Boss Health Management
     public GameObject boss;
@@ -46,7 +48,6 @@ public class GUIManager : MonoBehaviour
     #endregion
 
     #region Start
-
     // Start is called when the GUI is initialized
     void Start()
     {
@@ -70,18 +71,22 @@ public class GUIManager : MonoBehaviour
         HealthColors.Add(new Color(186, 186, 186));
 
         // Inventory Management
-
         usingOtherInterface = false;
         Time.timeScale = 1;
         escapeScreen.SetActive(false);
+        minimized = false;
+        ManageInventoryMenu();
+
+
 
         GameObject.Find("DialogBox").SetActive(false);
+
+
     }
 
     #endregion
 
     #region Update
-
     // Update is called once per frame
     void Update()
     {
@@ -210,7 +215,7 @@ public class GUIManager : MonoBehaviour
     public void ContinueGame()
     {
         escapeScreen.SetActive(false);
-        //instructionsScreen.SetActive(false);
+        instructionsScreen.SetActive(false);
         GameManager.currentGameState = GameState.Play;
         Time.timeScale = 1;
     }
@@ -243,6 +248,19 @@ public class GUIManager : MonoBehaviour
     {
         // Set the inventory space to that item
         InventoryItems[inventoryLocation].GetComponent<SpriteRenderer>().sprite = null;
+    }
+    public void ManageInventoryMenu()
+    {
+        if (minimized)
+        {
+            minimized = false;
+            InventoryPanel.GetComponent<RectTransform>().Translate(new Vector3(0, 320, 0));
+        }
+        else
+        {
+            minimized = true;
+            InventoryPanel.GetComponent<RectTransform>().Translate(new Vector3(0, -320, 0));
+        }
     }
     #endregion
 

@@ -117,8 +117,8 @@ public class PlayerManager : MonoBehaviour
         poisoned = false;
         poisonCounter = 0;
         currentRangeWeapon = rangeWeapon.antiEctoPlasmator;
-        FrostGun = transform.FindChild("FrostGun").gameObject;
-        Flamethrower = transform.FindChild("Flamethrower").gameObject;
+        FrostGun = transform.Find("FrostGun").gameObject;
+        Flamethrower = transform.Find("Flamethrower").gameObject;
         maxBullets = 4;
         maxBlobs = 3;
         portalNum = 0;
@@ -526,9 +526,9 @@ public class PlayerManager : MonoBehaviour
                     for (int i = 0; i < 4; i++)
                     {
                         // Spread of the bullets
-                        Quaternion pelletRotation = transform.rotation;
-                        pelletRotation.x += Random.Range(-.05f, .05f);
-                        pelletRotation.y += Random.Range(-.05f, .05f);
+                        //Quaternion pelletRotation = transform.rotation;
+                        //pelletRotation.x += Random.Range(-.05f, .05f);
+                        //pelletRotation.y += Random.Range(-.05f, .05f);
 
                         ShootBullet(3);
                     }
@@ -754,7 +754,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetMouseButton(1) && canMelee == true)
         {
             // Activate the Melee Collider
-            gameObject.transform.FindChild("MeleeAttack").gameObject.SetActive(true);
+            gameObject.transform.Find("MeleeAttack").gameObject.SetActive(true);
 
             // Call the JustMeleed Method
             JustMeleed();
@@ -777,7 +777,7 @@ public class PlayerManager : MonoBehaviour
     void ResetMelee()
     {
         // De-activates melee collider
-        gameObject.transform.FindChild("MeleeAttack").gameObject.SetActive(false);
+        gameObject.transform.Find("MeleeAttack").gameObject.SetActive(false);
         canMelee = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
@@ -792,12 +792,12 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) && (canShield == true))
         {
             // Activate the Shield
-            gameObject.transform.FindChild("Shield").gameObject.SetActive(true);
+            gameObject.transform.Find("Shield").gameObject.SetActive(true);
         }
         else
         {
             // Deactivate the Shield if not holding down E
-            gameObject.transform.FindChild("Shield").gameObject.SetActive(false);
+            gameObject.transform.Find("Shield").gameObject.SetActive(false);
         }
     }
 
@@ -817,7 +817,7 @@ public class PlayerManager : MonoBehaviour
     void ResetShield()
     {
         // De-activates melee collider
-        gameObject.transform.FindChild("Shield").gameObject.SetActive(false);
+        gameObject.transform.Find("Shield").gameObject.SetActive(false);
         canShield = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }

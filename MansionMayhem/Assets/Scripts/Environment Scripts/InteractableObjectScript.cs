@@ -45,7 +45,7 @@ public class InteractableObjectScript : MonoBehaviour
     {
         // Get the dialog boxes for dialog
         dialogBox = GameObject.Find("DialogBox");
-        dialogText = dialogBox.transform.FindChild("DialogText").gameObject;
+        dialogText = dialogBox.transform.Find("DialogText").gameObject;
         interactBool = false;
         delayBool = true;
 

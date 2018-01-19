@@ -102,36 +102,36 @@ public class RoomScript : MonoBehaviour
         // Link Doors for the Room
         if (topRoom!=null)
         {
-            gameObject.transform.FindChild("topdoor").gameObject.SetActive(true);
-            gameObject.transform.FindChild("topdoor").GetComponent<DoorScript>().linkedDoor = topRoom.transform.FindChild("bottomdoor").gameObject;
+            gameObject.transform.Find("topdoor").gameObject.SetActive(true);
+            gameObject.transform.Find("topdoor").GetComponent<DoorScript>().linkedDoor = topRoom.transform.Find("bottomdoor").gameObject;
         }
         if (bottomRoom != null)
         {
-            gameObject.transform.FindChild("bottomdoor").gameObject.SetActive(true);
-            gameObject.transform.FindChild("bottomdoor").GetComponent<DoorScript>().linkedDoor = bottomRoom.transform.FindChild("topdoor").gameObject;
+            gameObject.transform.Find("bottomdoor").gameObject.SetActive(true);
+            gameObject.transform.Find("bottomdoor").GetComponent<DoorScript>().linkedDoor = bottomRoom.transform.Find("topdoor").gameObject;
         }
         if (leftRoom != null)
         {
-            gameObject.transform.FindChild("leftdoor").gameObject.SetActive(true);
-            gameObject.transform.FindChild("leftdoor").GetComponent<DoorScript>().linkedDoor = leftRoom.transform.FindChild("rightdoor").gameObject;
+            gameObject.transform.Find("leftdoor").gameObject.SetActive(true);
+            gameObject.transform.Find("leftdoor").GetComponent<DoorScript>().linkedDoor = leftRoom.transform.Find("rightdoor").gameObject;
         }
 
         if (rightRoom != null)
         {
-            gameObject.transform.FindChild("rightdoor").gameObject.SetActive(true);
-            gameObject.transform.FindChild("rightdoor").GetComponent<DoorScript>().linkedDoor = rightRoom.transform.FindChild("leftdoor").gameObject;
+            gameObject.transform.Find("rightdoor").gameObject.SetActive(true);
+            gameObject.transform.Find("rightdoor").GetComponent<DoorScript>().linkedDoor = rightRoom.transform.Find("leftdoor").gameObject;
         }
 
         if (upStairsRoom != null)
         {
-            gameObject.transform.FindChild("upstairs").gameObject.SetActive(true);
-            gameObject.transform.FindChild("upstairs").GetComponent<DoorScript>().linkedDoor = upStairsRoom.transform.FindChild("downstairs").gameObject;
+            gameObject.transform.Find("upstairs").gameObject.SetActive(true);
+            gameObject.transform.Find("upstairs").GetComponent<DoorScript>().linkedDoor = upStairsRoom.transform.Find("downstairs").gameObject;
         }
 
         if (downStairsRoom != null)
         {
-            gameObject.transform.FindChild("downstairs").gameObject.SetActive(true);
-            gameObject.transform.FindChild("downstairs").GetComponent<DoorScript>().linkedDoor = downStairsRoom.transform.FindChild("upstairs").gameObject;
+            gameObject.transform.Find("downstairs").gameObject.SetActive(true);
+            gameObject.transform.Find("downstairs").GetComponent<DoorScript>().linkedDoor = downStairsRoom.transform.Find("upstairs").gameObject;
         }
 
         #endregion

@@ -64,14 +64,14 @@ public class NPC : CharacterMovement
         
         // Get the dialog boxes for dialog
         dialogBox = GameObject.Find("DialogBox");
-        dialogText = dialogBox.transform.FindChild("DialogText").gameObject;
+        dialogText = dialogBox.transform.Find("DialogText").gameObject;
 
 
         // Get the options for option dialog
         Options = new List<GameObject>();
         for(int i =0; i<5; i++)
         {
-            Options.Add(dialogBox.transform.FindChild("Options").GetChild(i).gameObject);
+            Options.Add(dialogBox.transform.Find("Options").GetChild(i).gameObject);
         }
 
         currentLine = 0;

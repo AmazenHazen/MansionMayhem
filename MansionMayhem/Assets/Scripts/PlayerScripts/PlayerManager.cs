@@ -12,9 +12,6 @@ public class PlayerManager : MonoBehaviour
     private float shieldLife;
     private bool invincibility;
     public bool canTravel;
-    private float timeBetweenShots = .5f;
-    public bool canShoot;
-    private bool canBurst;
     private bool canMelee;
     private bool canShield;
 
@@ -24,30 +21,17 @@ public class PlayerManager : MonoBehaviour
     bool poisoned;
 
     // Weapon Variables
-    private rangeWeapon currentRangeWeapon;
     private trinkets currentTrinket;
-    public List<GameObject> playerBullets;
-    public List<GameObject> playerBlobs;
-    public List<GameObject> playerBulletPrefabs;
     public List<GameObject> playerGunPrefabs;
-    private int bulletCount;
-    private int blobCount;
-    private int maxBullets;
-    private int maxBlobs;
+    private rangeWeapon currentRangeWeapon;
+    private int weaponNum;
     public int portalNum;
-    private float plasmaSizeVar;
-    private bool charging;
-    Coroutine sound;
-    GameObject bulletCopy;
 
     // Variables for the player's inventory
     public ItemType[] playerItems;
 
     //private int itemCount;
 
-
-    // new Weapon Stuff
-    private int weaponNum;
 
     // Unlockable abilities
     public bool magnet;
@@ -65,25 +49,10 @@ public class PlayerManager : MonoBehaviour
         get { return shieldLife; }
         set { shieldLife = value; }
     }
-
-    public int BulletCount
-    {
-        get { return bulletCount; }
-        set { bulletCount = value; }
-    }
-    public int BlobCount
-    {
-        get { return blobCount; }
-        set { blobCount = value; }
-    }
     public bool Poisoned
     {
         get { return poisoned; }
         set { poisoned = value; }
-    }
-    public bool Charging
-    {
-        get { return charging; }
     }
     public int PoisonCounter
     {
@@ -116,12 +85,9 @@ public class PlayerManager : MonoBehaviour
         applypoison = true; // Starts as true, turned to false only if poisoned
         poisoned = false;
         poisonCounter = 0;
-        currentRangeWeapon = rangeWeapon.antiEctoPlasmator;
+        currentRangeWeapon = playerGunPrefabs[weaponNum].GetComponent<GunScript>().gunType;
         portalNum = 0;
         weaponNum = 0;
-
-        // Initializing Lists
-        playerBullets = new List<GameObject>();
 
         playerItems = new ItemType[6];
         for(int i = 0; i<playerItems.Length; i++)
@@ -514,9 +480,19 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
 
+            // For particle guns turn off the particles if you switch weapons
             if (playerGunPrefabs[weaponNum].GetComponent<GunScript>().Particles)
             {
                 playerGunPrefabs[weaponNum].GetComponent<GunScript>().Particles.SetActive(false);
+            }
+            // For particle guns shooting
+            if (playerGunPrefabs[weaponNum].GetComponent<GunScript>().Charging)
+            {
+                playerGunPrefabs[weaponNum].GetComponent<GunScript>().Charging = false;
+                // Shoot the Charging bullet if not hitting the mouse button
+                playerGunPrefabs[weaponNum].GetComponent<GunScript>().bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+                playerGunPrefabs[weaponNum].GetComponent<GunScript>().BulletCount++;
+                playerGunPrefabs[weaponNum].GetComponent<GunScript>().JustShot();
             }
 
             // turn off the current gun sprite
@@ -528,6 +504,7 @@ public class PlayerManager : MonoBehaviour
 
             // turn on the current gun sprite
             playerGunPrefabs[weaponNum].GetComponent<SpriteRenderer>().enabled = true;
+            currentRangeWeapon = playerGunPrefabs[weaponNum].GetComponent<GunScript>().gunType;
         }
     }
     #endregion

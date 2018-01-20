@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerMapScript : MonoBehaviour {
-
+public class PlayerMapScript : MonoBehaviour
+{
+    #region attibutes
     public List<GameObject> locations;
     private GameObject destination;
     public int currentLocationIndex;
     private int locationIndexMax;
+    #endregion
+
+    #region Properties
+    public GameObject Destination
+    {
+        get { return destination; }
+    }
+    #endregion
+
 
     // Use this for initialization
     void Start()

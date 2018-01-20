@@ -31,6 +31,14 @@ public class BulletManager : MonoBehaviour {
     private int portalNum;
     #endregion
 
+    #region Properties
+    public Vector3 StartPos
+    {
+        get { return startPos; }
+        set { startPos = value; }
+    }
+    #endregion
+
     #region BulletStartMethod
     // Use this for initialization
     public void BulletStart(GameObject shooter)

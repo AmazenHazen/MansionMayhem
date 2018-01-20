@@ -29,7 +29,7 @@ public class GunScript : MonoBehaviour
     Coroutine sound;
 
     // Reset Bullet attributes
-    GameObject bulletCopy;
+    public GameObject bulletCopy;
     public bool canShoot;
     private bool canBurst;
 
@@ -53,6 +53,12 @@ public class GunScript : MonoBehaviour
     public bool Charging
     {
         get { return charging; }
+        set { charging = value; }
+    }
+    public int BulletCount
+    {
+        get { return bulletCount; }
+        set { bulletCount = value; }
     }
     #endregion
 
@@ -139,7 +145,7 @@ public class GunScript : MonoBehaviour
             // if the gun was charging a bullet, fire that bullet!
             if (charging == true)
             {
-                // for charging bullets
+                // Shoot the Charging bullet if not hitting the mouse button
                 charging = false;
                 bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
                 bulletCount++;
@@ -174,22 +180,34 @@ public class GunScript : MonoBehaviour
     /// </summary>
     void ChargeBullet()
     {
-        // Shoot the bullet
+        // Start Charging the bullet
         if (!charging)
         {
+            //Start charging the bullet
             bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
+            bulletCopy.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);
             playerBullets.Add(bulletCopy);
             charging = true;
         }
         else
         {
             // Keep the bullet with the player and scale the bullet up
+            // Call Special start method for bullets
             bulletCopy.transform.position = transform.position + (.5f* transform.up);
+
+            // Set the start pos of the bullet while charging so it doesn't get destroyed if not shooting between 0-20 Unity units
+            bulletCopy.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);
+
+            // Rotate the bullet with the player
             bulletCopy.transform.rotation = transform.rotation;
+
+            // Keeps the bullet from being too big
             if (plasmaSizeVar < 5)
             {
                 plasmaSizeVar += 1f * Time.deltaTime;
             }
+
+            // Scales the bullet
             bulletCopy.transform.localScale = new Vector3(plasmaSizeVar, plasmaSizeVar, transform.localScale.z);
         }
     }
@@ -214,7 +232,7 @@ public class GunScript : MonoBehaviour
     /// <summary>
     /// Keeps the player from spamming the shoot button
     /// </summary>
-    void JustShot()
+    public void JustShot()
     {
         // Player Can't shoot for .5 seconds
         //Debug.Log("We Just Shot!");

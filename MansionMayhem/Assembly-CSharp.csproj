@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\GameManagementScripts\GUIManager.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\LevelLocation.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\LevelManager.cs" />
+     <Compile Include="Assets\Scripts\GameManagementScripts\LevelSelectGUIManager.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\LoadOnClick.cs" />
      <Compile Include="Assets\Scripts\Non-Player Scripts\DialogOptionScript.cs" />
      <Compile Include="Assets\Scripts\Non-Player Scripts\EnemyManager.cs" />

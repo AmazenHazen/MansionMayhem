@@ -6,6 +6,7 @@ public class LevelLocation : MonoBehaviour
 {
 
     // Properties
+    public string name;
     public int level;
     public bool unlocked;
     int locationIndex;

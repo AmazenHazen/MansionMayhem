@@ -11,13 +11,15 @@ using System.IO;
 public class GameManager : MonoBehaviour
 {
     #region Variables
+    // Static instance of the GameManager to allows it to be accessed from any script
+    public static GameManager instance = null;
+
+
+
     // Level Variables
     public static int currentLevel;
-
     public static GameState currentGameState;
-
-
-
+    
 
     // ~~~~~~~Variables to be saved and loaded~~~~~~~~
     public int highestLevel; // Highest level/Progress Variable
@@ -47,6 +49,23 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        #region Singleton Start Logic
+        // Check to see if a GameManager already exists
+        if (instance == null)
+        {
+            // Set the instance to this script
+            instance = this;
+        }
+        // Otherwise delete this gameObject
+        else if(instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        // Keep this instance from being destroyed
+        DontDestroyOnLoad(gameObject);
+        #endregion
+
         // Start the currentGameState to MainMenu
         currentGameState = GameState.MainMenu;
 
@@ -67,6 +86,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region GUI
+    /*
     /// <summary>
     /// Overloaded OnGUI method:
     /// Puts these thing on the display:
@@ -94,7 +114,9 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    */
     #endregion
+
 
     #region Save and Load Methods
     // This will work for everything but web

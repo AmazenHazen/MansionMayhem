@@ -29,13 +29,12 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> playerBullets;
     public List<GameObject> playerBlobs;
     public List<GameObject> playerBulletPrefabs;
+    public List<GameObject> playerGunPrefabs;
     private int bulletCount;
     private int blobCount;
     private int maxBullets;
     private int maxBlobs;
     public int portalNum;
-    GameObject FrostGun;
-    GameObject Flamethrower;
     private float plasmaSizeVar;
     private bool charging;
     Coroutine sound;
@@ -46,6 +45,9 @@ public class PlayerManager : MonoBehaviour
 
     //private int itemCount;
 
+
+    // new Weapon Stuff
+    private int weaponNum;
 
     // Unlockable abilities
     public bool magnet;
@@ -108,8 +110,6 @@ public class PlayerManager : MonoBehaviour
         currentLife = 20f;
         shieldLife = 1;
         invincibility = false;
-        canShoot = true;
-        canBurst = true;
         canMelee = true;
         canShield = true;
         canTravel = true;
@@ -117,12 +117,8 @@ public class PlayerManager : MonoBehaviour
         poisoned = false;
         poisonCounter = 0;
         currentRangeWeapon = rangeWeapon.antiEctoPlasmator;
-        FrostGun = transform.Find("FrostGun").gameObject;
-        Flamethrower = transform.Find("Flamethrower").gameObject;
-        maxBullets = 4;
-        maxBlobs = 3;
         portalNum = 0;
-        charging = false;
+        weaponNum = 0;
 
         // Initializing Lists
         playerBullets = new List<GameObject>();
@@ -149,8 +145,6 @@ public class PlayerManager : MonoBehaviour
         {
             Shoot();
         }
-        BlobManagement();
-        BulletManagement();
         Melee();
         Shield();
     }
@@ -509,165 +503,8 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     private void Shoot()
     {
-        if (Input.GetMouseButton(0) && canShoot == true)
-        {
-            switch (currentRangeWeapon)
-            {
-                case rangeWeapon.aetherLightBow:                 
-                    ShootBullet(0);
-                    break;
-                case rangeWeapon.antiEctoPlasmator:
-                    ShootBullet(1);
-                    break;
-                case rangeWeapon.laserpistol:
-                    ShootBullet(2);
-                    break;
-                case rangeWeapon.hellfireshotgun:
-                    for (int i = 0; i < 4; i++)
-                    {
-                        // Spread of the bullets
-                        //Quaternion pelletRotation = transform.rotation;
-                        //pelletRotation.x += Random.Range(-.05f, .05f);
-                        //pelletRotation.y += Random.Range(-.05f, .05f);
-
-                        ShootBullet(3);
-                    }
-                    break;
-                case rangeWeapon.soundCannon:
-                    if (canBurst)
-                    {
-                        sound = StartCoroutine(SoundCannonShoot(4, .05f));
-                        canBurst = false;
-                    }
-                    break;
-                case rangeWeapon.ElectronSeeker:
-                    ShootBullet(5);
-                    break;
-                case rangeWeapon.PortalGun:
-                    ShootBullet(6);               
-                    break;
-                case rangeWeapon.PlasmaCannon:
-                    if (!charging)
-                    {
-                        plasmaSizeVar = 1;
-                    }
-                        ChargeBullet(7);
-                    break;
-                case rangeWeapon.cryoGun:
-                    FrostGun.SetActive(true);
-                    break;
-                case rangeWeapon.flamethrower:
-                    Flamethrower.SetActive(true);
-                    break;
-            }
-        }
-        else
-        {
-            Flamethrower.SetActive(false);
-            FrostGun.SetActive(false);
-
-            if (charging == true)
-            {
-                // for charging bullets
-                charging = false;
-                bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-                bulletCount++;
-                JustShot();
-            }
-        }
+        playerGunPrefabs[weaponNum].GetComponent<GunScript>().FireWeapon();
     }
-
-    /// <summary>
-    /// Launches a bullet
-    /// </summary>
-    void ShootBullet(int bulletPrefab)
-    {
-        Debug.Log("Firing Bullet" + bulletPrefab);
-        Debug.Log(canShoot);
-        // Shoot the bullet
-        bulletCopy = Instantiate(playerBulletPrefabs[bulletPrefab], transform.position, transform.rotation) as GameObject;
-        playerBullets.Add(bulletCopy);
-
-        // Call Special start method for bullets
-        bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-
-        bulletCount++;
-
-        JustShot();
-    }
-
-    /// <summary>
-    /// Launches a bullet
-    /// </summary>
-    void ChargeBullet(int bulletPrefab)
-    {
-        // Shoot the bullet
-        if (!charging)
-        {
-            bulletCopy = Instantiate(playerBulletPrefabs[bulletPrefab], transform.position, transform.rotation) as GameObject;
-            playerBullets.Add(bulletCopy);
-            charging = true;
-        }
-        else
-        {
-            // Keep the bullet with the player and scale the bullet up
-            bulletCopy.transform.position = transform.position + transform.up;
-            bulletCopy.transform.rotation = transform.rotation;
-            if (plasmaSizeVar < 5)
-            {
-                plasmaSizeVar += 1f * Time.deltaTime;
-            }
-            bulletCopy.transform.localScale = new Vector3(plasmaSizeVar, plasmaSizeVar, transform.localScale.z);
-        }
-    }
-
-
-    // Helper method for shooting bullets for sound Cannon
-    IEnumerator SoundCannonShoot(int bulletPrefab, float delayTime)
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            if (currentRangeWeapon == rangeWeapon.soundCannon)
-            {
-                ShootBullet(4);
-                yield return new WaitForSeconds(delayTime);
-                //Debug.Log("Burst");
-            }
-        }
-        Invoke("ResetBurst", .5f);
-    }
-
-    #region ResetShooting Methods
-    /// <summary>
-    /// Keeps the player from spamming the shoot button
-    /// </summary>
-    void JustShot()
-    {
-        // Player Can't shoot for .5 seconds
-        //Debug.Log("We Just Shot!");
-        canShoot = false;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
-        Invoke("ResetShooting", timeBetweenShots);
-    }
-
-    /// <summary>
-    /// Resets Player's canShoot Bool
-    /// </summary>
-    void ResetShooting()
-    {
-        canShoot = true;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-    }
-
-    /// <summary>
-    /// Resets Player's canShoot Bool
-    /// </summary>
-    void ResetBurst()
-    {
-        canBurst = true;
-    }
-    #endregion
-
 
     /// <summary>
     /// Switch Range Weapons Helper Method
@@ -676,73 +513,23 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
-            // Increment the current range weapon
-            if (currentRangeWeapon != rangeWeapon.PlasmaCannon)
+
+            if (playerGunPrefabs[weaponNum].GetComponent<GunScript>().Particles)
             {
-                currentRangeWeapon++;
-            }
-            else
-            {
-                currentRangeWeapon = 0;
+                playerGunPrefabs[weaponNum].GetComponent<GunScript>().Particles.SetActive(false);
             }
 
-            // Stop the sound Courotine
-            if (sound != null)
-            {
-                StopCoroutine(sound);
-            }
+            // turn off the current gun sprite
+            playerGunPrefabs[weaponNum].GetComponent<SpriteRenderer>().enabled = false;
 
-            switch(currentRangeWeapon)
-            {
-                case rangeWeapon.aetherLightBow:
-                    timeBetweenShots = .5f;
-                    maxBullets = 3;
-                    break;
-                case rangeWeapon.antiEctoPlasmator:
-                    timeBetweenShots = .5f;
-                    maxBullets = 3;
-                    maxBlobs = 3;
-                    break;
-                case rangeWeapon.hellfireshotgun:
-                    timeBetweenShots = .5f;
-                    maxBullets = 15;
-                    break;
-                case rangeWeapon.laserpistol:
-                    timeBetweenShots = .1f;
-                    maxBullets = 20;
-                    break;
-                case rangeWeapon.soundCannon:
-                    timeBetweenShots = .5f;
-                    maxBullets = 12;
-                    break;
-                case rangeWeapon.ElectronSeeker:
-                    timeBetweenShots = 1.0f;
-                    maxBullets = 4;
-                    break;
-                case rangeWeapon.PortalGun:
-                    timeBetweenShots = 1f;
-                    maxBullets = 3;
-                    maxBlobs = 2;
-                    break;
-                case rangeWeapon.PlasmaCannon:
-                    timeBetweenShots = .1f;
-                    maxBullets = 10;
-                    break;
-            }
+            // Increment the gun being used
+            weaponNum++;
+            weaponNum %= 3;
+
+            // turn on the current gun sprite
+            playerGunPrefabs[weaponNum].GetComponent<SpriteRenderer>().enabled = true;
         }
     }
-
-    void BulletManagement()
-    {
-        if (playerBullets.Count > maxBullets)
-        {
-            GameObject playerBulletCopy = playerBullets[0];
-            bulletCount--;
-            playerBullets.Remove(playerBulletCopy);
-            Destroy(playerBulletCopy);
-        }
-    }
-
     #endregion
 
     #region Melee Helper Methods
@@ -875,20 +662,6 @@ public class PlayerManager : MonoBehaviour
         applypoison = true;
     }
     #endregion
-
-    #region Blob Management
-    void BlobManagement()
-    {
-        if(blobCount>maxBlobs)
-        {
-            GameObject playerBlobCopy = playerBlobs[0];
-            blobCount--;
-            playerBlobs.Remove(playerBlobCopy);
-            Destroy(playerBlobCopy);
-        }
-    }
-    #endregion
-
     #endregion
 
     #region Inventory Helper Methods

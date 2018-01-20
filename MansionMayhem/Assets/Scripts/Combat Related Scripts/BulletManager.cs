@@ -17,7 +17,7 @@ public class BulletManager : MonoBehaviour {
     private Vector3 velocity;
     public Vector3 direction;
     public GameObject owner;
-    public string ownerTag;
+    public bulletOwners ownerType;
 
     // Additional Variables for special weapons/bullets
     private Vector3 startPos;
@@ -40,14 +40,36 @@ public class BulletManager : MonoBehaviour {
 
         // Set the owner of the shooter and the position of the shot
         owner = shooter;
+
+        // Check to see if a gun shot out the bullets and if it has an owner associated to it
+        if(shooter.GetComponent<GunScript>())
+        {
+            ownerType = shooter.GetComponent<GunScript>().gunOwner;
+        }
+
+        // Otherwise assign the ownership based on the tag of the parent
+        else
+        {
+            if(owner.tag == "player")
+            {
+                ownerType = bulletOwners.player;
+            }
+            else
+            {
+                ownerType = bulletOwners.enemy;
+            }
+        }
+
+
+        // Set the start position in bullet start (except for the charge bullet)
+
         startPos = transform.position;
 
-        // Set the tag to a copy
-        ownerTag = owner.tag;
+
 
         // Set bullet speed depending on the bullet for the player
         #region Player Bullets
-        if (ownerTag == "player")
+        if (ownerType == bulletOwners.player)
         {
             switch (bulletType)
             {
@@ -91,7 +113,7 @@ public class BulletManager : MonoBehaviour {
                     damage = .5f;
 
                     // Determining Shotgun pellets rotation
-                    float rotationAngle = owner.transform.rotation.z;  // Gets current Angle
+                    float rotationAngle = shooter.transform.rotation.z;  // Gets current Angle
 
                     // Determine a random Angle
                     rotationAngle += Random.Range(-20, 20);
@@ -105,9 +127,9 @@ public class BulletManager : MonoBehaviour {
 
         // Get the damage from the enemy that shot the bullet (for the enemy)
         #region Enemy Bullets
-        else if (ownerTag == "enemy" || ownerTag == "boss")
+        else if (ownerType == bulletOwners.enemy)
         {
-            damage = owner.GetComponent<EnemyManager>().rangeDamage;
+            damage = shooter.GetComponent<EnemyManager>().rangeDamage;
 
             switch (bulletType)
             {
@@ -133,11 +155,17 @@ public class BulletManager : MonoBehaviour {
         // Check to make sure the bullet didn't go too far or is moving too slow
         if ((transform.position - startPos).magnitude > 20 || speed<0)
         {
-            if (ownerTag == "player")
+            if (ownerType == bulletOwners.player)
             {
+                Debug.Log("Too far");
+                Debug.Log("start bullet pos: " + startPos);
+                Debug.Log("current bullet pos: " + transform.position);
+                Debug.Log("Magnitude: " + (transform.position - startPos).magnitude);
+
+
                 PlayerBulletDestroy();
             }
-            if (ownerTag == "enemy" || ownerTag == "boss")
+            if (ownerType == bulletOwners.enemy)
             {
                 EnemyBulletDestroy();
             }
@@ -145,7 +173,7 @@ public class BulletManager : MonoBehaviour {
 
         
         // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
-        if (bulletType == bulletTypes.antiEctoPlasm && ownerTag == "player" && (startPos - transform.position).magnitude > 4)
+        if (bulletType == bulletTypes.antiEctoPlasm && ownerType == bulletOwners.player && (startPos - transform.position).magnitude > 4)
         {
             PlayerBlob();
             PlayerBulletDestroy();
@@ -153,14 +181,14 @@ public class BulletManager : MonoBehaviour {
 
         // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
 
-        if (bulletType == bulletTypes.PortalShot && ownerTag == "player" && (startPos - transform.position).magnitude > 5)
+        if (bulletType == bulletTypes.PortalShot && ownerType == bulletOwners.player && (startPos - transform.position).magnitude > 5)
         {
             PlayerBlob();
             PlayerBulletDestroy();
         }
 
         // For electrons seek the closest enemy
-        if (bulletType == bulletTypes.electron && ownerTag == "player")
+        if (bulletType == bulletTypes.electron && ownerType == bulletOwners.player)
         {
             GameObject enemy = FindClosestEnemy();
 
@@ -209,8 +237,8 @@ public class BulletManager : MonoBehaviour {
         GameObject blobCopy = Instantiate(secondaryBullet, transform.position, transform.rotation);
 
         // Add Anti-Ectoplasm Blob
-        owner.GetComponent<PlayerManager>().playerBlobs.Add(blobCopy);
-        owner.GetComponent<PlayerManager>().BlobCount++;
+        owner.GetComponent<GunScript>().playerBlobs.Add(blobCopy);
+        owner.GetComponent<GunScript>().BlobCount++;
 
         blobCopy.GetComponent<BlobScript>().BlobStart(owner);
 
@@ -295,8 +323,8 @@ public class BulletManager : MonoBehaviour {
         if (owner != null)
         {
             // Delete the bullet reference in the Enemy Manager
-            owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
-            owner.GetComponent<EnemyManager>().BulletCount--;
+            //owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
+            //owner.GetComponent<EnemyManager>().BulletCount--;
         }
         // Delete the bullet
         Destroy(gameObject);
@@ -308,8 +336,8 @@ public class BulletManager : MonoBehaviour {
     private void PlayerBulletDestroy()
     {
         // Remove and Destroy bullet
-        owner.GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
-        owner.GetComponent<PlayerManager>().BulletCount--;
+        //owner.GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
+        //owner.GetComponent<PlayerManager>().BulletCount--;
         Destroy(this.gameObject);
     }
 
@@ -386,14 +414,12 @@ public class BulletManager : MonoBehaviour {
             }
 
             // Remove refernece to the bullet
-            if ((ownerTag == "player" && bulletType!=bulletTypes.Plasma) || (bulletType==bulletTypes.Plasma && owner.GetComponent<PlayerManager>().Charging == false))
+            if ((ownerType == bulletOwners.player && bulletType!=bulletTypes.Plasma) || (bulletType==bulletTypes.Plasma && owner.GetComponent<GunScript>().Charging == false))
             {
                 // Delete the bullet reference in the Player Manager
-                GameObject.Find("Player").GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
-                GameObject.Find("Player").GetComponent<PlayerManager>().BulletCount--;
-                Destroy(gameObject);
+                PlayerBulletDestroy();
             }
-            if (ownerTag == "enemy" || ownerTag == "boss")
+            if (ownerType == bulletOwners.enemy)
             {
                 // Check to make sure the enemy hasn't already been killed
                 if (owner != null)
@@ -409,7 +435,7 @@ public class BulletManager : MonoBehaviour {
 
         #region Enemy Collision with playerBullet
         // If bullet runs into an enemy
-        else if ((collider.tag == "enemy" || collider.tag == "boss") && ownerTag == "player" && canDamage == true)
+        else if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == bulletOwners.player && canDamage == true)
         {
             if (bulletType != bulletTypes.PortalShot)
             {
@@ -441,7 +467,7 @@ public class BulletManager : MonoBehaviour {
         #endregion
 
         #region Shield Collision with enemyBullet
-        else if (collider.tag == "shield" && (ownerTag == "enemy" || ownerTag == "boss"))
+        else if (collider.tag == "shield" && (ownerType == bulletOwners.enemy))
         {
             Debug.Log("Bullet Hit Shield");
 
@@ -467,7 +493,7 @@ public class BulletManager : MonoBehaviour {
         #endregion
 
         #region Player Collision with enemyBullet
-        else if (collider.tag == "player" && (ownerTag == "enemy" || ownerTag == "boss") && !GameObject.Find("Shield"))
+        else if (collider.tag == "player" && (ownerType == bulletOwners.enemy) && !GameObject.Find("Shield"))
         {
             Debug.Log("Bullet Hit Player");
 
@@ -490,7 +516,7 @@ public class BulletManager : MonoBehaviour {
         #endregion
 
         #region Player or Enemy Bullet Collision with a breakable object
-        else if (collider.tag == "breakable" && (ownerTag == "player" || ownerTag == "enemy"))
+        else if (collider.tag == "breakable" && (ownerType == bulletOwners.player || ownerType == bulletOwners.enemy))
         {
             // Spawn an object
             collider.GetComponent<BreakableObject>().SpawnInsides();
@@ -510,11 +536,11 @@ public class BulletManager : MonoBehaviour {
             }
 
             // Check to make sure the enemy hasn't already been killed
-            if (ownerTag == "player")
+            if (ownerType == bulletOwners.player)
             {
                 PlayerBulletDestroy();
             }
-            if (ownerTag == "enemy" || ownerTag == "boss")
+            if (ownerType == bulletOwners.enemy)
             {
                 EnemyBulletDestroy();
             }

@@ -11,7 +11,8 @@ public class BlobScript : MonoBehaviour
     private float damage;
     public bulletTypes blobComposite;
     public GameObject owner;
-    public string ownerTag;
+    private bulletOwners ownerType;
+
     bool isPoisonous;
     public bool ownerAlive;
     public bool slowsPlayer;
@@ -22,9 +23,30 @@ public class BlobScript : MonoBehaviour
     // Use this for initialization
     public void BlobStart(GameObject shooter)
     {
+        #region assign Ownership for blob
         // Set the tag to a copy
         owner = shooter;
-        ownerTag = owner.tag;
+
+        // Check to see if a gun shot out the bullets and if it has an owner associated to it
+        if (shooter.GetComponent<GunScript>())
+        {
+            ownerType = shooter.GetComponent<GunScript>().gunOwner;
+        }
+
+        // Otherwise assign the ownership based on the tag of the parent
+        else
+        {
+            if (owner.tag == "player")
+            {
+                ownerType = bulletOwners.player;
+            }
+            else
+            {
+                ownerType = bulletOwners.enemy;
+            }
+        }
+        #endregion
+
         ownerAlive = true;
 
         if (blobComposite == bulletTypes.antiEctoPlasm)
@@ -85,7 +107,7 @@ public class BlobScript : MonoBehaviour
     {
         #region Enemy Collision with playerBlob
         // If an enemy runs ovr the blob
-        if ((collider.tag == "enemy" || collider.tag == "boss") && ownerTag == "player")
+        if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == bulletOwners.player)
         {
             // Damage Enemy
             collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
@@ -94,7 +116,7 @@ public class BlobScript : MonoBehaviour
         #endregion
 
         #region Player Collision with enemyBlob
-        else if (collider.tag == "player" && (ownerTag == "enemy" || ownerTag == "boss"))
+        else if (collider.tag == "player" && ownerType == bulletOwners.enemy)
         {
             //Debug.Log("Blob Hit Player");
 
@@ -123,7 +145,7 @@ public class BlobScript : MonoBehaviour
         #endregion
 
         #region Player Collision with playerblob
-        else if (collider.tag == "player" && (ownerTag == "player"))
+        else if (collider.tag == "player" && ownerType == bulletOwners.player)
         {
             if (blobComposite == bulletTypes.Portal)
             {

@@ -32,7 +32,8 @@ public class LevelSelectGUIManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        TextUpdate();	
+        TextUpdate();
+        EscapeScreenManagement();	
 	}
 
     #region Text Management
@@ -47,30 +48,25 @@ public class LevelSelectGUIManager : MonoBehaviour {
     #region Escape Screen Management
     public void EscapeScreenManagement()
     {
-
-        if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true) && GameManager.currentGameState == GameState.Paused)
+        if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true) && (GameManager.currentGameState == GameState.MainMenu || GameManager.currentGameState == GameState.Paused))
         {
             ContinueGame();
         }
-        else if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false) && GameManager.currentGameState != GameState.Paused)
+        else if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false) && (GameManager.currentGameState == GameState.MainMenu))
         {
             PauseGame();
         }
-
-
     }
 
     public void PauseGame()
     {
         escapeScreen.SetActive(true);
-        GameManager.currentGameState = GameState.Paused;
         Time.timeScale = 0;
     }
     public void ContinueGame()
     {
         escapeScreen.SetActive(false);
         instructionsScreen.SetActive(false);
-        GameManager.currentGameState = GameState.Play;
         Time.timeScale = 1;
     }
     #endregion

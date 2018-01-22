@@ -78,7 +78,10 @@ public class LoadOnClick : MonoBehaviour
         while (!async.isDone) // Check to see if the level is completely loaded
         {
             // Update the bar given the load progress
-            loadingBar.value = async.progress;
+            if (loadingBar != null)
+            {
+                loadingBar.value = async.progress;
+            }
             yield return null;
         }
     }

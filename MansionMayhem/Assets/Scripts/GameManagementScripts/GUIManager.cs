@@ -170,7 +170,7 @@ public class GUIManager : MonoBehaviour
         levelText.text = "Level: " + GameManager.currentLevel;
     }
     #endregion
-
+    
     #region Boss HealthBar Management
     void BossHealthManagement()
     {

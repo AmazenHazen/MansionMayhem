@@ -7,9 +7,7 @@ public class WorkBenchManager : MonoBehaviour
 {
 
     // Attributes
-    public GameObject weaponsPanel;
-    public GameObject trinketsPanel;
-    public GameObject outfitPanel;
+    public List<GameObject> upgradePanels;
 
 
     // Use this for initialization
@@ -24,9 +22,27 @@ public class WorkBenchManager : MonoBehaviour
 		
 	}
 
-    void SwitchSection()
+
+    /// <summary>
+    /// Method for changing the selection for upgrades
+    /// </summary>
+    /// <param name="panelSelected"></param>
+    public void SwitchSection(GameObject panelSelected)
     {
         // Hide the other Panels
+        for(int i=0; i<upgradePanels.Count; i++)
+        {
+            // Loop through the panels and select the one that is passed in
+            if(panelSelected == upgradePanels[i])
+            {
+                upgradePanels[i].SetActive(true);
+            }
+            else
+            {
+                upgradePanels[i].SetActive(false);
+            }
+        }
+
 
     }
 

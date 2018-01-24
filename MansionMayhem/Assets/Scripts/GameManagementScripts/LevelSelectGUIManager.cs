@@ -12,6 +12,8 @@ public class LevelSelectGUIManager : MonoBehaviour {
     // Variables for escape screen
     public GameObject escapeScreen;
     public GameObject instructionsScreen;
+    public GameObject workbenchScreen;
+    public GameObject loadoutScreen;
 
 
     public Text scoreText;
@@ -48,11 +50,11 @@ public class LevelSelectGUIManager : MonoBehaviour {
     #region Escape Screen Management
     public void EscapeScreenManagement()
     {
-        if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true) && (GameManager.currentGameState == GameState.MainMenu || GameManager.currentGameState == GameState.Paused))
+        if ((Input.GetKeyDown(KeyCode.Escape) && (escapeScreen.activeSelf == true || loadoutScreen.activeSelf == true || workbenchScreen.activeSelf == true) && (GameManager.currentGameState == GameState.MainMenu || GameManager.currentGameState == GameState.Paused)))
         {
             ContinueGame();
         }
-        else if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false) && (GameManager.currentGameState == GameState.MainMenu))
+        else if ((Input.GetKeyDown(KeyCode.Escape)) && (escapeScreen.activeSelf == false && loadoutScreen.activeSelf == false && workbenchScreen.activeSelf == false) && (GameManager.currentGameState == GameState.MainMenu))
         {
             PauseGame();
         }
@@ -67,6 +69,8 @@ public class LevelSelectGUIManager : MonoBehaviour {
     {
         escapeScreen.SetActive(false);
         instructionsScreen.SetActive(false);
+        workbenchScreen.SetActive(false);
+        loadoutScreen.SetActive(false);
         Time.timeScale = 1;
     }
     #endregion

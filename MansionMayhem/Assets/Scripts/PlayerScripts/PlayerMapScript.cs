@@ -10,6 +10,7 @@ public class PlayerMapScript : MonoBehaviour
     private GameObject destination;
     public int currentLocationIndex;
     private int locationIndexMax;
+    public GameObject MenuGUIManager;
     #endregion
 
     #region Properties
@@ -41,51 +42,60 @@ public class PlayerMapScript : MonoBehaviour
     {
         Vector3 playerForce = Vector3.zero;
 
-        // If the user hits a left command
-        // Go to the previous location
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+
+        // Check to see if any other screen is open
+        if (MenuGUIManager.GetComponent<LevelSelectGUIManager>().escapeScreen.activeSelf == false && MenuGUIManager.GetComponent<LevelSelectGUIManager>().instructionsScreen.activeSelf == false
+            && MenuGUIManager.GetComponent<LevelSelectGUIManager>().loadoutScreen.activeSelf == false && MenuGUIManager.GetComponent<LevelSelectGUIManager>().workbenchScreen.activeSelf == false)
         {
-
-            // Cannot go to a location below zero
-            if (currentLocationIndex != 0)
+            // If the user hits a left command
+            // Go to the previous location
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             {
-                // Set the destination as the previous location in the locations index
-                destination = locations[currentLocationIndex - 1];
 
-                // Move the player icon to the level icon
-                gameObject.transform.position = destination.transform.position;
+                // Cannot go to a location below zero
+                if (currentLocationIndex != 0)
+                {
+                    // Set the destination as the previous location in the locations index
+                    destination = locations[currentLocationIndex - 1];
 
-                // Decrease the level index
-                currentLocationIndex--;
+                    // Move the player icon to the level icon
+                    gameObject.transform.position = destination.transform.position;
+
+                    // Decrease the level index
+                    currentLocationIndex--;
+                }
             }
-        }
 
-        // If the user hits a right command
-        // Go to the next location
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-        {
-            if (currentLocationIndex < locationIndexMax)
+            // If the user hits a right command
+            // Go to the next location
+            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             {
-                // Set the destination as the next location in the locations index
-                destination = locations[currentLocationIndex + 1];
+                if (currentLocationIndex < locationIndexMax)
+                {
+                    // Set the destination as the next location in the locations index
+                    destination = locations[currentLocationIndex + 1];
 
-                // Move the player icon to the level icon
-                gameObject.transform.position = destination.transform.position;
+                    // Move the player icon to the level icon
+                    gameObject.transform.position = destination.transform.position;
 
-                // Increase the level index
-                currentLocationIndex++;
+                    // Increase the level index
+                    currentLocationIndex++;
+                }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            if (destination.GetComponent<LevelLocation>().unlocked == true)
+
+            // If the user hits the enter or space button
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             {
-                // Set the GameManager current level for the GUI
-                GameManager.currentLevel = destination.GetComponent<LevelLocation>().level;
 
-                // Enter the level
-                SceneManager.LoadScene(currentLocationIndex + 2);
+                if (destination.GetComponent<LevelLocation>().unlocked == true)
+                {
+                    // Set the GameManager current level for the GUI
+                    GameManager.currentLevel = destination.GetComponent<LevelLocation>().level;
+
+                    // Enter the level
+                    SceneManager.LoadScene(currentLocationIndex + 2);
+                }
             }
         }
     }

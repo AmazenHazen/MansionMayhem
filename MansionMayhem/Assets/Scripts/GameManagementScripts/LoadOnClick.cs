@@ -29,7 +29,22 @@ public class LoadOnClick : MonoBehaviour
     /// <param name="image"></param>
     public void SetActiveImage(GameObject image)
     {
-        image.SetActive(true);
+        if (!image.activeSelf)
+        {
+            image.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Set an image active if used with a parameter of the background iamge
+    /// </summary>
+    /// <param name="image"></param>
+    public void SetUnactiveImage(GameObject image)
+    {
+        if (image.activeSelf)
+        {
+            image.SetActive(false);
+        }
     }
 
 

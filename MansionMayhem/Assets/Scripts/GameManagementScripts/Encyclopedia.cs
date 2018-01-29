@@ -48,8 +48,9 @@ public enum rangeWeapon
     flamethrower = 5,   // Flamethrower
     soundCannon = 6,    // Three Round Burst Sound Cannon
     ElectronSeeker = 7, // Gun with seeking bullets
-    PortalGun = 8,
+    CelestialRepeater = 8,
     PlasmaCannon = 9,
+    DarkEnergyRifle = 10,
 }
 
 public enum bulletTypes
@@ -70,6 +71,9 @@ public enum bulletTypes
     Portal,
     Plasma,
     Weight,
+    Magic,
+    CelestialCrystal,
+    DarkEnergy,
 }
 
 /// <summary>
@@ -91,10 +95,11 @@ public enum meleeWeapon
 
 public enum trinkets
 {
-    antiMatterBomb,
-    blackHoleDevice,
-    nanoHealingSwarm,
-    drone,
+    antiMatterBomb=1,
+    portalDevice=2,
+    nanoHealingSwarm=3,
+    drone=4,
+    hologramClone=5,
 }
 
 
@@ -102,6 +107,25 @@ public enum bulletOwners
 {
     player,
     enemy,
+}
+#endregion
+
+#region Equipement
+/// <summary>
+/// Enum that contains all levels available
+/// </summary>
+public enum Equipment
+{
+    FireResistantArmor=0,
+    HeatedCoatLining=1,
+    FrictionBoots=2,
+    AntidotePatch=3,
+    ScrewMagnet=4,
+    BootRockets=5,
+    RoboticHeart=6,
+    DragonScaleArmor=7,
+    AntiGooTreatment=8,
+    ShadowVeilRing=9,
 }
 #endregion
 

@@ -100,6 +100,10 @@ public class BulletManager : MonoBehaviour {
                     speed = 4f;
                     damage = .1f;
                     return;
+                case bulletTypes.CelestialCrystal:
+                    speed = 10f;
+                    damage = .1f;
+                    return;
                 case bulletTypes.ElectronBall:
                     speed = 3f;
                     damage = 1f;
@@ -317,15 +321,19 @@ public class BulletManager : MonoBehaviour {
         }
     }
 
+    void Bounce()
+    {
 
-    #endregion
+    }
+
+        #endregion
 
     #region Enemy Destroy Bullet Helper Methods
 
-    /// <summary>
-    /// Enemy Bullet Destory Method
-    /// </summary>
-    private void EnemyBulletDestroy()
+        /// <summary>
+        /// Enemy Bullet Destory Method
+        /// </summary>
+        private void EnemyBulletDestroy()
     {
         // Check to make sure the enemy hasn't already been killed
         if (owner != null)
@@ -420,6 +428,11 @@ public class BulletManager : MonoBehaviour {
             {
                 ElectronSpawn();
             }
+            if (bulletType == bulletTypes.CelestialCrystal)
+            {
+                Bounce();
+            }
+
 
             // Remove refernece to the bullet
             if ((ownerType == bulletOwners.player && bulletType!=bulletTypes.Plasma) || (bulletType==bulletTypes.Plasma && owner.GetComponent<GunScript>().Charging == false))

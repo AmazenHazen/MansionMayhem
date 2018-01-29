@@ -51,6 +51,7 @@ public class EnemyManager : MonoBehaviour
 
     // Boss Management
     public int phase;
+    private float totalTime;
     #endregion
 
     #region EnemyProperties
@@ -121,6 +122,9 @@ public class EnemyManager : MonoBehaviour
         // Check for death first
         death();
 
+        // update deltaTime next
+        totalTime += Time.deltaTime;
+
         #region Special Movement and shoot methods (For bosses mostly)
         switch (monster)
         {
@@ -147,6 +151,35 @@ public class EnemyManager : MonoBehaviour
                 }
 
                 break;
+            case enemyType.necromancer:
+                if (phase == 0)
+                {
+                    hasAbility = false;
+                }
+
+                // Forwarding the phase depending on the Prisoner Leader's health
+                if (totalTime > 15f)
+                {
+                    switch(phase)
+                    {
+                        case 0:
+                            hasAbility = false;
+                            break;
+                        case 1:
+                            hasAbility = false;
+                            break;
+                        case 2:
+                            hasAbility = false;
+                            break;
+                    }
+
+                    // Increment the phase and reset the timer
+                    phase++;
+                    totalTime = 0;
+                }
+                break;
+
+
             default:
 
                 break;

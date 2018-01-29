@@ -11,7 +11,7 @@ public class BlobScript : MonoBehaviour
     private float damage;
     public bulletTypes blobComposite;
     public GameObject owner;
-    private bulletOwners ownerType;
+    public bulletOwners ownerType;
 
     bool isPoisonous;
     public bool ownerAlive;
@@ -20,7 +20,60 @@ public class BlobScript : MonoBehaviour
     public int portalNum;
     public GameObject otherPortal;
 
-    // Use this for initialization
+    #region Start Methods
+
+    #region Default Start Method
+    /// <summary>
+    /// Method if it doesn't spawn by a gun of the player
+    /// </summary>
+    public void BlobStartNoOwner()
+    {
+        #region assign Ownership for blob
+        // Set the tag to a copy
+          ownerType = bulletOwners.enemy;
+        #endregion
+
+        ownerAlive = true;
+
+        if (blobComposite == bulletTypes.antiEctoPlasm)
+        {
+            damage = .003f;
+            isPoisonous = false;
+        }
+
+        //Enemy Blob
+        if (blobComposite == bulletTypes.ectoPlasm)
+        {
+            damage = .0001f;
+            isPoisonous = true;
+        }
+
+        if (blobComposite == bulletTypes.web)
+        {
+            slowsPlayer = true;
+        }
+
+        if (blobComposite == bulletTypes.blackSlime)
+        {
+            slippy = true;
+        }
+        if (blobComposite == bulletTypes.Portal)
+        {
+            int tempPortalNum = owner.GetComponent<PlayerManager>().PortalNum;
+            portalNum = tempPortalNum;
+            tempPortalNum++;
+            tempPortalNum %= 2;
+            Debug.Log(tempPortalNum);
+            owner.GetComponent<PlayerManager>().PortalNum = tempPortalNum;
+        }
+
+    }
+    #endregion
+
+    /// <summary>
+    /// Use this for initialization when the blob is caused by a bullet or gun
+    /// </summary>
+    /// <param name="shooter"></param>
     public void BlobStart(GameObject shooter)
     {
         #region assign Ownership for blob
@@ -82,10 +135,16 @@ public class BlobScript : MonoBehaviour
         }
 
     }
-	
-	// Update is called once per frame
-	void Update()
+    #endregion
+
+    // Update is called once per frame
+    void Update()
     {
+        if(owner == null)
+        {
+            BlobStartNoOwner();
+        }
+
         if(blobComposite == bulletTypes.ectoPlasm)
         {
             if (owner == false)

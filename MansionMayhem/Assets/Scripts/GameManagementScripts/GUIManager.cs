@@ -254,12 +254,12 @@ public class GUIManager : MonoBehaviour
         if (minimized)
         {
             minimized = false;
-            InventoryPanel.GetComponent<RectTransform>().Translate(new Vector3(0, 320, 0));
+            InventoryPanel.GetComponent<RectTransform>().Translate(new Vector3(0, 4.65f, 0));
         }
         else
         {
             minimized = true;
-            InventoryPanel.GetComponent<RectTransform>().Translate(new Vector3(0, -320, 0));
+            InventoryPanel.GetComponent<RectTransform>().Translate(new Vector3(0, -4.65f, 0));
         }
     }
     #endregion

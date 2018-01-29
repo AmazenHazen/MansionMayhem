@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Test Scenes/all prefabs.unity
+- path: Assets/Scenes/LevelScenes/Level5Necromancer.unity
   isLoaded: 1
   isActive: 1

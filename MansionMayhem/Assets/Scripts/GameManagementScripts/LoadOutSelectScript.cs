@@ -38,18 +38,39 @@ public class LoadOutSelectScript : MonoBehaviour
 		
 	}
 
-    /// <summary>
-    /// Manages what buttons are/can be pressed:
-    /// This includes equipement, trinkets, and weapons used
-    /// </summary>
-    void buttonManagement()
-    {
 
+    /// <summary>
+    /// Handles if you equip armor
+    /// </summary>
+    /// <param name="buttonChosen"></param>
+    public void EquipArmor(GameObject buttonChosen)
+    {
+        // check to see if you already have too much equipped or already equipped
+        if (equipedNum >= totalEquipementNum/* && already equipped*/)
+        {
+            // Send message to player that too many numbers who have been selected
+        }
+        else
+        {
+            // Turn on the button
+            buttonChosen.GetComponent<Image>().color = selected;
+
+            // Set button Bool to true
+
+            // Increase the number of equiped items
+            equipedNum++;
+        }
     }
 
-    public void armorSelect(GameObject buttonChosen)
+
+    /// <summary>
+    /// Handles if you equip armor
+    /// </summary>
+    /// <param name="buttonChosen"></param>
+    public void UnequipArmor(GameObject buttonChosen)
     {
-        if (equipedNum >= totalEquipementNum)
+        // check to see if you already have too much equipped
+        if (equipedNum >= totalEquipementNum /* && already unequipped*/)
         {
             // Send message to player that too many numbers who have been selected
         }
@@ -62,8 +83,10 @@ public class LoadOutSelectScript : MonoBehaviour
             // Increase the number of equiped items
             equipedNum++;
         }
-        
+
     }
+
+
 
     /// <summary>
     /// Turns on the button and shows what weapon is selected.

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/LevelScenes/Level5Necromancer.unity
+- path: Assets/Scenes/MenuScenes/NewLevelSelection.unity
   isLoaded: 1
   isActive: 1

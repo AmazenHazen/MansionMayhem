@@ -129,6 +129,100 @@ public enum Equipment
 }
 #endregion
 
+public enum Unlock
+{
+    // Heart Unlocks
+    heartIncrease = 0,
+    equipmentIncrease = 1,
+
+    // Gun Unlocks
+    // Laser Pistol
+    LaserPistol = 5,
+    LaserPistolUpgrade1 = 6,
+    LaserPistolUpgrade2 = 7,
+    LaserPistolUpgrade3 = 8,
+
+    // Anti Ectoplasm Splatter Gun
+    AntiEctoGun = 10,
+    AntiEctoGunUpgrade1 = 11,
+    AntiEctoGunUpgrade2 = 12,
+    AntiEctoGunUpgrade3 = 13,
+
+    // Plasma Pistol
+    PlasmaPistol = 15,
+    PlasmaPistolUpgrade1 = 16,
+    PlasmaPistolUpgrade2 = 17,
+    PlasmaPistolUpgrade3 = 18,
+
+    // CryoGun
+    CryoGun = 20,
+    CryoGunUpgrade1 = 21,
+    CryoGunUpgrade2 = 22,
+    CryoGunUpgrade3 = 23,
+
+    // Flamethrower
+    FlameThrower = 25,
+    FlameThrowerUpgrade1 = 26,
+    FlameThrowerUpgrade2 = 27,
+    FlameThrowerUpgrade3 = 28,
+
+    // Hellfire Shotgun
+    HellFireShotgun = 30,
+    HellFireShotgunUpgrade1 = 31,
+    HellFireShotgunUpgrade2 = 32,
+    HellFireShotgunUpgrade3 = 33,
+    
+    // Sound Cannon
+    SoundCannon = 35,
+    SoundCannonUpgrade1 = 36,
+    SoundCannonUpgrade2 = 37,
+    SoundCannonUpgrade3 = 38,
+
+    // Dark Energy Sniper
+    DarkEnergySniper = 40,
+    DarkEnergySniperUpgrade1 = 41,
+    DarkEnergySniperUpgrade2 = 42,
+    DarkEnergySniperUpgrade3 = 43,
+
+    // Electron Cannon
+    ElectronPulseCannon = 45,
+    ElectronPulseCannonUpgrade1 = 46,
+    ElectronPulseCannonUpgrade2 = 47,
+    ElectronPulseCannonUpgrade3 = 48,
+
+    // Aetherlight Bow
+    AetherlightBow = 50,
+    AetherlightBowUpgrade1 = 51,
+    AetherlightBowUpgrade2 = 52,
+    AetherlightBowUpgrade3 = 53,
+
+    // Celestial Repeater
+    CelestialRepeater = 55,
+    CelestialRepeaterUpgrade1 = 56,
+    CelestialRepeaterUpgrade2 = 57,
+    CelestialRepeaterUpgrade3 = 58,
+
+    // Trinket Unlocks
+    AntiMatterDevice = 60,
+    PortalDevice = 61,
+    NanoBotHealingSwarm = 62,
+    Drone = 63,
+    HologramClone = 64,
+    Shield = 65,
+    BootRockets = 66,
+
+
+    // Equipment Unlocks
+    FireResistantUnderArmor = 80,
+    HeatedCoatLining = 81,
+    FrictionBoots = 82,
+    AntidotePatch = 83,
+    ScrewMagnet = 84,
+    RoboticHeart = 85,
+    DragonscaleArmor = 86,
+    GooRepellingTreatment = 87,
+}
+
 #region Enemy Enums
 #region EnemyTypes
 public enum enemyType

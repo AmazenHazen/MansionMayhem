@@ -14,27 +14,110 @@ public class GameManager : MonoBehaviour
     // Static instance of the GameManager to allows it to be accessed from any script
     public static GameManager instance = null;
 
-
-
     // Level Variables
     public static int currentLevel;
     public static GameState currentGameState;
-    
-
-    // ~~~~~~~Variables to be saved and loaded~~~~~~~~
-    public int highestLevel; // Highest level/Progress Variable
-    public static int screws; // Currency Variable
-    //Unlockable variables
-    private bool blobGunUnlock;
-    private bool hellFireShotgunUnlock;
-    private bool cryoGunUnlock;
-    private bool aetherLightBowUnlock;
-    private bool soundCannonUnlock;
-
-
 
     // Internal GameState Variables
     public bool inGame;
+
+    // ~~~~~~~Variables to be saved and loaded~~~~~~~~
+    #region SaveVariables
+    // Game Currency and progress variables
+    public int highestLevel; // Highest level/Progress Variable
+    public static int screws; // Currency Variable
+    public int healthTotal; // Hearts Unlocked
+    public int equipmentTotal; // Equipment Slots unlocked
+
+    #region Unlockable Variables
+    //Unlockable variables
+    // Laser Pistol
+    public bool LaserPistolUnlock;
+    public bool LaserPistolUpgrade1Unlock;
+    public bool LaserPistolUpgrade2Unlock;
+    public bool LaserPistolUpgrade3Unlock;
+
+    // Anti Ectoplasm Splatter Gun
+    public bool AntiEctoGunUnlock;
+    public bool AntiEctoGunUpgrade1Unlock;
+    public bool AntiEctoGunUpgrade2Unlock;
+    public bool AntiEctoGunUpgrade3Unlock;
+
+    // Plasma Pistol
+    public bool PlasmaPistolUnlock;
+    public bool PlasmaPistolUpgrade1Unlock;
+    public bool PlasmaPistolUpgrade2Unlock;
+    public bool PlasmaPistolUpgrade3Unlock;
+
+    // CryoGun
+    public bool CryoGunUnlock;
+    public bool CryoGunUpgrade1Unlock;
+    public bool CryoGunUpgrade2Unlock;
+    public bool CryoGunUpgrade3Unlock;
+
+    // FlameThrower
+    public bool FlameThrowerUnlock;
+    public bool FlameThrowerUpgrade1Unlock;
+    public bool FlameThrowerUpgrade2Unlock;
+    public bool FlameThrowerUpgrade3Unlock;
+
+    // Hellfire Shotgun
+    public bool HellFireShotgunUnlock;        
+    public bool HellFireShotgunUpgrade1Unlock;
+    public bool HellFireShotgunUpgrade2Unlock;
+    public bool HellFireShotgunUpgrade3Unlock;
+
+    // Sound Cannon
+    public bool SoundCannonUnlock;
+    public bool SoundCannonUpgrade1Unlock;
+    public bool SoundCannonUpgrade2Unlock;
+    public bool SoundCannonUpgrade3Unlock;
+
+    // Dark Energy Sniper
+    public bool DarkEnergySniperUnlock;
+    public bool DarkEnergySniperUpgrade1Unlock;
+    public bool DarkEnergySniperUpgrade2Unlock;
+    public bool DarkEnergySniperUpgrade3Unlock;
+
+    // Electron Cannon
+    public bool ElectronPulseCannonUnlock;
+    public bool ElectronPulseCannonUpgrade1Unlock;
+    public bool ElectronPulseCannonUpgrade2Unlock;
+    public bool ElectronPulseCannonUpgrade3Unlock;
+
+    // Aetherlight Bow
+    public bool boolAetherlightBowUnlock;
+    public bool boolAetherlightBowUpgrade1Unlock;
+    public bool boolAetherlightBowUpgrade2Unlock;
+    public bool boolAetherlightBowUpgrade3Unlock;
+
+    // Celestial Repeater
+    public bool CelestialRepeaterUnlock;
+    public bool CelestialRepeaterUpgrade1Unlock;
+    public bool CelestialRepeaterUpgrade2Unlock;
+    public bool CelestialRepeaterUpgrade3Unlock;
+
+    // Trinket Unlocks
+    public bool AntiMatterDeviceUnlock;
+    public bool PortalDeviceUnlock;
+    public bool NanoBotHealingSwarmUnlock;
+    public bool DroneUnlock;
+    public bool HologramCloneUnlock;
+    public bool ShieldUnlock;
+    public bool BootRocketsUnlock;
+
+    // Equipment Unlocks
+    public bool FireResistantUnderArmorUnlock;
+    public bool HeatedCoatLiningUnlock;
+    public bool FrictionBootsUnlock;
+    public bool AntidotePatchUnlock;
+    public bool ScrewMagnetUnlock;
+    public bool RoboticHeartUnlock;
+    public bool DragonscaleArmorUnlock;
+    public bool GooRepellingTreatmentUnlock;
+    #endregion
+    #endregion
+
     #endregion
 
     #region Properties
@@ -182,16 +265,99 @@ public class GameManager : MonoBehaviour
 [Serializable]
 class PlayerData
 {
-    // All saved data here
-    public int highestLevel;
-    public int screws;
-    //Unlockable variables
-    public bool blobGunUnlock;
-    public bool hellFireShotgunUnlock;
-    public bool cryoGunUnlock;
-    public bool aetherLightBowUnlock;
-    public bool soundCannonUnlock;
+    // Game Currency and progress variables
+    public int highestLevel; // Highest level/Progress Variable
+    public static int screws; // Currency Variable
+    public int healthTotal; // Hearts Unlocked
+    public int equipmentTotal; // Equipment Slots unlocked
 
+    #region Unlockable Variables
+    //Unlockable variables
+    // Laser Pistol
+    public bool LaserPistolUnlock;
+    public bool LaserPistolUpgrade1Unlock;
+    public bool LaserPistolUpgrade2Unlock;
+    public bool LaserPistolUpgrade3Unlock;
+
+    // Anti Ectoplasm Splatter Gun
+    public bool AntiEctoGunUnlock;
+    public bool AntiEctoGunUpgrade1Unlock;
+    public bool AntiEctoGunUpgrade2Unlock;
+    public bool AntiEctoGunUpgrade3Unlock;
+
+    // Plasma Pistol
+    public bool PlasmaPistolUnlock;
+    public bool PlasmaPistolUpgrade1Unlock;
+    public bool PlasmaPistolUpgrade2Unlock;
+    public bool PlasmaPistolUpgrade3Unlock;
+
+    // CryoGun
+    public bool CryoGunUnlock;
+    public bool CryoGunUpgrade1Unlock;
+    public bool CryoGunUpgrade2Unlock;
+    public bool CryoGunUpgrade3Unlock;
+
+    // FlameThrower
+    public bool FlameThrowerUnlock;
+    public bool FlameThrowerUpgrade1Unlock;
+    public bool FlameThrowerUpgrade2Unlock;
+    public bool FlameThrowerUpgrade3Unlock;
+
+    // Hellfire Shotgun
+    public bool HellFireShotgunUnlock;
+    public bool HellFireShotgunUpgrade1Unlock;
+    public bool HellFireShotgunUpgrade2Unlock;
+    public bool HellFireShotgunUpgrade3Unlock;
+
+    // Sound Cannon
+    public bool SoundCannonUnlock;
+    public bool SoundCannonUpgrade1Unlock;
+    public bool SoundCannonUpgrade2Unlock;
+    public bool SoundCannonUpgrade3Unlock;
+
+    // Dark Energy Sniper
+    public bool DarkEnergySniperUnlock;
+    public bool DarkEnergySniperUpgrade1Unlock;
+    public bool DarkEnergySniperUpgrade2Unlock;
+    public bool DarkEnergySniperUpgrade3Unlock;
+
+    // Electron Cannon
+    public bool ElectronPulseCannonUnlock;
+    public bool ElectronPulseCannonUpgrade1Unlock;
+    public bool ElectronPulseCannonUpgrade2Unlock;
+    public bool ElectronPulseCannonUpgrade3Unlock;
+
+    // Aetherlight Bow
+    public bool boolAetherlightBowUnlock;
+    public bool boolAetherlightBowUpgrade1Unlock;
+    public bool boolAetherlightBowUpgrade2Unlock;
+    public bool boolAetherlightBowUpgrade3Unlock;
+
+    // Celestial Repeater
+    public bool CelestialRepeaterUnlock;
+    public bool CelestialRepeaterUpgrade1Unlock;
+    public bool CelestialRepeaterUpgrade2Unlock;
+    public bool CelestialRepeaterUpgrade3Unlock;
+
+    // Trinket Unlocks
+    public bool AntiMatterDeviceUnlock;
+    public bool PortalDeviceUnlock;
+    public bool NanoBotHealingSwarmUnlock;
+    public bool DroneUnlock;
+    public bool HologramCloneUnlock;
+    public bool ShieldUnlock;
+    public bool BootRocketsUnlock;
+
+    // Equipment Unlocks
+    public bool FireResistantUnderArmorUnlock;
+    public bool HeatedCoatLiningUnlock;
+    public bool FrictionBootsUnlock;
+    public bool AntidotePatchUnlock;
+    public bool ScrewMagnetUnlock;
+    public bool RoboticHeartUnlock;
+    public bool DragonscaleArmorUnlock;
+    public bool GooRepellingTreatmentUnlock;
+    #endregion
 }
 #endregion
 

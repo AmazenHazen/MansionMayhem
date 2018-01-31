@@ -178,7 +178,7 @@ public class WorkBenchManager : MonoBehaviour
                     break;
 
                     // Trinket Unlocks
-                    case Unlock.AntiMatterDevice:
+                case Unlock.AntiMatterDevice:
                     break;
                 case Unlock.PortalDevice:
                     break;

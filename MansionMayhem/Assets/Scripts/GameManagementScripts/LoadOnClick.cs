@@ -68,10 +68,10 @@ public class LoadOnClick : MonoBehaviour
     {
 
         // Check to make sure the game manager exists
-        if (GameObject.Find("GameHandler") != null)
+        if (GameManager.instance != null)
         {
             // First Save Game
-            GameObject.Find("GameHandler").GetComponent<GameManager>().Save();
+            GameManager.instance.Save();
         }
         
         // turn on the loading screen and load the level

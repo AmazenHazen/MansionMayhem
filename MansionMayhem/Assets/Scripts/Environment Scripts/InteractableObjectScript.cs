@@ -19,7 +19,6 @@ public class InteractableObjectScript : MonoBehaviour
     private GameObject dialogBox;
     private GameObject dialogText;
     private bool interactBool;
-    private bool delayBool;
 
     // Text for the interactable object.
     public string interactingString;
@@ -47,7 +46,6 @@ public class InteractableObjectScript : MonoBehaviour
         dialogBox = GameObject.Find("DialogBox");
         dialogText = dialogBox.transform.Find("DialogText").gameObject;
         interactBool = false;
-        delayBool = true;
 
         // Set enemies to false at the beginning
         for (int i = 0; i < spawns.Count; i++)
@@ -151,7 +149,6 @@ public class InteractableObjectScript : MonoBehaviour
 
         // Set the Talking to bool to false
         interactBool = false;
-        delayBool = false;
 
         // Set the dialog box off
         dialogBox.SetActive(false);

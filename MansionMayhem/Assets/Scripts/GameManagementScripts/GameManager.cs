@@ -304,8 +304,8 @@ public class GameManager : MonoBehaviour
 
 
 
-    // Serialize the data
-    bf.Serialize(file, data);
+        // Serialize the data
+        bf.Serialize(file, data);
         file.Close();
     }
 

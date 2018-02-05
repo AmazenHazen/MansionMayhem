@@ -87,7 +87,6 @@ public class PlayerMapScript : MonoBehaviour
             // If the user hits the enter or space button
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             {
-
                 if (destination.GetComponent<LevelLocation>().unlocked == true)
                 {
                     // Set the GameManager current level for the GUI

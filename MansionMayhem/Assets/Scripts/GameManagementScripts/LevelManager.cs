@@ -65,21 +65,25 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Is called when the player completes the level, automatically reloads the level selection screen
+    /// </summary>
     void AdvanceLevel()
     {
         Debug.Log("Completed Level!");
 
         // Advance Level
         // Set highest level
-        if (GameObject.Find("GameHandler") != null)
+        if (GameManager.instance)
         {
             // Increase the highest level
-            GameObject.Find("GameHandler").GetComponent<GameManager>().HighestLevel++;
+            GameManager.instance.highestLevel++;
 
             // Save the player's new progress
-            GameObject.Find("GameHandler").GetComponent<GameManager>().Save();
+            GameManager.instance.Save();
         }
 
+        // Loads the level selection screen
         SceneManager.LoadScene(1);
     }
 

@@ -36,6 +36,7 @@ public enum levelType
 public enum rangeWeapon
 {
     // Range Weapons
+    None = -1,
 
     // Default Weapon
     laserpistol = 0,

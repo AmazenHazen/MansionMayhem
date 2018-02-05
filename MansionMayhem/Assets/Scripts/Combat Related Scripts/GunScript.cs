@@ -26,7 +26,6 @@ public class GunScript : MonoBehaviour
     public bool poisonous;
     private float plasmaSizeVar = 1.0f;
     private bool charging;
-    Coroutine sound;
 
     // Reset Bullet attributes
     public GameObject bulletCopy;
@@ -105,7 +104,7 @@ public class GunScript : MonoBehaviour
                 case rangeWeapon.soundCannon:
                     if (canBurst)
                     {
-                        sound = StartCoroutine(SoundCannonShoot(4, .05f));
+                        StartCoroutine(SoundCannonShoot(4, .05f));
                         canBurst = false;
                     }
                     break;

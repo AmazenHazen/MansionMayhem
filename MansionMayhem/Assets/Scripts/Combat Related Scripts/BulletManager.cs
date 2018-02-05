@@ -169,11 +169,12 @@ public class BulletManager : MonoBehaviour {
         {
             if (ownerType == bulletOwners.player)
             {
+                /*
                 Debug.Log("Too far");
                 Debug.Log("start bullet pos: " + startPos);
                 Debug.Log("current bullet pos: " + transform.position);
                 Debug.Log("Magnitude: " + (transform.position - startPos).magnitude);
-
+                */
 
                 PlayerBulletDestroy();
             }

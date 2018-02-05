@@ -79,19 +79,19 @@ public class RoomScript : MonoBehaviour
         // If a health item does spawn in the room spawn it (based on current level)
         if(healthRNG > 8)
         {
-            if(GameManager.currentLevel<=5)
+            if(GameManager.instance.currentLevel<=5)
             {
                 Instantiate(heart, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
             }
-            if (GameManager.currentLevel > 5 && GameManager.currentLevel <=15)
+            if (GameManager.instance.currentLevel > 5 && GameManager.instance.currentLevel <= 15)
             {
                 Instantiate(healthPotion, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
             }
-            if (GameManager.currentLevel > 15 && GameManager.currentLevel <= 25)
+            if (GameManager.instance.currentLevel > 15 && GameManager.instance.currentLevel <= 25)
             {
                 Instantiate(firstaidKit, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
             }
-            if (GameManager.currentLevel > 25)
+            if (GameManager.instance.currentLevel > 25)
             {
                 Instantiate(goldenHeart, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
             }

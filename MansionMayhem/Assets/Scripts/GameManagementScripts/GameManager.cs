@@ -15,8 +15,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     // Level Variables
-    public static int currentLevel;
-    public static GameState currentGameState;
+    public int currentLevel;
+    public GameState currentGameState;
 
     // Internal GameState Variables
     public bool inGame;
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     #region SaveVariables
     // Game Currency and progress variables
     public int highestLevel; // Highest level/Progress Variable
-    public static int screws; // Currency Variable
+    public int screws; // Currency Variable
     public int healthTotal; // Hearts Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
 
@@ -86,10 +86,10 @@ public class GameManager : MonoBehaviour
     public bool ElectronPulseCannonUpgrade3Unlock;
 
     // Aetherlight Bow
-    public bool boolAetherlightBowUnlock;
-    public bool boolAetherlightBowUpgrade1Unlock;
-    public bool boolAetherlightBowUpgrade2Unlock;
-    public bool boolAetherlightBowUpgrade3Unlock;
+    public bool AetherlightBowUnlock;
+    public bool AetherlightBowUpgrade1Unlock;
+    public bool AetherlightBowUpgrade2Unlock;
+    public bool AetherlightBowUpgrade3Unlock;
 
     // Celestial Repeater
     public bool CelestialRepeaterUnlock;
@@ -213,16 +213,99 @@ public class GameManager : MonoBehaviour
         // Puts the Variables that need to be saved into the data Class
         data.screws = screws;
         data.highestLevel = highestLevel;
-        data.aetherLightBowUnlock = aetherLightBowUnlock;
-        data.blobGunUnlock = blobGunUnlock;
-        data.cryoGunUnlock = cryoGunUnlock;
-        data.hellFireShotgunUnlock = hellFireShotgunUnlock;
-        data.soundCannonUnlock = soundCannonUnlock;
+
+        #region Unlockable Variables
+        //Unlockable variables
+        // Laser Pistol
+        data.LaserPistolUnlock = LaserPistolUnlock;
+        data.LaserPistolUpgrade1Unlock = LaserPistolUpgrade1Unlock;
+        data.LaserPistolUpgrade2Unlock = LaserPistolUpgrade2Unlock;
+        data.LaserPistolUpgrade3Unlock = LaserPistolUpgrade3Unlock;
+
+        // Anti Ectoplasm Splatter Gun
+        data.AntiEctoGunUnlock = AntiEctoGunUnlock;
+        data.AntiEctoGunUpgrade1Unlock = AntiEctoGunUpgrade1Unlock;
+        data.AntiEctoGunUpgrade2Unlock = AntiEctoGunUpgrade2Unlock;
+        data.AntiEctoGunUpgrade3Unlock = AntiEctoGunUpgrade3Unlock;
+
+        // Plasma Pistol
+        data.PlasmaPistolUnlock = PlasmaPistolUnlock;
+        data.PlasmaPistolUpgrade1Unlock = PlasmaPistolUpgrade1Unlock;
+        data.PlasmaPistolUpgrade2Unlock = PlasmaPistolUpgrade2Unlock;
+        data.PlasmaPistolUpgrade3Unlock = PlasmaPistolUpgrade3Unlock;
+
+        // CryoGun
+        data.CryoGunUnlock = CryoGunUnlock;
+        data.CryoGunUpgrade1Unlock = CryoGunUpgrade1Unlock;
+        data.CryoGunUpgrade2Unlock = CryoGunUpgrade2Unlock;
+        data.CryoGunUpgrade3Unlock = CryoGunUpgrade3Unlock;
+
+        // FlameThrower
+        data.FlameThrowerUnlock = FlameThrowerUnlock;
+        data.FlameThrowerUpgrade1Unlock = FlameThrowerUpgrade1Unlock;
+        data.FlameThrowerUpgrade2Unlock = FlameThrowerUpgrade2Unlock;
+        data.FlameThrowerUpgrade3Unlock = FlameThrowerUpgrade3Unlock;
+
+        // Hellfire Shotgun
+        data.HellFireShotgunUnlock = HellFireShotgunUnlock;
+        data.HellFireShotgunUpgrade1Unlock = HellFireShotgunUpgrade1Unlock;
+        data.HellFireShotgunUpgrade2Unlock = HellFireShotgunUpgrade2Unlock;
+        data.HellFireShotgunUpgrade3Unlock = HellFireShotgunUpgrade3Unlock;
+
+        // Sound Cannon
+        data.SoundCannonUnlock = SoundCannonUnlock;
+        data.SoundCannonUpgrade1Unlock = SoundCannonUpgrade1Unlock;
+        data.SoundCannonUpgrade2Unlock = SoundCannonUpgrade2Unlock;
+        data.SoundCannonUpgrade3Unlock = SoundCannonUpgrade3Unlock;
+
+        // Dark Energy Sniper
+        data.DarkEnergySniperUnlock = DarkEnergySniperUnlock;
+        data.DarkEnergySniperUpgrade1Unlock = DarkEnergySniperUpgrade1Unlock;
+        data.DarkEnergySniperUpgrade2Unlock = DarkEnergySniperUpgrade2Unlock;
+        data.DarkEnergySniperUpgrade3Unlock = DarkEnergySniperUpgrade3Unlock;
+
+        // Electron Cannon
+        data.ElectronPulseCannonUnlock = ElectronPulseCannonUnlock;
+        data.ElectronPulseCannonUpgrade1Unlock = ElectronPulseCannonUpgrade1Unlock;
+        data.ElectronPulseCannonUpgrade2Unlock = ElectronPulseCannonUpgrade2Unlock;
+        data.ElectronPulseCannonUpgrade3Unlock = ElectronPulseCannonUpgrade3Unlock;
+
+            // Aetherlight Bow
+        data.AetherlightBowUnlock = AetherlightBowUnlock;
+        data.AetherlightBowUpgrade1Unlock = AetherlightBowUpgrade1Unlock;
+        data.AetherlightBowUpgrade2Unlock = AetherlightBowUpgrade2Unlock;
+        data.AetherlightBowUpgrade3Unlock = AetherlightBowUpgrade3Unlock;
+
+        // Celestial Repeater
+        data.CelestialRepeaterUnlock = CelestialRepeaterUnlock;
+        data.CelestialRepeaterUpgrade1Unlock = CelestialRepeaterUpgrade1Unlock;
+        data.CelestialRepeaterUpgrade2Unlock = CelestialRepeaterUpgrade2Unlock;
+        data.CelestialRepeaterUpgrade3Unlock = CelestialRepeaterUpgrade3Unlock;
+
+        // Trinket Unlocks
+        data.AntiMatterDeviceUnlock = AntiMatterDeviceUnlock;
+        data.PortalDeviceUnlock = PortalDeviceUnlock;
+        data.NanoBotHealingSwarmUnlock = NanoBotHealingSwarmUnlock;
+        data.DroneUnlock = DroneUnlock;
+        data.HologramCloneUnlock = HologramCloneUnlock;
+        data.ShieldUnlock = ShieldUnlock;
+        data.BootRocketsUnlock = BootRocketsUnlock;
+
+        // Equipment Unlocks
+        data.FireResistantUnderArmorUnlock = FireResistantUnderArmorUnlock;
+        data.HeatedCoatLiningUnlock = HeatedCoatLiningUnlock;
+        data.FrictionBootsUnlock = FrictionBootsUnlock;
+        data.AntidotePatchUnlock = AntidotePatchUnlock;
+        data.ScrewMagnetUnlock = ScrewMagnetUnlock;
+        data.RoboticHeartUnlock = RoboticHeartUnlock;
+        data.DragonscaleArmorUnlock = DragonscaleArmorUnlock;
+        data.GooRepellingTreatmentUnlock = GooRepellingTreatmentUnlock;
+        #endregion
 
 
 
-        // Serialize the data
-        bf.Serialize(file, data);
+    // Serialize the data
+    bf.Serialize(file, data);
         file.Close();
     }
 
@@ -239,17 +322,196 @@ public class GameManager : MonoBehaviour
             // Set variables based on the save file
             screws = data.screws;
             highestLevel = data.highestLevel;
-            aetherLightBowUnlock = data.aetherLightBowUnlock;
-            blobGunUnlock = data.blobGunUnlock;
-            cryoGunUnlock = data.cryoGunUnlock;
-            hellFireShotgunUnlock = data.hellFireShotgunUnlock;
-            soundCannonUnlock = data.soundCannonUnlock;
+            healthTotal = data.healthTotal;
+            equipmentTotal = data.equipmentTotal;
+
+
+            #region Unlockable Variables
+            //Unlockable variables
+            // Laser Pistol
+            LaserPistolUnlock = data.LaserPistolUnlock;
+            LaserPistolUpgrade1Unlock = data.LaserPistolUpgrade1Unlock;
+            LaserPistolUpgrade2Unlock = data.LaserPistolUpgrade2Unlock;
+            LaserPistolUpgrade3Unlock = data.LaserPistolUpgrade3Unlock;
+
+            // Anti Ectoplasm Splatter Gun
+            AntiEctoGunUnlock = data.AntiEctoGunUnlock;
+            AntiEctoGunUpgrade1Unlock = data.AntiEctoGunUpgrade1Unlock;
+            AntiEctoGunUpgrade2Unlock = data.AntiEctoGunUpgrade2Unlock;
+            AntiEctoGunUpgrade3Unlock = data.AntiEctoGunUpgrade3Unlock;
+
+            // Plasma Pistol
+            PlasmaPistolUnlock = data.PlasmaPistolUnlock;
+            PlasmaPistolUpgrade1Unlock = data.PlasmaPistolUpgrade1Unlock;
+            PlasmaPistolUpgrade2Unlock = data.PlasmaPistolUpgrade2Unlock;
+            PlasmaPistolUpgrade3Unlock = data.PlasmaPistolUpgrade3Unlock;
+
+            // CryoGun
+            CryoGunUnlock = data.CryoGunUnlock;
+            CryoGunUpgrade1Unlock = data.CryoGunUpgrade1Unlock;
+            CryoGunUpgrade2Unlock = data.CryoGunUpgrade2Unlock;
+            CryoGunUpgrade3Unlock = data.CryoGunUpgrade3Unlock;
+
+            // FlameThrower
+            FlameThrowerUnlock = data.FlameThrowerUnlock;
+            FlameThrowerUpgrade1Unlock = data.FlameThrowerUpgrade1Unlock;
+            FlameThrowerUpgrade2Unlock = data.FlameThrowerUpgrade2Unlock;
+            FlameThrowerUpgrade3Unlock = data.FlameThrowerUpgrade3Unlock;
+
+            // Hellfire Shotgun
+            HellFireShotgunUnlock = data.HellFireShotgunUnlock;
+            HellFireShotgunUpgrade1Unlock = data.HellFireShotgunUpgrade1Unlock;
+            HellFireShotgunUpgrade2Unlock = data.HellFireShotgunUpgrade2Unlock;
+            HellFireShotgunUpgrade3Unlock = data.HellFireShotgunUpgrade3Unlock;
+
+            // Sound Cannon
+            SoundCannonUnlock = data.SoundCannonUnlock;
+            SoundCannonUpgrade1Unlock = data.SoundCannonUpgrade1Unlock;
+            SoundCannonUpgrade2Unlock = data.SoundCannonUpgrade2Unlock;
+            SoundCannonUpgrade3Unlock = data.SoundCannonUpgrade3Unlock;
+
+            // Dark Energy Sniper
+            DarkEnergySniperUnlock = data.DarkEnergySniperUnlock;
+            DarkEnergySniperUpgrade1Unlock = data.DarkEnergySniperUpgrade1Unlock;
+            DarkEnergySniperUpgrade2Unlock = data.DarkEnergySniperUpgrade2Unlock;
+            DarkEnergySniperUpgrade3Unlock = data.DarkEnergySniperUpgrade3Unlock;
+
+            // Electron Cannon
+            ElectronPulseCannonUnlock = data.ElectronPulseCannonUnlock;
+            ElectronPulseCannonUpgrade1Unlock = data.ElectronPulseCannonUpgrade1Unlock;
+            ElectronPulseCannonUpgrade2Unlock = data.ElectronPulseCannonUpgrade2Unlock;
+            ElectronPulseCannonUpgrade3Unlock = data.ElectronPulseCannonUpgrade3Unlock;
+
+            // Aetherlight Bow
+            AetherlightBowUnlock = data.AetherlightBowUnlock;
+            AetherlightBowUpgrade1Unlock = data.AetherlightBowUpgrade1Unlock;
+            AetherlightBowUpgrade2Unlock = data.AetherlightBowUpgrade2Unlock;
+            AetherlightBowUpgrade3Unlock = data.AetherlightBowUpgrade3Unlock;
+
+            // Celestial Repeater
+            CelestialRepeaterUnlock = data.CelestialRepeaterUnlock;
+            CelestialRepeaterUpgrade1Unlock = data.CelestialRepeaterUpgrade1Unlock;
+            CelestialRepeaterUpgrade2Unlock = data.CelestialRepeaterUpgrade2Unlock;
+            CelestialRepeaterUpgrade3Unlock = data.CelestialRepeaterUpgrade3Unlock;
+
+            // Trinket Unlocks
+            AntiMatterDeviceUnlock = data.AntiMatterDeviceUnlock;
+            PortalDeviceUnlock = data.PortalDeviceUnlock;
+            NanoBotHealingSwarmUnlock = data.NanoBotHealingSwarmUnlock;
+            DroneUnlock = data.DroneUnlock;
+            HologramCloneUnlock = data.HologramCloneUnlock;
+            ShieldUnlock = data.ShieldUnlock;
+            BootRocketsUnlock = data.BootRocketsUnlock;
+
+            // Equipment Unlocks
+            FireResistantUnderArmorUnlock = data.FireResistantUnderArmorUnlock;
+            HeatedCoatLiningUnlock = data.HeatedCoatLiningUnlock;
+            FrictionBootsUnlock = data.FrictionBootsUnlock;
+            AntidotePatchUnlock = data.AntidotePatchUnlock;
+            ScrewMagnetUnlock = data.ScrewMagnetUnlock;
+            RoboticHeartUnlock = data.RoboticHeartUnlock;
+            DragonscaleArmorUnlock = data.DragonscaleArmorUnlock;
+            GooRepellingTreatmentUnlock = data.GooRepellingTreatmentUnlock;
+            #endregion
         }
         else
         {
             // Variables that are not saved are set to original value otherwise
             screws = 0;
             highestLevel = 0;
+            healthTotal = 5;
+            equipmentTotal = 10;
+
+
+             #region Unlockable Variables
+            //Unlockable variables
+
+            // Laser Pistol
+            LaserPistolUnlock = false;
+            LaserPistolUpgrade1Unlock = false;
+            LaserPistolUpgrade2Unlock = false;
+            LaserPistolUpgrade3Unlock = false;
+
+            // Anti Ectoplasm Splatter Gun
+            AntiEctoGunUnlock = false;
+            AntiEctoGunUpgrade1Unlock = false;
+            AntiEctoGunUpgrade2Unlock = false;
+            AntiEctoGunUpgrade3Unlock = false;
+
+            // Plasma Pistol
+            PlasmaPistolUnlock = false;
+            PlasmaPistolUpgrade1Unlock = false;
+            PlasmaPistolUpgrade2Unlock = false;
+            PlasmaPistolUpgrade3Unlock = false;
+
+            // CryoGun
+            CryoGunUnlock = false;
+            CryoGunUpgrade1Unlock = false;
+            CryoGunUpgrade2Unlock = false;
+            CryoGunUpgrade3Unlock = false;
+
+            // FlameThrower
+            FlameThrowerUnlock = false;
+            FlameThrowerUpgrade1Unlock = false;
+            FlameThrowerUpgrade2Unlock = false;
+            FlameThrowerUpgrade3Unlock = false;
+
+            // Hellfire Shotgun
+            HellFireShotgunUnlock = false;
+            HellFireShotgunUpgrade1Unlock = false;
+            HellFireShotgunUpgrade2Unlock = false;
+            HellFireShotgunUpgrade3Unlock = false;
+
+            // Sound Cannon
+            SoundCannonUnlock = false;
+            SoundCannonUpgrade1Unlock = false;
+            SoundCannonUpgrade2Unlock = false;
+            SoundCannonUpgrade3Unlock = false;
+
+            // Dark Energy Sniper
+            DarkEnergySniperUnlock = false;
+            DarkEnergySniperUpgrade1Unlock = false;
+            DarkEnergySniperUpgrade2Unlock = false;
+            DarkEnergySniperUpgrade3Unlock = false;
+
+            // Electron Cannon
+            ElectronPulseCannonUnlock = false;
+            ElectronPulseCannonUpgrade1Unlock = false;
+            ElectronPulseCannonUpgrade2Unlock = false;
+            ElectronPulseCannonUpgrade3Unlock = false;
+
+            // Aetherlight Bow
+            AetherlightBowUnlock = false;
+            AetherlightBowUpgrade1Unlock = false;
+            AetherlightBowUpgrade2Unlock = false;
+            AetherlightBowUpgrade3Unlock = false;
+
+            // Celestial Repeater
+            CelestialRepeaterUnlock = false;
+            CelestialRepeaterUpgrade1Unlock = false;
+            CelestialRepeaterUpgrade2Unlock = false;
+            CelestialRepeaterUpgrade3Unlock = false;
+
+            // Trinket Unlocks
+            AntiMatterDeviceUnlock = false;
+            PortalDeviceUnlock = false;
+            NanoBotHealingSwarmUnlock = false;
+            DroneUnlock = false;
+            HologramCloneUnlock = false;
+            ShieldUnlock = false;
+            BootRocketsUnlock = false;
+
+            // Equipment Unlocks
+            FireResistantUnderArmorUnlock = false;
+            HeatedCoatLiningUnlock = false;
+            FrictionBootsUnlock = false;
+            AntidotePatchUnlock = false;
+            ScrewMagnetUnlock = false;
+            RoboticHeartUnlock = false;
+            DragonscaleArmorUnlock = false;
+            GooRepellingTreatmentUnlock = false;
+            #endregion
+
         }
     }
 
@@ -267,7 +529,7 @@ class PlayerData
 {
     // Game Currency and progress variables
     public int highestLevel; // Highest level/Progress Variable
-    public static int screws; // Currency Variable
+    public int screws; // Currency Variable
     public int healthTotal; // Hearts Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
 
@@ -328,10 +590,10 @@ class PlayerData
     public bool ElectronPulseCannonUpgrade3Unlock;
 
     // Aetherlight Bow
-    public bool boolAetherlightBowUnlock;
-    public bool boolAetherlightBowUpgrade1Unlock;
-    public bool boolAetherlightBowUpgrade2Unlock;
-    public bool boolAetherlightBowUpgrade3Unlock;
+    public bool AetherlightBowUnlock;
+    public bool AetherlightBowUpgrade1Unlock;
+    public bool AetherlightBowUpgrade2Unlock;
+    public bool AetherlightBowUpgrade3Unlock;
 
     // Celestial Repeater
     public bool CelestialRepeaterUnlock;

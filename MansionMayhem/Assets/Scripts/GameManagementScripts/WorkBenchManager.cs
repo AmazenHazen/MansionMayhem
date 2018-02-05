@@ -48,7 +48,7 @@ public class WorkBenchManager : MonoBehaviour
 
     public void purchaseItem(GameObject buyingButton)
     {
-       if(GameManager.screws<buyingButton.GetComponent<WorkBenchItem>().Cost)
+       if(GameManager.instance.screws<buyingButton.GetComponent<WorkBenchItem>().Cost)
         {
             Debug.Log("You do not have enough to build this item");
             return;
@@ -59,47 +59,66 @@ public class WorkBenchManager : MonoBehaviour
             switch(buyingButton.GetComponent<WorkBenchItem>().UnlockVar)
             {
                 case Unlock.heartIncrease:
+                    GameManager.instance.healthTotal++;
 
+                    // Increase max health
                     break;
 
                 case Unlock.equipmentIncrease:
+                    GameManager.instance.equipmentTotal++;
+
+                    // Increase equipment
                     break;
 
                 // Gun Unlocks
                 // Laser Pistol
                 case Unlock.LaserPistol:
+                    GameManager.instance.LaserPistolUnlock = true;
                     break;
                 case Unlock.LaserPistolUpgrade1:
+                    GameManager.instance.LaserPistolUpgrade1Unlock = true;
                     break;
                 case Unlock.LaserPistolUpgrade2:
+                    GameManager.instance.LaserPistolUpgrade2Unlock = true;
                     break;
                 case Unlock.LaserPistolUpgrade3:
+                    GameManager.instance.LaserPistolUpgrade3Unlock = true;
                     break;
 
                 // Anti Ectoplasm Splatter Gun
                 case Unlock.AntiEctoGun:
+                    GameManager.instance.AntiEctoGunUnlock = true;
                     break;
                 case Unlock.AntiEctoGunUpgrade1:
+                    GameManager.instance.AntiEctoGunUpgrade1Unlock = true;
                     break;
                 case Unlock.AntiEctoGunUpgrade2:
+                    GameManager.instance.AntiEctoGunUpgrade2Unlock = true;
                     break;
                 case Unlock.AntiEctoGunUpgrade3:
+                    GameManager.instance.AntiEctoGunUpgrade3Unlock = true;
                     break;
 
                 // Plasma Pistol
                 case Unlock.PlasmaPistol:
+                    GameManager.instance.PlasmaPistolUnlock = true;
                     break;
                 case Unlock.PlasmaPistolUpgrade1:
+                    GameManager.instance.PlasmaPistolUpgrade1Unlock = true;
                     break;
                 case Unlock.PlasmaPistolUpgrade2:
+                    GameManager.instance.PlasmaPistolUpgrade2Unlock = true;
                     break;
                 case Unlock.PlasmaPistolUpgrade3:
+                    GameManager.instance.PlasmaPistolUpgrade3Unlock = true;
                     break;
 
                 // CryoGun
                 case Unlock.CryoGun:
+                    GameManager.instance.CryoGunUnlock = true;
                     break;
                 case Unlock.CryoGunUpgrade1:
+                    GameManager.instance.CryoGunUpgrade1Unlock = true;
                     break;
                 case Unlock.CryoGunUpgrade2:
                     break;
@@ -214,7 +233,7 @@ public class WorkBenchManager : MonoBehaviour
             }
 
             // Subtract the amount from the player's screws
-            GameManager.screws= GameManager.screws - buyingButton.GetComponent<WorkBenchItem>().Cost;
+            GameManager.instance.screws -= buyingButton.GetComponent<WorkBenchItem>().Cost;
         }
 
     }

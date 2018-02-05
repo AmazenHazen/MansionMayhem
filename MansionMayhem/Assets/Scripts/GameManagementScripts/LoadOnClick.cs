@@ -19,7 +19,7 @@ public class LoadOnClick : MonoBehaviour
     public void LoadScene(int level)
     {
         
-        GameManager.currentLevel = level;
+        GameManager.instance.currentLevel = level;
         SceneManager.LoadScene(level);
     }
 

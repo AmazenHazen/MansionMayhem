@@ -42,7 +42,7 @@ public class LevelSelectGUIManager : MonoBehaviour {
     void TextUpdate()
     {
         // Get variables needed for the HUD Text
-        scoreText.text = "Screws: " + GameManager.screws;
+        scoreText.text = "Screws: " + GameManager.instance.screws;
         levelText.text = "Level: " + player.GetComponent<PlayerMapScript>().Destination.GetComponent<LevelLocation>().name;
     }
     #endregion
@@ -50,11 +50,11 @@ public class LevelSelectGUIManager : MonoBehaviour {
     #region Escape Screen Management
     public void EscapeScreenManagement()
     {
-        if ((Input.GetKeyDown(KeyCode.Escape) && (escapeScreen.activeSelf == true || loadoutScreen.activeSelf == true || workbenchScreen.activeSelf == true) && (GameManager.currentGameState == GameState.MainMenu || GameManager.currentGameState == GameState.Paused)))
+        if ((Input.GetKeyDown(KeyCode.Escape) && (escapeScreen.activeSelf == true || loadoutScreen.activeSelf == true || workbenchScreen.activeSelf == true) && (GameManager.instance.currentGameState == GameState.MainMenu || GameManager.instance.currentGameState == GameState.Paused)))
         {
             ContinueGame();
         }
-        else if ((Input.GetKeyDown(KeyCode.Escape)) && (escapeScreen.activeSelf == false && loadoutScreen.activeSelf == false && workbenchScreen.activeSelf == false) && (GameManager.currentGameState == GameState.MainMenu))
+        else if ((Input.GetKeyDown(KeyCode.Escape)) && (escapeScreen.activeSelf == false && loadoutScreen.activeSelf == false && workbenchScreen.activeSelf == false) && (GameManager.instance.currentGameState == GameState.MainMenu))
         {
             PauseGame();
         }

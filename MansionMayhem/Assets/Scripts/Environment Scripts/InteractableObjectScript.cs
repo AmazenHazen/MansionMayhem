@@ -145,7 +145,7 @@ public class InteractableObjectScript : MonoBehaviour
         // Return the Game World to normal time
         // Pause the gameplay
         // Set pauseGame to true
-        GameManager.currentGameState = GameState.Play;
+        GameManager.instance.currentGameState = GameState.Play;
         GUIManager.usingOtherInterface = false;
         Time.timeScale = 1;
 

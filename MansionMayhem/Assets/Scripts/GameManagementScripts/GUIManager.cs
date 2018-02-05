@@ -166,8 +166,8 @@ public class GUIManager : MonoBehaviour
         currentRangeWeapon = player.GetComponent<PlayerManager>().CurrentRangeWeapon;
 
         rangeWeaponText.text = "Current Weapon: " + currentRangeWeapon;
-        scoreText.text = "Screws: " + GameManager.screws;
-        levelText.text = "Level: " + GameManager.currentLevel;
+        scoreText.text = "Screws: " + GameManager.instance.screws;
+        levelText.text = "Level: " + GameManager.instance.currentLevel;
     }
     #endregion
     
@@ -194,11 +194,11 @@ public class GUIManager : MonoBehaviour
     public void EscapeScreenManagement()
     {
 
-        if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true) && GameManager.currentGameState == GameState.Paused)
+        if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true) && GameManager.instance.currentGameState == GameState.Paused)
         {
             ContinueGame();
         }
-        else if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false) && GameManager.currentGameState != GameState.Paused)
+        else if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false) && GameManager.instance.currentGameState != GameState.Paused)
         {
             PauseGame();
         }
@@ -209,14 +209,14 @@ public class GUIManager : MonoBehaviour
     public void PauseGame()
     {
         escapeScreen.SetActive(true);
-        GameManager.currentGameState = GameState.Paused;
+        GameManager.instance.currentGameState = GameState.Paused;
         Time.timeScale = 0;
     }
     public void ContinueGame()
     {
         escapeScreen.SetActive(false);
         instructionsScreen.SetActive(false);
-        GameManager.currentGameState = GameState.Play;
+        GameManager.instance.currentGameState = GameState.Play;
         Time.timeScale = 1;
     }
     #endregion

@@ -129,6 +129,7 @@ public enum Equipment
 }
 #endregion
 
+#region UnlockVariable Enum
 public enum Unlock
 {
     // Heart Unlocks
@@ -222,6 +223,7 @@ public enum Unlock
     DragonscaleArmor = 86,
     GooRepellingTreatment = 87,
 }
+#endregion
 
 #region Enemy Enums
 #region EnemyTypes

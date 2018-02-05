@@ -107,7 +107,7 @@ public class PlayerManager : MonoBehaviour
     {
         CheckStatusConditions();
         WeaponSwitch();
-        if (GameManager.currentGameState != GameState.Paused)
+        if (GameManager.instance.currentGameState != GameState.Paused)
         {
             Shoot();
         }
@@ -287,15 +287,15 @@ public class PlayerManager : MonoBehaviour
                     #region Screw Pickups
 
                     case ItemType.NormalScrewPickup:
-                        GameManager.screws++;
+                        GameManager.instance.screws++;
                         pickedUp = true;
                         break;
                     case ItemType.RedScrewPickup:
-                        GameManager.screws += 5;
+                        GameManager.instance.screws += 5;
                         pickedUp = true;
                         break;
                     case ItemType.GoldenScrewPickup:
-                        GameManager.screws += 10;
+                        GameManager.instance.screws += 10;
                         pickedUp = true;
                         break;
 
@@ -346,7 +346,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     // Pause the gameplay
                     // Set pauseGame to true
-                    GameManager.currentGameState = GameState.Paused;
+                    GameManager.instance.currentGameState = GameState.Paused;
                     GUIManager.usingOtherInterface = true;
                     Time.timeScale = 0;
 
@@ -367,7 +367,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     // Pause the gameplay
                     // Set pauseGame to true
-                    GameManager.currentGameState = GameState.Paused;
+                    GameManager.instance.currentGameState = GameState.Paused;
                     GUIManager.usingOtherInterface = true;
                     Time.timeScale = 0;
 
@@ -384,7 +384,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     // Pause the gameplay
                     // Set pauseGame to true
-                    GameManager.currentGameState = GameState.Paused;
+                    GameManager.instance.currentGameState = GameState.Paused;
                     GUIManager.usingOtherInterface = true;
                     Time.timeScale = 0;
 

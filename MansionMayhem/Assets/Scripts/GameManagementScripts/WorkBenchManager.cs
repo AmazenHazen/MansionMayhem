@@ -122,79 +122,110 @@ public class WorkBenchManager : MonoBehaviour
                     GameManager.instance.CryoGunUpgrade1Unlock = true;
                     break;
                 case Unlock.CryoGunUpgrade2:
+                    GameManager.instance.CryoGunUpgrade2Unlock = true;
+
                     break;
                 case Unlock.CryoGunUpgrade3:
+                    GameManager.instance.CryoGunUpgrade3Unlock = true;
+
                     break;
                 // Flamethrower
                 case Unlock.FlameThrower:
+                    GameManager.instance.FlameThrowerUnlock = true;
                     break;
                 case Unlock.FlameThrowerUpgrade1:
+                    GameManager.instance.FlameThrowerUpgrade1Unlock= true;
                     break;
                 case Unlock.FlameThrowerUpgrade2:
+                    GameManager.instance.FlameThrowerUpgrade2Unlock = true;
                     break;
                 case Unlock.FlameThrowerUpgrade3:
+                    GameManager.instance.FlameThrowerUpgrade3Unlock = true;
                     break;
 
                 // Hellfire Shotgun
                 case Unlock.HellFireShotgun:
+                    GameManager.instance.HellFireShotgunUnlock = true;
                     break;
                 case Unlock.HellFireShotgunUpgrade1:
+                    GameManager.instance.HellFireShotgunUpgrade1Unlock = true;
                     break;
                 case Unlock.HellFireShotgunUpgrade2:
+                    GameManager.instance.HellFireShotgunUpgrade2Unlock = true;
                     break;
                 case Unlock.HellFireShotgunUpgrade3:
+                    GameManager.instance.HellFireShotgunUpgrade3Unlock = true;
                     break;
 
                 // Sound Cannon
                 case Unlock.SoundCannon:
+                    GameManager.instance.SoundCannonUnlock = true;
                     break;
                 case Unlock.SoundCannonUpgrade1:
+                    GameManager.instance.SoundCannonUpgrade1Unlock = true;
                     break;
                 case Unlock.SoundCannonUpgrade2:
+                    GameManager.instance.SoundCannonUpgrade2Unlock = true;
                     break;
                 case Unlock.SoundCannonUpgrade3:
+                    GameManager.instance.SoundCannonUpgrade3Unlock = true;
                     break;
 
                 // Dark Energy Sniper
                 case Unlock.DarkEnergySniper:
+                    GameManager.instance.DarkEnergySniperUnlock = true;
                     break;
                 case Unlock.DarkEnergySniperUpgrade1:
+                    GameManager.instance.DarkEnergySniperUpgrade1Unlock = true;
                     break;
                 case Unlock.DarkEnergySniperUpgrade2:
+                    GameManager.instance.DarkEnergySniperUpgrade2Unlock = true;
                     break;
                 case Unlock.DarkEnergySniperUpgrade3:
+                    GameManager.instance.DarkEnergySniperUpgrade3Unlock = true;
                     break;
 
 
                 // Electron Cannon
                 case Unlock.ElectronPulseCannon:
+                    GameManager.instance.ElectronPulseCannonUnlock = true;
                     break;
                 case Unlock.ElectronPulseCannonUpgrade1:
+                    GameManager.instance.ElectronPulseCannonUpgrade1Unlock = true;
                     break;
                 case Unlock.ElectronPulseCannonUpgrade2:
+                    GameManager.instance.ElectronPulseCannonUpgrade2Unlock = true;
                     break;
                 case Unlock.ElectronPulseCannonUpgrade3:
+                    GameManager.instance.ElectronPulseCannonUpgrade3Unlock = true;
                     break;
 
                 // Aetherlight Bow
                 case Unlock.AetherlightBow:
-
+                    GameManager.instance.AetherlightBowUnlock = true;
                     break;
                 case Unlock.AetherlightBowUpgrade1:
+                    GameManager.instance.AetherlightBowUpgrade1Unlock = true;
                     break;
                 case Unlock.AetherlightBowUpgrade2:
+                    GameManager.instance.AetherlightBowUpgrade2Unlock = true;
                     break;
                 case Unlock.AetherlightBowUpgrade3:
+                    GameManager.instance.AetherlightBowUpgrade3Unlock = true;
                     break;
 
 
                 case Unlock.CelestialRepeater:
+                    GameManager.instance.CelestialRepeaterUnlock = true;
                     break;
                 case Unlock.CelestialRepeaterUpgrade1:
+                    GameManager.instance.CelestialRepeaterUpgrade1Unlock = true;
                     break;
                 case Unlock.CelestialRepeaterUpgrade2:
+                    GameManager.instance.CelestialRepeaterUpgrade2Unlock = true;
                     break;
                 case Unlock.CelestialRepeaterUpgrade3:
+                    GameManager.instance.CelestialRepeaterUpgrade3Unlock = true;
                     break;
 
                 // Trinket Unlocks

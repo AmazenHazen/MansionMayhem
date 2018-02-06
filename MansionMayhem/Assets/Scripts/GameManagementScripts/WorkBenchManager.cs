@@ -55,8 +55,9 @@ public class WorkBenchManager : MonoBehaviour
         } 
        else
         {
+            #region Switch for unlocking variables
             // Unlock the variable
-            switch(buyingButton.GetComponent<WorkBenchItem>().UnlockVar)
+            switch (buyingButton.GetComponent<WorkBenchItem>().UnlockVar)
             {
                 case Unlock.heartIncrease:
                     GameManager.instance.healthTotal++;
@@ -196,7 +197,7 @@ public class WorkBenchManager : MonoBehaviour
                 case Unlock.CelestialRepeaterUpgrade3:
                     break;
 
-                    // Trinket Unlocks
+                // Trinket Unlocks
                 case Unlock.AntiMatterDevice:
                     break;
                 case Unlock.PortalDevice:
@@ -211,8 +212,8 @@ public class WorkBenchManager : MonoBehaviour
                     break;
                 case Unlock.BootRockets:
                     break;
-                    
-                    // Equipment Unlocks
+
+                // Equipment Unlocks
                 case Unlock.FireResistantUnderArmor:
                     break;
                 case Unlock.HeatedCoatLining:
@@ -231,11 +232,11 @@ public class WorkBenchManager : MonoBehaviour
                     break;
 
             }
+            #endregion
 
             // Subtract the amount from the player's screws
             GameManager.instance.screws -= buyingButton.GetComponent<WorkBenchItem>().Cost;
         }
 
     }
-
 }

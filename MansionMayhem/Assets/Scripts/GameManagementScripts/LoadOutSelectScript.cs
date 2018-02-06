@@ -9,7 +9,7 @@ public class LoadOutSelectScript : MonoBehaviour
     int totalEquipementNum;
 
     // Attributes
-    Color selected = new Color(33, 88, 55);
+    Color selectedColor = new Color(33, 88, 55);
 
     // Weapon Variables
     // Holds a reference to all the buttons in the weapons menu
@@ -53,9 +53,13 @@ public class LoadOutSelectScript : MonoBehaviour
         else
         {
             // Turn on the button
-            buttonChosen.GetComponent<Image>().color = selected;
+            buttonChosen.GetComponent<Image>().color = selectedColor;
 
             // Set button Bool to true
+            buttonChosen.GetComponent<LoadOutButtonScript>().selected = true;
+
+            // Equip the item
+
 
             // Increase the number of equiped items
             equipedNum++;
@@ -69,21 +73,18 @@ public class LoadOutSelectScript : MonoBehaviour
     /// <param name="buttonChosen"></param>
     public void UnequipArmor(GameObject buttonChosen)
     {
-        // check to see if you already have too much equipped
-        if (equipedNum >= totalEquipementNum /* && already unequipped*/)
-        {
-            // Send message to player that too many numbers who have been selected
-        }
-        else
-        {
-            // Turn on the button
-            buttonChosen.GetComponent<Image>().color = selected;
-            // Set button Bool to true
 
-            // Increase the number of equiped items
-            equipedNum++;
-        }
+        // Turn off the button
+        buttonChosen.GetComponent<Image>().color = Color.white;
 
+        // Set button Bool to false
+        buttonChosen.GetComponent<LoadOutButtonScript>().selected = false;
+
+        // Unequip the armor
+
+
+        // Increase the number of equiped items
+        equipedNum--;
     }
 
 
@@ -93,11 +94,19 @@ public class LoadOutSelectScript : MonoBehaviour
     /// </summary>
     /// <param name="weaponSlot"></param>
     /// <param name="buttonChosen"></param>
-    public void weaponSelect(int weaponSlot, GameObject buttonChosen)
+    public void weaponSelect(GameObject buttonChosen)
     {
+        int weaponSlot = buttonChosen.GetComponent<LoadOutButtonScript>().weaponSlot;
+
         // Turn on the button
-        buttonChosen.GetComponent<Image>().color = selected;
+        buttonChosen.GetComponent<Image>().color = selectedColor;
+
         // Set button Bool to true
+        buttonChosen.GetComponent<LoadOutButtonScript>().selected = true;
+
+
+        // Put the gun selection on the GameManager
+        GameManager.instance.currentGuns[weaponSlot - 1] = buttonChosen.GetComponent<LoadOutButtonScript>().buttonWeapon;
 
         // turn off other weapon buttons
         switch(weaponSlot)
@@ -107,9 +116,11 @@ public class LoadOutSelectScript : MonoBehaviour
                 for(int i=0; i<oneButtons.Count; i++)
                 {
                     // find the other buttons selected and turn them off
-                    if(buttonChosen == oneButtons[i] /*&& The button is turned on*/)
+                    if(buttonChosen != oneButtons[i] && oneButtons[i].GetComponent<LoadOutButtonScript>().selected)
                     {
                         buttonChosen.GetComponent<Image>().color = Color.white;
+                        buttonChosen.GetComponent<LoadOutButtonScript>().selected = false;
+
                     }
                 }
                 break;
@@ -117,9 +128,11 @@ public class LoadOutSelectScript : MonoBehaviour
                 for (int i = 0; i < twoButtons.Count; i++)
                 {
                     // find the other buttons selected and turn them off
-                    if (buttonChosen == twoButtons[i] /*&& The button is turned on*/)
+                    if (buttonChosen != twoButtons[i] && twoButtons[i].GetComponent<LoadOutButtonScript>().selected)
                     {
                         buttonChosen.GetComponent<Image>().color = Color.white;
+                        buttonChosen.GetComponent<LoadOutButtonScript>().selected = false;
+
                     }
                 }
                 break;
@@ -127,9 +140,11 @@ public class LoadOutSelectScript : MonoBehaviour
                 for (int i = 0; i < threeButtons.Count; i++)
                 {
                     // find the other buttons selected and turn them off
-                    if (buttonChosen == threeButtons[i] /*&& The button is turned on*/)
+                    if (buttonChosen != threeButtons[i] && threeButtons[i].GetComponent<LoadOutButtonScript>().selected)
                     {
                         buttonChosen.GetComponent<Image>().color = Color.white;
+                        buttonChosen.GetComponent<LoadOutButtonScript>().selected = false;
+
                     }
                 }
                 break;

@@ -85,16 +85,62 @@ public class PlayerManager : MonoBehaviour
         applypoison = true; // Starts as true, turned to false only if poisoned
         poisoned = false;
         poisonCounter = 0;
-        currentRangeWeapon = playerGunPrefabs[weaponNum].GetComponent<GunScript>().gunType;
         portalNum = 0;
         weaponNum = 0;
 
+
+        // Inventory Set Up
         playerItems = new ItemType[6];
         for(int i = 0; i<playerItems.Length; i++)
         {
             playerItems[i] = ItemType.NoItem;
         }
-        
+
+        #region Set up Guns for the player for the level
+        // Gun Set Up
+        for (int i=0; i<GameManager.instance.currentGuns.Count; i++)
+        {
+            switch (GameManager.instance.currentGuns[i])
+            {
+                case rangeWeapon.aetherLightBow:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+                case rangeWeapon.antiEctoPlasmator:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+                case rangeWeapon.CelestialRepeater:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+                case rangeWeapon.cryoGun:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+                case rangeWeapon.DarkEnergyRifle:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+                case rangeWeapon.ElectronSeeker:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+                case rangeWeapon.flamethrower:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+                case rangeWeapon.hellfireshotgun:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+                case rangeWeapon.laserpistol:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+                case rangeWeapon.PlasmaCannon:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+                case rangeWeapon.soundCannon:
+                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    break;
+            }
+        }
+        #endregion
+
+        currentRangeWeapon = playerGunPrefabs[weaponNum].GetComponent<GunScript>().gunType;
+
         // Temp variables
         magnet = true;
         magnetDistance = 1.5f;

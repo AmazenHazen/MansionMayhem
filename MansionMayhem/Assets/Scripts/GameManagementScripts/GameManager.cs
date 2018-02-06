@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public int screws; // Currency Variable
     public int healthTotal; // Hearts Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
+    public List<rangeWeapon> currentGuns = new List<rangeWeapon>(3); // The current weapons the player has equiped
 
     #region Unlockable Variables
     //Unlockable variables
@@ -200,7 +201,6 @@ public class GameManager : MonoBehaviour
     */
     #endregion
 
-
     #region Save and Load Methods
     // This will work for everything but web
     public void Save()
@@ -213,6 +213,9 @@ public class GameManager : MonoBehaviour
         // Puts the Variables that need to be saved into the data Class
         data.screws = screws;
         data.highestLevel = highestLevel;
+        data.currentGuns = currentGuns;
+        data.healthTotal = healthTotal;
+        data.equipmentTotal = equipmentTotal;
 
         #region Unlockable Variables
         //Unlockable variables
@@ -324,7 +327,7 @@ public class GameManager : MonoBehaviour
             highestLevel = data.highestLevel;
             healthTotal = data.healthTotal;
             equipmentTotal = data.equipmentTotal;
-
+            currentGuns = data.currentGuns;
 
             #region Unlockable Variables
             //Unlockable variables
@@ -421,9 +424,12 @@ public class GameManager : MonoBehaviour
             highestLevel = 0;
             healthTotal = 5;
             equipmentTotal = 10;
+            currentGuns[0] = rangeWeapon.laserpistol;
+            currentGuns[1] = rangeWeapon.None;
+            currentGuns[2] = rangeWeapon.None;
 
 
-             #region Unlockable Variables
+            #region Unlockable Variables
             //Unlockable variables
 
             // Laser Pistol
@@ -532,6 +538,8 @@ class PlayerData
     public int screws; // Currency Variable
     public int healthTotal; // Hearts Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
+    public List<rangeWeapon> currentGuns = new List<rangeWeapon>(3); // Current weapons the player has equipped
+
 
     #region Unlockable Variables
     //Unlockable variables

@@ -240,6 +240,7 @@
     <Compile Include="Assets\Scripts\GameManagementScripts\LevelManager.cs" />
     <Compile Include="Assets\Scripts\GameManagementScripts\LevelSelectGUIManager.cs" />
     <Compile Include="Assets\Scripts\GameManagementScripts\LoadOnClick.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\LoadOutButtonScript.cs" />
     <Compile Include="Assets\Scripts\GameManagementScripts\LoadOutSelectScript.cs" />
     <Compile Include="Assets\Scripts\GameManagementScripts\WorkBenchItem.cs" />
     <Compile Include="Assets\Scripts\GameManagementScripts\WorkBenchManager.cs" />

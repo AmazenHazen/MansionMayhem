@@ -11,6 +11,13 @@ using System.IO;
 public class GameManager : MonoBehaviour
 {
     #region Variables
+    // Contstant Variables
+    public int MAX_EQUIPMENT = 3;
+    public int MAX_HEALTH = 20;
+
+
+
+
     // Static instance of the GameManager to allows it to be accessed from any script
     public static GameManager instance = null;
 
@@ -20,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     // Internal GameState Variables
     public bool inGame;
+
 
     // ~~~~~~~Variables to be saved and loaded~~~~~~~~
     #region SaveVariables

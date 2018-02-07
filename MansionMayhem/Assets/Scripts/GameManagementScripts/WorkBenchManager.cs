@@ -48,7 +48,9 @@ public class WorkBenchManager : MonoBehaviour
 
     public void purchaseItem(GameObject buyingButton)
     {
-       if(GameManager.instance.screws<buyingButton.GetComponent<WorkBenchItem>().Cost)
+       Unlock unlockItem = buyingButton.GetComponent<WorkBenchItem>().UnlockVar;
+
+       if (GameManager.instance.screws < buyingButton.GetComponent<WorkBenchItem>().Cost)
         {
             Debug.Log("You do not have enough to build this item");
             return;
@@ -57,7 +59,7 @@ public class WorkBenchManager : MonoBehaviour
         {
             #region Switch for unlocking variables
             // Unlock the variable
-            switch (buyingButton.GetComponent<WorkBenchItem>().UnlockVar)
+            switch (unlockItem)
             {
                 case Unlock.heartIncrease:
                     GameManager.instance.healthTotal++;
@@ -264,6 +266,21 @@ public class WorkBenchManager : MonoBehaviour
 
             }
             #endregion
+
+            // IF the unlock is a heart increase and healthtotal<maxhealth or the same with equipement, then keep the button interactable
+            if(unlockItem == Unlock.heartIncrease && (GameManager.instance.healthTotal<GameManager.instance.MAX_HEALTH))
+            {
+                buyingButton.GetComponent<WorkBenchItem>().Cost = GameManager.instance.healthTotal * 200;
+            }   
+            else if(unlockItem == Unlock.equipmentIncrease && (GameManager.instance.equipmentTotal < GameManager.instance.MAX_EQUIPMENT))
+            {
+                buyingButton.GetComponent<WorkBenchItem>().Cost = GameManager.instance.equipmentTotal * 500;
+            }
+            else
+            {
+                // Make the button uninteractable
+                buyingButton.GetComponent<Button>().interactable = false;
+            }
 
             // Subtract the amount from the player's screws
             GameManager.instance.screws -= buyingButton.GetComponent<WorkBenchItem>().Cost;

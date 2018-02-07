@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WorkBenchItem : MonoBehaviour
 {
@@ -22,14 +23,14 @@ public class WorkBenchItem : MonoBehaviour
         switch (unlockVar)
         {
             case Unlock.heartIncrease:
-                if(GameManager.instance.healthTotal>20)
+                if(GameManager.instance.healthTotal> GameManager.instance.MAX_HEALTH)
                 {
                     unlockedBool = true;
                 }
                 break;
 
             case Unlock.equipmentIncrease:
-                if (GameManager.instance.healthTotal > 3)
+                if (GameManager.instance.healthTotal > GameManager.instance.MAX_EQUIPMENT)
                 {
                     unlockedBool = true;
                 }
@@ -290,13 +291,15 @@ public class WorkBenchItem : MonoBehaviour
         // Set the Cost text
         if (unlockedBool)
         {
-
+            gameObject.GetComponent<Button>().interactable = false;
         }
     }
 
     public int Cost
     {
         get { return cost; }
+        set { cost = value; }
+
     }
 
     public Unlock UnlockVar

@@ -92,8 +92,13 @@ public class PlayerMapScript : MonoBehaviour
                     // Set the GameManager current level for the GUI
                     GameManager.instance.currentLevel = destination.GetComponent<LevelLocation>().level;
 
+                    // Set the current gamestate to play
+                    GameManager.instance.currentGameState = GameState.Play;
+
                     // Enter the level
                     SceneManager.LoadScene(currentLocationIndex + 2);
+
+                    
                 }
             }
         }

@@ -77,7 +77,10 @@ public class LevelManager : MonoBehaviour
         if (GameManager.instance)
         {
             // Increase the highest level
-            GameManager.instance.highestLevel++;
+            if (GameManager.instance.currentLevel == GameManager.instance.highestLevel)
+            {
+                GameManager.instance.highestLevel++;
+            }
 
             // Save the player's new progress
             GameManager.instance.Save();

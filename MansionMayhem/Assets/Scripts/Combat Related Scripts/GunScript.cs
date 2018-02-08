@@ -193,7 +193,6 @@ public class GunScript : MonoBehaviour
             // Keep the bullet with the player and scale the bullet up
             // Call Special start method for bullets
             bulletCopy.transform.position = transform.position + (.5f* transform.up);
-
             // Set the start pos of the bullet while charging so it doesn't get destroyed if not shooting between 0-20 Unity units
             bulletCopy.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);
 
@@ -208,6 +207,10 @@ public class GunScript : MonoBehaviour
 
             // Scales the bullet
             bulletCopy.transform.localScale = new Vector3(plasmaSizeVar, plasmaSizeVar, transform.localScale.z);
+
+            // Set the damage of the bullet so if an enemy runs into it while charging then they are damaged
+            bulletCopy.GetComponent<BulletManager>().Damage = .5f * Mathf.Pow(transform.localScale.x, 1.5f);
+
         }
     }
 
@@ -234,7 +237,7 @@ public class GunScript : MonoBehaviour
     public void JustShot()
     {
         // Player Can't shoot for .5 seconds
-        //Debug.Log("We Just Shot!");
+        Debug.Log("We Just Shot!");
         canShoot = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
         Invoke("ResetShooting", timeBetweenShots);

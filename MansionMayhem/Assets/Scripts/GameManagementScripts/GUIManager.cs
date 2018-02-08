@@ -53,6 +53,16 @@ public class GUIManager : MonoBehaviour
     {
         player = GameObject.Find("Player");
 
+        // Fix for inventory if the worldCamera is not set manually.
+        if (gameObject.GetComponent<Canvas>().worldCamera == null)
+        {
+            gameObject.GetComponent<Canvas>().worldCamera = Camera.main;
+            gameObject.GetComponent<Canvas>().planeDistance = 100;
+            gameObject.GetComponent<Canvas>().sortingLayerName = "UI";
+            gameObject.GetComponent<Canvas>().sortingOrder = 2;
+
+        }
+
         if (GameObject.Find("LevelManager").GetComponent<LevelManager>().levelObjective == levelType.boss)
         {
             boss = GameObject.Find("LevelManager").GetComponent<LevelManager>().boss;
@@ -77,10 +87,11 @@ public class GUIManager : MonoBehaviour
         minimized = false;
         ManageInventoryMenu();
 
-
-
-        GameObject.Find("DialogBox").SetActive(false);
-
+        // turn off the dialog box if it is on
+        if (GameObject.Find("DialogBox"))
+        {
+            GameObject.Find("DialogBox").SetActive(false);
+        }
 
     }
 
@@ -254,12 +265,12 @@ public class GUIManager : MonoBehaviour
         if (minimized)
         {
             minimized = false;
-            InventoryPanel.GetComponent<RectTransform>().Translate(new Vector3(0, 4.65f, 0));
+            InventoryPanel.GetComponent<RectTransform>().Translate(new Vector3(0, 4.75f, 0));
         }
         else
         {
             minimized = true;
-            InventoryPanel.GetComponent<RectTransform>().Translate(new Vector3(0, -4.65f, 0));
+            InventoryPanel.GetComponent<RectTransform>().Translate(new Vector3(0, -4.75f, 0));
         }
     }
     #endregion

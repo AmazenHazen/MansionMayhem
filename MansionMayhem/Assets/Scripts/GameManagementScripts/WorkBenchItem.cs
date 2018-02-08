@@ -288,6 +288,18 @@ public class WorkBenchItem : MonoBehaviour
         }
         #endregion
 
+        #region Setting Dynamically Changing cost variables
+        // Set the cost for dynamic costing unlocks
+        if (unlockVar == Unlock.heartIncrease && (GameManager.instance.healthTotal < GameManager.instance.MAX_HEALTH))
+        {
+            cost = GameManager.instance.healthTotal * 200;
+        }
+        else if (unlockVar == Unlock.equipmentIncrease && (GameManager.instance.equipmentTotal < GameManager.instance.MAX_EQUIPMENT))
+        {
+            cost = GameManager.instance.equipmentTotal * 500;
+        }
+        #endregion
+
         // Set the Cost text
         if (unlockedBool)
         {

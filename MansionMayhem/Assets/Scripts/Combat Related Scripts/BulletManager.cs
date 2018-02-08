@@ -37,6 +37,11 @@ public class BulletManager : MonoBehaviour {
         get { return startPos; }
         set { startPos = value; }
     }
+    public float Damage
+    {
+        get { return damage; }
+        set { damage = value; }
+    }
     #endregion
 
     #region BulletStartMethod
@@ -86,7 +91,7 @@ public class BulletManager : MonoBehaviour {
                     return;
                 case bulletTypes.antiEctoPlasm:
                     speed = 4f;
-                    damage = 2;
+                    damage = 1.75f;
                     return;
                 case bulletTypes.ice:
                     speed = 5f;
@@ -97,8 +102,8 @@ public class BulletManager : MonoBehaviour {
                     damage = .75f;
                     return;
                 case bulletTypes.laser:
-                    speed = 4f;
-                    damage = .1f;
+                    speed = 6f;
+                    damage = .25f;
                     return;
                 case bulletTypes.CelestialCrystal:
                     speed = 10f;
@@ -112,17 +117,16 @@ public class BulletManager : MonoBehaviour {
                     speed = 3f;
                     damage = .4f;
                     return;
-                case bulletTypes.PortalShot:
-                    speed = 4f;
-                    damage = .1f;
+                case bulletTypes.DarkEnergy:
+                    speed = 9f;
+                    damage = .45f;
                     return;
                 case bulletTypes.Plasma:
                     speed = 5f;
-                    damage = .5f * Mathf.Pow(transform.localScale.x, 1.5f);
                     return;
                 case bulletTypes.hellFire:
                     speed = 5f;
-                    damage = .5f;
+                    damage = .55f;
 
                     // Determining Shotgun pellets rotation
                     float rotationAngle = shooter.transform.rotation.z;  // Gets current Angle
@@ -194,7 +198,7 @@ public class BulletManager : MonoBehaviour {
 
         // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
 
-        if (bulletType == bulletTypes.PortalShot && ownerType == bulletOwners.player && (startPos - transform.position).magnitude > 5)
+        if (bulletType == bulletTypes.Portal && ownerType == bulletOwners.player && (startPos - transform.position).magnitude > 5)
         {
             PlayerBlob();
             PlayerBulletDestroy();
@@ -459,7 +463,7 @@ public class BulletManager : MonoBehaviour {
         // If bullet runs into an enemy
         else if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == bulletOwners.player && canDamage == true)
         {
-            if (bulletType != bulletTypes.PortalShot)
+            if (bulletType != bulletTypes.DarkEnergy)
             {
                 canDamage = false;
             }
@@ -480,7 +484,7 @@ public class BulletManager : MonoBehaviour {
             }
 
             // Delete the player bullet
-            if (bulletType != bulletTypes.PortalShot)
+            if (bulletType != bulletTypes.DarkEnergy)
             {
                 PlayerBulletDestroy();
             }

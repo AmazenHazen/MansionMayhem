@@ -75,8 +75,8 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         // Player Game Variables
-        maxLife = 20;
-        currentLife = 20f;
+        maxLife = GameManager.instance.healthTotal;
+        currentLife = GameManager.instance.healthTotal;
         shieldLife = 1;
         invincibility = false;
         canMelee = true;
@@ -98,6 +98,7 @@ public class PlayerManager : MonoBehaviour
 
         #region Set up Guns for the player for the level
         // Gun Set Up
+
         for (int i=0; i<GameManager.instance.currentGuns.Count; i++)
         {
             switch (GameManager.instance.currentGuns[i])
@@ -351,10 +352,7 @@ public class PlayerManager : MonoBehaviour
                     // Keys and Quest Items go through the default item handler and are added to the player's inventory
                     default:
                         // Add the object to the Inventory
-                        pickedUp = AddItem(collider.gameObject.GetComponent<ItemScript>().itemVar);
-
-                        // Add the item graphic to the GUI
-                        GameObject.Find("HUDCanvas").GetComponent<GUIManager>().AddItemGUI(itemCopy);
+                        pickedUp = AddItem(collider.gameObject);
                         //Debug.Log("Made it past adding the item to GUI");
                         //collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<ArtifactScript>().requirements.Remove(collider.gameObject);
                         break;
@@ -421,23 +419,6 @@ public class PlayerManager : MonoBehaviour
 
                     Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);
                 }
-                break;
-            #endregion
-
-            #region workbench
-            case "workbench":
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-                {
-                    // Pause the gameplay
-                    // Set pauseGame to true
-                    GameManager.instance.currentGameState = GameState.Paused;
-                    GUIManager.usingOtherInterface = true;
-                    Time.timeScale = 0;
-
-                    // Debug Line
-                    Debug.Log("Using WorkBench:");
-                }
-
                 break;
             #endregion
 
@@ -754,9 +735,11 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-    public bool AddItem(ItemType item)
+    public bool AddItem(GameObject item)
     {
         Debug.Log("Length" + playerItems.Length);
+
+
         // Loop through the inventory
         for (int i = 0; i < playerItems.Length; i++)
         {
@@ -764,9 +747,13 @@ public class PlayerManager : MonoBehaviour
             if (playerItems[i] == ItemType.NoItem)
             {
                 // Set the inventory space to that item
-                playerItems[i] = item;
-                //Debug.Log("Added" + i);
-                //Debug.Log("Added Item to Inventory");
+                playerItems[i] = item.GetComponent<ItemScript>().itemVar;
+
+                // Add graphic to inventory
+                GameObject.Find("HUDCanvas").GetComponent<GUIManager>().AddItemGUI(item);
+
+                Debug.Log("Added" + i);
+                Debug.Log("Added Item to Inventory");
                 // Return true
                 return true;
             }
@@ -775,15 +762,15 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
-    public bool RemoveItem(ItemType item)
+    public bool RemoveItem(GameObject item)
     {
         // Loop through the inventory
         for (int i = 0; i < playerItems.Length; i++)
         {
             // If you find what you are removing than remove it
-            if (playerItems[i] == item)
+            if (playerItems[i] == item.GetComponent<ItemScript>().itemVar)
             {
-                // Set the inventory space to null
+                // Set the inventory space to NoItem
                 playerItems[i] = ItemType.NoItem;
                 // Return true
                 return true;

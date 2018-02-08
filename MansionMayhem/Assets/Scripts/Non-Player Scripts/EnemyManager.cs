@@ -194,7 +194,7 @@ public class EnemyManager : MonoBehaviour
                 Shoot();
             }
 
-        // Enemy Abilities - allows any enemy to shoot when possible
+        // Enemy Abilities - allows any enemy to use ability when possible
         for (int i = 0; i < enemyAbilityPrefabs.Count; i++)
         {
             if (hasAbility == true)
@@ -241,6 +241,12 @@ public class EnemyManager : MonoBehaviour
                 if (ability.GetComponent<BlobScript>() != null)
                 {
                     ability.GetComponent<BlobScript>().ownerAlive = false;
+                }
+
+                // Kil enemy minions if the owner dies.
+                if (ability.GetComponent<EnemyManager>() != null)
+                {
+                    ability.GetComponent<EnemyManager>().death();
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,6 +45,7 @@ public class NPC : CharacterMovement
     private float typeSpeed = 0.0f;
 
     // Quest Variables
+    public List<GameObject> items;
     //QuestStatus currentQuestStatus;
     #endregion
 
@@ -240,14 +242,15 @@ public class NPC : CharacterMovement
         bool endOfCommand = false;
         string fullOptionText = textLines[currentLine];
         string commandText = "";
-        string secondayCommand = "";
-        int i = 0;
-
+        int itemNum = -1;
+        
+        //string secondayCommand = "";
+        int i = 1;
         if (textLines[currentLine][0] == '[')
         {
             // Loops through
             // Saves the text between the square brackets
-            for (i = 1; i < fullOptionText.Length; i++)
+            do
             {
                 if (fullOptionText[i] == ']')
                 {
@@ -257,15 +260,26 @@ public class NPC : CharacterMovement
                 {
                     commandText += fullOptionText[i];
                 }
-            }
 
+                i++;
+            } while (endOfCommand == false);
+
+            #region secondary string loop if need a secondary command
+            /*
             // Secondary command set to object
-            if(commandText == "GiveItem")
+            if (commandText == "GiveItem")
             {
+                // Increment by one for the beginning parenthesis
+                i++;
+
+                // Reset endofCommand to flase for the do/while loop
+                endOfCommand = false;
+
                 // Loops through
                 // Saves the text between the square brackets
-                for (i++; i < fullOptionText.Length; i++)
+                do
                 {
+                    Console.Write(i);
                     if (fullOptionText[i] == ')')
                     {
                         endOfCommand = true;
@@ -274,16 +288,35 @@ public class NPC : CharacterMovement
                     {
                         secondayCommand += fullOptionText[i];
                     }
-                }
+                    i++;
+                } while (endOfCommand == false);
+            }
+            */
+            #endregion
+
+            // Secondary command set to object
+            if (commandText == "GiveItem")
+            {
+                // Increment by one for the beginning parenthesis
+                i++;
+
+                // Reset endofCommand to flase for the do/while loop
+                endOfCommand = false;
+
+                // Loops through
+                // Saves the text between the square brackets
+                itemNum = (int)Char.GetNumericValue(fullOptionText[i]);
+                Console.WriteLine(itemNum);
+
             }
         }
-        Debug.Log("Command: " + commandText + secondayCommand);
         
 
 
         switch (commandText)
         {
             case "StartQuest":
+                //Debug.Log("Command: " + commandText + secondayCommand);
                 //currentQuestStatus = QuestStatus.Started;
                 TextFileSetUp(startedQuestTextFile);
                 currentLine = 0;
@@ -291,8 +324,14 @@ public class NPC : CharacterMovement
                 break;
 
             case "GiveItem":
-                //currentQuestStatus = QuestStatus.Started;
-                Debug.Log("Gave player: " + secondayCommand);
+                // give player that item
+                Debug.Log("Gave player: " + items[itemNum]);
+
+                // Add item to inventory
+                player.GetComponent<PlayerManager>().AddItem(items[itemNum]);
+
+                // Advance to the next text line
+                currentLine++;
                 break;
 
             case "CompleteQuest":

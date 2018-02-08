@@ -77,26 +77,10 @@ public enum bulletTypes
     DarkEnergy,
 }
 
-/// <summary>
-/// Enum that contains all levels available
-/// </summary>
-public enum meleeWeapon
-{
-    // Knife
-    silverknife,
-
-    // Whip
-    hellWhip, // Spirit Killing Whip
-
-    // Swords
-    electricSword, // Basic Sword
-    seraphBlade, // Demon Slaying Sword
-
-}
-
 public enum trinkets
 {
-    antiMatterBomb=1,
+    None = -1,
+    antiMatterBomb =1,
     portalDevice=2,
     nanoHealingSwarm=3,
     drone=4,
@@ -117,7 +101,8 @@ public enum bulletOwners
 /// </summary>
 public enum Equipment
 {
-    FireResistantArmor=0,
+    None = -1,
+    FireResistantArmor =0,
     HeatedCoatLining=1,
     FrictionBoots=2,
     AntidotePatch=3,

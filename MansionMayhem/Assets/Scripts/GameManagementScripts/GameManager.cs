@@ -25,9 +25,6 @@ public class GameManager : MonoBehaviour
     public int currentLevel;
     public GameState currentGameState;
 
-    // Internal GameState Variables
-    public bool inGame;
-
 
     // ~~~~~~~Variables to be saved and loaded~~~~~~~~
     #region SaveVariables
@@ -36,7 +33,7 @@ public class GameManager : MonoBehaviour
     public int screws; // Currency Variable
     public int healthTotal; // Hearts Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
-    public List<rangeWeapon> currentGuns = new List<rangeWeapon>(3); // The current weapons the player has equiped
+    public List<rangeWeapon> currentGuns; // The current weapons the player has equiped
 
     #region Unlockable Variables
     //Unlockable variables
@@ -163,9 +160,6 @@ public class GameManager : MonoBehaviour
 
         // Load the save file if starting the game up
         Load();
-
-        // Game State Variables
-        inGame = false;
     }
     #endregion
 
@@ -432,6 +426,7 @@ public class GameManager : MonoBehaviour
             highestLevel = 0;
             healthTotal = 5;
             equipmentTotal = 10;
+            currentGuns = new List<rangeWeapon>(3);
             currentGuns[0] = rangeWeapon.laserpistol;
             currentGuns[1] = rangeWeapon.None;
             currentGuns[2] = rangeWeapon.None;
@@ -546,7 +541,7 @@ class PlayerData
     public int screws; // Currency Variable
     public int healthTotal; // Hearts Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
-    public List<rangeWeapon> currentGuns = new List<rangeWeapon>(3); // Current weapons the player has equipped
+    public List<rangeWeapon> currentGuns; // Current weapons the player has equipped
 
 
     #region Unlockable Variables

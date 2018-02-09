@@ -83,8 +83,8 @@ public class InteractableObjectScript : MonoBehaviour
 
             dialogText.GetComponent<Text>().text += lineOfText[letter];
             letter++;
-            Debug.Log("Letter: " + letter);
-            Debug.Log("LineofText: " + lineOfText);
+            //Debug.Log("Letter: " + letter);
+            //Debug.Log("LineofText: " + lineOfText);
 
             yield return new WaitForSeconds(typeSpeed);
         }
@@ -131,9 +131,7 @@ public class InteractableObjectScript : MonoBehaviour
 
         }
     }
-
-
-
+    
 
     /// <summary>
     /// Helper method to end text

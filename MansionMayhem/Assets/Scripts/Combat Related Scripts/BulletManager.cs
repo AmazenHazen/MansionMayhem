@@ -29,6 +29,10 @@ public class BulletManager : MonoBehaviour {
 
     // Variable for portal gunbullet
     private int portalNum;
+
+    // Variable for bouncing bullets
+    GameObject lastBounceWall;
+    public LayerMask collisionMask;
     #endregion
 
     #region Properties
@@ -119,7 +123,7 @@ public class BulletManager : MonoBehaviour {
                     return;
                 case bulletTypes.DarkEnergy:
                     speed = 9f;
-                    damage = .45f;
+                    damage = .22f;
                     return;
                 case bulletTypes.Plasma:
                     speed = 5f;
@@ -326,8 +330,39 @@ public class BulletManager : MonoBehaviour {
         }
     }
 
-    void Bounce()
+    void Bounce(GameObject wall)
     {
+
+        // Will always hit on the top of the bullet (since it is going that direction)
+        // We have to check if the wall is to the left or right of the bullets side
+        // and then roatate it by 90 in the opposite direction
+
+        // Good start reference: https://answers.unity.com/questions/782091/how-do-i-get-reflection-vector-from-a-2d-collision.html
+        if (lastBounceWall != wall)
+        {
+
+            Debug.Log("bounce!");
+            //float dotProduct;
+            // Check the position based on the local space of this object
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, .5f, 1<<10);
+
+
+            if(hit.collider !=null)
+            {
+                // Calculate the reflecting vector
+                Vector3 rayDirection = Vector3.Reflect((new Vector3(hit.point.x, hit.point.y, 0) - transform.position).normalized, hit.normal);
+
+                float angle = Mathf.Atan2(-rayDirection.x, rayDirection.y) * Mathf.Rad2Deg;
+
+                Quaternion targetRot = Quaternion.AngleAxis(angle, Vector3.up);
+                transform.rotation = targetRot;
+
+                // The object is to the right
+                lastBounceWall = wall;
+            }
+
+        }
+
 
     }
 
@@ -335,11 +370,12 @@ public class BulletManager : MonoBehaviour {
 
     #region Enemy Destroy Bullet Helper Methods
 
-        /// <summary>
-        /// Enemy Bullet Destory Method
-        /// </summary>
-        private void EnemyBulletDestroy()
-    {
+    /// <summary>
+    /// Enemy Bullet Destory Method
+    /// </summary>
+    private void EnemyBulletDestroy()
+    { 
+    
         // Check to make sure the enemy hasn't already been killed
         if (owner != null)
         {
@@ -435,15 +471,18 @@ public class BulletManager : MonoBehaviour {
             }
             if (bulletType == bulletTypes.CelestialCrystal)
             {
-                Bounce();
+                Bounce(collider.gameObject);
             }
 
 
             // Remove refernece to the bullet
-            if ((ownerType == bulletOwners.player && bulletType!=bulletTypes.Plasma) || (bulletType==bulletTypes.Plasma && owner.GetComponent<GunScript>().Charging == false))
-            {
-                // Delete the bullet reference in the Player Manager
-                PlayerBulletDestroy();
+            if (ownerType == bulletOwners.player)
+            { 
+              if(!((bulletType==bulletTypes.Plasma && velocity==Vector3.zero) || (bulletType == bulletTypes.CelestialCrystal)))
+                { 
+                    // Delete the bullet reference in the Player Manager
+                    PlayerBulletDestroy();
+                }
             }
             if (ownerType == bulletOwners.enemy)
             {

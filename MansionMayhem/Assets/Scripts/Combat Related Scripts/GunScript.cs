@@ -5,7 +5,12 @@ using UnityEngine;
 public class GunScript : MonoBehaviour
 {
 
+
     #region Attributes
+
+    // constant that keeps you from spamming guns right after switching weapons
+    const float GUNSWITCHDELAY = 0.3f;
+    
     // Basic Gun attributes
     public rangeWeapon gunType;
     public bulletOwners gunOwner;
@@ -185,6 +190,8 @@ public class GunScript : MonoBehaviour
             //Start charging the bullet
             bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
             bulletCopy.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);
+            bulletCopy.GetComponent<BulletManager>().owner = gameObject;
+            bulletCopy.GetComponent<BulletManager>().ownerType = bulletOwners.player;
             playerBullets.Add(bulletCopy);
             charging = true;
         }
@@ -210,7 +217,6 @@ public class GunScript : MonoBehaviour
 
             // Set the damage of the bullet so if an enemy runs into it while charging then they are damaged
             bulletCopy.GetComponent<BulletManager>().Damage = .5f * Mathf.Pow(transform.localScale.x, 1.5f);
-
         }
     }
 
@@ -237,10 +243,22 @@ public class GunScript : MonoBehaviour
     public void JustShot()
     {
         // Player Can't shoot for .5 seconds
-        Debug.Log("We Just Shot!");
+        //Debug.Log("We Just Shot!");
         canShoot = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
         Invoke("ResetShooting", timeBetweenShots);
+    }
+
+    /// <summary>
+    /// Keeps the player from spamming the shoot button after switching weapons
+    /// </summary>
+    public void JustSwitchGuns()
+    {
+        // Player Can't shoot for .5 seconds
+        //Debug.Log("We Just Switched Weapons!");
+        canShoot = false;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+        Invoke("ResetShooting", GUNSWITCHDELAY);
     }
 
     /// <summary>

@@ -34,7 +34,6 @@ public class NPC : CharacterMovement
     private int endAtLine;
 
     // Talking bools
-    private bool setUpTalking;
     private bool talkingBool;
     private bool optionBool;
 
@@ -77,7 +76,6 @@ public class NPC : CharacterMovement
         }
 
         currentLine = 0;
-        setUpTalking = true;
 
         // Creates an Array for responses
         Responses = new ResponseType[5];
@@ -107,7 +105,6 @@ public class NPC : CharacterMovement
     }
     #endregion
 
-
     #region dialogue helper methods
     /// <summary>
     /// Helper method that takes checks whether there is a valid text file and set it as the current tect for the NPC
@@ -136,7 +133,7 @@ public class NPC : CharacterMovement
 
         while(isTyping && !cancelTyping && (letter<lineOfText.Length - 1))
         {
-            Debug.Log("Dialog Scrolling");
+            //Debug.Log("Dialog Scrolling");
 
             dialogText.GetComponent<Text>().text += lineOfText[letter];
             letter++;
@@ -156,83 +153,69 @@ public class NPC : CharacterMovement
     /// </summary>
     public void TalkingTo()
     {
-        // Set up the dialog
-        DialogSetUp();
 
-        // Sets the text box to the first/current line of dialog
-        //dialogText.GetComponent<Text>().text = textLines[currentLine];
+            // Sets the text box to the first/current line of dialog
+            //dialogText.GetComponent<Text>().text = textLines[currentLine];
 
-        if (dialogBox.activeSelf == false)
-        {
-            // Activate the dialog box
-            dialogBox.SetActive(true);
-
-            // Start the scrolling text 
-            Debug.Log("Starting Dialog");
-            StartCoroutine(TextScroll(textLines[currentLine]));
-        }
-
-        // Advance the text if the player hits Enter or Space
-        else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-        {
-            // if space and the text isn't scrolling, advance a line
-            if (!isTyping)
+            if (dialogBox.activeSelf == false)
             {
-                if (optionBool == false)
-                {
-                    currentLine++;
-                }
+                // Activate the dialog box
+                dialogBox.SetActive(true);
 
-                // Don't let the user go past the endline
-                if (currentLine == endAtLine)
-                {
-                    Debug.Log("Exit Dialog");
+                // Start the scrolling text 
+                //Debug.Log("Starting Dialog");
+                StartCoroutine(TextScroll(textLines[currentLine]));
+            }
 
-                    //end the dialogue if at the end
-                    endDialogue();
-                }
-                // Otherwise start scrolling the text
-                else
+            // Advance the text if the player hits Enter or Space
+            else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                // if space and the text isn't scrolling, advance a line
+                if (!isTyping)
                 {
-                    Debug.Log("Starting Dialog Scrolling if not at the end of the text");
-                    
-                    // Check to see if the line is already printed out
-                    if(dialogText.GetComponent<Text>().text != textLines[currentLine])
-                    { 
-                        // Otherwise start typing it out
-                        StartCoroutine(TextScroll(textLines[currentLine]));
+                    if (optionBool == false)
+                    {
+                        currentLine++;
+                    }
+
+                    // Don't let the user go past the endline
+                    if (currentLine >= endAtLine)
+                    {
+                        Debug.Log("Manually Exit Dialog");
+
+                        //end the dialogue if at the end
+                        endDialogue();
+                    }
+                    // Otherwise start scrolling the text
+                    else
+                    {
+                        //Debug.Log("Starting Dialog Scrolling if not at the end of the text");
+
+                        // Check to see if the line is already printed out
+                        if (dialogText.GetComponent<Text>().text != textLines[currentLine])
+                        {
+                            // Otherwise start typing it out
+                            StartCoroutine(TextScroll(textLines[currentLine]));
+                        }
                     }
                 }
-            }
-            // If the text box is currently printing the text then cancel the scrolling
-            else if (isTyping && !cancelTyping)
-            {
-                Debug.Log("Cancel Typing");
+                // If the text box is currently printing the text then cancel the scrolling
+                else if (isTyping && !cancelTyping)
+                {
+                    //Debug.Log("Cancel Typing");
 
-                cancelTyping = true;
+                    cancelTyping = true;
+                }
             }
-        }
 
         // Check for dialog options
         // Dialog Options designated with a * at the beginning of the line
-        CheckForOptions();
-        CheckCommand();
-
-    }
-    #endregion
-
-    #region DialogSetUp
-    public void DialogSetUp()
+        if (talkingBool)
         {
-
-            if (setUpTalking == true)
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = gameObject;
-                }
-                setUpTalking = false;
-            }
+            CheckForOptions();
+            CheckCommand();
+        }
+            
     }
     #endregion
 
@@ -401,6 +384,7 @@ public class NPC : CharacterMovement
         {
             if (textLines[currentLine + 1][0] == '*')
             {
+
                 // Set the optionBool to true
                 optionBool = true;
 
@@ -410,91 +394,106 @@ public class NPC : CharacterMovement
                 // Set the buttons
                 for (int i = 0; i < optionNumber; i++)
                 {
-                    string fullOptionText = textLines[(currentLine + 2) + i];
-
-                    // Bool if we are looking at a button text
-                    bool buttonTextBool = true;
-                    // String for the response
-                    string buttonText = "";
-                    // Bool to see if we are looking at response type
-                    bool responseTextBool = false;
-                    // String for the type of response
-                    string responseOptionText = "";
-
-
-                    // Loops through
-                    // Puts the text before square brckets on the button
-                    // and saves the text in the square brackets as a response type
-                    for (int j = 0; j < fullOptionText.Length; j++)
+                    // Set the currentNPC if not already set
+                    if (Options[i].transform.GetComponent<DialogOptionScript>().currentNPC == null)
                     {
-                        // If you hit the last square bracket then the responseValue the button has has ended
-                        if (fullOptionText[j] == ']')
+                        Debug.Log("set up options!");
+                        Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = gameObject;
+
+
+                        string fullOptionText = textLines[(currentLine + 2) + i];
+
+                        // Bool if we are looking at a button text
+                        bool buttonTextBool = true;
+                        // String for the response
+                        string buttonText = "";
+                        // Bool to see if we are looking at response type
+                        bool responseTextBool = false;
+                        // String for the type of response
+                        string responseOptionText = "";
+
+
+                        // Loops through
+                        // Puts the text before square brckets on the button
+                        // and saves the text in the square brackets as a response type
+                        for (int j = 0; j < fullOptionText.Length; j++)
                         {
-                            responseTextBool = false;
-                        }
-                        // Record down what the Response type is if in the square brackets
-                        if (responseTextBool == true)
-                        {
-                            responseOptionText += fullOptionText[j];
+                            // If you hit the last square bracket then the responseValue the button has has ended
+                            if (fullOptionText[j] == ']')
+                            {
+                                responseTextBool = false;
+                            }
+                            // Record down what the Response type is if in the square brackets
+                            if (responseTextBool == true)
+                            {
+                                responseOptionText += fullOptionText[j];
+                            }
+
+                            // If you hit the first square bracket then the buttonText is finished
+                            if (fullOptionText[j] == '[')
+                            {
+                                buttonTextBool = false;
+                                responseTextBool = true;
+                            }
+                            // If the buttonText bool is true record the text down
+                            if (buttonTextBool == true)
+                            {
+                                buttonText += fullOptionText[j];
+                            }
+
                         }
 
-                        // If you hit the first square bracket then the buttonText is finished
-                        if (fullOptionText[j] == '[')
+                        //Debug.Log("Button 1: " + buttonText + " Response Value: " + responseOptionText);
+
+                        // Compares the response text to change it to a Response type
+                        // Assign each ResponseType to a button.
+                        switch (responseOptionText)
                         {
-                            buttonTextBool = false;
-                            responseTextBool = true;
-                        }
-                        // If the buttonText bool is true record the text down
-                        if (buttonTextBool == true)
-                        {
-                            buttonText += fullOptionText[j];
+                            case "SayYes":
+                                Responses[i] = ResponseType.SayYes;
+                                Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayYes;
+                                break;
+                            case "SayNo":
+                                Responses[i] = ResponseType.SayNo;
+                                Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNo;
+                                break;
+                            case "SayNothing":
+                                Responses[i] = ResponseType.SayNothing;
+                                Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNothing;
+                                break;
                         }
 
+
+                        // Set the text on the button
+                        Options[i].transform.GetChild(0).GetComponent<Text>().text = buttonText;
                     }
 
-                    //Debug.Log("Button 1: " + buttonText + " Response Value: " + responseOptionText);
-
-                    // Compares the response text to change it to a Response type
-                    // Assign each ResponseType to a button.
-                    switch (responseOptionText)
-                    {
-                        case "SayYes":
-                            Responses[i] = ResponseType.SayYes;
-                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayYes;
-                            break;
-                        case "SayNo":
-                            Responses[i] = ResponseType.SayNo;
-                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNo;
-                            break;
-                        case "SayNothing":
-                            Responses[i] = ResponseType.SayNothing;
-                            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNothing;
-                            break;
-                    }
-
-
-                    // Set the text on the button
-                    Options[i].transform.GetChild(0).GetComponent<Text>().text = buttonText;
 
                     // Activate the buttons
-                    if (!isTyping)
+                    if (!isTyping && !Options[i].activeSelf)
                     {
                         Options[i].SetActive(true);
                     }
                 }
+                
             }
         }
     }
     #endregion
 
-    #region OptionEnd
+    #region Turn off Option Buttons helper method
     public void EndOptions()
     {
         optionBool = false;
+
         //Turn off options for new text
         for (int i = 0; i < 5; i++)
         {
-            // Activate the buttons
+            // Change the option buttons to default and to no NPC
+            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNothing;
+            Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = null;
+
+            // DeActivate the buttons
             Options[i].SetActive(false);
         }
     }
@@ -506,32 +505,28 @@ public class NPC : CharacterMovement
     /// Helper method to end text
     /// </summary>
     public void endDialogue()
-    {
+    { 
+        // Set the Talking to bool to false
+        talkingBool = false;
+
+        // Set playerChoices to null
+        playerChoices = null;
+
+        //Turn off options for next time you talk to NPCs
+        EndOptions();
+
+        // Set the dialog box off
+        dialogBox.SetActive(false);
+
+        // Set the dialog to the beginning
+        currentLine = 0;
+
         // Return the Game World to normal time
         // Pause the gameplay
         // Set pauseGame to true
         GameManager.instance.currentGameState = GameState.Play;
         GUIManager.usingOtherInterface = false;
         Time.timeScale = 1;
-
-        // Set the Talking to bool to false
-        talkingBool = false;
-
-        // Set the dialog box off
-        dialogBox.SetActive(false);
-
-        // Set playerChoices to null
-        playerChoices = null;
-
-        // Set the dialog to the beginning
-        currentLine = 0;
-
-        // Turn setUpTalking to false so that next time you talk to the NPC
-        // It sets them as the current NPC
-        setUpTalking = false;
-
-        //Turn off options for next time you talk to NPCs
-        EndOptions();
     }
     #endregion
 

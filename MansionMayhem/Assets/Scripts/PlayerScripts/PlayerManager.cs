@@ -415,6 +415,7 @@ public class PlayerManager : MonoBehaviour
                     GUIManager.usingOtherInterface = true;
                     Time.timeScale = 0;
 
+
                     collider.gameObject.GetComponent<NPC>().TalkingBool = true;
 
                     Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);
@@ -512,7 +513,7 @@ public class PlayerManager : MonoBehaviour
             {
                 playerGunPrefabs[weaponNum].GetComponent<GunScript>().Particles.SetActive(false);
             }
-            // For particle guns shooting
+            // For charging gun shooting
             if (playerGunPrefabs[weaponNum].GetComponent<GunScript>().Charging)
             {
                 playerGunPrefabs[weaponNum].GetComponent<GunScript>().Charging = false;
@@ -532,6 +533,9 @@ public class PlayerManager : MonoBehaviour
             // turn on the current gun sprite
             playerGunPrefabs[weaponNum].GetComponent<SpriteRenderer>().enabled = true;
             currentRangeWeapon = playerGunPrefabs[weaponNum].GetComponent<GunScript>().gunType;
+
+            // Have a delay so the player can't bypass the normal shooring mechanic delay by switching weapons
+            playerGunPrefabs[weaponNum].GetComponent<GunScript>().JustSwitchGuns();
         }
     }
     #endregion

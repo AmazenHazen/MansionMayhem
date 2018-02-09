@@ -344,21 +344,28 @@ public class BulletManager : MonoBehaviour {
             Debug.Log("bounce!");
             //float dotProduct;
             // Check the position based on the local space of this object
+            Ray ray = new Ray(transform.position, transform.up);
+            Debug.DrawRay(transform.position, transform.up*.5f);
+
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, .5f, 1<<10);
 
 
             if(hit.collider !=null)
             {
+                
                 // Calculate the reflecting vector
-                Vector3 rayDirection = Vector3.Reflect((new Vector3(hit.point.x, hit.point.y, 0) - transform.position).normalized, hit.normal);
+                Vector3 reflectDirection = Vector3.Reflect(ray.direction, hit.normal);
+                float angle = Mathf.Atan2(reflectDirection.y, reflectDirection.x) * Mathf.Rad2Deg;
 
-                float angle = Mathf.Atan2(-rayDirection.x, rayDirection.y) * Mathf.Rad2Deg;
 
-                Quaternion targetRot = Quaternion.AngleAxis(angle, Vector3.up);
-                transform.rotation = targetRot;
+                //Quaternion targetRot = Quaternion.AngleAxis(angle, Vector3.forward);
+                //transform.rotation = targetRot;
+                transform.eulerAngles = new Vector3(0, 0, angle);
+                
 
                 // The object is to the right
                 lastBounceWall = wall;
+                
             }
 
         }

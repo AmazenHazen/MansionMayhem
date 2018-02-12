@@ -23,6 +23,29 @@ public class LoadOnClick : MonoBehaviour
         SceneManager.LoadScene(level);
     }
 
+
+    /// <summary>
+    /// Loading level method that does not deal with a loading bar or screen
+    /// </summary>
+    /// <param name="level"></param>
+    public void ExitLevel(int level)
+    {
+
+        GameManager.instance.currentLevel = level;
+        GameManager.instance.currentGameState = GameState.MainMenu;
+
+        // Check to make sure the game manager exists
+        if (GameManager.instance != null)
+        {
+            // First Save Game
+            GameManager.instance.Save();
+        }
+
+        // Exit Level
+        SceneManager.LoadScene(level);
+    }
+
+
     /// <summary>
     /// Set an image active if used with a parameter of the background iamge
     /// </summary>

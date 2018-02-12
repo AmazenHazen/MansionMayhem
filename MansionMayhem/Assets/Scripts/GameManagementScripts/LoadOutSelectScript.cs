@@ -105,7 +105,7 @@ public class LoadOutSelectScript : MonoBehaviour
 
 
         // Put the gun selection on the GameManager
-        GameManager.instance.currentGuns[weaponSlot - 1] = buttonChosen.GetComponent<LoadOutButtonScript>().buttonWeapon;
+        GameManager.instance.currentGuns[weaponSlot] = buttonChosen.GetComponent<LoadOutButtonScript>().buttonWeapon;
 
         buttonChosen.GetComponent<Image>().color = selectedColor;
 
@@ -114,7 +114,7 @@ public class LoadOutSelectScript : MonoBehaviour
         // This logic is correct
         for(int i =0; i<GameManager.instance.currentGuns.Count; i++)
         {
-            if((GameManager.instance.currentGuns[i] == buttonChosen.GetComponent<LoadOutButtonScript>().buttonWeapon) && (weaponSlot!= (i+1)))
+            if((GameManager.instance.currentGuns[i] == buttonChosen.GetComponent<LoadOutButtonScript>().buttonWeapon) && (weaponSlot!= (i)))
             {
                 //Debug.Log("Turned off " + GameManager.instance.currentGuns[i] + " at weapon slot" + i);
                 GameManager.instance.currentGuns[i] = rangeWeapon.None;
@@ -122,10 +122,10 @@ public class LoadOutSelectScript : MonoBehaviour
                 // turn off the other buttons as well
                 switch (weaponSlot)
                 {
-                    case 1:
+                    case 0:
                         for (int j = 0; j < oneButtons.Count; j++)
                         {
-                            if (oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon == GameManager.instance.currentGuns[weaponSlot-1])
+                            if (oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon == GameManager.instance.currentGuns[weaponSlot])
                             {
                                 twoButtons[j].GetComponent<Button>().interactable = true;
                                 twoButtons[j].GetComponent<LoadOutButtonScript>().selected = false;
@@ -134,10 +134,10 @@ public class LoadOutSelectScript : MonoBehaviour
                             }
                         }
                         break;
-                    case 2:
+                    case 1:
                         for (int j = 0; j < oneButtons.Count; j++)
                         {
-                            if (oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon == GameManager.instance.currentGuns[weaponSlot - 1])
+                            if (oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon == GameManager.instance.currentGuns[weaponSlot])
                             {
                                 oneButtons[j].GetComponent<Button>().interactable = true;
                                 oneButtons[j].GetComponent<LoadOutButtonScript>().selected = false;
@@ -146,10 +146,10 @@ public class LoadOutSelectScript : MonoBehaviour
                             }
                         }
                         break;
-                    case 3:
+                    case 2:
                         for (int j = 0; j < oneButtons.Count; j++)
                         {
-                            if (oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon == GameManager.instance.currentGuns[weaponSlot - 1])
+                            if (oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon == GameManager.instance.currentGuns[weaponSlot])
                             {
                                 twoButtons[j].GetComponent<Button>().interactable = true;
                                 twoButtons[j].GetComponent<LoadOutButtonScript>().selected = false;
@@ -166,11 +166,11 @@ public class LoadOutSelectScript : MonoBehaviour
         switch(weaponSlot)
         {
             // Cases depending on the weaponSlot selected
-            case 1:
+            case 0:
                 for(int i=0; i<oneButtons.Count; i++)
                 {
                     // find the other buttons selected and turn them on
-                    if (oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon != GameManager.instance.currentGuns[weaponSlot - 1])
+                    if (oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon != GameManager.instance.currentGuns[weaponSlot])
                     {
                         Debug.Log("Reset Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
                         oneButtons[i].GetComponent<Button>().interactable = true;
@@ -178,11 +178,11 @@ public class LoadOutSelectScript : MonoBehaviour
                     }
                 }
                 break;
-            case 2:
+            case 1:
                 for (int i = 0; i < twoButtons.Count; i++)
                 {
                     // find the other buttons selected and turn them off
-                    if (twoButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon != GameManager.instance.currentGuns[weaponSlot - 1])
+                    if (twoButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon != GameManager.instance.currentGuns[weaponSlot])
                     {
                         Debug.Log("Reset Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
                         twoButtons[i].GetComponent<Button>().interactable = true;
@@ -190,13 +190,13 @@ public class LoadOutSelectScript : MonoBehaviour
                     }
                 }
                 break;
-            case 3:
+            case 2:
                 for (int i = 0; i < threeButtons.Count; i++)
                 {
                     // find the other buttons selected and turn them off
-                    if (threeButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon != GameManager.instance.currentGuns[weaponSlot - 1])
+                    if (threeButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon != GameManager.instance.currentGuns[weaponSlot])
                     {
-                        Debug.Log("Reset Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
+                        Debug.Log("Reset " + i + " Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
                         threeButtons[i].GetComponent<Button>().interactable = true;
                         threeButtons[i].GetComponent<LoadOutButtonScript>().selected = false;
                     }

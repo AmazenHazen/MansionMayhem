@@ -87,6 +87,8 @@ public class LevelManager : MonoBehaviour
         }
 
         // Loads the level selection screen
+        GameManager.instance.currentGameState = GameState.MainMenu;
+
         SceneManager.LoadScene(1);
     }
 

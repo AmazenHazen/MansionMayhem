@@ -158,6 +158,12 @@ public class GameManager : MonoBehaviour
         // Start the currentGameState to MainMenu
         currentGameState = GameState.MainMenu;
 
+        currentGuns = new List<rangeWeapon>(3);
+        for (int i = 0; i < 3; i++)
+        {
+            currentGuns.Add(rangeWeapon.None);
+        }
+
         // Load the save file if starting the game up
         Load();
     }
@@ -215,9 +221,11 @@ public class GameManager : MonoBehaviour
         // Puts the Variables that need to be saved into the data Class
         data.screws = screws;
         data.highestLevel = highestLevel;
-        data.currentGuns = currentGuns;
         data.healthTotal = healthTotal;
         data.equipmentTotal = equipmentTotal;
+
+        // Only load the list if it is correct
+        data.currentGuns = currentGuns;
 
         #region Unlockable Variables
         //Unlockable variables
@@ -426,7 +434,6 @@ public class GameManager : MonoBehaviour
             highestLevel = 0;
             healthTotal = 5;
             equipmentTotal = 10;
-            currentGuns = new List<rangeWeapon>(3);
             currentGuns[0] = rangeWeapon.laserpistol;
             currentGuns[1] = rangeWeapon.None;
             currentGuns[2] = rangeWeapon.None;

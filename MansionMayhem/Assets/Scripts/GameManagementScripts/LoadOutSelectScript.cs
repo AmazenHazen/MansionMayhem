@@ -9,7 +9,7 @@ public class LoadOutSelectScript : MonoBehaviour
     int totalEquipementNum;
 
     // Attributes
-    Color selectedColor = new Color(33, 88, 55);
+    Color selectedColor = new Color(.1f, .3f, .7f);
 
     // Weapon Variables
     // Holds a reference to all the buttons in the weapons menu

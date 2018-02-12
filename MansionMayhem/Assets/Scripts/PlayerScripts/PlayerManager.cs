@@ -104,37 +104,37 @@ public class PlayerManager : MonoBehaviour
             switch (GameManager.instance.currentGuns[i])
             {
                 case rangeWeapon.aetherLightBow:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("AetherLightBow"));
                     break;
                 case rangeWeapon.antiEctoPlasmator:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("AntiEctoPlasmator"));
                     break;
                 case rangeWeapon.CelestialRepeater:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("CelestialRepeater"));
                     break;
                 case rangeWeapon.cryoGun:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("CryoGun"));
                     break;
                 case rangeWeapon.DarkEnergyRifle:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("DarkMatterRifle"));
                     break;
                 case rangeWeapon.ElectronSeeker:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("ElectronSeeker"));
                     break;
                 case rangeWeapon.flamethrower:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("Flamethrower"));
                     break;
                 case rangeWeapon.hellfireshotgun:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("HellFireShotGun"));
                     break;
                 case rangeWeapon.laserpistol:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("LaserGun"));
                     break;
                 case rangeWeapon.PlasmaCannon:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("PlasmaPistol"));
                     break;
                 case rangeWeapon.soundCannon:
-                    playerGunPrefabs.Add(GameObject.Find("AetherlightBow"));
+                    playerGunPrefabs.Add(GameObject.Find("SoundCannon"));
                     break;
             }
         }

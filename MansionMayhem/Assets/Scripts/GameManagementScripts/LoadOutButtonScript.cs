@@ -11,7 +11,6 @@ public class LoadOutButtonScript : MonoBehaviour {
     public int weaponSlot;
     public rangeWeapon buttonWeapon;
 
-    
     public Equipment buttonEquipment;
     public trinkets buttontrinket;
 

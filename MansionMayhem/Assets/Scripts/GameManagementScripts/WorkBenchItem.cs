@@ -9,6 +9,11 @@ public class WorkBenchItem : MonoBehaviour
     private int cost;
     public Text costText;
 
+    // To hold other button variables to check to make the buttons interactable or not
+    private GameObject gunUnlock;
+    private List<GameObject> upgradeVars;
+
+
     // Var to see if it is true
     public bool unlockedBool;
 
@@ -24,16 +29,12 @@ public class WorkBenchItem : MonoBehaviour
         {
             case Unlock.heartIncrease:
                 if(GameManager.instance.healthTotal> GameManager.instance.MAX_HEALTH)
-                {
-                    unlockedBool = true;
-                }
+                { unlockedBool = true;}
                 break;
 
             case Unlock.equipmentIncrease:
                 if (GameManager.instance.healthTotal > GameManager.instance.MAX_EQUIPMENT)
-                {
-                    unlockedBool = true;
-                }
+                { unlockedBool = true; }
                 break;
 
             // Gun Unlocks
@@ -304,7 +305,16 @@ public class WorkBenchItem : MonoBehaviour
         // Set the button as unlocked if the unlockedBool is true
         if (unlockedBool)
         {
-            gameObject.GetComponent<Button>().interactable = false;
+            if(gunUnlock.GetComponent<WorkBenchItem>().gunUnlock==null)
+            {
+                gameObject.GetComponent<Button>().interactable = true;
+
+            }
+            else
+            {
+                gameObject.GetComponent<Button>().interactable = false;
+
+            }
         }
 
         // Set the Cost text

@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class LoadOutButtonScript : MonoBehaviour {
+public class LoadOutButtonScript : MonoBehaviour
+{
 
     // Var to see if it is true
     public bool selected;
+    public bool locked;
 
     // weaponSlot number for weapons
     public int weaponSlot;
@@ -16,9 +18,19 @@ public class LoadOutButtonScript : MonoBehaviour {
     public Equipment buttonEquipment;
     public trinkets buttontrinket;
 
-	// Use this for initialization
-	void Start ()
+    public bool Locked
     {
+        get { return locked; }
+        set { locked = value; }
+    }
+
+    Color selectedColor = new Color(.55f, .85f, .245f);
+
+    // Use this for initialization
+    void Start()
+    {
+
+        #region Checking if the guns/trinkets/equipement is unlocked
         // Unlock the variable
         switch (buttonWeapon)
         {
@@ -26,84 +38,123 @@ public class LoadOutButtonScript : MonoBehaviour {
             // Gun Unlocks
             // Laser Pistol
             case rangeWeapon.laserpistol:
-                if (GameManager.instance.LaserPistolUnlock == true)
+                if (GameManager.instance.LaserPistolUnlock != true)
                 {
-                    gameObject.GetComponent<Button>().interactable = true;
+                    gameObject.GetComponent<Button>().interactable = false;
                     gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
                 }
                 break;
 
             // Anti Ectoplasm Splatter Gun
-            case Unlock.AntiEctoGun:
-                if (GameManager.instance.LaserPistolUnlock == true)
+            case rangeWeapon.antiEctoPlasmator:
+                if (GameManager.instance.AntiEctoGunUnlock != true)
                 {
-                    gameObject.GetComponent<Button>().interactable = true;
+                    gameObject.GetComponent<Button>().interactable = false;
                     gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
                 }
                 break;
-   
+
             // Plasma Pistol
-            case Unlock.PlasmaPistol:
-                if (GameManager.instance.PlasmaPistolUnlock == true)
-                { unlockedBool = true; }
+            case rangeWeapon.PlasmaCannon:
+                if (GameManager.instance.PlasmaPistolUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
                 break;
 
 
             // CryoGun
-            case Unlock.CryoGun:
-                if (GameManager.instance.CryoGunUnlock == true)
-                { unlockedBool = true; }
+            case rangeWeapon.cryoGun:
+                if (GameManager.instance.CryoGunUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
                 break;
 
             // Flamethrower
-            case Unlock.FlameThrower:
-                if (GameManager.instance.FlameThrowerUnlock == true)
-                { unlockedBool = true; }
+            case rangeWeapon.flamethrower:
+                if (GameManager.instance.FlameThrowerUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
                 break;
 
 
             // Hellfire Shotgun
-            case Unlock.HellFireShotgun:
-                if (GameManager.instance.HellFireShotgunUnlock == true)
-                { unlockedBool = true; }
+            case rangeWeapon.hellfireshotgun:
+                if (GameManager.instance.HellFireShotgunUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
                 break;
 
 
             // Sound Cannon
-            case Unlock.SoundCannon:
-                if (GameManager.instance.SoundCannonUnlock == true)
-                { unlockedBool = true; }
+            case rangeWeapon.soundCannon:
+                if (GameManager.instance.SoundCannonUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
                 break;
 
 
             // Dark Energy Sniper
-            case Unlock.DarkEnergySniper:
-                if (GameManager.instance.DarkEnergySniperUnlock == true)
-                { unlockedBool = true; }
+            case rangeWeapon.DarkEnergyRifle:
+                if (GameManager.instance.DarkEnergySniperUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
                 break;
 
 
 
             // Electron Cannon
-            case Unlock.ElectronPulseCannon:
-                if (GameManager.instance.ElectronPulseCannonUnlock == true)
-                { unlockedBool = true; }
+            case rangeWeapon.ElectronSeeker:
+                if (GameManager.instance.ElectronPulseCannonUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
                 break;
 
 
             // Aetherlight Bow
-            case Unlock.AetherlightBow:
-                if (GameManager.instance.AetherlightBowUnlock == true)
-                { unlockedBool = true; }
+            case rangeWeapon.aetherLightBow:
+                if (GameManager.instance.AetherlightBowUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
                 break;
 
 
 
-            case Unlock.CelestialRepeater:
-                if (GameManager.instance.CelestialRepeaterUnlock == true)
-                { unlockedBool = true; }
+            case rangeWeapon.CelestialRepeater:
+                if (GameManager.instance.CelestialRepeaterUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
                 break;
-
         }
-	
+        #endregion
+    }
+
 }

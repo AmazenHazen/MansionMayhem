@@ -7,7 +7,7 @@ public class WorkBenchItem : MonoBehaviour
 {
     [SerializeField]
     private int cost;
-    private int costText;
+    public Text costText;
 
     // Var to see if it is true
     public bool unlockedBool;
@@ -300,11 +300,15 @@ public class WorkBenchItem : MonoBehaviour
         }
         #endregion
 
-        // Set the Cost text
+
+        // Set the button as unlocked if the unlockedBool is true
         if (unlockedBool)
         {
             gameObject.GetComponent<Button>().interactable = false;
         }
+
+        // Set the Cost text
+        costText.text = "Cost: " + cost + " screws";
     }
 
     public int Cost

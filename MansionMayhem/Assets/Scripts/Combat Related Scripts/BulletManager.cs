@@ -95,7 +95,8 @@ public class BulletManager : MonoBehaviour {
                     return;
                 case bulletTypes.antiEctoPlasm:
                     speed = 4f;
-                    damage = 1.75f;
+                    if (GameManager.instance.AntiEctoGunUpgrade1Unlock){ damage = 2.0f; }
+                    else { damage = 1.75f; }
                     return;
                 case bulletTypes.ice:
                     speed = 5f;
@@ -103,34 +104,41 @@ public class BulletManager : MonoBehaviour {
                     return;
                 case bulletTypes.sound:
                     speed = 5f;
-                    damage = .75f;
+                    if (GameManager.instance.SoundCannonUpgrade1Unlock) { damage = .75f; }
+                    else { damage = .90f; }
                     return;
                 case bulletTypes.laser:
                     speed = 6f;
-                    damage = .25f;
+                    if (GameManager.instance.LaserPistolUnlock) { damage = .3f; }
+                    else { damage = .25f; }
                     return;
                 case bulletTypes.CelestialCrystal:
                     speed = 10f;
-                    damage = .1f;
+                    if (GameManager.instance.CelestialRepeaterUpgrade1Unlock) { damage = .15f; }
+                    else { damage = .1f; }
                     return;
                 case bulletTypes.ElectronBall:
                     speed = 3f;
-                    damage = 1f;
+                    if (GameManager.instance.ElectronPulseCannonUpgrade1Unlock) { damage = 1.25f; }
+                    else { damage = 1.0f; }
                     return;
                 case bulletTypes.electron:
                     speed = 3f;
-                    damage = .4f;
+                    if (GameManager.instance.ElectronPulseCannonUpgrade2Unlock) { damage = .6f; }
+                    else { damage = .4f; }
                     return;
                 case bulletTypes.DarkEnergy:
                     speed = 9f;
-                    damage = .22f;
+                    if (GameManager.instance.DarkEnergySniperUpgrade1Unlock) { damage = .25f; }
+                    else { damage = .22f; }
                     return;
                 case bulletTypes.Plasma:
                     speed = 5f;
                     return;
                 case bulletTypes.hellFire:
                     speed = 5f;
-                    damage = .55f;
+                    if (GameManager.instance.HellFireShotgunUpgrade1Unlock) { damage = .70f; }
+                    else { damage = .55f; }
 
                     // Determining Shotgun pellets rotation
                     float rotationAngle = shooter.transform.rotation.z;  // Gets current Angle
@@ -242,6 +250,11 @@ public class BulletManager : MonoBehaviour {
         {
             speed+=.5f;
             damage = speed * .2f;
+            if (GameManager.instance.AetherlightBowUpgrade1Unlock) { damage = speed * .25f; }
+            else { damage = speed * .2f; }
+
+            if (damage>4.0f) { damage = 4.5f; }
+
         }
         if (bulletType == bulletTypes.Weight)
         {

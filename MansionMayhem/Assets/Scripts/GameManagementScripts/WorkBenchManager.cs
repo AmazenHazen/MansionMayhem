@@ -5,9 +5,8 @@ using UnityEngine.UI;
 
 public class WorkBenchManager : MonoBehaviour
 {
-
     // Attributes
-    public List<GameObject> upgradePanels;
+    public List<GameObject> upgradePanels; // holds the different panels for weapons, trinkets, and equipement
 
 
     // Use this for initialization
@@ -57,6 +56,9 @@ public class WorkBenchManager : MonoBehaviour
         } 
        else
         {
+            // Subtract the amount from the player's screws
+            GameManager.instance.screws -= buyingButton.GetComponent<WorkBenchItem>().Cost;
+
             #region Switch for unlocking variables
             // Unlock the variable
             switch (unlockItem)
@@ -267,23 +269,38 @@ public class WorkBenchManager : MonoBehaviour
             }
             #endregion
 
+            #region Dynamic unlocks
             // IF the unlock is a heart increase and healthtotal<maxhealth or the same with equipement, then keep the button interactable
             if(unlockItem == Unlock.heartIncrease && (GameManager.instance.healthTotal<GameManager.instance.MAX_HEALTH))
             {
                 buyingButton.GetComponent<WorkBenchItem>().Cost = GameManager.instance.healthTotal * 200;
+
+                // lock it if you max health
+                if(GameManager.instance.healthTotal<=GameManager.instance.MAX_HEALTH)
+                {
+                    // Make the button uninteractable
+                    buyingButton.GetComponent<Button>().interactable = false;
+                }
             }   
             else if(unlockItem == Unlock.equipmentIncrease && (GameManager.instance.equipmentTotal < GameManager.instance.MAX_EQUIPMENT))
             {
                 buyingButton.GetComponent<WorkBenchItem>().Cost = GameManager.instance.equipmentTotal * 500;
+
+                // lock it if you max equipement
+                if (GameManager.instance.equipmentTotal <= GameManager.instance.MAX_EQUIPMENT)
+                {
+                    // Make the button uninteractable
+                    buyingButton.GetComponent<Button>().interactable = false;
+                }
             }
+            #endregion
             else
             {
                 // Make the button uninteractable
                 buyingButton.GetComponent<Button>().interactable = false;
+                buyingButton.GetComponent<WorkBenchItem>().unlockedBool = true; 
             }
 
-            // Subtract the amount from the player's screws
-            GameManager.instance.screws -= buyingButton.GetComponent<WorkBenchItem>().Cost;
         }
 
     }

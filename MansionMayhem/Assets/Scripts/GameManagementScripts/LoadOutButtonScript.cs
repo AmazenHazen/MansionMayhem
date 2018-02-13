@@ -30,7 +30,7 @@ public class LoadOutButtonScript : MonoBehaviour
     void Start()
     {
 
-        #region Checking if the guns/trinkets/equipement is unlocked
+        #region Checking if the guns/trinkets/equipement are unlocked
         // Unlock the variable
         switch (buttonWeapon)
         {

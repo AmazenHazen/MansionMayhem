@@ -29,37 +29,7 @@ public class LoadOutSelectScript : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-		for(int i=0; i<GameManager.instance.currentGuns.Count; i++)
-        {
-            for(int j=0; j< oneButtons.Count;j++)
-            {
-                switch (i)
-                {
-                    case 0:
-                        if (GameManager.instance.currentGuns[i] == oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon)
-                        {
-                            oneButtons[j].GetComponent<LoadOutButtonScript>().selected = true;
-                            oneButtons[j].GetComponent<Image>().color = selectedColor;
-                        }
-                        break;
-                    case 1:
-                        if (GameManager.instance.currentGuns[i] == twoButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon)
-                        {
-                            twoButtons[j].GetComponent<LoadOutButtonScript>().selected = true;
-                            twoButtons[j].GetComponent<Image>().color = selectedColor;
-                        }
-                        break;
-                    case 2:
-                        if (GameManager.instance.currentGuns[i] == threeButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon)
-                        {
-                            threeButtons[j].GetComponent<LoadOutButtonScript>().selected = true;
-                            threeButtons[j].GetComponent<Image>().color = selectedColor;
-                        }
-                        break;
-                }
-            }
-
-        }
+        WeaponCheckSelected();
 	}
 	
 	// Update is called once per frame
@@ -117,8 +87,6 @@ public class LoadOutSelectScript : MonoBehaviour
         equipedNum--;
     }
 
-
-
     /// <summary>
     /// Turns on the button and shows what weapon is selected.
     /// </summary>
@@ -139,13 +107,65 @@ public class LoadOutSelectScript : MonoBehaviour
         // Put the gun selection on the GameManager
         GameManager.instance.currentGuns[weaponSlot] = buttonChosen.GetComponent<LoadOutButtonScript>().buttonWeapon;
 
+        WeaponCheckRow(buttonChosen, weaponSlot);
+
+        WeaponCheckColumn(buttonChosen, weaponSlot);
+    }
 
 
+
+    #region Managing Selected Weapons Helper Methods
+    /// <summary>
+    /// Helper method to check if variables are selected
+    /// </summary>
+    private void WeaponCheckSelected()
+    {
+        for (int i = 0; i < GameManager.instance.currentGuns.Count; i++)
+        {
+            for (int j = 0; j < oneButtons.Count; j++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        if (GameManager.instance.currentGuns[i] == oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon)
+                        {
+                            oneButtons[j].GetComponent<LoadOutButtonScript>().selected = true;
+                            oneButtons[j].GetComponent<Image>().color = selectedColor;
+                        }
+                        break;
+                    case 1:
+                        if (GameManager.instance.currentGuns[i] == twoButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon)
+                        {
+                            twoButtons[j].GetComponent<LoadOutButtonScript>().selected = true;
+                            twoButtons[j].GetComponent<Image>().color = selectedColor;
+                        }
+                        break;
+                    case 2:
+                        if (GameManager.instance.currentGuns[i] == threeButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon)
+                        {
+                            threeButtons[j].GetComponent<LoadOutButtonScript>().selected = true;
+                            threeButtons[j].GetComponent<Image>().color = selectedColor;
+                        }
+                        break;
+                }
+            }
+
+        }
+    }
+
+
+    /// <summary>
+    /// Checks to see if the same weapon is selected for a different gun slot
+    /// </summary>
+    /// <param name="buttonChosen"></param>
+    /// <param name="weaponSlot"></param>
+    private void WeaponCheckRow(GameObject buttonChosen, int weaponSlot)
+    {
         // Turn off multiple instances of the same gun
         // This logic is correct
-        for(int i =0; i<GameManager.instance.currentGuns.Count; i++)
+        for (int i = 0; i < GameManager.instance.currentGuns.Count; i++)
         {
-            if((GameManager.instance.currentGuns[i] == buttonChosen.GetComponent<LoadOutButtonScript>().buttonWeapon) && (weaponSlot!= (i)))
+            if ((GameManager.instance.currentGuns[i] == buttonChosen.GetComponent<LoadOutButtonScript>().buttonWeapon) && (weaponSlot != (i)))
             {
                 //Debug.Log("Turned off " + GameManager.instance.currentGuns[i] + " at weapon slot" + i);
                 GameManager.instance.currentGuns[i] = rangeWeapon.None;
@@ -199,18 +219,27 @@ public class LoadOutSelectScript : MonoBehaviour
                 }
             }
         }
+    }
 
+    
+    /// <summary>
+    /// Checks to see if other guns are also selected for the same slot (in the column)
+    /// </summary>
+    /// <param name="buttonChosen"></param>
+    /// <param name="weaponSlot"></param>
+    private void WeaponCheckColumn(GameObject buttonChosen, int weaponSlot)
+    {
         // turn off other weapon buttons
-        switch(weaponSlot)
+        switch (weaponSlot)
         {
             // Cases depending on the weaponSlot selected
             case 0:
-                for(int i=0; i<oneButtons.Count; i++)
+                for (int i = 0; i < oneButtons.Count; i++)
                 {
                     // find the other buttons selected and turn them on
                     if (oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon != GameManager.instance.currentGuns[weaponSlot])
                     {
-                        Debug.Log("Reset Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
+                        //Debug.Log("Reset Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
                         //oneButtons[i].GetComponent<Button>().interactable = true;
                         oneButtons[i].GetComponent<Image>().color = Color.white;
                         oneButtons[i].GetComponent<LoadOutButtonScript>().selected = false;
@@ -223,7 +252,7 @@ public class LoadOutSelectScript : MonoBehaviour
                     // find the other buttons selected and turn them off
                     if (twoButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon != GameManager.instance.currentGuns[weaponSlot])
                     {
-                        Debug.Log("Reset Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
+                        //Debug.Log("Reset Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
                         //twoButtons[i].GetComponent<Button>().interactable = true;
                         twoButtons[i].GetComponent<Image>().color = Color.white;
                         twoButtons[i].GetComponent<LoadOutButtonScript>().selected = false;
@@ -236,7 +265,7 @@ public class LoadOutSelectScript : MonoBehaviour
                     // find the other buttons selected and turn them off
                     if (threeButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon != GameManager.instance.currentGuns[weaponSlot])
                     {
-                        Debug.Log("Reset " + i + " Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
+                        //Debug.Log("Reset " + i + " Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
                         //threeButtons[i].GetComponent<Button>().interactable = true;
                         threeButtons[i].GetComponent<Image>().color = Color.white;
                         threeButtons[i].GetComponent<LoadOutButtonScript>().selected = false;
@@ -245,4 +274,7 @@ public class LoadOutSelectScript : MonoBehaviour
                 break;
         }
     }
+
+
+    #endregion
 }

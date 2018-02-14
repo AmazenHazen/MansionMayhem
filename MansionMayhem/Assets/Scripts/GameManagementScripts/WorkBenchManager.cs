@@ -8,6 +8,8 @@ public class WorkBenchManager : MonoBehaviour
     // Attributes
     public List<GameObject> upgradePanels; // holds the different panels for weapons, trinkets, and equipement
 
+    Color boughtColor = new Color(.55f, .85f, .245f);
+
 
     // Use this for initialization
     void Start ()
@@ -232,6 +234,33 @@ public class WorkBenchManager : MonoBehaviour
                     GameManager.instance.CelestialRepeaterUpgrade3Unlock = true;
                     break;
 
+                case Unlock.XenonPulser:
+                    GameManager.instance.XenonPulserUnlock = true;
+                    break;
+                case Unlock.XenonPulserUpgrade1:
+                    GameManager.instance.XenonPulserUpgrade1Unlock = true;
+                    break;
+                case Unlock.XenonPulserUpgrade2:
+                    GameManager.instance.XenonPulserUpgrade2Unlock = true;
+                    break;
+                case Unlock.XenonPulserUpgrade3:
+                    GameManager.instance.XenonPulserUpgrade3Unlock = true;
+                    break;
+
+                case Unlock.AntiMatterParticle:
+                    GameManager.instance.AntiMatterParticleUnlock = true;
+                    break;
+                case Unlock.AntiMatterParticleUpgrade1:
+                    GameManager.instance.AntiMatterParticleUpgrade1Unlock = true;
+
+                    break;
+                case Unlock.AntiMatterParticleUpgrade2:
+                    GameManager.instance.AntiMatterParticleUpgrade2Unlock = true;
+                    break;
+                case Unlock.AntiMatterParticleUpgrade3:
+                    GameManager.instance.AntiMatterParticleUpgrade3Unlock = true;
+                    break;
+
                 // Trinket Unlocks
                 case Unlock.AntiMatterDevice:
                     break;
@@ -269,9 +298,20 @@ public class WorkBenchManager : MonoBehaviour
             }
             #endregion
 
+            #region Unlock Upgrade Varaibles
+            if(buyingButton.GetComponent<WorkBenchItem>().upgradeVars.Count>0)
+            {
+                for(int i=0; i< buyingButton.GetComponent<WorkBenchItem>().upgradeVars.Count; i++)
+                {
+                    buyingButton.GetComponent<WorkBenchItem>().upgradeVars[i].GetComponent<Button>().interactable = true;
+                }
+            }
+
+            #endregion
+
             #region Dynamic unlocks
             // IF the unlock is a heart increase and healthtotal<maxhealth or the same with equipement, then keep the button interactable
-            if(unlockItem == Unlock.heartIncrease && (GameManager.instance.healthTotal<GameManager.instance.MAX_HEALTH))
+            if (unlockItem == Unlock.heartIncrease && (GameManager.instance.healthTotal<GameManager.instance.MAX_HEALTH))
             {
                 buyingButton.GetComponent<WorkBenchItem>().Cost = GameManager.instance.healthTotal * 200;
 
@@ -294,10 +334,16 @@ public class WorkBenchManager : MonoBehaviour
                 }
             }
             #endregion
+
             else
             {
+                // Set the color to show it is bought
+                buyingButton.GetComponent<Image>().color = boughtColor;
+
                 // Make the button uninteractable
                 buyingButton.GetComponent<Button>().interactable = false;
+
+                // Set the unlockedBool to true
                 buyingButton.GetComponent<WorkBenchItem>().unlockedBool = true; 
             }
 

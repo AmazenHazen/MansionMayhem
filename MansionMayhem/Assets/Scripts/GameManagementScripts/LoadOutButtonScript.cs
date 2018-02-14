@@ -153,6 +153,24 @@ public class LoadOutButtonScript : MonoBehaviour
                     locked = false;
                 }
                 break;
+
+            case rangeWeapon.XenonPulser:
+                if (GameManager.instance.XenonPulserUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
+                break;
+
+            case rangeWeapon.AntimatterParticle:
+                if (GameManager.instance.AntiMatterParticleUnlock != true)
+                {
+                    gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
+                    locked = false;
+                }
+                break;
         }
         #endregion
     }

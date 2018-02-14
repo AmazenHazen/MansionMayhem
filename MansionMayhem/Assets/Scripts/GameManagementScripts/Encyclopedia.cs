@@ -52,6 +52,8 @@ public enum rangeWeapon
     CelestialRepeater = 8,
     PlasmaCannon = 9,
     DarkEnergyRifle = 10,
+    XenonPulser = 11,
+    AntimatterParticle = 12,
 }
 
 public enum bulletTypes
@@ -75,6 +77,7 @@ public enum bulletTypes
     Magic,
     CelestialCrystal,
     DarkEnergy,
+    Xenon,
 }
 
 public enum trinkets
@@ -189,25 +192,37 @@ public enum Unlock
     CelestialRepeaterUpgrade2 = 57,
     CelestialRepeaterUpgrade3 = 58,
 
+    // Xenon Pulser
+    XenonPulser = 60,
+    XenonPulserUpgrade1 = 61,
+    XenonPulserUpgrade2 = 62,
+    XenonPulserUpgrade3 = 63,
+
+    // Antimatter Particle Gun
+    AntiMatterParticle = 65,
+    AntiMatterParticleUpgrade1 = 66,
+    AntiMatterParticleUpgrade2 = 67,
+    AntiMatterParticleUpgrade3 = 68,
+
     // Trinket Unlocks
-    AntiMatterDevice = 60,
-    PortalDevice = 61,
-    NanoBotHealingSwarm = 62,
-    Drone = 63,
-    HologramClone = 64,
-    Shield = 65,
-    BootRockets = 66,
+    AntiMatterDevice = 100,
+    PortalDevice = 101,
+    NanoBotHealingSwarm = 102,
+    Drone = 103,
+    HologramClone = 104,
+    Shield = 105,
+    BootRockets = 106,
 
 
     // Equipment Unlocks
-    FireResistantUnderArmor = 80,
-    HeatedCoatLining = 81,
-    FrictionBoots = 82,
-    AntidotePatch = 83,
-    ScrewMagnet = 84,
-    RoboticHeart = 85,
-    DragonscaleArmor = 86,
-    GooRepellingTreatment = 87,
+    FireResistantUnderArmor = 200,
+    HeatedCoatLining = 201,
+    FrictionBoots = 202,
+    AntidotePatch = 203,
+    ScrewMagnet = 204,
+    RoboticHeart = 205,
+    DragonscaleArmor = 206,
+    GooRepellingTreatment = 207,
 }
 #endregion
 

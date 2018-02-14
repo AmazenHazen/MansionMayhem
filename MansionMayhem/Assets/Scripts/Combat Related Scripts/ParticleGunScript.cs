@@ -47,6 +47,10 @@ public class ParticleGunScript : MonoBehaviour
         {
             damage = .025f;
         }
+        if (particleGun == rangeWeapon.AntimatterParticle)
+        {
+            damage = .025f;
+        }
 
     }
 

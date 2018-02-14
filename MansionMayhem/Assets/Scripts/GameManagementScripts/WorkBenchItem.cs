@@ -10,8 +10,8 @@ public class WorkBenchItem : MonoBehaviour
     public Text costText;
 
     // To hold other button variables to check to make the buttons interactable or not
-    private GameObject gunUnlock;
-    private List<GameObject> upgradeVars;
+    public GameObject gunUnlock;
+    public List<GameObject> upgradeVars;
 
 
     // Var to see if it is true
@@ -19,6 +19,8 @@ public class WorkBenchItem : MonoBehaviour
 
     [SerializeField]
     private Unlock unlockVar;
+
+    Color boughtColor = new Color(.55f, .85f, .245f);
 
 
     public void Start()
@@ -237,6 +239,42 @@ public class WorkBenchItem : MonoBehaviour
                 { unlockedBool = true; }
                 break;
 
+            case Unlock.XenonPulser:
+                if (GameManager.instance.XenonPulserUnlock == true)
+                { unlockedBool = true; }
+                break;
+            case Unlock.XenonPulserUpgrade1:
+                if (GameManager.instance.XenonPulserUpgrade1Unlock== true)
+                { unlockedBool = true; }
+                break;
+            case Unlock.XenonPulserUpgrade2:
+                if (GameManager.instance.XenonPulserUpgrade2Unlock == true)
+                { unlockedBool = true; }
+                break;
+            case Unlock.XenonPulserUpgrade3:
+                if (GameManager.instance.XenonPulserUpgrade3Unlock == true)
+                { unlockedBool = true; }
+                break;
+
+            case Unlock.AntiMatterParticle:
+                if (GameManager.instance.AntiMatterParticleUnlock== true)
+                { unlockedBool = true; }
+                break;
+            case Unlock.AntiMatterParticleUpgrade1:
+                if (GameManager.instance.AntiMatterParticleUpgrade1Unlock == true)
+                { unlockedBool = true; }
+                break;
+            case Unlock.AntiMatterParticleUpgrade2:
+                if (GameManager.instance.AntiMatterParticleUpgrade2Unlock== true)
+                { unlockedBool = true; }
+                break;
+            case Unlock.AntiMatterParticleUpgrade3:
+                if (GameManager.instance.AntiMatterParticleUpgrade3Unlock== true)
+                { unlockedBool = true; }
+                break;
+
+
+
             // Trinket Unlocks
             case Unlock.AntiMatterDevice:
                 { unlockedBool = true; }
@@ -302,19 +340,25 @@ public class WorkBenchItem : MonoBehaviour
         #endregion
 
 
+        // check if the gun unlock is unlocked before allowing purchasing of the upgrades
+        if(gunUnlock!=null && gunUnlock.GetComponent<WorkBenchItem>().unlockedBool == false)
+        {
+            gameObject.GetComponent<Button>().interactable = false;
+
+        }
+        else
+        {
+            gameObject.GetComponent<Button>().interactable = true;
+
+        }
+
         // Set the button as unlocked if the unlockedBool is true
         if (unlockedBool)
         {
-            if(gunUnlock.GetComponent<WorkBenchItem>().gunUnlock==null)
-            {
-                gameObject.GetComponent<Button>().interactable = true;
+            gameObject.GetComponent<Button>().interactable = false;
 
-            }
-            else
-            {
-                gameObject.GetComponent<Button>().interactable = false;
-
-            }
+            // Set the color to show it is bought
+            gameObject.GetComponent<Image>().color = boughtColor;
         }
 
         // Set the Cost text

@@ -103,6 +103,18 @@ public class GameManager : MonoBehaviour
     public bool CelestialRepeaterUpgrade2Unlock;
     public bool CelestialRepeaterUpgrade3Unlock;
 
+    // Xenon Pulser
+    public bool XenonPulserUnlock;
+    public bool XenonPulserUpgrade1Unlock;
+    public bool XenonPulserUpgrade2Unlock;
+    public bool XenonPulserUpgrade3Unlock;
+
+    // Antimatter Particle Gun
+    public bool AntiMatterParticleUnlock;
+    public bool AntiMatterParticleUpgrade1Unlock;
+    public bool AntiMatterParticleUpgrade2Unlock;
+    public bool AntiMatterParticleUpgrade3Unlock;
+
     // Trinket Unlocks
     public bool AntiMatterDeviceUnlock;
     public bool PortalDeviceUnlock;
@@ -295,6 +307,21 @@ public class GameManager : MonoBehaviour
         data.CelestialRepeaterUpgrade2Unlock = CelestialRepeaterUpgrade2Unlock;
         data.CelestialRepeaterUpgrade3Unlock = CelestialRepeaterUpgrade3Unlock;
 
+        // Xenon Pulser
+        data.XenonPulserUnlock = XenonPulserUnlock;
+        data.XenonPulserUpgrade1Unlock = XenonPulserUpgrade1Unlock;
+        data.XenonPulserUpgrade2Unlock = XenonPulserUpgrade2Unlock;
+        data.XenonPulserUpgrade3Unlock = XenonPulserUpgrade3Unlock;
+
+
+        // AntimatterParticle Gun
+        data.AntiMatterParticleUnlock = AntiMatterParticleUnlock;
+        data.AntiMatterParticleUpgrade1Unlock = AntiMatterParticleUpgrade1Unlock;
+        data.AntiMatterParticleUpgrade2Unlock = AntiMatterParticleUpgrade2Unlock;
+        data.AntiMatterParticleUpgrade3Unlock = AntiMatterParticleUpgrade3Unlock;
+
+
+
         // Trinket Unlocks
         data.AntiMatterDeviceUnlock = AntiMatterDeviceUnlock;
         data.PortalDeviceUnlock = PortalDeviceUnlock;
@@ -407,6 +434,18 @@ public class GameManager : MonoBehaviour
             CelestialRepeaterUpgrade2Unlock = data.CelestialRepeaterUpgrade2Unlock;
             CelestialRepeaterUpgrade3Unlock = data.CelestialRepeaterUpgrade3Unlock;
 
+            // Xenon Pulser
+            XenonPulserUnlock = data.XenonPulserUnlock;
+            XenonPulserUpgrade1Unlock = data.XenonPulserUpgrade1Unlock;
+            XenonPulserUpgrade2Unlock = data.XenonPulserUpgrade2Unlock;
+            XenonPulserUpgrade3Unlock = data.XenonPulserUpgrade3Unlock;
+
+            // Antimatter particle
+            AntiMatterParticleUnlock = data.AntiMatterParticleUnlock;
+            AntiMatterParticleUpgrade1Unlock = data.AntiMatterParticleUpgrade1Unlock;
+            AntiMatterParticleUpgrade2Unlock = data.AntiMatterParticleUpgrade2Unlock;
+            AntiMatterParticleUpgrade3Unlock = data.AntiMatterParticleUpgrade3Unlock;
+
             // Trinket Unlocks
             AntiMatterDeviceUnlock = data.AntiMatterDeviceUnlock;
             PortalDeviceUnlock = data.PortalDeviceUnlock;
@@ -507,6 +546,18 @@ public class GameManager : MonoBehaviour
             CelestialRepeaterUpgrade1Unlock = false;
             CelestialRepeaterUpgrade2Unlock = false;
             CelestialRepeaterUpgrade3Unlock = false;
+
+            // xenon pulser
+            XenonPulserUnlock = false;
+            XenonPulserUpgrade1Unlock = false;
+            XenonPulserUpgrade2Unlock = false;
+            XenonPulserUpgrade3Unlock = false;
+
+            // antimatter particle
+            AntiMatterParticleUnlock = false;
+            AntiMatterParticleUpgrade1Unlock = false;
+            AntiMatterParticleUpgrade2Unlock = false;
+            AntiMatterParticleUpgrade3Unlock = false;
 
             // Trinket Unlocks
             AntiMatterDeviceUnlock = false;
@@ -618,6 +669,18 @@ class PlayerData
     public bool CelestialRepeaterUpgrade1Unlock;
     public bool CelestialRepeaterUpgrade2Unlock;
     public bool CelestialRepeaterUpgrade3Unlock;
+
+    // Xenon Pulser
+    public bool XenonPulserUnlock;
+    public bool XenonPulserUpgrade1Unlock;
+    public bool XenonPulserUpgrade2Unlock;
+    public bool XenonPulserUpgrade3Unlock;
+
+    // Antimatter Particle Gun
+    public bool AntiMatterParticleUnlock;
+    public bool AntiMatterParticleUpgrade1Unlock;
+    public bool AntiMatterParticleUpgrade2Unlock;
+    public bool AntiMatterParticleUpgrade3Unlock;
 
     // Trinket Unlocks
     public bool AntiMatterDeviceUnlock;

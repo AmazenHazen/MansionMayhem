@@ -78,6 +78,7 @@ public class GunScript : MonoBehaviour
         {
             case rangeWeapon.flamethrower:
             case rangeWeapon.cryoGun:
+            case rangeWeapon.AntimatterParticle:
                 particles = gameObject.transform.GetChild(0).gameObject;
                 break;
         }
@@ -106,10 +107,10 @@ public class GunScript : MonoBehaviour
                     break;
 
                 // Special because the courotine for the 3 round burst starts here
-                case rangeWeapon.soundCannon:
+                case rangeWeapon.XenonPulser:
                     if (canBurst)
                     {
-                        StartCoroutine(SoundCannonShoot(4, .05f));
+                        StartCoroutine(XenonShoot(4, .05f));
                         canBurst = false;
                     }
                     break;
@@ -126,6 +127,7 @@ public class GunScript : MonoBehaviour
                 // Turn on the particle systems for the flamethrower and the frost gun
                 case rangeWeapon.cryoGun:
                 case rangeWeapon.flamethrower:
+                case rangeWeapon.AntimatterParticle:
                     particles.SetActive(true);
                     break;
                 default:
@@ -142,6 +144,7 @@ public class GunScript : MonoBehaviour
             // Set the particle guns off
                 case rangeWeapon.flamethrower:
                 case rangeWeapon.cryoGun:
+                case rangeWeapon.AntimatterParticle:
                     particles.SetActive(false);
                     break;
             }
@@ -221,12 +224,12 @@ public class GunScript : MonoBehaviour
     }
 
 
-    // Helper method for shooting bullets for sound Cannon
-    IEnumerator SoundCannonShoot(int bulletPrefab, float delayTime)
+    // Helper method for shooting bullets for Xenon Pulser
+    IEnumerator XenonShoot(int bulletPrefab, float delayTime)
     {
         for (int i = 0; i < 3; i++)
         {
-            if (gunType == rangeWeapon.soundCannon)
+            if (gunType == rangeWeapon.XenonPulser)
             {
                 ShootBullet();
                 yield return new WaitForSeconds(delayTime);

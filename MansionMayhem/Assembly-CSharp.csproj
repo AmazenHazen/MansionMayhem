@@ -64,7 +64,6 @@
      <Compile Include="Assets\Scripts\Environment Scripts\ItemScript.cs" />
      <Compile Include="Assets\Scripts\Environment Scripts\RoomScript.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\ChangeMusic.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\DontDestroy.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\Encyclopedia.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\GUIManager.cs" />

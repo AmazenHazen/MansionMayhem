@@ -102,6 +102,11 @@ public class BulletManager : MonoBehaviour {
                     speed = 5f;
                     damage = 1;
                     return;
+                case bulletTypes.Xenon:
+                    speed = 5f;
+                    if (GameManager.instance.XenonPulserUpgrade1Unlock) { damage = .75f; }
+                    else { damage = .90f; }
+                    return;
                 case bulletTypes.sound:
                     speed = 5f;
                     if (GameManager.instance.SoundCannonUpgrade1Unlock) { damage = .75f; }

@@ -333,8 +333,6 @@ public class WorkBenchManager : MonoBehaviour
                     buyingButton.GetComponent<Button>().interactable = false;
                 }
             }
-            #endregion
-
             else
             {
                 // Set the color to show it is bought
@@ -346,6 +344,8 @@ public class WorkBenchManager : MonoBehaviour
                 // Set the unlockedBool to true
                 buyingButton.GetComponent<WorkBenchItem>().unlockedBool = true; 
             }
+            #endregion
+
 
         }
 

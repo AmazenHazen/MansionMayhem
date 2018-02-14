@@ -339,18 +339,22 @@ public class WorkBenchItem : MonoBehaviour
         }
         #endregion
 
+        Debug.Log(gameObject + "Start");
 
         // check if the gun unlock is unlocked before allowing purchasing of the upgrades
-        if(gunUnlock!=null && gunUnlock.GetComponent<WorkBenchItem>().unlockedBool == false)
+        if (upgradeVars.Count > 0)
+        {
+            for (int i = 0; i < upgradeVars.Count; i++)
+            {
+                upgradeVars[i].GetComponent<Button>().interactable = true;
+            }
+        }
+        else
         {
             gameObject.GetComponent<Button>().interactable = false;
 
         }
-        else
-        {
-            gameObject.GetComponent<Button>().interactable = true;
 
-        }
 
         // Set the button as unlocked if the unlockedBool is true
         if (unlockedBool)
@@ -361,8 +365,14 @@ public class WorkBenchItem : MonoBehaviour
             gameObject.GetComponent<Image>().color = boughtColor;
         }
 
+
         // Set the Cost text
         costText.text = "Cost: " + cost + " screws";
+    }
+
+    private void Update()
+    {
+        
     }
 
     public int Cost

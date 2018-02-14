@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
@@ -14,9 +15,15 @@ public class LevelManager : MonoBehaviour
     GameObject[] getListArray;
     public List<GameObject> levelRequirements;
 
+    public string levelObjectiveText;
+
+
     // Use this for initialization
     void Start()
     {
+        //Find the 
+        GameObject.Find("ObjectiveText").GetComponent<Text>().text = levelObjectiveText;
+
         // Sets the initial case for level
         switch (levelObjective)
         {

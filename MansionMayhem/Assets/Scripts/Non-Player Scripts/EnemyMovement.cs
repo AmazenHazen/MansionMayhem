@@ -186,6 +186,9 @@ public class EnemyMovement : CharacterMovement
                     // Seek
                     ultimateForce += seek(player.transform.position);
                         break;
+                case enemyType.darkimp:
+                    ultimateForce += seek(player.transform.position);
+                    break;
 
                 case enemyType.boneDemon:
 

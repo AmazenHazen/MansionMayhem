@@ -39,6 +39,9 @@ public class GUIManager : MonoBehaviour
     // Variables for escape screen
     public GameObject escapeScreen;
 
+    // Variables for the level Objective Screen
+    public GameObject objectiveScreen;
+
     // Variables for Instructions Screen
     public GameObject instructionsScreen;
 
@@ -82,8 +85,8 @@ public class GUIManager : MonoBehaviour
 
         // Inventory Management
         usingOtherInterface = false;
-        Time.timeScale = 1;
-        escapeScreen.SetActive(false);
+
+        PauseGame();
         minimized = false;
         ManageInventoryMenu();
 
@@ -204,7 +207,6 @@ public class GUIManager : MonoBehaviour
     #region Escape Screen Management
     public void EscapeScreenManagement()
     {
-
         if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == true) && GameManager.instance.currentGameState == GameState.Paused)
         {
             ContinueGame();
@@ -227,6 +229,7 @@ public class GUIManager : MonoBehaviour
     {
         escapeScreen.SetActive(false);
         instructionsScreen.SetActive(false);
+        objectiveScreen.SetActive(false);
         GameManager.instance.currentGameState = GameState.Play;
         Time.timeScale = 1;
     }

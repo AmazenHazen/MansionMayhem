@@ -186,13 +186,11 @@ public class EnemyManager : MonoBehaviour
         }
         #endregion
 
-
-
         // Enemy Shooting allows any enemy to shoot when possible
         if (hasBullets == true && canShoot==true && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
-            {
-                Shoot();
-            }
+        {
+            Shoot();
+        }
 
         // Enemy Abilities - allows any enemy to use ability when possible
         for (int i = 0; i < enemyAbilityPrefabs.Count; i++)

@@ -87,9 +87,13 @@
      <Compile Include="Assets\Scripts\PlayerScripts\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\PlayerScripts\PlayerMapScript.cs" />
      <Compile Include="Assets\Scripts\PlayerScripts\PlayerMovement.cs" />
-     <None Include="Assets\DialogFiles\Warden.txt" />
-     <None Include="Assets\DialogFiles\Charlie\CharlieStarted.txt" />
-     <None Include="Assets\DialogFiles\Charlie\CharlieInitial.txt" />
+     <None Include="Assets\TextFiles\Level Objective Messages\Level1Spider.txt" />
+     <None Include="Assets\TextFiles\Warden.txt" />
+     <None Include="Assets\TextFiles\Level Objective Messages\Level3DemonInNeed.txt" />
+     <None Include="Assets\TextFiles\Charlie\CharlieStarted.txt" />
+     <None Include="Assets\TextFiles\Charlie\CharlieInitial.txt" />
+     <None Include="Assets\TextFiles\Level Objective Messages\Level4PurgatoryPenitentiary.txt" />
+     <None Include="Assets\TextFiles\Level Objective Messages\Level2ZombieGraveyard.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -167,7 +167,7 @@ public class BulletManager : MonoBehaviour {
             switch (bulletType)
             {
                 case bulletTypes.Weight:
-                    speed = 12f;
+                    speed = 10f;
                     return;
                 default:
                     //Static for enemy bullets rn
@@ -532,7 +532,7 @@ public class BulletManager : MonoBehaviour {
                 canDamage = false;
             }
 
-            Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
+            //Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
 
             // Damage Enemy
             collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;

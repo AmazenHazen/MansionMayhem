@@ -257,11 +257,15 @@
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerMovement.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\DialogFiles\Charlie\CharlieInitial.txt" />
-    <None Include="Assets\DialogFiles\Charlie\CharlieStarted.txt" />
-    <None Include="Assets\DialogFiles\Level Objective Messages\Level1Spider.txt" />
-    <None Include="Assets\DialogFiles\Level Objective Messages\Level2ZombieGraveyard.txt" />
-    <None Include="Assets\DialogFiles\Warden.txt" />
+    <None Include="Assets\TextFiles\Charlie\CharlieInitial.txt" />
+    <None Include="Assets\TextFiles\Charlie\CharlieStarted.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level1Spider.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level2ZombieGraveyard.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level3DemonInNeed.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level4PurgatoryPenitentiary.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level5Necromancer.txt" />
+    <None Include="Assets\TextFiles\Warden.txt" />
+    <None Include="Assets\TextFiles\WardenStarted.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -49,7 +49,7 @@ public class RoomScript : MonoBehaviour
         }
         else if (roomType == RoomType.large)
         {
-            screwCount = Random.Range(25, 35);
+            screwCount = Random.Range(35, 50);
         }
 
                 // Spawn the screws (and different types as well

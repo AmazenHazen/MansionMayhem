@@ -15,14 +15,19 @@ public class LevelManager : MonoBehaviour
     GameObject[] getListArray;
     public List<GameObject> levelRequirements;
 
-    public string levelObjectiveText;
+
+    // Starting Variables
+    public TextAsset levelObjectiveText;
+    public string levelName;
 
 
     // Use this for initialization
     void Start()
     {
         //Find the 
-        GameObject.Find("ObjectiveText").GetComponent<Text>().text = levelObjectiveText;
+        GameObject.Find("ObjectiveHeader").GetComponent<Text>().text = levelName;
+        GameObject.Find("ObjectiveText").GetComponent<Text>().text = levelObjectiveText.text;
+
 
         // Sets the initial case for level
         switch (levelObjective)

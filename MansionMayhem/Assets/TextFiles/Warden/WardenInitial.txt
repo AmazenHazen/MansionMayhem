@@ -3,8 +3,8 @@ I am a ghost, but I need your help before I can pass on to the next life.
 I am the warden of this penitentiary but have lost control to the gang leader, DeathCrutch.
 Will you assist me in defeating gang leader.
 *2
-Death to DeathCrutch![SayYes]
-No[SayNo]
+Death to DeathCrutch![SayYes](10)
+No[SayNo](19)
 
 +
 DeathCrutch has taken refuge in my office to the north of the prison block.

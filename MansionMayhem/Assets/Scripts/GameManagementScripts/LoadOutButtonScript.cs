@@ -29,20 +29,26 @@ public class LoadOutButtonScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        checkUnlocked();
+    }
 
+
+    public void checkUnlocked()
+    {
         #region Checking if the guns/trinkets/equipement are unlocked
         // Unlock the variable
         switch (buttonWeapon)
         {
-
             // Gun Unlocks
             // Laser Pistol
             case rangeWeapon.laserpistol:
-                if (GameManager.instance.LaserPistolUnlock != true)
+                if (!GameManager.instance.LaserPistolUnlock)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -51,8 +57,10 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.AntiEctoGunUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -61,8 +69,10 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.PlasmaPistolUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -72,9 +82,12 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.CryoGunUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
                 }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
+                }
+        
                 break;
 
             // Flamethrower
@@ -82,8 +95,10 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.FlameThrowerUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -93,8 +108,10 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.HellFireShotgunUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -104,8 +121,10 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.SoundCannonUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -115,8 +134,10 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.DarkEnergySniperUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -127,8 +148,10 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.ElectronPulseCannonUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -138,8 +161,10 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.AetherlightBowUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -149,8 +174,10 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.CelestialRepeaterUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -158,8 +185,10 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.XenonPulserUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
 
@@ -167,12 +196,17 @@ public class LoadOutButtonScript : MonoBehaviour
                 if (GameManager.instance.AntiMatterParticleUnlock != true)
                 {
                     gameObject.GetComponent<Button>().interactable = false;
-                    gameObject.GetComponent<LoadOutButtonScript>().selected = false;
-                    locked = false;
+
+                }
+                else
+                {
+                    gameObject.GetComponent<Button>().interactable = true;
                 }
                 break;
-        }
-        #endregion
-    }
 
+        #endregion
+        }
+        // turn off the button being selected
+        selected = false;
+    }
 }

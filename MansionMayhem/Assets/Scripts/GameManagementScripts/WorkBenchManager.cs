@@ -313,25 +313,23 @@ public class WorkBenchManager : MonoBehaviour
             // IF the unlock is a heart increase and healthtotal<maxhealth or the same with equipement, then keep the button interactable
             if (unlockItem == Unlock.heartIncrease && (GameManager.instance.healthTotal<GameManager.instance.MAX_HEALTH))
             {
-                buyingButton.GetComponent<WorkBenchItem>().Cost = GameManager.instance.healthTotal * 200;
+                // Set a temporary cost variable
+                int tempCost = (GameManager.instance.healthTotal - 3) * 200;
 
-                // lock it if you max health
-                if(GameManager.instance.healthTotal<=GameManager.instance.MAX_HEALTH)
-                {
-                    // Make the button uninteractable
-                    buyingButton.GetComponent<Button>().interactable = false;
-                }
+                buyingButton.GetComponent<WorkBenchItem>().Cost = tempCost;
+                buyingButton.GetComponent<WorkBenchItem>().costText.text = "Cost: " + tempCost+ " screws";
             }   
             else if(unlockItem == Unlock.equipmentIncrease && (GameManager.instance.equipmentTotal < GameManager.instance.MAX_EQUIPMENT))
             {
-                buyingButton.GetComponent<WorkBenchItem>().Cost = GameManager.instance.equipmentTotal * 500;
+                // Set a temporary cost variable
+                int tempCost = GameManager.instance.equipmentTotal * 500;
 
-                // lock it if you max equipement
-                if (GameManager.instance.equipmentTotal <= GameManager.instance.MAX_EQUIPMENT)
-                {
-                    // Make the button uninteractable
-                    buyingButton.GetComponent<Button>().interactable = false;
-                }
+                // Set the button cost and text to reflect it
+                buyingButton.GetComponent<WorkBenchItem>().Cost = tempCost;
+                buyingButton.GetComponent<WorkBenchItem>().costText.text = "Cost: " + tempCost + " screws";
+
+                // Set the Cost text
+                buyingButton.GetComponent<WorkBenchItem>().costText.text = "Cost: " + tempCost + " screws";
             }
             else
             {
@@ -340,6 +338,7 @@ public class WorkBenchManager : MonoBehaviour
 
                 // Make the button uninteractable
                 buyingButton.GetComponent<Button>().interactable = false;
+                buyingButton.GetComponent<WorkBenchItem>().costText.text = "Purchased";
 
                 // Set the unlockedBool to true
                 buyingButton.GetComponent<WorkBenchItem>().unlockedBool = true; 

@@ -44,8 +44,9 @@ public class NPC : CharacterMovement
     private float typeSpeed = 0.0f;
 
     // Quest Variables
-    public List<GameObject> items;
-    //QuestStatus currentQuestStatus;
+    public List<GameObject> items; // for items that the NPC will take from or accept from the player
+    public List<GameObject> requirements; // requirements for completing a quest (could be items, interactive objects, or NPCs)
+    QuestStatus currentQuestStatus;
     #endregion
 
     #region NPC properties
@@ -218,13 +219,14 @@ public class NPC : CharacterMovement
             
     }
     #endregion
-
+     
     #region Special Commands
     public void CheckCommand()
     {
         bool endOfCommand = false;
         string fullOptionText = textLines[currentLine];
         string commandText = "";
+        string secondaryCommandText = "";
         int itemNum = -1;
         
         //string secondayCommand = "";
@@ -277,8 +279,9 @@ public class NPC : CharacterMovement
             */
             #endregion
 
+            #region getting the text for item management with an NPC
             // Secondary command set to object
-            if (commandText == "GiveItem")
+            if (commandText == "GiveItem" || commandText == "RemoveItem" || commandText == "GoToLine")
             {
                 // Increment by one for the beginning parenthesis
                 i++;
@@ -286,21 +289,38 @@ public class NPC : CharacterMovement
                 // Reset endofCommand to flase for the do/while loop
                 endOfCommand = false;
 
+                // loop through to get the full number
+                do
+                {
+                    if (fullOptionText[i] == ')')
+                    {
+                        endOfCommand = true;
+                    }
+                    else if (endOfCommand != true)
+                    {
+                        secondaryCommandText += fullOptionText[i];
+                    }
+
+                    i++;
+                } while (endOfCommand == false);
+
+
                 // Loops through
                 // Saves the text between the square brackets
-                itemNum = (int)Char.GetNumericValue(fullOptionText[i]);
-                Console.WriteLine(itemNum);
+                int.TryParse(secondaryCommandText, out itemNum);
 
+                Console.WriteLine(itemNum);
             }
+            #endregion
         }
-        
+
 
 
         switch (commandText)
         {
             case "StartQuest":
                 //Debug.Log("Command: " + commandText + secondayCommand);
-                //currentQuestStatus = QuestStatus.Started;
+                currentQuestStatus = QuestStatus.Started;
                 TextFileSetUp(startedQuestTextFile);
                 currentLine = 0;
                 endDialogue();
@@ -317,8 +337,24 @@ public class NPC : CharacterMovement
                 currentLine++;
                 break;
 
+            case "RemoveItem":
+                // give player that item
+                Debug.Log("Took from player: " + items[itemNum]);
+
+                // Add item to inventory
+                player.GetComponent<PlayerManager>().RemoveItem(items[itemNum]);
+
+                // Advance to the next text line
+                currentLine++;
+                break;
+
+            case "GoToLine":
+                // Go to a specific text line
+                currentLine = itemNum;
+                break;
+
             case "CompleteQuest":
-                //currentQuestStatus = QuestStatus.Completed;
+                currentQuestStatus = QuestStatus.Completed;
                 break;
 
             case "Exit":
@@ -334,39 +370,26 @@ public class NPC : CharacterMovement
     /// Moves the current text to the Correct Response
     /// </summary>
     /// <param name="responseChosen"></param>
-    public void ChooseDialogOption(ResponseType responseChosen)
+    public void ChooseDialogOption(ResponseType responseChosen, int lineJumpNumber)
     {
         if (responseChosen == ResponseType.SayYes)
         {
-            playerChoices += "+";
-
-            for (int i = currentLine; i < endAtLine; i++)
-            {
-                if (textLines[i][0] == '+')
-                {
-                    Debug.Log("Chose Yes!");
-                    EndOptions();
-                    currentLine = ++i;
-                    StartCoroutine(TextScroll(textLines[currentLine]));
-                    return;
-                }
-            }
+            Debug.Log("Chose Yes!");
+            EndOptions();
+            currentLine = lineJumpNumber;
+            StartCoroutine(TextScroll(textLines[currentLine]));
+            return;
         }
 
         if (responseChosen == ResponseType.SayNo)
         {
-            playerChoices += "-";
-            for (int i = currentLine; i < endAtLine; i++)
-            {
-                if (textLines[i][0] == '-')
-                {
-                    Debug.Log("Chose No!");
-                    EndOptions();
-                    currentLine = ++i;
-                    StartCoroutine(TextScroll(textLines[currentLine]));
-                    return;
-                }
-            }
+
+            Debug.Log("Chose No!");
+            EndOptions();
+            currentLine = lineJumpNumber;
+            StartCoroutine(TextScroll(textLines[currentLine]));
+            return;
+
         }
 
         if (responseChosen == ResponseType.SayNothing)
@@ -403,45 +426,82 @@ public class NPC : CharacterMovement
 
                         string fullOptionText = textLines[(currentLine + 2) + i];
 
-                        // Bool if we are looking at a button text
-                        bool buttonTextBool = true;
                         // String for the response
                         string buttonText = "";
-                        // Bool to see if we are looking at response type
-                        bool responseTextBool = false;
                         // String for the type of response
                         string responseOptionText = "";
+                        // bool to see if we have finished looking at the command/text
+                        bool endOfCommand = false;
+                        // int for the line number to jump to depending on the result of the option
+                        string lineJumpStr = "";
+                        int lineJump = 0;
 
+
+                        int j = 0;
+
+                        // First Loop: Text on button
+                        do
+                        {
+                            // If you hit the first square bracket then the buttonText is finished
+                            if (fullOptionText[j] == '[')
+                            {
+                                endOfCommand = true;
+                            }
+                            else if (endOfCommand != true)
+                            {
+                                // If the buttonText bool is true record the text down
+                                buttonText += fullOptionText[j];
+                            }
+                            j++;
+                        } while (endOfCommand == false);
+
+
+                        // reset the variable for the seond loop
+                        endOfCommand = false;
 
                         // Loops through
                         // Puts the text before square brckets on the button
                         // and saves the text in the square brackets as a response type
-                        for (int j = 0; j < fullOptionText.Length; j++)
+                        do
                         {
                             // If you hit the last square bracket then the responseValue the button has has ended
                             if (fullOptionText[j] == ']')
                             {
-                                responseTextBool = false;
+                                endOfCommand = true;
                             }
-                            // Record down what the Response type is if in the square brackets
-                            if (responseTextBool == true)
+                            else if (endOfCommand != true)
                             {
                                 responseOptionText += fullOptionText[j];
                             }
+                            // increment the index
+                            j++;
+                        } while (endOfCommand == false);
 
-                            // If you hit the first square bracket then the buttonText is finished
-                            if (fullOptionText[j] == '[')
-                            {
-                                buttonTextBool = false;
-                                responseTextBool = true;
-                            }
-                            // If the buttonText bool is true record the text down
-                            if (buttonTextBool == true)
-                            {
-                                buttonText += fullOptionText[j];
-                            }
+                        // reset the variable for the third loop
+                        endOfCommand = false;
+                        j++;
 
+                        if (responseOptionText != "SayNothing")
+                        {
+                            // loop through to get the number used to jump to after choosing an option
+                            do
+                            {
+                                if (fullOptionText[j] == ')')
+                                {
+                                    endOfCommand = true;
+                                }
+                                else if (endOfCommand != true)
+                                {
+                                    lineJumpStr += fullOptionText[j];
+                                }
+
+                                j++;
+                            } while (endOfCommand == false);
                         }
+                        Debug.Log("Option: " + buttonText + " Response Option Text: " + responseOptionText + " Line jump number: " + lineJumpStr + lineJump);
+
+                        // convert the line jump number to an int
+                        int.TryParse(lineJumpStr, out lineJump);
 
                         //Debug.Log("Button 1: " + buttonText + " Response Value: " + responseOptionText);
 
@@ -452,10 +512,12 @@ public class NPC : CharacterMovement
                             case "SayYes":
                                 Responses[i] = ResponseType.SayYes;
                                 Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayYes;
+                                Options[i].transform.GetComponent<DialogOptionScript>().lineJumpNumber = lineJump;
                                 break;
                             case "SayNo":
                                 Responses[i] = ResponseType.SayNo;
                                 Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNo;
+                                Options[i].transform.GetComponent<DialogOptionScript>().lineJumpNumber = lineJump;
                                 break;
                             case "SayNothing":
                                 Responses[i] = ResponseType.SayNothing;
@@ -490,6 +552,7 @@ public class NPC : CharacterMovement
         for (int i = 0; i < 5; i++)
         {
             // Change the option buttons to default and to no NPC
+            Options[i].transform.GetComponent<DialogOptionScript>().lineJumpNumber = 0;
             Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNothing;
             Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = null;
 

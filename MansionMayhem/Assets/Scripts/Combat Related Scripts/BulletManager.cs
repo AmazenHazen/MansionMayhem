@@ -33,6 +33,13 @@ public class BulletManager : MonoBehaviour {
     // Variable for bouncing bullets
     GameObject lastBounceWall;
     public LayerMask collisionMask;
+
+    // variable held to make sure a bullet is deleted after a certain amount of time
+    private float totalTime;
+
+    // variable for plasma pistol
+    bool currentChargingBullet = true;
+
     #endregion
 
     #region Properties
@@ -139,6 +146,7 @@ public class BulletManager : MonoBehaviour {
                     return;
                 case bulletTypes.Plasma:
                     speed = 5f;
+                    currentChargingBullet = false;
                     return;
                 case bulletTypes.hellFire:
                     speed = 5f;
@@ -185,18 +193,27 @@ public class BulletManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        //increasing delta time
+        totalTime += Time.deltaTime;
+
+        // Check to make sure the bullet hasn't been on the screen too long
+        if(totalTime > 15)
+        {
+            if (ownerType == bulletOwners.player)
+            {
+                PlayerBulletDestroy();
+            }
+            if (ownerType == bulletOwners.enemy)
+            {
+                EnemyBulletDestroy();
+            }
+        }
+
         // Check to make sure the bullet didn't go too far or is moving too slow
         if ((transform.position - startPos).magnitude > 20 || speed<0)
         {
             if (ownerType == bulletOwners.player)
             {
-                /*
-                Debug.Log("Too far");
-                Debug.Log("start bullet pos: " + startPos);
-                Debug.Log("current bullet pos: " + transform.position);
-                Debug.Log("Magnitude: " + (transform.position - startPos).magnitude);
-                */
-
                 PlayerBulletDestroy();
             }
             if (ownerType == bulletOwners.enemy)
@@ -224,10 +241,10 @@ public class BulletManager : MonoBehaviour {
         // For electrons seek the closest enemy
         if (bulletType == bulletTypes.electron && ownerType == bulletOwners.player)
         {
-            GameObject enemy = FindClosestEnemy();
+            GameObject enemy = null;
+            enemy = FindClosestEnemy();
 
-
-            if ((transform.position - enemy.transform.position).magnitude < 4 && (startPos - transform.position).magnitude > 1f && enemy!=null)
+            if ((transform.position - enemy.transform.position).magnitude < 4 && (startPos - transform.position).magnitude > 1f && enemy != null)
             {
                 SeekingBullet();
             }
@@ -527,6 +544,8 @@ public class BulletManager : MonoBehaviour {
         // If bullet runs into an enemy
         else if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == bulletOwners.player && canDamage == true)
         {
+            
+
             if (bulletType != bulletTypes.DarkEnergy)
             {
                 canDamage = false;
@@ -534,8 +553,23 @@ public class BulletManager : MonoBehaviour {
 
             //Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
 
+
+            Debug.Log("Bullet Damaged enemy for: " + damage);
             // Damage Enemy
-            collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
+            if (bulletType == bulletTypes.Plasma)
+            {
+                damage = .7f * Mathf.Pow(transform.localScale.x, 1.5f);
+                collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
+                if(owner.GetComponent<GunScript>().Charging && currentChargingBullet)
+                {
+                    owner.GetComponent<GunScript>().Charging = false;
+                    owner.GetComponent<GunScript>().JustShot();
+                }
+            }
+            else
+            {
+                collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
+            }
 
             // if the bullet is antiEctoplasm or portal also spawn a blob
             if (bulletType == bulletTypes.antiEctoPlasm)

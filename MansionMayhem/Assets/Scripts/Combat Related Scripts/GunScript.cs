@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GunScript : MonoBehaviour
 {
-
-
     #region Attributes
 
     // constant that keeps you from spamming guns right after switching weapons
@@ -212,14 +210,11 @@ public class GunScript : MonoBehaviour
             // Keeps the bullet from being too big
             if (plasmaSizeVar < 5)
             {
-                plasmaSizeVar += 1f * Time.deltaTime;
+                plasmaSizeVar += 1.1f * Time.deltaTime;
             }
 
             // Scales the bullet
             bulletCopy.transform.localScale = new Vector3(plasmaSizeVar, plasmaSizeVar, transform.localScale.z);
-
-            // Set the damage of the bullet so if an enemy runs into it while charging then they are damaged
-            bulletCopy.GetComponent<BulletManager>().Damage = .5f * Mathf.Pow(transform.localScale.x, 1.5f);
         }
     }
 

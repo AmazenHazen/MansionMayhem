@@ -331,7 +331,7 @@ public class WorkBenchItem : MonoBehaviour
         // Set the cost for dynamic costing unlocks
         if (unlockVar == Unlock.heartIncrease && (GameManager.instance.healthTotal < GameManager.instance.MAX_HEALTH))
         {
-            cost = GameManager.instance.healthTotal * 200;
+            cost = (GameManager.instance.healthTotal - 3) * 200;
         }
         else if (unlockVar == Unlock.equipmentIncrease && (GameManager.instance.equipmentTotal < GameManager.instance.MAX_EQUIPMENT))
         {
@@ -339,40 +339,49 @@ public class WorkBenchItem : MonoBehaviour
         }
         #endregion
 
+
+        // Set the Cost text
+        costText.text = "Cost: " + cost + " screws";
+
+        if ((unlockVar == Unlock.heartIncrease && GameManager.instance.healthTotal >= GameManager.instance.MAX_HEALTH) || (unlockVar == Unlock.equipmentIncrease && (GameManager.instance.equipmentTotal >= GameManager.instance.MAX_EQUIPMENT)))
+        {
+            costText.text = "Purchased";
+        }
+
+
         Debug.Log(gameObject + "Start");
 
         // check if the gun unlock is unlocked before allowing purchasing of the upgrades
-        if (upgradeVars.Count > 0)
+
+        // This is if the gun has been unlocked associated with the upgrades
+        if (upgradeVars.Count>0 && unlockedBool == true)
         {
             for (int i = 0; i < upgradeVars.Count; i++)
             {
                 upgradeVars[i].GetComponent<Button>().interactable = true;
             }
         }
-        else
-        {
-            gameObject.GetComponent<Button>().interactable = false;
-
-        }
 
 
         // Set the button as unlocked if the unlockedBool is true
         if (unlockedBool)
         {
-            gameObject.GetComponent<Button>().interactable = false;
+            costText.text = "Purchased";
 
             // Set the color to show it is bought
             gameObject.GetComponent<Image>().color = boughtColor;
+            gameObject.GetComponent<Button>().interactable = false;
         }
-
-
-        // Set the Cost text
-        costText.text = "Cost: " + cost + " screws";
     }
 
     private void Update()
     {
-        
+        if (unlockedBool && gameObject.GetComponent<Button>().interactable)
+        {
+            // Set the color to show it is bought
+            gameObject.GetComponent<Image>().color = boughtColor;
+            gameObject.GetComponent<Button>().interactable = false;
+        }
     }
 
     public int Cost

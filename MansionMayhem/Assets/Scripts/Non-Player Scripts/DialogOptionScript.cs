@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class DialogOptionScript : MonoBehaviour
 {
-    public ResponseType currentResponseType;
     public GameObject currentNPC;
+    public ResponseType currentResponseType;
+    public int lineJumpNumber;
 
     public void ClickedResponse()
     {
-        currentNPC.GetComponent<NPC>().ChooseDialogOption(currentResponseType);
+        currentNPC.GetComponent<NPC>().ChooseDialogOption(currentResponseType, lineJumpNumber);
     }
 
 }

@@ -8,6 +8,7 @@ public class InteractableObjectScript : MonoBehaviour
     // Attributes
     // Requirements for the interactableObject (if the object has any requirements)
     public List<ItemType> requirements;
+    public GameObject player;
 
     // Holds Items the interactable Object has for the users
     public List<ItemType> containsItems;
@@ -52,6 +53,8 @@ public class InteractableObjectScript : MonoBehaviour
         {
             spawns[i].SetActive(false);
         }
+
+        player = GameObject.FindGameObjectWithTag("player");
     }
     #endregion
 
@@ -70,6 +73,35 @@ public class InteractableObjectScript : MonoBehaviour
 
 
 
+    public bool CheckRequirements(ItemType[] playerItems)
+    {
+        // int to check if the requirements are fulfilled
+        int totalNumsFulfilled = 0;
+
+        // Check to see if players have all the requirements
+        for (int i = 0; i < playerItems.Length; i++)
+        {
+            foreach (ItemType requirement in requirements)
+            {
+                if (playerItems[i] == requirement)
+                {
+                    totalNumsFulfilled++;
+                }
+            }
+        }
+
+        if (totalNumsFulfilled == requirements.Count)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+
     private IEnumerator TextScroll(string lineOfText)
     {
         int letter = 0;
@@ -83,8 +115,6 @@ public class InteractableObjectScript : MonoBehaviour
 
             dialogText.GetComponent<Text>().text += lineOfText[letter];
             letter++;
-            //Debug.Log("Letter: " + letter);
-            //Debug.Log("LineofText: " + lineOfText);
 
             yield return new WaitForSeconds(typeSpeed);
         }
@@ -105,7 +135,15 @@ public class InteractableObjectScript : MonoBehaviour
 
             // Start the scrolling text 
             Debug.Log("Starting Dialog");
-            StartCoroutine(TextScroll(interactingString));
+
+            if (CheckRequirements(player.GetComponent<PlayerManager>().playerItems))
+            {
+                StartCoroutine(TextScroll(interactingString));
+            }
+            else
+            {
+                StartCoroutine(TextScroll("You don't have what you need for this."));
+            }
         }
 
         // Advance the text if the player hits Enter or Space

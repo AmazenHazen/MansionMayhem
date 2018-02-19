@@ -710,27 +710,32 @@ public class PlayerManager : MonoBehaviour
         // If the object is an interactable Object
         if (interactingObject.GetComponent<InteractableObjectScript>())
         {
-            // Unlock the door
-            for (int i = 0; i < playerItems.Length; i++)
+            if (interactingObject.GetComponent<InteractableObjectScript>().CheckRequirements(playerItems))
             {
-                foreach (ItemType requirement in interactingObject.GetComponent<InteractableObjectScript>().requirements)
+                // Check the requirements
+                for (int i = 0; i < playerItems.Length; i++)
                 {
-                    if (playerItems[i] == requirement)
+                    foreach (ItemType requirement in interactingObject.GetComponent<InteractableObjectScript>().requirements)
                     {
-                        // Debug Statment
-                        Debug.Log("Using Item: " + playerItems[i]);
+                        if (playerItems[i] == requirement)
+                        {
+                            // Debug Statment
+                            Debug.Log("Using Item: " + playerItems[i]);
 
-                        // Remove the requirement throught the door helper method
-                        interactingObject.GetComponent<InteractableObjectScript>().removeRequirement(playerItems[i]);
+                            // Remove the requirement throught the door helper method
+                            interactingObject.GetComponent<InteractableObjectScript>().removeRequirement(playerItems[i]);
 
-                        // Remove inventory graphic
-                        GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(i);
+                            // Remove inventory graphic
+                            GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(i);
 
-                        // Remove the player's item
-                        playerItems[i] = ItemType.NoItem;
+                            // Remove the player's item
+                            playerItems[i] = ItemType.NoItem;
 
-                        // Break out of the loop
-                        break;
+                            Debug.Log(playerItems[i]);
+
+                            // Break out of the loop
+                            break;
+                        }
                     }
                 }
             }

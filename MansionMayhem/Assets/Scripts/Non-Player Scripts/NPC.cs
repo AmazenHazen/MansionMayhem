@@ -55,6 +55,11 @@ public class NPC : CharacterMovement
         get { return talkingBool; }
         set { talkingBool = value; }
     }
+    public QuestStatus CurrentQuestStatus
+    {
+        get { return currentQuestStatus; }
+    }
+
     #endregion
 
     #region Start Method
@@ -100,7 +105,7 @@ public class NPC : CharacterMovement
         {
             TalkingTo();
         }
-
+        Debug.Log(currentLine);
 
         base.Update();
     }
@@ -227,10 +232,14 @@ public class NPC : CharacterMovement
         string fullOptionText = textLines[currentLine];
         string commandText = "";
         string secondaryCommandText = "";
-        int itemNum = -1;
-        
+        string tertiaryCommandText = "";
+        int secondaryNum = -1; // can represent an item number to take from the NPC or give the NPC or a line number to jump to
+        int tertiaryNum = -1; // can represent a line number to jump to
+
         //string secondayCommand = "";
         int i = 1;
+
+        #region Primary Command
         if (textLines[currentLine][0] == '[')
         {
             // Loops through
@@ -249,72 +258,78 @@ public class NPC : CharacterMovement
                 i++;
             } while (endOfCommand == false);
 
-            #region secondary string loop if need a secondary command
-            /*
-            // Secondary command set to object
-            if (commandText == "GiveItem")
-            {
-                // Increment by one for the beginning parenthesis
-                i++;
-
-                // Reset endofCommand to flase for the do/while loop
-                endOfCommand = false;
-
-                // Loops through
-                // Saves the text between the square brackets
-                do
-                {
-                    Console.Write(i);
-                    if (fullOptionText[i] == ')')
-                    {
-                        endOfCommand = true;
-                    }
-                    else if (endOfCommand != true)
-                    {
-                        secondayCommand += fullOptionText[i];
-                    }
-                    i++;
-                } while (endOfCommand == false);
-            }
-            */
             #endregion
 
-            #region getting the text for item management with an NPC
-            // Secondary command set to object
-            if (commandText == "GiveItem" || commandText == "RemoveItem" || commandText == "GoToLine")
+        #region Secondary Command
+        // getting the text for item management with an NPC or number for going to a different text line
+        if (commandText == "GiveItem" || commandText == "RemoveItem" || commandText == "GoToLine" || commandText == "CheckRequirements")
+        {
+            // Increment by one for the beginning parenthesis
+            i++;
+
+            // Reset endofCommand to flase for the do/while loop
+            endOfCommand = false;
+
+            // loop through to get the full number
+            do
             {
-                // Increment by one for the beginning parenthesis
-                i++;
-
-                // Reset endofCommand to flase for the do/while loop
-                endOfCommand = false;
-
-                // loop through to get the full number
-                do
+                if (fullOptionText[i] == ')')
                 {
-                    if (fullOptionText[i] == ')')
-                    {
-                        endOfCommand = true;
-                    }
-                    else if (endOfCommand != true)
-                    {
-                        secondaryCommandText += fullOptionText[i];
-                    }
+                    endOfCommand = true;
+                }
+                else if (endOfCommand != true)
+                {
+                    secondaryCommandText += fullOptionText[i];
+                }
 
-                    i++;
-                } while (endOfCommand == false);
+                i++;
+            } while (endOfCommand == false);
 
 
-                // Loops through
-                // Saves the text between the square brackets
-                int.TryParse(secondaryCommandText, out itemNum);
+            // Loops through
+            // Saves the text between the square brackets
+            int.TryParse(secondaryCommandText, out secondaryNum);
 
-                Console.WriteLine(itemNum);
-            }
-            #endregion
+            Console.WriteLine(secondaryNum);
         }
+        #endregion
 
+        #region Tertiary Command
+        // Tertiary command set to object
+        // used for conditional statements
+        if (commandText == "CheckRequirements")
+        {
+            // Increment by one for the beginning parenthesis
+            i++;
 
+            // Reset endofCommand to flase for the do/while loop
+            endOfCommand = false;
+
+            // loop through to get the full number
+            do
+            {
+                if (fullOptionText[i] == ')')
+                {
+                    endOfCommand = true;
+                }
+                else if (endOfCommand != true)
+                {
+                    tertiaryCommandText += fullOptionText[i];
+                }
+
+                i++;
+            } while (endOfCommand == false);
+
+            // Loops through
+            // Saves the text between the square brackets
+            int.TryParse(tertiaryCommandText, out tertiaryNum);
+
+            Console.WriteLine(tertiaryNum);
+        }
+    }
+        #endregion
+
+        Debug.Log("Command: " + commandText + " Secondary Command Number: " + secondaryNum + " Tertiary Command Number: " + tertiaryCommandText);
 
         switch (commandText)
         {
@@ -328,10 +343,10 @@ public class NPC : CharacterMovement
 
             case "GiveItem":
                 // give player that item
-                Debug.Log("Gave player: " + items[itemNum]);
+                Debug.Log("Gave player: " + items[secondaryNum]);
 
                 // Add item to inventory
-                player.GetComponent<PlayerManager>().AddItem(items[itemNum]);
+                player.GetComponent<PlayerManager>().AddItem(items[secondaryNum]);
 
                 // Advance to the next text line
                 currentLine++;
@@ -339,18 +354,54 @@ public class NPC : CharacterMovement
 
             case "RemoveItem":
                 // give player that item
-                Debug.Log("Took from player: " + items[itemNum]);
+                Debug.Log("Took from player: " + items[secondaryNum]);
 
                 // Add item to inventory
-                player.GetComponent<PlayerManager>().RemoveItem(items[itemNum]);
+                player.GetComponent<PlayerManager>().RemoveItem(items[secondaryNum]);
 
                 // Advance to the next text line
                 currentLine++;
                 break;
 
+            case "CheckRequirements":
+                // give player that item
+                Debug.Log("Check Requirements");
+                int completedRequirements = 0;
+
+                for(int j=0; j<requirements.Count; j++)
+                {
+                    if(requirements[j].GetComponent<NPC>())
+                    {
+                        if (requirements[j].GetComponent<NPC>().currentQuestStatus == QuestStatus.Completed)
+                        {
+                            completedRequirements++;
+                        }
+                    }
+                    if (requirements[j].GetComponent<InteractableObjectScript>())
+                    {
+                        if(requirements[j].GetComponent<InteractableObjectScript>().currentQuestStatus == QuestStatus.Completed)
+                        {
+                            completedRequirements++;
+                        }
+                    }
+                }
+
+                if (completedRequirements == requirements.Count)
+                {
+                    Debug.Log("Requirements fulfilled, moved to line " + secondaryNum);
+                    currentLine = secondaryNum;
+                }
+                else
+                {
+                    Debug.Log("Requirements not fulfilled, moved to line " + tertiaryNum);
+                    currentLine = tertiaryNum;
+                }
+                Debug.Log("Current Line: " + currentLine);
+                break;
+
             case "GoToLine":
                 // Go to a specific text line
-                currentLine = itemNum;
+                currentLine = secondaryNum;
                 break;
 
             case "CompleteQuest":
@@ -498,11 +549,13 @@ public class NPC : CharacterMovement
                                 j++;
                             } while (endOfCommand == false);
                         }
-                        Debug.Log("Option: " + buttonText + " Response Option Text: " + responseOptionText + " Line jump number: " + lineJumpStr + lineJump);
 
                         // convert the line jump number to an int
                         int.TryParse(lineJumpStr, out lineJump);
 
+                        // Debug Ling
+                        Debug.Log("Option: " + buttonText + " Response Option Text: " + responseOptionText + " Line jump String number: " + lineJumpStr + " Line jump number: " + lineJump);
+                        
                         //Debug.Log("Button 1: " + buttonText + " Response Value: " + responseOptionText);
 
                         // Compares the response text to change it to a Response type

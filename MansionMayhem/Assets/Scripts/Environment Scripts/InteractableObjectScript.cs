@@ -9,6 +9,7 @@ public class InteractableObjectScript : MonoBehaviour
     // Requirements for the interactableObject (if the object has any requirements)
     public List<ItemType> requirements;
     public GameObject player;
+    public QuestStatus currentQuestStatus;
 
     // Holds Items the interactable Object has for the users
     public List<ItemType> containsItems;
@@ -24,11 +25,11 @@ public class InteractableObjectScript : MonoBehaviour
     // Text for the interactable object.
     public string interactingString;
 
-
     // Scrolling Autotyping variables
     private bool isTyping = false;
     private bool cancelTyping = false;
     private float typeSpeed = 0.0f;
+
 
     #region Interactables properties
     public bool InteractBool
@@ -37,7 +38,6 @@ public class InteractableObjectScript : MonoBehaviour
         set { interactBool = value; }
     }
     #endregion
-
 
     #region Start
     // Use this for initialization
@@ -52,6 +52,10 @@ public class InteractableObjectScript : MonoBehaviour
         for (int i = 0; i < spawns.Count; i++)
         {
             spawns[i].SetActive(false);
+        }
+        if(requirements.Count>0)
+        {
+            currentQuestStatus = QuestStatus.Started;
         }
 
         player = GameObject.FindGameObjectWithTag("player");

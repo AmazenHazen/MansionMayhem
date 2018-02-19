@@ -65,7 +65,10 @@ public class LevelManager : MonoBehaviour
         {
             if(taskNPC.gameObject.GetComponent<NPC>())
             {
-
+                if(taskNPC.gameObject.GetComponent<NPC>().CurrentQuestStatus == QuestStatus.Completed)
+                {
+                    AdvanceLevel();
+                }
             }
         }
         else if (levelObjective == levelType.boss)

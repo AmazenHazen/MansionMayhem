@@ -738,6 +738,9 @@ public class PlayerManager : MonoBehaviour
                         }
                     }
                 }
+
+                // Set the object to being "Complete"
+                interactingObject.GetComponent<InteractableObjectScript>().currentQuestStatus = QuestStatus.Completed;
             }
         }
         #endregion

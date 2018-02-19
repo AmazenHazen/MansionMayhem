@@ -1,6 +1,6 @@
 Welcome back! Have you gotten the items I need for the the ritual circle?
 *2
-Yes[SayYes](14)
+Yes[SayYes](13)
 No[SayNo](7)
 
 -
@@ -9,10 +9,11 @@ The Demon Circle is north of me.
 What you need to collect is a vial of blood, a black twisted demon horn, and the demonic tome.
 Good luck on finding them!
 [Exit]
-+
 
++
 Let me see...
-[CheckRequirements](15)(7)
+[CheckRequirements](15)(6)
 Thank you! I can finally return to the Demon Realm.
 I will forever be thankful. Maybe I can help you one day.
 [CompleteQuest]
+[Exit]

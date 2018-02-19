@@ -46,7 +46,7 @@ public class NPC : CharacterMovement
     // Quest Variables
     public List<GameObject> items; // for items that the NPC will take from or accept from the player
     public List<GameObject> requirements; // requirements for completing a quest (could be items, interactive objects, or NPCs)
-    QuestStatus currentQuestStatus;
+    public QuestStatus currentQuestStatus;
     #endregion
 
     #region NPC properties
@@ -105,7 +105,6 @@ public class NPC : CharacterMovement
         {
             TalkingTo();
         }
-        Debug.Log(currentLine);
 
         base.Update();
     }
@@ -219,7 +218,11 @@ public class NPC : CharacterMovement
         if (talkingBool)
         {
             CheckForOptions();
-            CheckCommand();
+
+            if (textLines[currentLine][0] == '[')
+            {
+                CheckCommand();
+            }
         }
             
     }
@@ -240,23 +243,21 @@ public class NPC : CharacterMovement
         int i = 1;
 
         #region Primary Command
-        if (textLines[currentLine][0] == '[')
+        // Loops through
+        // Saves the text between the square brackets
+        do
         {
-            // Loops through
-            // Saves the text between the square brackets
-            do
+            if (fullOptionText[i] == ']')
             {
-                if (fullOptionText[i] == ']')
-                {
-                    endOfCommand = true;
-                }
-                else if (endOfCommand != true)
-                {
-                    commandText += fullOptionText[i];
-                }
+                endOfCommand = true;
+            }
+            else if (endOfCommand != true)
+            {
+                commandText += fullOptionText[i];
+            }
 
-                i++;
-            } while (endOfCommand == false);
+            i++;
+        } while (endOfCommand == false);
 
             #endregion
 
@@ -326,7 +327,7 @@ public class NPC : CharacterMovement
 
             Console.WriteLine(tertiaryNum);
         }
-    }
+    
         #endregion
 
         Debug.Log("Command: " + commandText + " Secondary Command Number: " + secondaryNum + " Tertiary Command Number: " + tertiaryCommandText);
@@ -396,6 +397,7 @@ public class NPC : CharacterMovement
                     Debug.Log("Requirements not fulfilled, moved to line " + tertiaryNum);
                     currentLine = tertiaryNum;
                 }
+
                 Debug.Log("Current Line: " + currentLine);
                 break;
 
@@ -406,12 +408,18 @@ public class NPC : CharacterMovement
 
             case "CompleteQuest":
                 currentQuestStatus = QuestStatus.Completed;
+                TextFileSetUp(completedQuestTextFile);
+                currentLine = 0;
+                endDialogue();
                 break;
 
             case "Exit":
                 endDialogue();
                 break;
         }
+
+        // Start the scrolling text 
+        StartCoroutine(TextScroll(textLines[currentLine]));
     }
     #endregion
 
@@ -490,6 +498,7 @@ public class NPC : CharacterMovement
 
                         int j = 0;
 
+                        #region Text on Button (loop 1)
                         // First Loop: Text on button
                         do
                         {
@@ -506,10 +515,12 @@ public class NPC : CharacterMovement
                             j++;
                         } while (endOfCommand == false);
 
-
+                        
                         // reset the variable for the seond loop
                         endOfCommand = false;
+                        #endregion
 
+                        #region Response Type (loop 2)
                         // Loops through
                         // Puts the text before square brckets on the button
                         // and saves the text in the square brackets as a response type
@@ -531,7 +542,9 @@ public class NPC : CharacterMovement
                         // reset the variable for the third loop
                         endOfCommand = false;
                         j++;
+                        #endregion
 
+                        #region LineJump Number Loop
                         if (responseOptionText != "SayNothing")
                         {
                             // loop through to get the number used to jump to after choosing an option
@@ -552,6 +565,7 @@ public class NPC : CharacterMovement
 
                         // convert the line jump number to an int
                         int.TryParse(lineJumpStr, out lineJump);
+                        #endregion
 
                         // Debug Ling
                         Debug.Log("Option: " + buttonText + " Response Option Text: " + responseOptionText + " Line jump String number: " + lineJumpStr + " Line jump number: " + lineJump);

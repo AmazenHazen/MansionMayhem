@@ -4,12 +4,12 @@ Other Demons in this dimension do not believe in the color pink!
 Back in our home dimension all demons are accepted!
 Can you help me break out from my Demon Pact so I can return to my realm?
 *3
-Yes[SayYes](12)
-No[SayNo](21)
+Yes[SayYes](11)
+No[SayNo](20)
 Say Nothing[SayNothing]
 
 +
-Thank you so much it means a lot to me
+Thank you so much it means a lot to me!
 What you need to do is gather items to break the Demon Pact.
 North of me is a faded Demon Circle, we need to restore it and gather the artifacts to break the pact.
 Look around the mansion. What you need to collect is a vial of blood, a black twisted demon horn, and the demonic tome.

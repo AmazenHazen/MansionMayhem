@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/LevelScenes/Level3DemonInNeed.unity
+- path: Assets/Scenes/LevelScenes/Level4Prison.unity
   isLoaded: 1
   isActive: 1

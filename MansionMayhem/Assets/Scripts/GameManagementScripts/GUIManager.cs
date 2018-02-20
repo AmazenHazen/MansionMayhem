@@ -14,6 +14,7 @@ public class GUIManager : MonoBehaviour
     int colorIndex;
     private float health;
     private List<Color> HealthColors;
+    public List<GameObject> HeartContainers;
     public List<GameObject> FullHearts;
     public List<GameObject> HalfHearts;
 
@@ -76,12 +77,24 @@ public class GUIManager : MonoBehaviour
 
         // Health Management
         HealthColors = new List<Color>();
-        HealthColors.Add(new Color(0, 0, 0, 255));
-        HealthColors.Add(new Color(186, 0, 0));
-        HealthColors.Add(new Color(0, 186, 0));
+        HealthColors.Add(new Color32(0, 0, 0, 255));
+        HealthColors.Add(new Color32(186, 0, 0, 255));
+        HealthColors.Add(new Color32(255, 215, 0, 255));
+
+        // hide containers if not unlocked
+        if (GameManager.instance.healthTotal<15)
+        {
+            for (int i = GameManager.instance.healthTotal; i < 15; i++)
+            {
+                HeartContainers[i].SetActive(false);
+            }
+        }
+
+        /*
         HealthColors.Add(new Color(186, 0, 186));
         HealthColors.Add(new Color(186, 186, 186));
         HealthColors.Add(new Color(186, 186, 186));
+        */
 
         // Inventory Management
         usingOtherInterface = false;
@@ -118,7 +131,7 @@ public class GUIManager : MonoBehaviour
         health = player.GetComponent<PlayerManager>().CurrentLife;
 
         // Color determination
-        colorIndex = (int)((health / 5));
+        colorIndex = (int)((health / 15));
 
         HalfHeartManagement();
         FullHeartManagement();
@@ -131,7 +144,7 @@ public class GUIManager : MonoBehaviour
     void HalfHeartManagement()
     {
         // Set up hearts initially
-        for (int i = 1; i < 6; i++)
+        for (int i = 1; i < 16; i++)
         {
             //Deactivate all Half Hearts
             HalfHearts[i-1].SetActive(false);
@@ -141,8 +154,8 @@ public class GUIManager : MonoBehaviour
         if (health % 1.0f == .5)
         {
             // Color the half heart correctly
-            HalfHearts[(int)(((health - 0.5f) % 5.0f))].GetComponent<Image>().color = HealthColors[colorIndex+1];
-            HalfHearts[(int)(((health-0.5f)%5.0f))].SetActive(true);
+            HalfHearts[(int)(((health - 0.5f) % 15.0f))].GetComponent<Image>().color = HealthColors[colorIndex+1];
+            HalfHearts[(int)(((health-0.5f)%15.0f))].SetActive(true);
         }
     }
     #endregion
@@ -154,10 +167,10 @@ public class GUIManager : MonoBehaviour
     void FullHeartManagement()
     {
         int colorCount;
-        colorCount = (int)(health % 5);
+        colorCount = (int)(health % 15);
 
         // Sets color of hearts to prev color
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 15; i++)
         {
             FullHearts[i].GetComponent<Image>().color = HealthColors[colorIndex];
         }
@@ -178,8 +191,55 @@ public class GUIManager : MonoBehaviour
     {
         // Get variables needed for the HUD Text
         currentRangeWeapon = player.GetComponent<PlayerManager>().CurrentRangeWeapon;
+        string weaponString;
 
-        rangeWeaponText.text = "Current Weapon: " + currentRangeWeapon;
+        switch (currentRangeWeapon)
+        {
+            case rangeWeapon.laserpistol:
+                weaponString = "Laser Pistol";
+                break;
+            case rangeWeapon.aetherLightBow:
+                weaponString = "AetherLight Bow";
+                break;
+            case rangeWeapon.antiEctoPlasmator:
+                weaponString = "Anti-Ectoplasm Splatter Gun";
+                break;
+            case rangeWeapon.AntimatterParticle:
+                weaponString = "Anti-Matter Particle Emitter";
+                break;
+            case rangeWeapon.CelestialRepeater:
+                weaponString = "Celestial Repeater";
+                break;
+            case rangeWeapon.cryoGun:
+                weaponString = "Frostweaver";
+                break;
+            case rangeWeapon.DarkEnergyRifle:
+                weaponString = "Dark Energy Rifle";
+                break;
+            case rangeWeapon.ElectronSeeker:
+                weaponString = "Electron Pulser";
+                break;
+            case rangeWeapon.flamethrower:
+                weaponString = "Flamethrower";
+                break;
+            case rangeWeapon.hellfireshotgun:
+                weaponString = "Hellfire Shotgun";
+                break;
+            case rangeWeapon.PlasmaCannon:
+                weaponString = "Plasma Cannon";
+                break;
+            case rangeWeapon.soundCannon:
+                weaponString = "Sound Cannon";
+                break;
+            case rangeWeapon.XenonPulser:
+                weaponString = "Xenon Pulser";
+                break;
+            default:
+                weaponString = "No Weapon";
+                break;
+        }
+
+        rangeWeaponText.text = "Current Weapon: " + weaponString;
         scoreText.text = "Screws: " + GameManager.instance.screws;
         levelText.text = "Level: " + GameManager.instance.currentLevel;
     }

@@ -1,0 +1,26 @@
+Have you done what I asked?
+*2
+Yes[SayYes](12)
+No[SayNo](7)
+
+-
+You don't have the journal!
+Gah! Stop wasting my time! I could be getting closer to my goal!
+[Exit]
+
++
+[CheckRequirements](13)(6)
+This is it this is what I needed!
+"August 26th, 2013 - There is no way out! That damn Warden and his guards have trapped me yet again in Purgatory!"
+"One day I will move on in my life."
+"September 13th, 2013 - I am Death Crutch! Leader of the Ghost Gang! The Warden should be bowing down to me!"
+"October 3rd, 2013 - I have been contacted through the shadows, a Dark Elemental."
+"He whispers to me that he knows a way out. I don't trust him."
+"January 14th, 2014 - Giving in seems to be the only way.
+"The Dark Elemental tells me that he will kill all of the guards with his beasts if I agree to his terms."
+"I have to distract the halfling and the inventor, the ones that will be our downfall."
+Thank you for finding this, it is very enlightening. Here is a reward for your trouble.
+*Half Light gives you 300 screws
+[Reward](300)
+[CompleteQuest]
+[Exit]

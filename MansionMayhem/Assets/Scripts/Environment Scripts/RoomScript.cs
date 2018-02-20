@@ -59,15 +59,15 @@ public class RoomScript : MonoBehaviour
 
             if (screwRNG < 80)
             {
-                Instantiate(normalScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
+                Instantiate(normalScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
             if (screwRNG >= 80 && screwRNG <95)
             { 
-                Instantiate(redScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
+                Instantiate(redScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
             if (screwRNG >95)
             {
-                Instantiate(goldScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
+                Instantiate(goldScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
         }
         #endregion

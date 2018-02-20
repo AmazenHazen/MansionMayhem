@@ -33,6 +33,7 @@ public class GunScript : MonoBehaviour
     // Reset Bullet attributes
     public GameObject bulletCopy;
     public bool canShoot;
+    public bool finishSwitch;
     private bool canBurst;
 
     // Bullet Attributes
@@ -71,6 +72,7 @@ public class GunScript : MonoBehaviour
         charging = false;
         canShoot = true;
         canBurst = true;
+        finishSwitch = true;
 
         switch (gunType)
         {
@@ -92,7 +94,7 @@ public class GunScript : MonoBehaviour
 
     public void FireWeapon()
     {
-        if (canShoot && Input.GetMouseButton(0))
+        if (canShoot && finishSwitch && Input.GetMouseButton(0))
         {
             switch (gunType)
             {
@@ -254,9 +256,9 @@ public class GunScript : MonoBehaviour
     {
         // Player Can't shoot for .5 seconds
         //Debug.Log("We Just Switched Weapons!");
-        canShoot = false;
+        finishSwitch = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
-        Invoke("ResetShooting", GUNSWITCHDELAY);
+        Invoke("ResetGunSwitch", GUNSWITCHDELAY);
     }
 
     /// <summary>
@@ -266,6 +268,14 @@ public class GunScript : MonoBehaviour
     {
         canShoot = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    /// <summary>
+    /// Resets Player's finishSwitch bool
+    /// </summary>
+    void ResetGunSwitch()
+    {
+        finishSwitch = true;
     }
 
     /// <summary>

@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     #region Variables
     // Contstant Variables
     public int MAX_EQUIPMENT = 3;
-    public int MAX_HEALTH = 20;
+    public int MAX_HEALTH = 30;
 
 
 

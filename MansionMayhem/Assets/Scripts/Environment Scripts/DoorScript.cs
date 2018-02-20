@@ -53,27 +53,27 @@ public class DoorScript : MonoBehaviour
         { 
             if (linkedDoor.name == "topdoor")
             {
-                player.transform.position = linkedDoor.transform.position + new Vector3(0, -.5f, 0);
+                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, -.5f);
             }
             if (linkedDoor.name == "bottomdoor")
             {
-                player.transform.position = linkedDoor.transform.position + new Vector3(0, .5f, 0);
+                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, .5f);
             }
             if (linkedDoor.name == "leftdoor")
             {
-                player.transform.position = linkedDoor.transform.position + new Vector3(.5f, 0, 0);
+                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(.5f, 0);
             }
             if (linkedDoor.name == "rightdoor")
             {
-                player.transform.position = linkedDoor.transform.position + new Vector3(-.5f, 0, 0);
+                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(-.5f, 0);
             }
             if (linkedDoor.name == "upstairs")
             {
-                player.transform.position = linkedDoor.transform.position + new Vector3(0, -.5f, 0);
+                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, -.5f);
             }
             if (linkedDoor.name == "downstairs")
             {
-                player.transform.position = linkedDoor.transform.position + new Vector3(0, .5f, 0);
+                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, .5f);
             }
         }
 

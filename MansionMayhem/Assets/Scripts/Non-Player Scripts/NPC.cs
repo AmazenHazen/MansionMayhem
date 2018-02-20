@@ -44,6 +44,8 @@ public class NPC : CharacterMovement
     private float typeSpeed = 0.0f;
 
     // Quest Variables
+    private GameObject questIcon;
+    public List<Sprite> QuestSprites; // for changing the overhead sprite of the NPC
     public List<GameObject> items; // for items that the NPC will take from or accept from the player
     public List<GameObject> requirements; // requirements for completing a quest (could be items, interactive objects, or NPCs)
     public QuestStatus currentQuestStatus;
@@ -68,7 +70,11 @@ public class NPC : CharacterMovement
     {
         // Find the player game object
         player = GameObject.FindGameObjectWithTag("player");
-        
+
+        // Get the queest icon sprite
+        questIcon = transform.GetChild(0).gameObject;
+
+
         // Get the dialog boxes for dialog
         dialogBox = GameObject.Find("DialogBox");
         dialogText = dialogBox.transform.Find("DialogText").gameObject;
@@ -91,7 +97,8 @@ public class NPC : CharacterMovement
 
 
         // Start the quest status of the NPC to not started
-        //currentQuestStatus = QuestStatus.NotStarted;
+        currentQuestStatus = QuestStatus.NotStarted;
+        questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[0];
 
         base.Start();
     }
@@ -337,6 +344,7 @@ public class NPC : CharacterMovement
             case "StartQuest":
                 //Debug.Log("Command: " + commandText + secondayCommand);
                 currentQuestStatus = QuestStatus.Started;
+                questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[1];
                 TextFileSetUp(startedQuestTextFile);
                 currentLine = 0;
                 endDialogue();
@@ -408,6 +416,8 @@ public class NPC : CharacterMovement
 
             case "CompleteQuest":
                 currentQuestStatus = QuestStatus.Completed;
+                //questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[2];
+                questIcon.GetComponent<SpriteRenderer>().sprite = null;
                 TextFileSetUp(completedQuestTextFile);
                 currentLine = 0;
                 endDialogue();

@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
     private trinkets currentTrinket;
     public List<GameObject> playerGunPrefabs;
     private rangeWeapon currentRangeWeapon;
-    private int weaponNum;
+    public int weaponNum;
     public int portalNum;
 
     // Variables for the player's inventory
@@ -136,6 +136,9 @@ public class PlayerManager : MonoBehaviour
                 case rangeWeapon.soundCannon:
                     playerGunPrefabs.Add(GameObject.Find("SoundCannon"));
                     break;
+                default:
+                    playerGunPrefabs.Add(null);
+                    break;
             }
         }
         #endregion
@@ -153,7 +156,11 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         CheckStatusConditions();
+
+
         WeaponSwitch();
+        
+
         if (GameManager.instance.currentGameState != GameState.Paused)
         {
             Shoot();
@@ -497,7 +504,10 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     private void Shoot()
     {
-        playerGunPrefabs[weaponNum].GetComponent<GunScript>().FireWeapon();
+        if (playerGunPrefabs[weaponNum] != null)
+        {
+            playerGunPrefabs[weaponNum].GetComponent<GunScript>().FireWeapon();
+        }
     }
 
     /// <summary>
@@ -507,7 +517,6 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
-
             // For particle guns turn off the particles if you switch weapons
             if (playerGunPrefabs[weaponNum].GetComponent<GunScript>().Particles)
             {
@@ -526,9 +535,13 @@ public class PlayerManager : MonoBehaviour
             // turn off the current gun sprite
             playerGunPrefabs[weaponNum].GetComponent<SpriteRenderer>().enabled = false;
 
-            // Increment the gun being used
-            weaponNum++;
-            weaponNum %= 3;
+            // If the gun doesn't exist increment and check if it's null
+            do
+            {
+                weaponNum++;
+                weaponNum %= 3;
+            } while (playerGunPrefabs[weaponNum] == null);
+
 
             // turn on the current gun sprite
             playerGunPrefabs[weaponNum].GetComponent<SpriteRenderer>().enabled = true;

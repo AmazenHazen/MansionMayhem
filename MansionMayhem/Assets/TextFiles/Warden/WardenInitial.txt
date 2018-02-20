@@ -12,7 +12,7 @@ One of the prisoners stole my keys to my office, but I was able to escape with t
 Here are the keys to enter the prison.
 Good luck!
 [GiveItem](0)
-[StartQuest]
+[CompleteQuest]
 [exit]
 
 -

@@ -226,7 +226,7 @@ public class GUIManager : MonoBehaviour
                 weaponString = "Hellfire Shotgun";
                 break;
             case rangeWeapon.PlasmaCannon:
-                weaponString = "Plasma Cannon";
+                weaponString = "Plasma Charger";
                 break;
             case rangeWeapon.soundCannon:
                 weaponString = "Sound Cannon";

@@ -1,9 +1,9 @@
 Ahhh a human! It is the first time we have had one of you for awhile!
 I am a ghost, but I need your help before I can pass on to the next life.
-I am the warden of this penitentiary but have lost control to the gang leader, DeathCrutch.
+I am the warden of this penitentiary but have lost control to the gang leader, Death Clutch.
 Will you assist me in defeating gang leader.
 *2
-Death to DeathCrutch![SayYes](10)
+Death to Death Clutch![SayYes](10)
 No[SayNo](19)
 
 +

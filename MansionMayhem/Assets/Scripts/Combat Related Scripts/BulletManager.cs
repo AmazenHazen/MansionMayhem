@@ -422,8 +422,8 @@ public class BulletManager : MonoBehaviour {
         if (owner != null)
         {
             // Delete the bullet reference in the Enemy Manager
-            //owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
-            //owner.GetComponent<EnemyManager>().BulletCount--;
+            owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
+            owner.GetComponent<EnemyManager>().BulletCount--;
         }
         // Delete the bullet
         Destroy(gameObject);
@@ -493,7 +493,7 @@ public class BulletManager : MonoBehaviour {
     {
         // If the bullet Runs into a wall
         #region Wall Collision
-        if (collider.tag == "wall")
+        if (collider.tag == "wall" || collider.tag == "obstacle" || collider.tag == "interactableobject")
         {
             // Delete the player bullet
             //Debug.Log("Wall!");

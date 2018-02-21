@@ -422,6 +422,12 @@ public enum QuestStatus
     PartialCompletion,
     Completed,
 }
+public enum InteractableObjectType
+{
+    Chest,
+    Giver, // gives the player an item
+    Taker, // takes from the player
+}
 
 #endregion
 
@@ -467,6 +473,7 @@ public enum ItemType
     VialOfBlood =51,
     RedChalk =52,
     DemonicTome =53,
+    DeathClutchJournal = 54,
     #endregion
 
 }

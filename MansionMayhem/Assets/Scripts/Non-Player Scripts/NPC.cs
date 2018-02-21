@@ -47,6 +47,7 @@ public class NPC : CharacterMovement
     private GameObject questIcon;
     public List<Sprite> QuestSprites; // for changing the overhead sprite of the NPC
     public List<GameObject> items; // for items that the NPC will take from or accept from the player
+    public List<ItemType> itemRequirements;
     public List<GameObject> requirements; // requirements for completing a quest (could be items, interactive objects, or NPCs)
     public QuestStatus currentQuestStatus;
     #endregion
@@ -221,7 +222,7 @@ public class NPC : CharacterMovement
             }
 
         // Check for dialog options
-        // Dialog Options designated with a * at the beginning of the line
+        // Dialog Options designated with a [ at the beginning of the line
         if (talkingBool)
         {
             CheckForOptions();
@@ -270,7 +271,7 @@ public class NPC : CharacterMovement
 
         #region Secondary Command
         // getting the text for item management with an NPC or number for going to a different text line
-        if (commandText == "GiveItem" || commandText == "RemoveItem" || commandText == "GoToLine" || commandText == "CheckRequirements")
+        if (commandText == "GiveItem" || commandText == "RemoveItem" || commandText == "GoToLine" || commandText == "CheckRequirements" || commandText == "CheckItemRequirements" || commandText == "Reward")
         {
             // Increment by one for the beginning parenthesis
             i++;
@@ -305,7 +306,7 @@ public class NPC : CharacterMovement
         #region Tertiary Command
         // Tertiary command set to object
         // used for conditional statements
-        if (commandText == "CheckRequirements")
+        if (commandText == "CheckRequirements" || commandText == "CheckItemRequirements")
         {
             // Increment by one for the beginning parenthesis
             i++;
@@ -372,6 +373,12 @@ public class NPC : CharacterMovement
                 currentLine++;
                 break;
 
+            case "Reward":
+                GameManager.instance.screws += secondaryNum;
+                currentLine++;
+                break;
+
+
             case "CheckRequirements":
                 // give player that item
                 Debug.Log("Check Requirements");
@@ -409,6 +416,28 @@ public class NPC : CharacterMovement
                 Debug.Log("Current Line: " + currentLine);
                 break;
 
+            case "CheckItemRequirements":
+                // give player that item
+                Debug.Log("Check Item Requirements");
+
+                bool requirementfulfilled = CheckInventory(player.GetComponent<PlayerManager>().playerItems);
+
+
+                if (requirementfulfilled)
+                {
+                    Debug.Log("Requirements fulfilled, moved to line " + secondaryNum);
+                    currentLine = secondaryNum;
+                }
+                else
+                {
+                    Debug.Log("Requirements not fulfilled, moved to line " + tertiaryNum);
+                    currentLine = tertiaryNum;
+                }
+
+                Debug.Log("Current Line: " + currentLine);
+                break;
+
+
             case "GoToLine":
                 // Go to a specific text line
                 currentLine = secondaryNum;
@@ -430,6 +459,55 @@ public class NPC : CharacterMovement
 
         // Start the scrolling text 
         StartCoroutine(TextScroll(textLines[currentLine]));
+    }
+    #endregion
+
+    #region commandHelperMethods
+    /// <summary>
+    /// Checks the player's inventory to see if the player fulfills all the NPC's item requirements
+    /// May want to move this to the player manager script
+    /// </summary>
+    /// <param name="playerItems"></param>
+    /// <returns></returns>
+    public bool CheckInventory(ItemType[] playerItems)
+    {
+        // int to check if the requirements are fulfilled
+        int totalNumsFulfilled = 0;
+
+        // Check to see if players have all the requirements
+        for (int i = 0; i < playerItems.Length; i++)
+        {
+            foreach (ItemType requirement in itemRequirements)
+            {
+                if (playerItems[i] == requirement)
+                {
+                    totalNumsFulfilled++;
+                }
+            }
+        }
+
+        // if the player has all the requirements
+        if (totalNumsFulfilled == itemRequirements.Count)
+        {
+            // Remove the items from the player's inventory
+            for (int i = 0; i < playerItems.Length; i++)
+            {
+                foreach (ItemType requirement in itemRequirements)
+                {
+                    if (playerItems[i] == requirement)
+                    {
+                        Debug.Log("Remove item requirement npc");
+                        player.GetComponent<PlayerManager>().playerItems[i] = ItemType.NoItem;
+                        GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(i);
+                    }
+                }
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     #endregion
 

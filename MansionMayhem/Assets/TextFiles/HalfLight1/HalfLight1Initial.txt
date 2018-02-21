@@ -2,9 +2,9 @@ Ah, who might you be?
 Castor? Castor the inventor? Well, it is nice to make your acquaintance.
 While I would love to tell you my name, I cannot. All I can tell you is my friends call me Half Light.
 I am here on a mission to get intel. Something very important.
-In one of these cells is a journal, Death Crutch's journal.
+In one of these cells is a journal, Death Clutch's journal.
 It is hidden underneath his mattress, but I don't know which cell was his.
 Find his cell, retrieve the journal, and deliver it to me.
-If you don't want to help me that is fine, just make sure you take down Death Crutch.
+If you don't want to help me that is fine, just make sure you take down Death Clutch.
 [StartQuest]
 [Exit]

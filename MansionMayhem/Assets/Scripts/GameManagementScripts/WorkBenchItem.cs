@@ -337,6 +337,10 @@ public class WorkBenchItem : MonoBehaviour
         {
             cost = GameManager.instance.equipmentTotal * 500;
         }
+        else if(unlockVar == Unlock.heartIncrease || unlockVar == Unlock.equipmentIncrease)
+        {
+            unlockedBool = true;
+        }
         #endregion
 
 

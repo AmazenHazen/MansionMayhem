@@ -7,12 +7,14 @@ public class InteractableObjectScript : MonoBehaviour
 {
     // Attributes
     // Requirements for the interactableObject (if the object has any requirements)
+    private GameObject player;
+    public InteractableObjectType interactableType;
     public List<ItemType> requirements;
-    public GameObject player;
     public QuestStatus currentQuestStatus;
 
     // Holds Items the interactable Object has for the users
-    public List<ItemType> containsItems;
+    public List<GameObject> containsItems;
+    bool containsItem = true;
 
     // Spawns (if it has any)
     public List<GameObject> spawns;
@@ -140,13 +142,32 @@ public class InteractableObjectScript : MonoBehaviour
             // Start the scrolling text 
             Debug.Log("Starting Dialog");
 
-            if (CheckRequirements(player.GetComponent<PlayerManager>().playerItems))
+
+            // check if the interactable object has any requirements first
+            if (CheckRequirements(player.GetComponent<PlayerManager>().playerItems) && interactableType == InteractableObjectType.Taker)
             {
                 StartCoroutine(TextScroll(interactingString));
             }
-            else
+            else if(interactableType == InteractableObjectType.Taker)
             {
                 StartCoroutine(TextScroll("You don't have what you need for this."));
+                return;
+            }
+
+            if (interactableType == InteractableObjectType.Giver && containsItems.Count>0)
+            {
+                StartCoroutine(TextScroll(interactingString));
+
+                for (int i = 0; i < containsItems.Count; i++)
+                {
+                    player.GetComponent<PlayerManager>().AddItem(containsItems[i]);
+                    containsItems.Remove(containsItems[i]);
+                }
+            }
+            else if (interactableType == InteractableObjectType.Giver)
+            {
+                StartCoroutine(TextScroll("You already took what you wanted from this."));
+                return;
             }
         }
 

@@ -24,6 +24,16 @@ public class LevelSelectGUIManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        // Fix for inventory if the worldCamera is not set manually.
+        if (gameObject.GetComponent<Canvas>().worldCamera == null)
+        {
+            gameObject.GetComponent<Canvas>().worldCamera = Camera.main;
+            gameObject.GetComponent<Canvas>().planeDistance = 100;
+            gameObject.GetComponent<Canvas>().sortingLayerName = "UI";
+            gameObject.GetComponent<Canvas>().sortingOrder = 2;
+
+        }
+
         // Get reference to the player
         player = GameObject.FindGameObjectWithTag("player");
 

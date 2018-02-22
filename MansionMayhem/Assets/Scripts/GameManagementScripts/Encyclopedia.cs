@@ -498,6 +498,7 @@ public enum RoomType
     small,
     medium,
     large,
+    ExtremelyLarge,
     /*
     CloakRoom,
     GrandFoyer,

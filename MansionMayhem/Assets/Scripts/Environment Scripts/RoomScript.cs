@@ -37,6 +37,44 @@ public class RoomScript : MonoBehaviour
     void Start()
     {
 
+        #region Door Linking
+        // Link Doors for the Room
+        if (topRoom != null)
+        {
+            gameObject.transform.Find("topdoor").gameObject.SetActive(true);
+            gameObject.transform.Find("topdoor").GetComponent<DoorScript>().linkedDoor = topRoom.transform.Find("bottomdoor").gameObject;
+        }
+        if (bottomRoom != null)
+        {
+            gameObject.transform.Find("bottomdoor").gameObject.SetActive(true);
+            gameObject.transform.Find("bottomdoor").GetComponent<DoorScript>().linkedDoor = bottomRoom.transform.Find("topdoor").gameObject;
+        }
+        if (leftRoom != null)
+        {
+            gameObject.transform.Find("leftdoor").gameObject.SetActive(true);
+            gameObject.transform.Find("leftdoor").GetComponent<DoorScript>().linkedDoor = leftRoom.transform.Find("rightdoor").gameObject;
+        }
+
+        if (rightRoom != null)
+        {
+            gameObject.transform.Find("rightdoor").gameObject.SetActive(true);
+            gameObject.transform.Find("rightdoor").GetComponent<DoorScript>().linkedDoor = rightRoom.transform.Find("leftdoor").gameObject;
+        }
+
+        if (upStairsRoom != null)
+        {
+            gameObject.transform.Find("upstairs").gameObject.SetActive(true);
+            gameObject.transform.Find("upstairs").GetComponent<DoorScript>().linkedDoor = upStairsRoom.transform.Find("downstairs").gameObject;
+        }
+
+        if (downStairsRoom != null)
+        {
+            gameObject.transform.Find("downstairs").gameObject.SetActive(true);
+            gameObject.transform.Find("downstairs").GetComponent<DoorScript>().linkedDoor = downStairsRoom.transform.Find("upstairs").gameObject;
+        }
+
+        #endregion
+
         #region Screw Spawning
         // Determine how many screws in the room
         if (roomType == RoomType.small)
@@ -51,8 +89,13 @@ public class RoomScript : MonoBehaviour
         {
             screwCount = Random.Range(35, 50);
         }
+        else if (roomType == RoomType.ExtremelyLarge)
+        {
+            screwCount = Random.Range(70, 100);
+        }
 
-                // Spawn the screws (and different types as well
+
+        // Spawn the screws (and different types as well
         for (int i=0; i<screwCount; i++)
         {
             screwRNG = Random.Range(0, 100);
@@ -96,44 +139,6 @@ public class RoomScript : MonoBehaviour
                 Instantiate(goldenHeart, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
             }
         }
-        #endregion
-
-        #region Door Linking
-        // Link Doors for the Room
-        if (topRoom!=null)
-        {
-            gameObject.transform.Find("topdoor").gameObject.SetActive(true);
-            gameObject.transform.Find("topdoor").GetComponent<DoorScript>().linkedDoor = topRoom.transform.Find("bottomdoor").gameObject;
-        }
-        if (bottomRoom != null)
-        {
-            gameObject.transform.Find("bottomdoor").gameObject.SetActive(true);
-            gameObject.transform.Find("bottomdoor").GetComponent<DoorScript>().linkedDoor = bottomRoom.transform.Find("topdoor").gameObject;
-        }
-        if (leftRoom != null)
-        {
-            gameObject.transform.Find("leftdoor").gameObject.SetActive(true);
-            gameObject.transform.Find("leftdoor").GetComponent<DoorScript>().linkedDoor = leftRoom.transform.Find("rightdoor").gameObject;
-        }
-
-        if (rightRoom != null)
-        {
-            gameObject.transform.Find("rightdoor").gameObject.SetActive(true);
-            gameObject.transform.Find("rightdoor").GetComponent<DoorScript>().linkedDoor = rightRoom.transform.Find("leftdoor").gameObject;
-        }
-
-        if (upStairsRoom != null)
-        {
-            gameObject.transform.Find("upstairs").gameObject.SetActive(true);
-            gameObject.transform.Find("upstairs").GetComponent<DoorScript>().linkedDoor = upStairsRoom.transform.Find("downstairs").gameObject;
-        }
-
-        if (downStairsRoom != null)
-        {
-            gameObject.transform.Find("downstairs").gameObject.SetActive(true);
-            gameObject.transform.Find("downstairs").GetComponent<DoorScript>().linkedDoor = downStairsRoom.transform.Find("upstairs").gameObject;
-        }
-
         #endregion
     }
 }

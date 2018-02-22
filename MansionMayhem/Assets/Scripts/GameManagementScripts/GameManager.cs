@@ -15,9 +15,6 @@ public class GameManager : MonoBehaviour
     public int MAX_EQUIPMENT = 3;
     public int MAX_HEALTH = 30;
 
-
-
-
     // Static instance of the GameManager to allows it to be accessed from any script
     public static GameManager instance = null;
 
@@ -469,32 +466,33 @@ public class GameManager : MonoBehaviour
         else
         {
             // Variables that are not saved are set to original value otherwise
-            screws = 0;
+            // Giving players 2000 screws and some weapons unlocked for the demo
+            screws = 2000;
             highestLevel = 0;
             healthTotal = 5;
             equipmentTotal = 10;
             currentGuns[0] = rangeWeapon.laserpistol;
-            currentGuns[1] = rangeWeapon.None;
-            currentGuns[2] = rangeWeapon.None;
+            currentGuns[1] = rangeWeapon.antiEctoPlasmator;
+            currentGuns[2] = rangeWeapon.PlasmaCannon;
 
 
             #region Unlockable Variables
             //Unlockable variables
 
             // Laser Pistol
-            LaserPistolUnlock = false;
+            LaserPistolUnlock = true;
             LaserPistolUpgrade1Unlock = false;
             LaserPistolUpgrade2Unlock = false;
             LaserPistolUpgrade3Unlock = false;
 
             // Anti Ectoplasm Splatter Gun
-            AntiEctoGunUnlock = false;
+            AntiEctoGunUnlock = true;
             AntiEctoGunUpgrade1Unlock = false;
             AntiEctoGunUpgrade2Unlock = false;
             AntiEctoGunUpgrade3Unlock = false;
 
             // Plasma Pistol
-            PlasmaPistolUnlock = false;
+            PlasmaPistolUnlock = true;
             PlasmaPistolUpgrade1Unlock = false;
             PlasmaPistolUpgrade2Unlock = false;
             PlasmaPistolUpgrade3Unlock = false;

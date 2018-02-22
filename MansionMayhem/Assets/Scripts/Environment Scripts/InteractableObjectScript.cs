@@ -19,18 +19,11 @@ public class InteractableObjectScript : MonoBehaviour
     // Spawns (if it has any)
     public List<GameObject> spawns;
 
-    // Reference to the GUI
-    private GameObject dialogBox;
-    private GameObject dialogText;
+    // bool that makes sure the player is only interacting with this object
     private bool interactBool;
 
     // Text for the interactable object.
     public string interactingString;
-
-    // Scrolling Autotyping variables
-    private bool isTyping = false;
-    private bool cancelTyping = false;
-    private float typeSpeed = 0.0f;
 
 
     #region Interactables properties
@@ -46,8 +39,6 @@ public class InteractableObjectScript : MonoBehaviour
     void Start()
     {
         // Get the dialog boxes for dialog
-        dialogBox = GameObject.Find("DialogBox");
-        dialogText = dialogBox.transform.Find("DialogText").gameObject;
         interactBool = false;
 
         // Set enemies to false at the beginning
@@ -106,38 +97,17 @@ public class InteractableObjectScript : MonoBehaviour
         }
     }
 
-
-
-    private IEnumerator TextScroll(string lineOfText)
-    {
-        int letter = 0;
-        dialogText.GetComponent<Text>().text = "";
-        isTyping = true;
-        cancelTyping = false;
-
-        while (isTyping && !cancelTyping && (letter < lineOfText.Length - 1))
-        {
-            Debug.Log("Dialog Scrolling");
-
-            dialogText.GetComponent<Text>().text += lineOfText[letter];
-            letter++;
-
-            yield return new WaitForSeconds(typeSpeed);
-        }
-        dialogText.GetComponent<Text>().text = lineOfText;
-        isTyping = false;
-        cancelTyping = false;
-    }
-
+    /// <summary>
+    /// Text that goes with interacting with the interactable object
+    /// </summary>
     public void InteractText()
     {
         // Sets the text box to the first/current line of dialog
         //dialogText.GetComponent<Text>().text = textLines[currentLine];
 
-        if (dialogBox.activeSelf == false)
+        if (GUIManager.dialogBox.activeSelf == false)
         {
-            // Activate the dialog box
-            dialogBox.SetActive(true);
+            GUIManager.TurnOnDialogBox();
 
             // Start the scrolling text 
             Debug.Log("Starting Dialog");
@@ -146,17 +116,17 @@ public class InteractableObjectScript : MonoBehaviour
             // check if the interactable object has any requirements first
             if (CheckRequirements(player.GetComponent<PlayerManager>().playerItems) && interactableType == InteractableObjectType.Taker)
             {
-                StartCoroutine(TextScroll(interactingString));
+                StartCoroutine(GUIManager.TextScroll(interactingString));
             }
             else if(interactableType == InteractableObjectType.Taker)
             {
-                StartCoroutine(TextScroll("You don't have what you need for this."));
+                StartCoroutine(GUIManager.TextScroll("You don't have what you need for this."));
                 return;
             }
 
             if (interactableType == InteractableObjectType.Giver && containsItems.Count>0)
             {
-                StartCoroutine(TextScroll(interactingString));
+                StartCoroutine(GUIManager.TextScroll(interactingString));
 
                 for (int i = 0; i < containsItems.Count; i++)
                 {
@@ -166,7 +136,7 @@ public class InteractableObjectScript : MonoBehaviour
             }
             else if (interactableType == InteractableObjectType.Giver)
             {
-                StartCoroutine(TextScroll("You already took what you wanted from this."));
+                StartCoroutine(GUIManager.TextScroll("You already took what you wanted from this."));
                 return;
             }
         }
@@ -175,7 +145,7 @@ public class InteractableObjectScript : MonoBehaviour
         else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
         {
             // if space and the text isn't scrolling, advance a line
-            if (!isTyping)
+            if (!GUIManager.isTyping)
             {
 
                 Debug.Log("Exit Dialog");
@@ -185,11 +155,11 @@ public class InteractableObjectScript : MonoBehaviour
 
             }
             // If the text box is currently printing the text then cancel the scrolling
-            else if (isTyping && !cancelTyping)
+            else if (GUIManager.isTyping && !GUIManager.cancelTyping)
             {
                 Debug.Log("Cancel Typing");
 
-                cancelTyping = true;
+                GUIManager.cancelTyping = true;
             }
 
         }
@@ -201,18 +171,13 @@ public class InteractableObjectScript : MonoBehaviour
     /// </summary>
     public void endDialogue()
     {
-        // Return the Game World to normal time
-        // Pause the gameplay
-        // Set pauseGame to true
-        GameManager.instance.currentGameState = GameState.Play;
-        GUIManager.usingOtherInterface = false;
-        Time.timeScale = 1;
-
         // Set the Talking to bool to false
         interactBool = false;
 
-        // Set the dialog box off
-        dialogBox.SetActive(false);
+        // Return the Game World to normal time
+        // Pause the gameplay
+        // Set pauseGame to true
+        GUIManager.TurnOffDialogBox();
     }
 
     #region Spawn Enemies

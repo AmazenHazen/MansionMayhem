@@ -136,6 +136,12 @@ public class PlayerManager : MonoBehaviour
                 case rangeWeapon.soundCannon:
                     playerGunPrefabs.Add(GameObject.Find("SoundCannon"));
                     break;
+                case rangeWeapon.XenonPulser:
+                    playerGunPrefabs.Add(GameObject.Find("XenonPulser"));
+                    break;
+                case rangeWeapon.AntimatterParticle:
+                    playerGunPrefabs.Add(GameObject.Find("AntiMatterParticle"));
+                    break;
                 default:
                     playerGunPrefabs.Add(null);
                     break;
@@ -144,6 +150,8 @@ public class PlayerManager : MonoBehaviour
         #endregion
 
         currentRangeWeapon = playerGunPrefabs[weaponNum].GetComponent<GunScript>().gunType;
+        // turn on the current gun sprite
+        playerGunPrefabs[weaponNum].GetComponent<SpriteRenderer>().enabled = true;
 
         // Temp variables
         magnet = true;
@@ -186,10 +194,9 @@ public class PlayerManager : MonoBehaviour
             // Obstacles
             case "door":
                 //Debug.Log("Door");
-                
 
                 // Travel first
-                if (canTravel == true)
+                if (canTravel == true && collider.gameObject.GetComponent<DoorScript>().requirements.Count==0)
                 {
                     Debug.Log("Travel");
                     collider.gameObject.GetComponent<DoorScript>().Travel(gameObject);
@@ -202,6 +209,12 @@ public class PlayerManager : MonoBehaviour
                 {
                     // Unlock the door
                     UseItem(collider.gameObject);
+
+                    // Message the player of the requirements stil left of the door
+                    if (collider.gameObject.GetComponent<DoorScript>().requirements.Count > 0)
+                    {
+                        collider.gameObject.GetComponent<DoorScript>().MessageRequirements();
+                    }
                 }     
                 break;
 
@@ -395,12 +408,6 @@ public class PlayerManager : MonoBehaviour
             case "interactableobject":
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
                 {
-                    // Pause the gameplay
-                    // Set pauseGame to true
-                    GameManager.instance.currentGameState = GameState.Paused;
-                    GUIManager.usingOtherInterface = true;
-                    Time.timeScale = 0;
-
                     // Debug Line
                     Debug.Log("Using Interactable Object:" + collider.gameObject);
 
@@ -416,13 +423,6 @@ public class PlayerManager : MonoBehaviour
             case "npc":
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
                 {
-                    // Pause the gameplay
-                    // Set pauseGame to true
-                    GameManager.instance.currentGameState = GameState.Paused;
-                    GUIManager.usingOtherInterface = true;
-                    Time.timeScale = 0;
-
-
                     collider.gameObject.GetComponent<NPC>().TalkingBool = true;
 
                     Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: abc915a58e64ca345b6ca3834e02b118
-timeCreated: 1518044213
+timeCreated: 1519282641
 licenseType: Free
 MonoImporter:
   externalObjects: {}
@@ -24,7 +24,7 @@ MonoImporter:
   - rightRoom: {instanceID: 0}
   - upStairsRoom: {instanceID: 0}
   - downStairsRoom: {instanceID: 0}
-  executionOrder: 700
+  executionOrder: 1200
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

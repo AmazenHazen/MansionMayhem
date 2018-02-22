@@ -49,6 +49,19 @@ public class GUIManager : MonoBehaviour
 
     // Variables for talking to NPC/Workbench
     public static bool usingOtherInterface;
+
+    // Reference to the GUI
+    public static GameObject dialogBox;
+    public static GameObject dialogText;
+    public static List<GameObject> Options;
+
+    // Scrolling Autotyping variables
+    public static bool isTyping = false;
+    public static bool cancelTyping = false;
+    private static float typeSpeed = 0.0f;
+
+    public static bool talkingBool;
+    public static bool optionBool;
     #endregion
 
     #region Start
@@ -102,6 +115,19 @@ public class GUIManager : MonoBehaviour
         PauseGame();
         minimized = false;
         ManageInventoryMenu();
+
+        // Reference to the GUI
+        // Get the dialog boxes for dialog
+        dialogBox = GameObject.Find("DialogBox");
+        dialogText = dialogBox.transform.Find("DialogText").gameObject;
+
+        // Get the options for option dialog
+        Options = new List<GameObject>();
+        optionBool = false;
+        for (int i = 0; i < 5; i++)
+        {
+            Options.Add(GUIManager.dialogBox.transform.Find("Options").GetChild(i).gameObject);
+        }
 
         // turn off the dialog box if it is on
         if (GameObject.Find("DialogBox"))
@@ -343,5 +369,104 @@ public class GUIManager : MonoBehaviour
     {
         GUI.Label(new Rect(100, 10, 400, 50), "Health: " + health);
     }
+    #endregion
+
+    #region dialogue Management
+    /// <summary>
+    /// Method to turn on the dialog box (also freezes game time)
+    /// </summary>
+    public static void TurnOnDialogBox()
+    {
+        // Pause the gameplay
+        // Set pauseGame to true
+        GameManager.instance.currentGameState = GameState.Paused;
+        GUIManager.usingOtherInterface = true;
+        Time.timeScale = 0;
+
+        // Activate the dialog box
+        GUIManager.dialogBox.SetActive(true);
+    }
+
+    /// <summary>
+    /// Method to turn off the dialog box (also unfreezes game time)
+    /// </summary>
+    public static void TurnOffDialogBox()
+    {
+
+        // Return the Game World to normal time
+        // Pause the gameplay
+        // Set pauseGame to true
+        GameManager.instance.currentGameState = GameState.Play;
+        GUIManager.usingOtherInterface = false;
+        Time.timeScale = 1;
+
+        // Set the dialog box off
+        GUIManager.dialogBox.SetActive(false);
+    }
+
+    /// <summary>
+    /// Method that allows for text scrolling
+    /// </summary>
+    /// <param name="lineOfText"></param>
+    /// <returns></returns>
+    public static IEnumerator TextScroll(string lineOfText)
+    {
+        int letter = 0;
+        GUIManager.dialogText.GetComponent<Text>().text = "";
+        GUIManager.isTyping = true;
+        GUIManager.cancelTyping = false;
+
+        while (isTyping && !cancelTyping && (letter < lineOfText.Length - 1))
+        {
+            Debug.Log("Dialog Scrolling");
+
+            GUIManager.dialogText.GetComponent<Text>().text += lineOfText[letter];
+            letter++;
+
+            yield return new WaitForSeconds(typeSpeed);
+        }
+        GUIManager.dialogText.GetComponent<Text>().text = lineOfText;
+        isTyping = false;
+        cancelTyping = false;
+    }
+
+
+    #region End Dialogue helping method
+    /// <summary>
+    /// Helper method to end text
+    /// </summary>
+    public static void endDialogue()
+    {
+        // Set the Talking to bool to false
+        talkingBool = false;
+
+        //Turn off options for next time you talk to NPCs
+        EndOptions();
+
+        TurnOffDialogBox();
+    }
+    #endregion
+
+    #region Turn off Option Buttons helper method
+    /// <summary>
+    /// 
+    /// </summary>
+    public static void EndOptions()
+    {
+        //Turn off options for new text
+        for (int i = 0; i < 5; i++)
+        {
+            optionBool = false;
+
+            // Change the option buttons to default and to no NPC
+            Options[i].transform.GetComponent<DialogOptionScript>().lineJumpNumber = 0;
+            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNothing;
+            Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = null;
+
+            // DeActivate the buttons
+            Options[i].SetActive(false);
+        }
+    }
+    #endregion
     #endregion
 }

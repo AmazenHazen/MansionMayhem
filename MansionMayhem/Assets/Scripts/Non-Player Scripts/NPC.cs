@@ -18,12 +18,7 @@ public class NPC : CharacterMovement
     public TextAsset completedQuestTextFile;
     private string[] textLines;
 
-    // Reference to the GUI
-    private GameObject dialogBox;
-    private GameObject dialogText;
-
     // Variables to track dialogue options
-    private List<GameObject> Options;
     private ResponseType[] Responses;
     private string playerChoices;
     private int optionNumber;            // Number of options for current question
@@ -35,13 +30,6 @@ public class NPC : CharacterMovement
 
     // Talking bools
     private bool talkingBool;
-    private bool optionBool;
-
-    // Scrolling Autotyping variables
-    private bool isTyping = false;
-    private bool cancelTyping = false;
-
-    private float typeSpeed = 0.0f;
 
     // Quest Variables
     private GameObject questIcon;
@@ -74,19 +62,6 @@ public class NPC : CharacterMovement
 
         // Get the queest icon sprite
         questIcon = transform.GetChild(0).gameObject;
-
-
-        // Get the dialog boxes for dialog
-        dialogBox = GameObject.Find("DialogBox");
-        dialogText = dialogBox.transform.Find("DialogText").gameObject;
-
-
-        // Get the options for option dialog
-        Options = new List<GameObject>();
-        for(int i =0; i<5; i++)
-        {
-            Options.Add(dialogBox.transform.Find("Options").GetChild(i).gameObject);
-        }
 
         currentLine = 0;
 
@@ -137,27 +112,6 @@ public class NPC : CharacterMovement
 
     }
 
-    private IEnumerator TextScroll (string lineOfText)
-    {
-        int letter = 0;
-        dialogText.GetComponent<Text>().text = "";
-        isTyping = true;
-        cancelTyping = false;
-
-        while(isTyping && !cancelTyping && (letter<lineOfText.Length - 1))
-        {
-            //Debug.Log("Dialog Scrolling");
-
-            dialogText.GetComponent<Text>().text += lineOfText[letter];
-            letter++;
-
-            yield return new WaitForSeconds(typeSpeed);
-        }
-        dialogText.GetComponent<Text>().text = lineOfText;
-        isTyping = false;
-        cancelTyping = false;
-    }
-
     #endregion
 
     #region Main Talking Method
@@ -166,60 +120,59 @@ public class NPC : CharacterMovement
     /// </summary>
     public void TalkingTo()
     {
+        // Sets the text box to the first/current line of dialog
+        //dialogText.GetComponent<Text>().text = textLines[currentLine];
 
-            // Sets the text box to the first/current line of dialog
-            //dialogText.GetComponent<Text>().text = textLines[currentLine];
+        if (GUIManager.dialogBox.activeSelf == false)
+        {
+        // Activate the dialog box
+            GUIManager.TurnOnDialogBox();
 
-            if (dialogBox.activeSelf == false)
+            // Start the scrolling text 
+            //Debug.Log("Starting Dialog");
+            StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
+        }
+
+        // Advance the text if the player hits Enter or Space
+        else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        {
+            // if space and the text isn't scrolling, advance a line
+            if (!GUIManager.isTyping)
             {
-                // Activate the dialog box
-                dialogBox.SetActive(true);
-
-                // Start the scrolling text 
-                //Debug.Log("Starting Dialog");
-                StartCoroutine(TextScroll(textLines[currentLine]));
-            }
-
-            // Advance the text if the player hits Enter or Space
-            else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-            {
-                // if space and the text isn't scrolling, advance a line
-                if (!isTyping)
+                if (GUIManager.optionBool == false)
                 {
-                    if (optionBool == false)
-                    {
-                        currentLine++;
-                    }
+                    currentLine++;
+                }
 
-                    // Don't let the user go past the endline
-                    if (currentLine >= endAtLine)
-                    {
-                        Debug.Log("Manually Exit Dialog");
+                // Don't let the user go past the endline
+                if (currentLine >= endAtLine)
+                {
+                    Debug.Log("Manually Exit Dialog");
 
-                        //end the dialogue if at the end
-                        endDialogue();
-                    }
-                    // Otherwise start scrolling the text
-                    else
-                    {
-                        //Debug.Log("Starting Dialog Scrolling if not at the end of the text");
+                    //end the dialogue if at the end
+                    endDialogue();
+                }
+                // Otherwise start scrolling the text
+                else
+                {
+                    //Debug.Log("Starting Dialog Scrolling if not at the end of the text");
 
-                        // Check to see if the line is already printed out
-                        if (dialogText.GetComponent<Text>().text != textLines[currentLine])
-                        {
-                            // Otherwise start typing it out
-                            StartCoroutine(TextScroll(textLines[currentLine]));
-                        }
+                    // Check to see if the line is already printed out
+                    if (GUIManager.dialogText.GetComponent<Text>().text != textLines[currentLine])
+                    {
+                        // Otherwise start typing it out
+                        StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
                     }
                 }
-                // If the text box is currently printing the text then cancel the scrolling
-                else if (isTyping && !cancelTyping)
-                {
-                    //Debug.Log("Cancel Typing");
-
-                    cancelTyping = true;
-                }
             }
+            // If the text box is currently printing the text then cancel the scrolling
+            else if (GUIManager.isTyping && !GUIManager.cancelTyping)
+            {
+            //Debug.Log("Cancel Typing");
+
+                GUIManager.cancelTyping = true;
+            }
+        }
 
         // Check for dialog options
         // Dialog Options designated with a [ at the beginning of the line
@@ -458,7 +411,7 @@ public class NPC : CharacterMovement
         }
 
         // Start the scrolling text 
-        StartCoroutine(TextScroll(textLines[currentLine]));
+        StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
     }
     #endregion
 
@@ -522,9 +475,9 @@ public class NPC : CharacterMovement
         if (responseChosen == ResponseType.SayYes)
         {
             Debug.Log("Chose Yes!");
-            EndOptions();
+            GUIManager.EndOptions();
             currentLine = lineJumpNumber;
-            StartCoroutine(TextScroll(textLines[currentLine]));
+            StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
             return;
         }
 
@@ -532,9 +485,9 @@ public class NPC : CharacterMovement
         {
 
             Debug.Log("Chose No!");
-            EndOptions();
+            GUIManager.EndOptions();
             currentLine = lineJumpNumber;
-            StartCoroutine(TextScroll(textLines[currentLine]));
+            StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
             return;
 
         }
@@ -556,7 +509,7 @@ public class NPC : CharacterMovement
             {
 
                 // Set the optionBool to true
-                optionBool = true;
+                GUIManager.optionBool = true;
 
                 // Find how many options the player has
                 optionNumber = textLines[currentLine + 1][1] - 48;
@@ -565,10 +518,10 @@ public class NPC : CharacterMovement
                 for (int i = 0; i < optionNumber; i++)
                 {
                     // Set the currentNPC if not already set
-                    if (Options[i].transform.GetComponent<DialogOptionScript>().currentNPC == null)
+                    if (GUIManager.Options[i].transform.GetComponent<DialogOptionScript>().currentNPC == null)
                     {
                         Debug.Log("set up options!");
-                        Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = gameObject;
+                        GUIManager.Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = gameObject;
 
 
                         string fullOptionText = textLines[(currentLine + 2) + i];
@@ -666,53 +619,34 @@ public class NPC : CharacterMovement
                         {
                             case "SayYes":
                                 Responses[i] = ResponseType.SayYes;
-                                Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayYes;
-                                Options[i].transform.GetComponent<DialogOptionScript>().lineJumpNumber = lineJump;
+                                GUIManager.Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayYes;
+                                GUIManager.Options[i].transform.GetComponent<DialogOptionScript>().lineJumpNumber = lineJump;
                                 break;
                             case "SayNo":
                                 Responses[i] = ResponseType.SayNo;
-                                Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNo;
-                                Options[i].transform.GetComponent<DialogOptionScript>().lineJumpNumber = lineJump;
+                                GUIManager.Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNo;
+                                GUIManager.Options[i].transform.GetComponent<DialogOptionScript>().lineJumpNumber = lineJump;
                                 break;
                             case "SayNothing":
                                 Responses[i] = ResponseType.SayNothing;
-                                Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNothing;
+                                GUIManager.Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNothing;
                                 break;
                         }
 
 
                         // Set the text on the button
-                        Options[i].transform.GetChild(0).GetComponent<Text>().text = buttonText;
+                        GUIManager.Options[i].transform.GetChild(0).GetComponent<Text>().text = buttonText;
                     }
 
 
                     // Activate the buttons
-                    if (!isTyping && !Options[i].activeSelf)
+                    if (!GUIManager.isTyping && !GUIManager.Options[i].activeSelf)
                     {
-                        Options[i].SetActive(true);
+                        GUIManager.Options[i].SetActive(true);
                     }
                 }
                 
             }
-        }
-    }
-    #endregion
-
-    #region Turn off Option Buttons helper method
-    public void EndOptions()
-    {
-        optionBool = false;
-
-        //Turn off options for new text
-        for (int i = 0; i < 5; i++)
-        {
-            // Change the option buttons to default and to no NPC
-            Options[i].transform.GetComponent<DialogOptionScript>().lineJumpNumber = 0;
-            Options[i].transform.GetComponent<DialogOptionScript>().currentResponseType = ResponseType.SayNothing;
-            Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = null;
-
-            // DeActivate the buttons
-            Options[i].SetActive(false);
         }
     }
     #endregion
@@ -731,20 +665,12 @@ public class NPC : CharacterMovement
         playerChoices = null;
 
         //Turn off options for next time you talk to NPCs
-        EndOptions();
-
-        // Set the dialog box off
-        dialogBox.SetActive(false);
+        GUIManager.EndOptions();
 
         // Set the dialog to the beginning
         currentLine = 0;
 
-        // Return the Game World to normal time
-        // Pause the gameplay
-        // Set pauseGame to true
-        GameManager.instance.currentGameState = GameState.Play;
-        GUIManager.usingOtherInterface = false;
-        Time.timeScale = 1;
+        GUIManager.TurnOffDialogBox();
     }
     #endregion
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DoorScript : MonoBehaviour
 {
@@ -9,12 +10,24 @@ public class DoorScript : MonoBehaviour
     public List<ItemType> requirements;
     public Sprite lockedSprite;
     private Sprite unlockedSprite;
+
+    // bool that makes sure the player is only interacting with this object
+    private bool interactBool;
     #endregion
 
 
-    #region
-    void Start()
+    public bool InteractBool
     {
+        get { return interactBool; }
+        set { interactBool = value; }
+    }
+
+    #region
+    public void Start()
+    {
+        // set it as default that you aren't interacting with this door
+        interactBool = false;
+        
         // The door starts unlocked
         unlockedSprite = gameObject.GetComponent<SpriteRenderer>().sprite;
 
@@ -30,8 +43,14 @@ public class DoorScript : MonoBehaviour
 
     void Update()
     {
-
-
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        {
+            // if space and the text isn't scrolling, advance a line
+            if (!GUIManager.isTyping && interactBool)
+            {
+                GUIManager.TurnOffDialogBox();
+            }
+        }
     }
     #endregion
 
@@ -49,8 +68,6 @@ public class DoorScript : MonoBehaviour
     #region Travel Method
     public void Travel(GameObject player)
     {
-        if(requirements.Count == 0)
-        { 
             if (linkedDoor.name == "topdoor")
             {
                 player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, -.5f);
@@ -75,9 +92,26 @@ public class DoorScript : MonoBehaviour
             {
                 player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, .5f);
             }
-        }
 
     }
+
+    public void MessageRequirements()
+    {
+        // Interacting with this door
+        interactBool = true;
+
+        string requirementString = "You need these items to unlock the door: ";
+        foreach (ItemType requirement in requirements)
+        {
+            requirementString += requirement + " ";
+        }
+        requirementString += ".";
+
+        GUIManager.TurnOnDialogBox();
+
+        StartCoroutine(GUIManager.TextScroll(requirementString));
+    }
+
 
     #endregion
 }

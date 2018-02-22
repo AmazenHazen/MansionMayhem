@@ -329,9 +329,17 @@ public class BulletManager : MonoBehaviour {
         // Create an instance of the Rigidbody
         Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
 
+        // First rotate the bullet to face the enemy
+
         // Step 1: Find Desired Velocity
         // This is the vector pointing from myself to my target
         Vector3 desiredVelocity = FindClosestEnemy().transform.position - transform.position;
+
+        //rotate the bullet towards the enemy
+        float angleOfRotation = (Mathf.Atan2(desiredVelocity.y, desiredVelocity.x) * Mathf.Rad2Deg) - 90;
+
+        // Draw the vehicle at the correct rotation
+        transform.rotation = Quaternion.Euler(0, 0, angleOfRotation);
 
         // Step 2: Scale Desired to maximum speed
         //         so I move as fast as possible

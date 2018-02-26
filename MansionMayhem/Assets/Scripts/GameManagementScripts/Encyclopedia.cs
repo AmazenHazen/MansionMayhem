@@ -279,6 +279,9 @@ public enum enemyType
     skeleGiant = 99,
     knightSkeleton = 100,
     basicSkeleton = 101,
+    eliteSkeleArcher = 102,
+    eliteSkeleMage = 103,
+    eliteSkeleWarrior = 104,
 
     // Demons (120-140)
     imp = 120, // art done

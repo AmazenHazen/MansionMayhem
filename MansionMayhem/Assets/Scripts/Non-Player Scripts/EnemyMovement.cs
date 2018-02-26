@@ -306,6 +306,10 @@ public class EnemyMovement : CharacterMovement
 
                 #region skeletons
                 case enemyType.basicSkeleton:
+                case enemyType.skeleHand:
+                case enemyType.eliteSkeleArcher:
+                case enemyType.eliteSkeleMage:
+                case enemyType.eliteSkeleWarrior:
                     ultimateForce += seek(player.transform.position);
                     break;
 

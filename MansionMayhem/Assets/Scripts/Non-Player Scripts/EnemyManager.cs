@@ -126,8 +126,11 @@ public class EnemyManager : MonoBehaviour
         // Check for death first
         death();
 
-        // update deltaTime next
-        totalTime += Time.deltaTime;
+        if ((gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
+        {
+            // update deltaTime next
+            totalTime += Time.deltaTime;
+        }
 
         #region Special Movement and shoot methods (For bosses mostly)
         switch (monster)

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotatingShieldFlame : MonoBehaviour {
+public class RotatingShieldFlame : MonoBehaviour
+{
 
     // Reference to owner and stuff
     public GameObject owner;
@@ -12,6 +13,7 @@ public class RotatingShieldFlame : MonoBehaviour {
     // Combat variables
     public float damage;
     public float speed;
+    public bulletOwners ownerType;
 
 
     // vector storing the vector for the shield's start position
@@ -20,22 +22,22 @@ public class RotatingShieldFlame : MonoBehaviour {
     // Axis to be rotated around
     Vector3 zAxis = new Vector3(0, 0, 1);
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         startPos = transform.position;
 
         Debug.Log(startPos);
         //owner = gameObject.transform.parent.gameObject;
-        rb=gameObject.GetComponent<Rigidbody2D>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
         rotate();
         move();
-	}
+    }
 
 
     public void rotate()
@@ -66,5 +68,15 @@ public class RotatingShieldFlame : MonoBehaviour {
         {
             transform.position = startPos;
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "player" && (ownerType == bulletOwners.enemy) && !GameObject.Find("Shield"))
+        {
+            collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;
+            gameObject.SetActive(false);
+        }
+
     }
 }

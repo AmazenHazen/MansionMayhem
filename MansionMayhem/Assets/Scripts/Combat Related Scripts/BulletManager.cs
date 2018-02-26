@@ -493,8 +493,7 @@ public class BulletManager : MonoBehaviour {
 
     #region CollisionDetection
     /// <summary>
-    /// Player Collision Handled Here. This includes any objects that is effected by the player colliding with it.
-    /// This includes: Screws, Health, Ammo, Enemies, Walls, and Furniture.
+    /// Bullet collision Handled Here. This includes any objects that are effected by a bullet colliding with it.
     /// </summary>
     /// <param name="collider"></param>
     void OnTriggerStay2D(Collider2D collider)

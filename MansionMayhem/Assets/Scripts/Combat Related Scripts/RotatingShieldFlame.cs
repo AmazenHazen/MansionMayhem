@@ -70,10 +70,20 @@ public class RotatingShieldFlame : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
+    /// <summary>
+    /// When the player moves into the fire shield
+    /// </summary>
+    /// <param name="collider"></param>
+    void OnTriggerStay2D(Collider2D collider)
     {
-        if (collider.tag == "player" && (ownerType == bulletOwners.enemy) && !GameObject.Find("Shield"))
+        Debug.Log(collider.tag);
+
+        //Debug.Log("Colliding");
+        if(collider.tag == "player" && (ownerType == bulletOwners.enemy) && !GameObject.Find("Shield"))
         {
+            Debug.Log("Fire damage enemy");
+
+            // Damage Player
             collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;
             gameObject.SetActive(false);
         }

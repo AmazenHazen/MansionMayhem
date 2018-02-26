@@ -551,8 +551,6 @@ public class BulletManager : MonoBehaviour {
         // If bullet runs into an enemy
         else if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == bulletOwners.player && canDamage == true)
         {
-
-
             if (bulletType != bulletTypes.DarkEnergy)
             {
                 canDamage = false;

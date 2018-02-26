@@ -165,16 +165,18 @@ public class PlayerManager : MonoBehaviour
     {
         CheckStatusConditions();
 
-
         WeaponSwitch();
-        
 
         if (GameManager.instance.currentGameState != GameState.Paused)
         {
             Shoot();
         }
-        Melee();
-        Shield();
+        //Melee();
+        //Shield();
+        if(currentLife<=0)
+        {
+            Death();
+        }
     }
     #endregion
 
@@ -447,7 +449,6 @@ public class PlayerManager : MonoBehaviour
                 break;
             #endregion
         }
-
     }
     #endregion
 
@@ -470,6 +471,16 @@ public class PlayerManager : MonoBehaviour
         invincibility = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
         Invoke("ResetInvincibility", 3);
+    }
+    #endregion
+
+    #region Death Helper Method
+    /// <summary>
+    /// Calls death if the player dies
+    /// </summary>
+    private void Death()
+    {
+        GameManager.instance.currentGameState = GameState.Died;       
     }
     #endregion
 
@@ -554,6 +565,7 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region Melee Helper Methods
+    /*
     /// <summary>
     /// Method that lets the player melee
     /// </summary>
@@ -589,6 +601,7 @@ public class PlayerManager : MonoBehaviour
         canMelee = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
+    */
     #endregion
 
     #region Shield Helper Method

@@ -197,7 +197,7 @@ public class BulletManager : MonoBehaviour {
         totalTime += Time.deltaTime;
 
         // Check to make sure the bullet hasn't been on the screen too long
-        if(totalTime > 15)
+        if(totalTime > 15 && bulletType!=bulletTypes.Plasma)
         {
             if (ownerType == bulletOwners.player)
             {
@@ -515,7 +515,7 @@ public class BulletManager : MonoBehaviour {
             {
                 SplatterBlob();
             }
-            if(bulletType == bulletTypes.ElectronBall)
+            if (bulletType == bulletTypes.ElectronBall)
             {
                 ElectronSpawn();
             }
@@ -527,9 +527,9 @@ public class BulletManager : MonoBehaviour {
 
             // Remove refernece to the bullet
             if (ownerType == bulletOwners.player)
-            { 
-              if(!((bulletType==bulletTypes.Plasma && velocity==Vector3.zero) || (bulletType == bulletTypes.CelestialCrystal)))
-                { 
+            {
+                if (!((bulletType == bulletTypes.Plasma && velocity == Vector3.zero) || (bulletType == bulletTypes.CelestialCrystal)))
+                {
                     // Delete the bullet reference in the Player Manager
                     PlayerBulletDestroy();
                 }
@@ -552,7 +552,7 @@ public class BulletManager : MonoBehaviour {
         // If bullet runs into an enemy
         else if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == bulletOwners.player && canDamage == true)
         {
-            
+
 
             if (bulletType != bulletTypes.DarkEnergy)
             {
@@ -568,10 +568,13 @@ public class BulletManager : MonoBehaviour {
             {
                 damage = .7f * Mathf.Pow(transform.localScale.x, 1.5f);
                 collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
-                if(owner.GetComponent<GunScript>().Charging && currentChargingBullet)
+                if (owner.GetComponent<GunScript>())
                 {
-                    owner.GetComponent<GunScript>().Charging = false;
-                    owner.GetComponent<GunScript>().JustShot();
+                    if (owner.GetComponent<GunScript>().Charging && currentChargingBullet)
+                    {
+                        owner.GetComponent<GunScript>().Charging = false;
+                        owner.GetComponent<GunScript>().JustShot();
+                    }
                 }
             }
             else
@@ -667,6 +670,17 @@ public class BulletManager : MonoBehaviour {
                 SplatterBlob();
             }
 
+            // If the bullet is a charging plasma weapon
+            if (owner.GetComponent<GunScript>())
+            {
+                if (owner.GetComponent<GunScript>().Charging && currentChargingBullet)
+                {
+                    owner.GetComponent<GunScript>().Charging = false;
+                    owner.GetComponent<GunScript>().JustShot();
+                }
+            }
+
+
             // Check to make sure the enemy hasn't already been killed
             if (ownerType == bulletOwners.player)
             {
@@ -677,9 +691,44 @@ public class BulletManager : MonoBehaviour {
                 EnemyBulletDestroy();
             }
         }
-        #endregion
 
-    }
+        else if (collider.tag == "DestructableEnemy" && (ownerType == bulletOwners.player))
+        {
+            // Delete the object
+            collider.gameObject.SetActive(false);
+
+            // if the bullet is antiEctoplasm also spawn a blob
+            if (bulletType == bulletTypes.antiEctoPlasm || bulletType == bulletTypes.PortalShot)
+            {
+                PlayerBlob();
+            }
+            // If the bullet is also a splatter web spawn a web
+            if (bulletType == bulletTypes.splatterWeb)
+            {
+                SplatterBlob();
+            }
+
+            // If the bullet is a charging plasma weapon
+            if (owner.GetComponent<GunScript>())
+            {
+                if (owner.GetComponent<GunScript>().Charging && currentChargingBullet)
+                {
+                    owner.GetComponent<GunScript>().Charging = false;
+                    owner.GetComponent<GunScript>().JustShot();
+                }
+            }
+
+
+            // Check to make sure the enemy hasn't already been killed
+            if (ownerType == bulletOwners.player)
+            {
+                PlayerBulletDestroy();
+            }
+        }
+
+            #endregion
+
+        }
     #endregion
 }
 

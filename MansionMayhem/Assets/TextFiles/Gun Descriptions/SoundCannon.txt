@@ -1,0 +1,4 @@
+Sound Cannon
+
+
+This Cannon uses Ultra-Sonics to produce monaural sonic bullet. Sonic bullets push enemies back away from the player.

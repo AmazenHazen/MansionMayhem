@@ -1,0 +1,6 @@
+AetherLight Bow
+
+
+The Aetherlight bow is an artifact from the Aether Realm. It condenses light into arrows that can pierce the soul of any enemy.
+
+Aetherlight arrows speed up the longer it exists. The arrows damage enemies based on it's speed.

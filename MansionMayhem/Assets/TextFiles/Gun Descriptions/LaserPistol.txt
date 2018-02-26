@@ -1,5 +1,8 @@
 Laser Pistol
 
+
 This Single-Shot Automatic Laser Pistol uses basic laser technology and implements it into a small pistol.
+
 This pistol is perfect for dual wielding if possible.
+
 What is better than double wielding laser pistols?

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class GUIManager : MonoBehaviour
@@ -46,6 +47,11 @@ public class GUIManager : MonoBehaviour
     // Variables for Instructions Screen
     public GameObject instructionsScreen;
 
+    // Variables for Death Screen
+    public GameObject deathScreen;
+
+    // Variables for Win Screen
+    public GameObject winScreen;
 
     // Variables for talking to NPC/Workbench
     public static bool usingOtherInterface;
@@ -135,6 +141,18 @@ public class GUIManager : MonoBehaviour
             GameObject.Find("DialogBox").SetActive(false);
         }
 
+        // turn off the death screen if active
+        if (deathScreen.activeSelf)
+        {
+            deathScreen.SetActive(false);
+        }
+
+        // Turn off the win screen if active
+        if (winScreen.activeSelf)
+        {
+            winScreen.SetActive(false);
+        }
+
     }
 
     #endregion
@@ -147,6 +165,14 @@ public class GUIManager : MonoBehaviour
         HealthManagement();
         TextUpdate();
         EscapeScreenManagement();
+        if(GameManager.instance.currentGameState == GameState.Died)
+        {
+            DeathManagement();
+        }
+        if (GameManager.instance.currentGameState == GameState.CompleteLevel)
+        {
+            WinManagement();
+        }
     }
     #endregion
 
@@ -370,6 +396,61 @@ public class GUIManager : MonoBehaviour
         GUI.Label(new Rect(100, 10, 400, 50), "Health: " + health);
     }
     #endregion
+
+    #region Death Management
+    private void DeathManagement()
+    {
+        if(!deathScreen.activeSelf)
+        {
+            deathScreen.SetActive(true);
+            Time.timeScale = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            // Same as Exit Level method in "Load On Click" Script
+            GameManager.instance.currentGameState = GameState.MainMenu;
+
+            // Check to make sure the game manager exists
+            if (GameManager.instance != null)
+            {
+                // First Save Game
+                GameManager.instance.Save();
+            }
+
+            // Exit Level
+            SceneManager.LoadScene(1);
+        }
+    }
+    #endregion
+
+    #region WinManagement
+    private void WinManagement()
+    {
+        if (!deathScreen.activeSelf)
+        {
+            winScreen.SetActive(true);
+            Time.timeScale = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            // Same as Exit Level method in "Load On Click" Script
+            GameManager.instance.currentGameState = GameState.MainMenu;
+
+            // Check to make sure the game manager exists
+            if (GameManager.instance != null)
+            {
+                // First Save Game
+                GameManager.instance.Save();
+            }
+
+            // Exit Level
+            SceneManager.LoadScene(1);
+        }
+    }
+    #endregion
+
 
     #region dialogue Management
     /// <summary>

@@ -1,0 +1,6 @@
+Plasma Charger
+
+
+This Single Shot Semi-Automatic Gun allows players to charge plasma energy into a bullet. The more you charge a bullet, the more damaging it is.
+
+Enemies can be damaged by plasma even when it is charging.

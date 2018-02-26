@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\Combat Related Scripts\EnemyWeaponScript.cs" />
      <Compile Include="Assets\Scripts\Combat Related Scripts\GunScript.cs" />
      <Compile Include="Assets\Scripts\Combat Related Scripts\ParticleGunScript.cs" />
+     <Compile Include="Assets\Scripts\Combat Related Scripts\RotatingShieldFlame.cs" />
      <Compile Include="Assets\Scripts\Environment Scripts\ArtifactScript.cs" />
      <Compile Include="Assets\Scripts\Environment Scripts\BreakableObject.cs" />
      <Compile Include="Assets\Scripts\Environment Scripts\ChestScript.cs" />
@@ -63,6 +64,7 @@
      <Compile Include="Assets\Scripts\Environment Scripts\InteractableObjectScript.cs" />
      <Compile Include="Assets\Scripts\Environment Scripts\ItemScript.cs" />
      <Compile Include="Assets\Scripts\Environment Scripts\RoomScript.cs" />
+     <Compile Include="Assets\Scripts\Environment Scripts\Spawner.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\ChangeMusic.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\Encyclopedia.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\GameManager.cs" />
@@ -88,20 +90,31 @@
      <Compile Include="Assets\Scripts\PlayerScripts\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\PlayerScripts\PlayerMapScript.cs" />
      <Compile Include="Assets\Scripts\PlayerScripts\PlayerMovement.cs" />
+     <None Include="Assets\TextFiles\Gun Descriptions\XenonPulser.txt" />
      <None Include="Assets\TextFiles\Level Objective Messages\Level5Necromancer.txt" />
      <None Include="Assets\TextFiles\Level Objective Messages\Level1Spider.txt" />
+     <None Include="Assets\TextFiles\Gun Descriptions\SoundCannon.txt" />
+     <None Include="Assets\TextFiles\Gun Descriptions\AntiMatterEmitter.txt" />
+     <None Include="Assets\TextFiles\Gun Descriptions\PlasmaCharger.txt" />
+     <None Include="Assets\TextFiles\Gun Descriptions\Flamethrower.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\LaserPistol.txt" />
+     <None Include="Assets\TextFiles\Gun Descriptions\AetherLight Bow.txt" />
      <None Include="Assets\TextFiles\Warden\WardenStarted.txt" />
      <None Include="Assets\TextFiles\Level Objective Messages\Level3DemonInNeed.txt" />
+     <None Include="Assets\TextFiles\Gun Descriptions\Frostweaver.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\AntiEctoplasmSplatterGun.txt" />
      <None Include="Assets\TextFiles\Warden\WardenInitial.txt" />
      <None Include="Assets\TextFiles\Charlie\CharlieStarted.txt" />
      <None Include="Assets\TextFiles\Charlie\CharlieInitial.txt" />
+     <None Include="Assets\TextFiles\Gun Descriptions\HellFireShotgun.txt" />
      <None Include="Assets\TextFiles\HalfLight1\HalfLight1Complete.txt" />
+     <None Include="Assets\TextFiles\Gun Descriptions\ElectronCannon.txt" />
      <None Include="Assets\TextFiles\Level Objective Messages\Level4PurgatoryPenitentiary.txt" />
      <None Include="Assets\TextFiles\HalfLight1\HalfLight1Start.txt" />
      <None Include="Assets\TextFiles\HalfLight1\HalfLight1Initial.txt" />
      <None Include="Assets\TextFiles\Level Objective Messages\Level2ZombieGraveyard.txt" />
+     <None Include="Assets\TextFiles\Gun Descriptions\DarkEnergySniperRifle.txt" />
+     <None Include="Assets\TextFiles\Gun Descriptions\CelestialPistol.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -96,15 +96,10 @@ public class LevelManager : MonoBehaviour
             {
                 GameManager.instance.highestLevel++;
             }
-
-            // Save the player's new progress
-            GameManager.instance.Save();
         }
+        // Sets the instance to win, HUI manager handles the rest
+        GameManager.instance.currentGameState = GameState.CompleteLevel;
 
-        // Loads the level selection screen
-        GameManager.instance.currentGameState = GameState.MainMenu;
-
-        SceneManager.LoadScene(1);
     }
 
 

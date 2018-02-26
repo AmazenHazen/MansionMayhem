@@ -12,8 +12,8 @@ public enum GameState
     Instructions,
     Play,
     Paused,
-    GameOver,
-    LevelAdvance,
+    Died,
+    CompleteLevel,
 }
 #endregion
 

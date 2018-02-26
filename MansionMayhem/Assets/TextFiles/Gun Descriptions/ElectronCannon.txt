@@ -1,0 +1,6 @@
+Electron Cannon
+
+
+The Electron Cannon is Single-Shot gun that seperates electrons from the atoms in the air. 
+
+When the large electron orb gets destroyed, it seperates into smaller electrons that seek closest enemies.

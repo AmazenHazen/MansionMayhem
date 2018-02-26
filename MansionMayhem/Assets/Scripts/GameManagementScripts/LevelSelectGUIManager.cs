@@ -37,8 +37,24 @@ public class LevelSelectGUIManager : MonoBehaviour {
         // Get reference to the player
         player = GameObject.FindGameObjectWithTag("player");
 
+
+
         escapeScreen.SetActive(false);
         Time.timeScale = 1;
+
+        // Turn off menu screens if they are active
+        if(loadoutScreen.activeSelf)
+        {
+            loadoutScreen.SetActive(false);
+        }
+        if(workbenchScreen.activeSelf)
+        {
+            workbenchScreen.SetActive(false);
+        }
+
+
+        // Set gamestate to menu just in case
+        GameManager.instance.currentGameState = GameState.MainMenu;
     }
 	
 	// Update is called once per frame

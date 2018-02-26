@@ -1,0 +1,8 @@
+Frostweaver
+
+
+This gun uses dry ice and cryogen to produce frost from its barrel.
+
+An area damaging particle gun with a "freeze effect" -  the longer it has an enemy in it’s frost, the slower the enemy becomes. 
+
+This gun can hit multiple enemies at once.

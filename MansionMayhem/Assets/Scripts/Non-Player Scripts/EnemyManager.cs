@@ -26,6 +26,7 @@ public class EnemyManager : MonoBehaviour
     public List<abilityType> abilityTypes;      // Determines the ability of the enemy
     public List<float> timeBetweenAbilities;    // Determines how long to wait between abilities
     public List<int> abilityRestrictionNumber;  // The number ascociated with the ability to determine how many ability object there can be in the scene
+    public List<GameObject> enemyObjects;       // Holds additional objects that work with the enemy.
 
 
     // Basic Monster Attributes
@@ -113,6 +114,9 @@ public class EnemyManager : MonoBehaviour
         // Sets up Enemy's HealthBar
         currentLife = maxHealth;
         gameObject.GetComponent<HealthBar>().HealthBarInstantiate();
+
+        // start the enmy phase on 0
+        phase = 0;
     }
     #endregion
 
@@ -157,25 +161,40 @@ public class EnemyManager : MonoBehaviour
                     hasAbility = false;
                 }
 
-                // Forwarding the phase depending on the Prisoner Leader's health
-                if (totalTime > 15f)
+                // Forwarding the phase depending on time
+                if (totalTime > 8f)
                 {
-                    switch(phase)
+                    // Increment the phase and reset the timer
+                    phase++;
+                    phase %= 3;
+                    totalTime = 0;
+
+                    switch (phase)
                     {
                         case 0:
+                            Debug.Log("Phase 1");
+                            timeBetweenShots = 1f;
                             hasAbility = false;
+                            for (int i = 0; i < 4; i++)
+                            {
+                                enemyObjects[i].SetActive(true);
+                            }
                             break;
                         case 1:
                             hasAbility = false;
+                            Debug.Log("Phase 2");
+                            timeBetweenShots = .3f;
                             break;
                         case 2:
-                            hasAbility = false;
+                            Debug.Log("Phase 3");
+                            // Reset Bullets
+                            timeBetweenShots = 3f;
+                            for (int i = 4; i < 7; i++)
+                            {
+                                enemyObjects[i].GetComponent<Spawner>().SpawnEnemy();
+                            }
                             break;
                     }
-
-                    // Increment the phase and reset the timer
-                    phase++;
-                    totalTime = 0;
                 }
                 break;
 

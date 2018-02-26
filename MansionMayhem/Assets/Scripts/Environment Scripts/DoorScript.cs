@@ -8,8 +8,7 @@ public class DoorScript : MonoBehaviour
     #region Attributes
     public GameObject linkedDoor;
     public List<ItemType> requirements;
-    public Sprite lockedSprite;
-    private Sprite unlockedSprite;
+    public GameObject lockOnDoor;
 
     // bool that makes sure the player is only interacting with this object
     private bool interactBool;
@@ -27,17 +26,20 @@ public class DoorScript : MonoBehaviour
     {
         // set it as default that you aren't interacting with this door
         interactBool = false;
-        
-        // The door starts unlocked
-        unlockedSprite = gameObject.GetComponent<SpriteRenderer>().sprite;
 
-        // Check if the door was locked or not
-        if (requirements.Count > 0)
+        // if the door has a lock for it
+        if (linkedDoor.name != "upstairs" && (linkedDoor.name != "downstairs"))
         {
-            // switch the sprite to an locked door
-            gameObject.GetComponent<SpriteRenderer>().sprite = lockedSprite;
+            lockOnDoor = transform.GetChild(0).gameObject;
 
-        }        
+            // Check if the door was locked or not
+            if (requirements.Count <= 0)
+            {
+                // Hide the lock!
+                lockOnDoor.SetActive(false);
+            }
+
+        }
     }
 
 
@@ -45,9 +47,10 @@ public class DoorScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
         {
-            // if space and the text isn't scrolling, advance a line
+            // if space and the text isn't scrolling, end dialog
             if (!GUIManager.isTyping && interactBool)
             {
+                interactBool = false;
                 GUIManager.TurnOffDialogBox();
             }
         }
@@ -58,9 +61,10 @@ public class DoorScript : MonoBehaviour
     {
         requirements.Remove(item);
 
-        if(requirements.Count == 0)
+        if(requirements.Count <= 0)
         {
-            gameObject.GetComponent<SpriteRenderer>().sprite = unlockedSprite;
+            // Hide the lock!
+            lockOnDoor.SetActive(false);
         }
     }
 

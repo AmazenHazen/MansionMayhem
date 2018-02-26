@@ -1,0 +1,6 @@
+Anti-Matter Particle Gun
+
+
+This gun uses a portable particle accelerator to produce anti-matter from its barrel.
+
+This particle is a higher damaging particle gun. It's effect is still yet to be determined.

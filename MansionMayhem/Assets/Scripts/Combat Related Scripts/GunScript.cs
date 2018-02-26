@@ -202,21 +202,24 @@ public class GunScript : MonoBehaviour
         {
             // Keep the bullet with the player and scale the bullet up
             // Call Special start method for bullets
-            bulletCopy.transform.position = transform.position + (.5f* transform.up);
-            // Set the start pos of the bullet while charging so it doesn't get destroyed if not shooting between 0-20 Unity units
-            bulletCopy.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);
-
-            // Rotate the bullet with the player
-            bulletCopy.transform.rotation = transform.rotation;
-
-            // Keeps the bullet from being too big
-            if (plasmaSizeVar < 5)
+            if (bulletCopy != null)
             {
-                plasmaSizeVar += 1.1f * Time.deltaTime;
-            }
+                bulletCopy.transform.position = transform.position + (.5f * transform.up);
+                // Set the start pos of the bullet while charging so it doesn't get destroyed if not shooting between 0-20 Unity units
+                bulletCopy.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);
 
-            // Scales the bullet
-            bulletCopy.transform.localScale = new Vector3(plasmaSizeVar, plasmaSizeVar, transform.localScale.z);
+                // Rotate the bullet with the player
+                bulletCopy.transform.rotation = transform.rotation;
+
+                // Keeps the bullet from being too big
+                if (plasmaSizeVar < 5)
+                {
+                    plasmaSizeVar += 1.1f * Time.deltaTime;
+                }
+
+                // Scales the bullet
+                bulletCopy.transform.localScale = new Vector3(plasmaSizeVar, plasmaSizeVar, transform.localScale.z);
+            }
         }
     }
 

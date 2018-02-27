@@ -563,7 +563,8 @@ public class BulletManager : MonoBehaviour {
             // Damage Enemy
             if (bulletType == bulletTypes.Plasma)
             {
-                damage = .7f * Mathf.Pow(transform.localScale.x, 1.5f);
+                if (GameManager.instance.PlasmaPistolUpgrade1Unlock) { damage = .75f * Mathf.Pow(transform.localScale.x, 1.5f); }
+                else { damage = .7f * Mathf.Pow(transform.localScale.x, 1.5f); }
                 collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
                 if (owner.GetComponent<GunScript>())
                 {

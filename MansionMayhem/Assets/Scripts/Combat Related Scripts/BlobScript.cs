@@ -222,7 +222,7 @@ public class BlobScript : MonoBehaviour
                         // Assign the other portal
                         otherPortal = portal;
                         // Teleport the player to the other portal
-                        if ((owner.GetComponent<PlayerManager>().canTravel) && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
+                        if ((owner.GetComponent<PlayerManager>().canTravel) && (Input.GetKeyDown(KeyCode.Space)))
                         {
                             owner.transform.position = otherPortal.transform.position;
                             owner.GetComponent<PlayerManager>().JustTraveled();

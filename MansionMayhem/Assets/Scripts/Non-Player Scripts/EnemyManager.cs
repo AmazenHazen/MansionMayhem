@@ -153,7 +153,7 @@ public class EnemyManager : MonoBehaviour
                     phase++;
                     for(int i=0; i<enemyWeapons.Count; i++)
                     {
-                        enemyWeapons[i].GetComponent<EnemyWeaponScript>().speed = 4f;
+                        enemyWeapons[i].GetComponent<EnemyWeaponScript>().speed = 3.75f;
                     }
                 }
 

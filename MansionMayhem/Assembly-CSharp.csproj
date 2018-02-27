@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\GameManagementScripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\GUIHoverMouseChange.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\GUIManager.cs" />
+     <Compile Include="Assets\Scripts\GameManagementScripts\InstructionsManagement.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\LevelLocation.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\LevelManager.cs" />
      <Compile Include="Assets\Scripts\GameManagementScripts\LevelSelectGUIManager.cs" />

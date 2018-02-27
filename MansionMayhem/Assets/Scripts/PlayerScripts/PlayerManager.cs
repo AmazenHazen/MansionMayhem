@@ -198,7 +198,7 @@ public class PlayerManager : MonoBehaviour
                 //Debug.Log("Door");
 
                 // Travel first
-                if (canTravel == true && collider.gameObject.GetComponent<DoorScript>().requirements.Count==0)
+                if (canTravel == true && collider.gameObject.GetComponent<DoorScript>().requirements.Count==0 && !GUIManager.bossFight)
                 {
                     Debug.Log("Travel");
                     collider.gameObject.GetComponent<DoorScript>().Travel(gameObject);
@@ -207,7 +207,7 @@ public class PlayerManager : MonoBehaviour
                 }
 
                 // Using interaction to unlock the door
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     // Unlock the door
                     UseItem(collider.gameObject);
@@ -408,7 +408,7 @@ public class PlayerManager : MonoBehaviour
 
             #region interactableObject
             case "interactableobject":
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     // Debug Line
                     Debug.Log("Using Interactable Object:" + collider.gameObject);
@@ -423,7 +423,7 @@ public class PlayerManager : MonoBehaviour
 
             #region NPC
             case "npc":
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     collider.gameObject.GetComponent<NPC>().TalkingBool = true;
 
@@ -434,7 +434,7 @@ public class PlayerManager : MonoBehaviour
 
             #region chest
             case "chest":
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     // Pause the gameplay
                     // Set pauseGame to true
@@ -526,7 +526,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     private void WeaponSwitch()
     {
-        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             // For particle guns turn off the particles if you switch weapons
             if (playerGunPrefabs[weaponNum].GetComponent<GunScript>().Particles)
@@ -610,7 +610,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     private void Shield()
     {
-        if (Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) && (canShield == true))
+        if (Input.GetKey(KeyCode.E) && (canShield == true))
         {
             // Activate the Shield
             gameObject.transform.Find("Shield").gameObject.SetActive(true);

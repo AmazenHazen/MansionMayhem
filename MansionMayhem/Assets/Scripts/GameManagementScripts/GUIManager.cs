@@ -30,6 +30,8 @@ public class GUIManager : MonoBehaviour
     public Slider bossHealthBar; 
     public float bossMaxHealth;
     public float bossCurrentHealth;
+    public static bool bossFight;
+    public Text bossText;
 
 
     // Variables for changing Text
@@ -46,6 +48,9 @@ public class GUIManager : MonoBehaviour
 
     // Variables for Instructions Screen
     public GameObject instructionsScreen;
+    public List<GameObject> instructionPages;
+    public List<GameObject> instructionButtons;
+    public int instructionsPage;
 
     // Variables for Death Screen
     public GameObject deathScreen;
@@ -132,7 +137,7 @@ public class GUIManager : MonoBehaviour
         optionBool = false;
         for (int i = 0; i < 5; i++)
         {
-            Options.Add(GUIManager.dialogBox.transform.Find("Options").GetChild(i).gameObject);
+            Options.Add(dialogBox.transform.Find("Options").GetChild(i).gameObject);
         }
 
         // turn off the dialog box if it is on
@@ -153,6 +158,11 @@ public class GUIManager : MonoBehaviour
             winScreen.SetActive(false);
         }
 
+        // instruction page variables
+        instructionsPage = 0;
+
+        // set boss fight to false
+        bossFight = false;
     }
 
     #endregion
@@ -293,14 +303,18 @@ public class GUIManager : MonoBehaviour
 
         rangeWeaponText.text = "Current Weapon: " + weaponString;
         scoreText.text = "Screws: " + GameManager.instance.screws;
-        levelText.text = "Level: " + GameManager.instance.currentLevel;
+        levelText.text = "Level: " + (GameManager.instance.currentLevel +1);
+        if (bossFight && boss!=null)
+        {
+            bossText.text = boss.name + ": ";
+        }
     }
     #endregion
     
     #region Boss HealthBar Management
     void BossHealthManagement()
     {
-        if (boss != null && boss.activeSelf == true)
+        if (boss != null && boss.activeSelf == true && bossFight == true)
         {
             //Debug.Log("in boss health update");
             bossHealthCanvas.gameObject.SetActive(true);
@@ -327,8 +341,6 @@ public class GUIManager : MonoBehaviour
         {
             PauseGame();
         }
-
-
     }
 
     public void PauseGame()
@@ -340,7 +352,15 @@ public class GUIManager : MonoBehaviour
     public void ContinueGame()
     {
         escapeScreen.SetActive(false);
+
+        // Instructions Pages
         instructionsScreen.SetActive(false);
+        instructionPages[0].SetActive(true);
+        instructionPages[1].SetActive(false);
+        instructionButtons[0].SetActive(false);
+        instructionButtons[1].SetActive(true);
+        instructionsPage = 0;
+
         objectiveScreen.SetActive(false);
         GameManager.instance.currentGameState = GameState.Play;
         Time.timeScale = 1;
@@ -391,22 +411,26 @@ public class GUIManager : MonoBehaviour
     #endregion
 
     #region Debugging section
+    /*
     void OnGUI()
     {
         GUI.Label(new Rect(100, 10, 400, 50), "Health: " + health);
     }
+    */
     #endregion
 
     #region Death Management
     private void DeathManagement()
     {
+        bossFight = false;
+
         if(!deathScreen.activeSelf)
         {
             deathScreen.SetActive(true);
             Time.timeScale = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             // Same as Exit Level method in "Load On Click" Script
             GameManager.instance.currentGameState = GameState.MainMenu;
@@ -427,14 +451,19 @@ public class GUIManager : MonoBehaviour
     #region WinManagement
     private void WinManagement()
     {
+        bossFight = false;
+
         if (!deathScreen.activeSelf)
         {
             winScreen.SetActive(true);
             Time.timeScale = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
+            // Increase screw count 
+            GameManager.instance.screws += 150;
+
             // Same as Exit Level method in "Load On Click" Script
             GameManager.instance.currentGameState = GameState.MainMenu;
 
@@ -450,7 +479,6 @@ public class GUIManager : MonoBehaviour
         }
     }
     #endregion
-
 
     #region dialogue Management
     /// <summary>
@@ -549,5 +577,55 @@ public class GUIManager : MonoBehaviour
         }
     }
     #endregion
+    #endregion
+
+    #region instructions management
+
+    /// <summary>
+    /// Handling clicking next and previous buttons for the insturction screen
+    /// </summary>
+    /// <param name="forward"></param>
+    public void pageTurn(bool forward)
+    {
+        // turn off current page
+        for(int i=0; i< instructionPages.Count; i++)
+        {
+            if(instructionPages[instructionsPage])
+            {
+                instructionPages[instructionsPage].SetActive(false);
+            }
+        }
+        if(forward)
+        {
+            instructionsPage++;
+        }
+        else
+        {
+            instructionsPage--;
+        }
+
+        instructionPages[instructionsPage].SetActive(true);
+
+
+        // Turn off or on the next page button if needed
+        if (instructionsPage < instructionButtons.Count-1)
+        {
+            instructionButtons[1].SetActive(true);
+        }
+        else
+        {
+            instructionButtons[1].SetActive(false);
+        }
+
+        if (instructionsPage > 0)
+        {
+            instructionButtons[0].SetActive(true);
+        }
+        else
+        {
+            instructionButtons[0].SetActive(false);
+        }
+
+    }
     #endregion
 }

@@ -142,7 +142,7 @@ public class InteractableObjectScript : MonoBehaviour
         }
 
         // Advance the text if the player hits Enter or Space
-        else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
+        else if ((Input.GetKeyDown(KeyCode.Space)))
         {
             // if space and the text isn't scrolling, advance a line
             if (!GUIManager.isTyping)

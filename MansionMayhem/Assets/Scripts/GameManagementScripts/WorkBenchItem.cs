@@ -16,6 +16,7 @@ public class WorkBenchItem : MonoBehaviour
 
     // Var to see if it is true
     public bool unlockedBool;
+    private bool lockedForDemo;
 
     [SerializeField]
     private Unlock unlockVar;
@@ -25,6 +26,7 @@ public class WorkBenchItem : MonoBehaviour
 
     public void Start()
     {
+        lockedForDemo = false;
         #region Switch setting buttons to unlocked or locked depending on the save variable
         // Unlock the variable
         switch (unlockVar)
@@ -37,6 +39,7 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.equipmentIncrease:
                 if (GameManager.instance.healthTotal > GameManager.instance.MAX_EQUIPMENT)
                 { unlockedBool = true; }
+                lockedForDemo = true;
                 break;
 
             // Gun Unlocks
@@ -52,10 +55,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.LaserPistolUpgrade2:
                 if(GameManager.instance.LaserPistolUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.LaserPistolUpgrade3:
                 if(GameManager.instance.LaserPistolUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
             // Anti Ectoplasm Splatter Gun
@@ -70,10 +77,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.AntiEctoGunUpgrade2:
                 if (GameManager.instance.AntiEctoGunUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.AntiEctoGunUpgrade3:
                 if (GameManager.instance.AntiEctoGunUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                unlockedBool = true;
                 break;
 
             // Plasma Pistol
@@ -88,10 +99,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.PlasmaPistolUpgrade2:
                 if (GameManager.instance.PlasmaPistolUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.PlasmaPistolUpgrade3:
                 if (GameManager.instance.PlasmaPistolUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
             // CryoGun
@@ -106,10 +121,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.CryoGunUpgrade2:
                 if (GameManager.instance.CryoGunUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.CryoGunUpgrade3:
                 if (GameManager.instance.CryoGunUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             // Flamethrower
             case Unlock.FlameThrower:
@@ -124,10 +143,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.FlameThrowerUpgrade2:
                 if (GameManager.instance.FlameThrowerUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.FlameThrowerUpgrade3:
                 if (GameManager.instance.FlameThrowerUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
             // Hellfire Shotgun
@@ -142,10 +165,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.HellFireShotgunUpgrade2:
                 if (GameManager.instance.HellFireShotgunUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.HellFireShotgunUpgrade3:
                 if (GameManager.instance.HellFireShotgunUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
             // Sound Cannon
@@ -160,10 +187,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.SoundCannonUpgrade2:
                 if (GameManager.instance.SoundCannonUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.SoundCannonUpgrade3:
                 if (GameManager.instance.SoundCannonUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
             // Dark Energy Sniper
@@ -178,10 +209,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.DarkEnergySniperUpgrade2:
                 if (GameManager.instance.DarkEnergySniperUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.DarkEnergySniperUpgrade3:
                 if (GameManager.instance.DarkEnergySniperUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
 
@@ -197,10 +232,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.ElectronPulseCannonUpgrade2:
                 if (GameManager.instance.ElectronPulseCannonUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.ElectronPulseCannonUpgrade3:
                 if (GameManager.instance.ElectronPulseCannonUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
             // Aetherlight Bow
@@ -215,10 +254,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.AetherlightBowUpgrade2:
                 if (GameManager.instance.AetherlightBowUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.AetherlightBowUpgrade3:
                 if (GameManager.instance.AetherlightBowUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
 
@@ -233,10 +276,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.CelestialRepeaterUpgrade2:
                 if (GameManager.instance.CelestialRepeaterUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.CelestialRepeaterUpgrade3:
                 if (GameManager.instance.CelestialRepeaterUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
             case Unlock.XenonPulser:
@@ -250,10 +297,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.XenonPulserUpgrade2:
                 if (GameManager.instance.XenonPulserUpgrade2Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.XenonPulserUpgrade3:
                 if (GameManager.instance.XenonPulserUpgrade3Unlock == true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
             case Unlock.AntiMatterParticle:
@@ -267,10 +318,14 @@ public class WorkBenchItem : MonoBehaviour
             case Unlock.AntiMatterParticleUpgrade2:
                 if (GameManager.instance.AntiMatterParticleUpgrade2Unlock== true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
             case Unlock.AntiMatterParticleUpgrade3:
                 if (GameManager.instance.AntiMatterParticleUpgrade3Unlock== true)
                 { unlockedBool = true; }
+                // this is only for the demo to lock unlock 2 &3 for guns
+                lockedForDemo = true;
                 break;
 
 
@@ -380,10 +435,13 @@ public class WorkBenchItem : MonoBehaviour
 
     private void Update()
     {
-        if (unlockedBool && gameObject.GetComponent<Button>().interactable)
+        if ((unlockedBool||lockedForDemo) && gameObject.GetComponent<Button>().interactable)
         {
             // Set the color to show it is bought
-            gameObject.GetComponent<Image>().color = boughtColor;
+            if (!lockedForDemo)
+            {
+                gameObject.GetComponent<Image>().color = boughtColor;
+            }
             gameObject.GetComponent<Button>().interactable = false;
         }
     }

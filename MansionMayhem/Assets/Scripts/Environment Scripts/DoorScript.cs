@@ -9,6 +9,7 @@ public class DoorScript : MonoBehaviour
     public GameObject linkedDoor;
     public List<ItemType> requirements;
     public GameObject lockOnDoor;
+    public bool bossDoor;
 
     // bool that makes sure the player is only interacting with this object
     private bool interactBool;
@@ -45,7 +46,7 @@ public class DoorScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             // if space and the text isn't scrolling, end dialog
             if (!GUIManager.isTyping && interactBool)
@@ -96,6 +97,11 @@ public class DoorScript : MonoBehaviour
             {
                 player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, .5f);
             }
+
+        if (bossDoor)
+        {
+            GUIManager.bossFight = true;
+        }
 
     }
 

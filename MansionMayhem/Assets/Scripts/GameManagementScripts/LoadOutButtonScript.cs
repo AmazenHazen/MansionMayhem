@@ -31,6 +31,11 @@ public class LoadOutButtonScript : MonoBehaviour
     {
         checkUnlocked();
     }
+    
+    void OnEnable()
+    {
+        checkUnlocked();
+    }
 
 
     public void checkUnlocked()

@@ -30,7 +30,7 @@ public class LoadOnClick : MonoBehaviour
     /// <param name="level"></param>
     public void ExitLevel(int level)
     {
-
+        GUIManager.bossFight = false;
         GameManager.instance.currentLevel = level;
         GameManager.instance.currentGameState = GameState.MainMenu;
 

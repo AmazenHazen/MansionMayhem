@@ -186,38 +186,6 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region GUI
-    /*
-    /// <summary>
-    /// Overloaded OnGUI method:
-    /// Puts these thing on the display:
-    /// Lives
-    /// Score
-    /// Level
-    /// Boss Health (if bossfight is occuring)
-    /// </summary>
-    void OnGUI()
-    {
-        // Color
-        GUI.color = Color.gray;
-        // Font Size
-        GUI.skin.box.fontSize = 20;
-
-        // IN-GAME GUI, THE GUI YOU SEE WHEN YOU NORMALLY PLAY IN GAME
-        if(inGame)
-        {
-            // Score FOR GUI
-            GUI.Label(new Rect(10, 30, 400, 50), "Screws: " + screws);
-        
-            if(GUI.Button(new Rect(10, 300, 100, 30), "Save"))
-            {
-                Save();
-            }
-        }
-    }
-    */
-    #endregion
-
     #region Save and Load Methods
     // This will work for everything but web
     public void Save()

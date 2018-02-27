@@ -49,7 +49,7 @@ public class PlayerMapScript : MonoBehaviour
         {
             // If the user hits a left command
             // Go to the previous location
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.A))
             {
 
                 // Cannot go to a location below zero
@@ -68,7 +68,7 @@ public class PlayerMapScript : MonoBehaviour
 
             // If the user hits a right command
             // Go to the next location
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.D))
             {
                 if (currentLocationIndex < locationIndexMax)
                 {
@@ -85,7 +85,7 @@ public class PlayerMapScript : MonoBehaviour
 
 
             // If the user hits the enter or space button
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (destination.GetComponent<LevelLocation>().unlocked == true)
                 {

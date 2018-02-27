@@ -41,15 +41,18 @@ public class ParticleGunScript : MonoBehaviour
 
         if (particleGun == rangeWeapon.flamethrower)
         {
-            damage = .025f;
+            if (GameManager.instance.FlameThrowerUpgrade1Unlock) { damage = .032f; }
+            else { damage = .025f; }
         }
         if (particleGun == rangeWeapon.cryoGun)
         {
-            damage = .025f;
+            if (GameManager.instance.CryoGunUpgrade1Unlock) { damage = .032f; }
+            else { damage = .025f; }
         }
         if (particleGun == rangeWeapon.AntimatterParticle)
         {
-            damage = .025f;
+            if (GameManager.instance.AntiMatterParticleUpgrade1Unlock) { damage = .042f; }
+            else { damage = .035f; }
         }
 
     }
@@ -110,7 +113,7 @@ public class ParticleGunScript : MonoBehaviour
             }
             if ((particleGun == rangeWeapon.flamethrower) && damage<.05f)
             {
-                burnEffect += .000005f;
+                burnEffect += .00005f;
                 damage = damage + burnEffect;
             }
 

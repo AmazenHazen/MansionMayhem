@@ -27,7 +27,7 @@ public class RotatingShieldFlame : MonoBehaviour
     {
         startPos = transform.position;
 
-        Debug.Log(startPos);
+        //Debug.Log(startPos);
         //owner = gameObject.transform.parent.gameObject;
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
@@ -76,12 +76,12 @@ public class RotatingShieldFlame : MonoBehaviour
     /// <param name="collider"></param>
     void OnTriggerStay2D(Collider2D collider)
     {
-        Debug.Log(collider.tag);
+        //Debug.Log(collider.tag);
 
         //Debug.Log("Colliding");
         if(collider.tag == "player" && (ownerType == bulletOwners.enemy) && !GameObject.Find("Shield"))
         {
-            Debug.Log("Fire damage enemy");
+            //Debug.Log("Fire damage enemy");
 
             // Damage Player
             collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;

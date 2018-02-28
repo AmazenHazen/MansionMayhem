@@ -381,7 +381,7 @@ public class GUIManager : MonoBehaviour
                 InventoryItems[i].GetComponent<SpriteRenderer>().transform.localScale = item.gameObject.transform.localScale * 200;
 
                 // Debug
-                Debug.Log("Item Added to GUI " + item);
+                //Debug.Log("Item Added to GUI " + item);
 
                 // Return true
                 return true;
@@ -521,20 +521,20 @@ public class GUIManager : MonoBehaviour
     public static IEnumerator TextScroll(string lineOfText)
     {
         int letter = 0;
-        GUIManager.dialogText.GetComponent<Text>().text = "";
-        GUIManager.isTyping = true;
-        GUIManager.cancelTyping = false;
+        dialogText.GetComponent<Text>().text = "";
+        isTyping = true;
+        cancelTyping = false;
 
         while (isTyping && !cancelTyping && (letter < lineOfText.Length - 1))
         {
-            Debug.Log("Dialog Scrolling");
+            //Debug.Log("Dialog Scrolling");
 
-            GUIManager.dialogText.GetComponent<Text>().text += lineOfText[letter];
+            dialogText.GetComponent<Text>().text += lineOfText[letter];
             letter++;
 
             yield return new WaitForSeconds(typeSpeed);
         }
-        GUIManager.dialogText.GetComponent<Text>().text = lineOfText;
+        dialogText.GetComponent<Text>().text = lineOfText;
         isTyping = false;
         cancelTyping = false;
     }

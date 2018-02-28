@@ -168,7 +168,7 @@ public class GunScript : MonoBehaviour
     /// </summary>
     void ShootBullet()
     {
-        Debug.Log("Firing Bullet" + bulletPrefab);
+        //Debug.Log("Firing Bullet" + bulletPrefab);
 
         // Shoot the bullet
         bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
@@ -248,7 +248,7 @@ public class GunScript : MonoBehaviour
         // Player Can't shoot for .5 seconds
         //Debug.Log("We Just Shot!");
         canShoot = false;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
         Invoke("ResetShooting", timeBetweenShots);
     }
 
@@ -260,7 +260,7 @@ public class GunScript : MonoBehaviour
         // Player Can't shoot for .5 seconds
         //Debug.Log("We Just Switched Weapons!");
         finishSwitch = false;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
         Invoke("ResetGunSwitch", GUNSWITCHDELAY);
     }
 
@@ -270,7 +270,7 @@ public class GunScript : MonoBehaviour
     void ResetShooting()
     {
         canShoot = true;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     /// <summary>

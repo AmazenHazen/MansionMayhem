@@ -63,7 +63,7 @@ public class BlobScript : MonoBehaviour
             portalNum = tempPortalNum;
             tempPortalNum++;
             tempPortalNum %= 2;
-            Debug.Log(tempPortalNum);
+            //Debug.Log(tempPortalNum);
             owner.GetComponent<PlayerManager>().PortalNum = tempPortalNum;
         }
 
@@ -130,7 +130,7 @@ public class BlobScript : MonoBehaviour
             portalNum = tempPortalNum;
             tempPortalNum++;
             tempPortalNum %= 2;
-            Debug.Log(tempPortalNum);
+            //Debug.Log(tempPortalNum);
             owner.GetComponent<PlayerManager>().PortalNum = tempPortalNum;
         }
 

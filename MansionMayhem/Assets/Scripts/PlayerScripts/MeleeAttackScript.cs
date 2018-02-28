@@ -27,7 +27,7 @@ public class MeleeAttackScript : MonoBehaviour
         {
             if (collider.gameObject.GetComponent<EnemyManager>().HitByMeleeBool == false)
             {
-                Debug.Log("Melee Attack Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
+                //Debug.Log("Melee Attack Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
 
                 // Damage Enemy
                 collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;

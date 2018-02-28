@@ -53,7 +53,7 @@ public class WorkBenchManager : MonoBehaviour
 
        if (GameManager.instance.screws < buyingButton.GetComponent<WorkBenchItem>().Cost)
         {
-            Debug.Log("You do not have enough to build this item");
+            //Debug.Log("You do not have enough to build this item");
             return;
         } 
        else

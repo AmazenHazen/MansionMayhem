@@ -8,6 +8,7 @@ public class DoorScript : MonoBehaviour
     #region Attributes
     public GameObject linkedDoor;
     public List<ItemType> requirements;
+    public List<GameObject> monsterRequirements;
     public GameObject lockOnDoor;
     public bool bossDoor;
 
@@ -34,7 +35,7 @@ public class DoorScript : MonoBehaviour
             lockOnDoor = transform.GetChild(0).gameObject;
 
             // Check if the door was locked or not
-            if (requirements.Count <= 0)
+            if (requirements.Count <= 0 && monsterRequirements.Count<=0)
             {
                 // Hide the lock!
                 lockOnDoor.SetActive(false);
@@ -55,18 +56,40 @@ public class DoorScript : MonoBehaviour
                 GUIManager.TurnOffDialogBox();
             }
         }
+
+        CheckMonsterRequirement();
+        CheckLockOnDoor();
+
+        
     }
     #endregion
+
+    public void CheckMonsterRequirement()
+    {
+        for(int i=0; i<monsterRequirements.Count;i++)
+        {
+            if(monsterRequirements[i] == null)
+            {
+                monsterRequirements.Remove(null);
+            }
+        }
+    }
+
+    public void CheckLockOnDoor()
+    {
+        if (requirements.Count <= 0 && monsterRequirements.Count<=0)
+        {
+            if (linkedDoor.name != "upstairs" && (linkedDoor.name != "downstairs"))
+            {
+                // Hide the lock!
+                lockOnDoor.SetActive(false);
+            }
+        }
+    }
 
     public void removeRequirement(ItemType item)
     {
         requirements.Remove(item);
-
-        if(requirements.Count <= 0)
-        {
-            // Hide the lock!
-            lockOnDoor.SetActive(false);
-        }
     }
 
 
@@ -105,7 +128,7 @@ public class DoorScript : MonoBehaviour
 
     }
 
-    public void MessageRequirements()
+    public void MessageRequirementsItem()
     {
         // Interacting with this door
         interactBool = true;
@@ -114,6 +137,24 @@ public class DoorScript : MonoBehaviour
         foreach (ItemType requirement in requirements)
         {
             requirementString += requirement + " ";
+        }
+        requirementString += ".";
+
+        GUIManager.TurnOnDialogBox();
+
+        StartCoroutine(GUIManager.TextScroll(requirementString));
+    }
+
+
+    public void MessageRequirementsMonster()
+    {
+        // Interacting with this door
+        interactBool = true;
+
+        string requirementString = "You need to kill these monsters in order to unlock the door: ";
+        foreach (GameObject monster in monsterRequirements)
+        {
+            requirementString += monster.name + " ";
         }
         requirementString += ".";
 

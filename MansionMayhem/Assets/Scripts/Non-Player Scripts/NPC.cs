@@ -147,7 +147,7 @@ public class NPC : CharacterMovement
                 // Don't let the user go past the endline
                 if (currentLine >= endAtLine)
                 {
-                    Debug.Log("Manually Exit Dialog");
+                    //Debug.Log("Manually Exit Dialog");
 
                     //end the dialogue if at the end
                     endDialogue();
@@ -291,7 +291,7 @@ public class NPC : CharacterMovement
     
         #endregion
 
-        Debug.Log("Command: " + commandText + " Secondary Command Number: " + secondaryNum + " Tertiary Command Number: " + tertiaryCommandText);
+        //Debug.Log("Command: " + commandText + " Secondary Command Number: " + secondaryNum + " Tertiary Command Number: " + tertiaryCommandText);
 
         switch (commandText)
         {
@@ -306,7 +306,7 @@ public class NPC : CharacterMovement
 
             case "GiveItem":
                 // give player that item
-                Debug.Log("Gave player: " + items[secondaryNum]);
+                //Debug.Log("Gave player: " + items[secondaryNum]);
 
                 // Add item to inventory
                 player.GetComponent<PlayerManager>().AddItem(items[secondaryNum]);
@@ -317,7 +317,7 @@ public class NPC : CharacterMovement
 
             case "RemoveItem":
                 // give player that item
-                Debug.Log("Took from player: " + items[secondaryNum]);
+                //Debug.Log("Took from player: " + items[secondaryNum]);
 
                 // Add item to inventory
                 player.GetComponent<PlayerManager>().RemoveItem(items[secondaryNum]);
@@ -334,7 +334,7 @@ public class NPC : CharacterMovement
 
             case "CheckRequirements":
                 // give player that item
-                Debug.Log("Check Requirements");
+                //Debug.Log("Check Requirements");
                 int completedRequirements = 0;
 
                 for(int j=0; j<requirements.Count; j++)
@@ -357,37 +357,37 @@ public class NPC : CharacterMovement
 
                 if (completedRequirements == requirements.Count)
                 {
-                    Debug.Log("Requirements fulfilled, moved to line " + secondaryNum);
+                    //Debug.Log("Requirements fulfilled, moved to line " + secondaryNum);
                     currentLine = secondaryNum;
                 }
                 else
                 {
-                    Debug.Log("Requirements not fulfilled, moved to line " + tertiaryNum);
+                    //Debug.Log("Requirements not fulfilled, moved to line " + tertiaryNum);
                     currentLine = tertiaryNum;
                 }
 
-                Debug.Log("Current Line: " + currentLine);
+                //Debug.Log("Current Line: " + currentLine);
                 break;
 
             case "CheckItemRequirements":
                 // give player that item
-                Debug.Log("Check Item Requirements");
+                //Debug.Log("Check Item Requirements");
 
                 bool requirementfulfilled = CheckInventory(player.GetComponent<PlayerManager>().playerItems);
 
 
                 if (requirementfulfilled)
                 {
-                    Debug.Log("Requirements fulfilled, moved to line " + secondaryNum);
+                    //Debug.Log("Requirements fulfilled, moved to line " + secondaryNum);
                     currentLine = secondaryNum;
                 }
                 else
                 {
-                    Debug.Log("Requirements not fulfilled, moved to line " + tertiaryNum);
+                    //Debug.Log("Requirements not fulfilled, moved to line " + tertiaryNum);
                     currentLine = tertiaryNum;
                 }
 
-                Debug.Log("Current Line: " + currentLine);
+                //Debug.Log("Current Line: " + currentLine);
                 break;
 
 
@@ -449,7 +449,7 @@ public class NPC : CharacterMovement
                 {
                     if (playerItems[i] == requirement)
                     {
-                        Debug.Log("Remove item requirement npc");
+                        //Debug.Log("Remove item requirement npc");
                         player.GetComponent<PlayerManager>().playerItems[i] = ItemType.NoItem;
                         GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(i);
                     }
@@ -474,7 +474,7 @@ public class NPC : CharacterMovement
     {
         if (responseChosen == ResponseType.SayYes)
         {
-            Debug.Log("Chose Yes!");
+            //Debug.Log("Chose Yes!");
             GUIManager.EndOptions();
             currentLine = lineJumpNumber;
             StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
@@ -484,7 +484,7 @@ public class NPC : CharacterMovement
         if (responseChosen == ResponseType.SayNo)
         {
 
-            Debug.Log("Chose No!");
+            //Debug.Log("Chose No!");
             GUIManager.EndOptions();
             currentLine = lineJumpNumber;
             StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
@@ -520,7 +520,7 @@ public class NPC : CharacterMovement
                     // Set the currentNPC if not already set
                     if (GUIManager.Options[i].transform.GetComponent<DialogOptionScript>().currentNPC == null)
                     {
-                        Debug.Log("set up options!");
+                        //Debug.Log("set up options!");
                         GUIManager.Options[i].transform.GetComponent<DialogOptionScript>().currentNPC = gameObject;
 
 
@@ -609,7 +609,7 @@ public class NPC : CharacterMovement
                         #endregion
 
                         // Debug Ling
-                        Debug.Log("Option: " + buttonText + " Response Option Text: " + responseOptionText + " Line jump String number: " + lineJumpStr + " Line jump number: " + lineJump);
+                        //Debug.Log("Option: " + buttonText + " Response Option Text: " + responseOptionText + " Line jump String number: " + lineJumpStr + " Line jump number: " + lineJump);
                         
                         //Debug.Log("Button 1: " + buttonText + " Response Value: " + responseOptionText);
 

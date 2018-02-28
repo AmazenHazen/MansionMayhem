@@ -84,7 +84,7 @@ public class WorkBenchItem : MonoBehaviour
                 if (GameManager.instance.AntiEctoGunUpgrade3Unlock == true)
                 { unlockedBool = true; }
                 // this is only for the demo to lock unlock 2 &3 for guns
-                unlockedBool = true;
+                lockedForDemo = true;
                 break;
 
             // Plasma Pistol
@@ -408,7 +408,7 @@ public class WorkBenchItem : MonoBehaviour
         }
 
 
-        Debug.Log(gameObject + "Start");
+        //Debug.Log(gameObject + "Start");
 
         // check if the gun unlock is unlocked before allowing purchasing of the upgrades
 

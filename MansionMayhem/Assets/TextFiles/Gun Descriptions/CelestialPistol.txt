@@ -3,4 +3,4 @@ Celestial Repeater
 
 This pistol is forged with a celestial power crystal. It produces celestial shards that can pierce enemies.
 
-The more celestial bullets that hit an enemy, the more damaging the celestial crystals become.
+The more celestial bullets that hit an enemy, the more damaging the celestial crystals become.(Effect not in demo)

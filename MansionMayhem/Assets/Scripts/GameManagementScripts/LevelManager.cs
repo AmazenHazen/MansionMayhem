@@ -85,7 +85,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     void AdvanceLevel()
     {
-        Debug.Log("Completed Level!");
+        //Debug.Log("Completed Level!");
 
         // Advance Level
         // Set highest level

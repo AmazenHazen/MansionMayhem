@@ -110,7 +110,7 @@ public class InteractableObjectScript : MonoBehaviour
             GUIManager.TurnOnDialogBox();
 
             // Start the scrolling text 
-            Debug.Log("Starting Dialog");
+            //Debug.Log("Starting Dialog");
 
 
             // check if the interactable object has any requirements first
@@ -148,7 +148,7 @@ public class InteractableObjectScript : MonoBehaviour
             if (!GUIManager.isTyping)
             {
 
-                Debug.Log("Exit Dialog");
+                //Debug.Log("Exit Dialog");
 
                 //end the dialogue if at the end
                 endDialogue();
@@ -157,7 +157,7 @@ public class InteractableObjectScript : MonoBehaviour
             // If the text box is currently printing the text then cancel the scrolling
             else if (GUIManager.isTyping && !GUIManager.cancelTyping)
             {
-                Debug.Log("Cancel Typing");
+                //Debug.Log("Cancel Typing");
 
                 GUIManager.cancelTyping = true;
             }

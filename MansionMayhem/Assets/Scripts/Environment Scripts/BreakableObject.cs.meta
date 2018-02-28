@@ -1,8 +1,9 @@
 fileFormatVersion: 2
 guid: 6932f6ef07dd252418d1d45ba984f2e8
-timeCreated: 1504641552
-licenseType: Pro
+timeCreated: 1519793762
+licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
   defaultReferences:
   - normalScrew: {fileID: 1038401164572658, guid: c1507f95de6d0e34080485bc0fd99527,
@@ -15,7 +16,7 @@ MonoImporter:
       type: 2}
   - fairyDust: {fileID: 1394164590356530, guid: 6b6362b791a4fce479bd78ac580f47d4,
       type: 2}
-  - goldenHeart: {fileID: 1394164590356530, guid: 6b6362b791a4fce479bd78ac580f47d4,
+  - goldenHeart: {fileID: 1759000569655106, guid: 6d6556fb8402c0346b8702fecdae6630,
       type: 2}
   executionOrder: 0
   icon: {instanceID: 0}

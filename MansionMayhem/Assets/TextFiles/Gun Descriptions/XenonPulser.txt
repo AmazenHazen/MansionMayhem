@@ -3,4 +3,4 @@ Xenon Pulser
 
 This three Round Burst Pulser harnesses the element Xenon to produce round energized bullets.
 
-The more you fire this weapon, the quicker the fire rate with it's "half life".
+The more you fire this weapon, the quicker the fire rate with it's "half life". (Effect not in demo)

@@ -175,7 +175,7 @@ public class EnemyManager : MonoBehaviour
                     switch (phase)
                     {
                         case 0:
-                            Debug.Log("Phase 1");
+                            //Debug.Log("Phase 1");
                             timeBetweenShots = 1f;
                             hasAbility = false;
                             for (int i = 0; i < 4; i++)
@@ -185,11 +185,11 @@ public class EnemyManager : MonoBehaviour
                             break;
                         case 1:
                             hasAbility = false;
-                            Debug.Log("Phase 2");
+                            //Debug.Log("Phase 2");
                             timeBetweenShots = .3f;
                             break;
                         case 2:
-                            Debug.Log("Phase 3");
+                            //Debug.Log("Phase 3");
                             // Reset Bullets
                             timeBetweenShots = 3f;
                             for (int i = 4; i < 7; i++)

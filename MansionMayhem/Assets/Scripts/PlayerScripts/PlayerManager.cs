@@ -149,7 +149,14 @@ public class PlayerManager : MonoBehaviour
         }
         #endregion
 
+        // If the gun doesn't exist increment and check if it's null
+        while (playerGunPrefabs[weaponNum] == null)
+        {
+            weaponNum++;
+            weaponNum %= 3;
+        }
         currentRangeWeapon = playerGunPrefabs[weaponNum].GetComponent<GunScript>().gunType;
+
         // turn on the current gun sprite
         playerGunPrefabs[weaponNum].GetComponent<SpriteRenderer>().enabled = true;
 
@@ -198,9 +205,9 @@ public class PlayerManager : MonoBehaviour
                 //Debug.Log("Door");
 
                 // Travel first
-                if (canTravel == true && collider.gameObject.GetComponent<DoorScript>().requirements.Count==0 && !GUIManager.bossFight)
+                if (canTravel == true && collider.gameObject.GetComponent<DoorScript>().requirements.Count==0 && collider.gameObject.GetComponent<DoorScript>().monsterRequirements.Count == 0 && !GUIManager.bossFight)
                 {
-                    Debug.Log("Travel");
+                    //Debug.Log("Travel");
                     collider.gameObject.GetComponent<DoorScript>().Travel(gameObject);
                     // Activate just traveled method
                     JustTraveled();
@@ -215,7 +222,12 @@ public class PlayerManager : MonoBehaviour
                     // Message the player of the requirements stil left of the door
                     if (collider.gameObject.GetComponent<DoorScript>().requirements.Count > 0)
                     {
-                        collider.gameObject.GetComponent<DoorScript>().MessageRequirements();
+                        collider.gameObject.GetComponent<DoorScript>().MessageRequirementsItem();
+                    }
+                    // Message the player of the requirements stil left of the door
+                    else if (collider.gameObject.GetComponent<DoorScript>().monsterRequirements.Count > 0)
+                    {
+                        collider.gameObject.GetComponent<DoorScript>().MessageRequirementsMonster();
                     }
                 }     
                 break;
@@ -398,7 +410,7 @@ public class PlayerManager : MonoBehaviour
                 {
 
                     // Debug Line
-                    Debug.Log("Using Interactable Object:" + collider.gameObject);
+                    //Debug.Log("Using Interactable Object:" + collider.gameObject);
 
                     collider.gameObject.GetComponent<ArtifactScript>().Activate();
                 }
@@ -411,7 +423,7 @@ public class PlayerManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     // Debug Line
-                    Debug.Log("Using Interactable Object:" + collider.gameObject);
+                    //Debug.Log("Using Interactable Object:" + collider.gameObject);
 
                     UseItem(collider.gameObject);
 
@@ -427,7 +439,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     collider.gameObject.GetComponent<NPC>().TalkingBool = true;
 
-                    Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);
+                    //Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);
                 }
                 break;
             #endregion
@@ -459,7 +471,7 @@ public class PlayerManager : MonoBehaviour
     void ResetInvincibility()
     {
         invincibility = false;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     /// <summary>
@@ -469,7 +481,7 @@ public class PlayerManager : MonoBehaviour
     {
         // Player Gains Invincibility for 3 seconds
         invincibility = true;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
         Invoke("ResetInvincibility", 3);
     }
     #endregion
@@ -491,7 +503,7 @@ public class PlayerManager : MonoBehaviour
     public void ResetTravelBool()
     {
         canTravel = true;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     /// <summary>
@@ -501,7 +513,7 @@ public class PlayerManager : MonoBehaviour
     {
         // Player Gains Invincibility for 3 seconds
         canTravel = false;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         Invoke("ResetTravelBool", 1.5f);
         
     }
@@ -640,7 +652,7 @@ public class PlayerManager : MonoBehaviour
         // De-activates melee collider
         gameObject.transform.Find("Shield").gameObject.SetActive(false);
         canShield = true;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
     #endregion
 
@@ -658,7 +670,7 @@ public class PlayerManager : MonoBehaviour
         }
         else if(poisonCounter>5)
         {
-            Debug.Log("Player is no longer poisoned");
+            //Debug.Log("Player is no longer poisoned");
             poisoned = false;
             applypoison = true;
             poisonCounter = 0;
@@ -680,7 +692,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     void ApplyPoison()
     {
-        Debug.Log("Poison Damages the player");
+        //Debug.Log("Poison Damages the player");
         currentLife--;
         poisonCounter++;
         applypoison = false;
@@ -713,7 +725,7 @@ public class PlayerManager : MonoBehaviour
                     if (playerItems[i] == requirement)
                     {
                         // Debug Statment
-                        Debug.Log("Using Item: " + playerItems[i]);
+                        //Debug.Log("Using Item: " + playerItems[i]);
 
                         // Remove the requirement throught the door helper method
                         interactingObject.GetComponent<DoorScript>().removeRequirement(playerItems[i]);
@@ -746,7 +758,7 @@ public class PlayerManager : MonoBehaviour
                         if (playerItems[i] == requirement)
                         {
                             // Debug Statment
-                            Debug.Log("Using Item: " + playerItems[i]);
+                            //Debug.Log("Using Item: " + playerItems[i]);
 
                             // Remove the requirement throught the door helper method
                             interactingObject.GetComponent<InteractableObjectScript>().removeRequirement(playerItems[i]);
@@ -757,7 +769,7 @@ public class PlayerManager : MonoBehaviour
                             // Remove the player's item
                             playerItems[i] = ItemType.NoItem;
 
-                            Debug.Log(playerItems[i]);
+                            //Debug.Log(playerItems[i]);
 
                             // Break out of the loop
                             break;
@@ -775,7 +787,7 @@ public class PlayerManager : MonoBehaviour
 
     public bool AddItem(GameObject item)
     {
-        Debug.Log("Length" + playerItems.Length);
+        //Debug.Log("Length" + playerItems.Length);
 
 
         // Loop through the inventory
@@ -790,8 +802,8 @@ public class PlayerManager : MonoBehaviour
                 // Add graphic to inventory
                 GameObject.Find("HUDCanvas").GetComponent<GUIManager>().AddItemGUI(item);
 
-                Debug.Log("Added" + i);
-                Debug.Log("Added Item to Inventory");
+                //Debug.Log("Added" + i);
+                //Debug.Log("Added Item to Inventory");
                 // Return true
                 return true;
             }

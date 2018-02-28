@@ -384,11 +384,11 @@ public class BulletManager : MonoBehaviour {
         if (lastBounceWall != wall)
         {
 
-            Debug.Log("bounce!");
+            //Debug.Log("bounce!");
             //float dotProduct;
             // Check the position based on the local space of this object
             Ray ray = new Ray(transform.position, transform.up);
-            Debug.DrawRay(transform.position, transform.up*.5f);
+            //Debug.DrawRay(transform.position, transform.up*.5f);
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, .5f, 1<<10);
 
@@ -559,7 +559,7 @@ public class BulletManager : MonoBehaviour {
             //Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
 
 
-            Debug.Log("Bullet Damaged enemy for: " + damage);
+            //Debug.Log("Bullet Damaged enemy for: " + damage);
             // Damage Enemy
             if (bulletType == bulletTypes.Plasma)
             {
@@ -602,7 +602,7 @@ public class BulletManager : MonoBehaviour {
         #region Shield Collision with enemyBullet
         else if (collider.tag == "shield" && (ownerType == bulletOwners.enemy))
         {
-            Debug.Log("Bullet Hit Shield");
+            //Debug.Log("Bullet Hit Shield");
 
             // Damage Enemy
             collider.GetComponentInParent<PlayerManager>().ShieldLife -= damage;
@@ -628,7 +628,7 @@ public class BulletManager : MonoBehaviour {
         #region Player Collision with enemyBullet
         else if (collider.tag == "player" && (ownerType == bulletOwners.enemy) && !GameObject.Find("Shield"))
         {
-            Debug.Log("Bullet Hit Player");
+            //Debug.Log("Bullet Hit Player");
 
             // Damage Player
             collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;

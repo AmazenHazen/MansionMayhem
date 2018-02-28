@@ -21,7 +21,7 @@ public class GUIHoverMouseChange : MonoBehaviour {
 
     public void OnMouseEnter()
     {
-        Debug.Log("Hovering + " + gameObject);
+        //Debug.Log("Hovering + " + gameObject);
         imageToChange.GetComponent<Image>().sprite = imageChange;
         descriptionToChange.GetComponent<Text>().text = descriptionChange.text;
     }

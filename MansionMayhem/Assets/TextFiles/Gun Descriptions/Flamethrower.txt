@@ -1,8 +1,8 @@
 Flamethrower
 
 
-This gun uses oil and gasoline to produce flames from its barrel.
+This gun uses oil and gasoline to produce frost from its barrel.
 
-An area damaging particle gun has a "burn effect" - the longer any enemy is in it’s flames, the more damage it does.
+The gun emits an area of effect that has a burn effect: The longer any enemy stands in the flames, the more damage it does.
 
-This gun can hit multiple enemies at once.
+This gun can hit multiple enemies

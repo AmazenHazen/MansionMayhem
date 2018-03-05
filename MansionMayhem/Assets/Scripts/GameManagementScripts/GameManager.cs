@@ -191,7 +191,7 @@ public class GameManager : MonoBehaviour
     public void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/MansionMayhem.dat");
+        FileStream file = File.Create(Application.persistentDataPath + "/MansionMayhemDemo.dat");
 
         PlayerData data = new PlayerData();
 
@@ -317,10 +317,10 @@ public class GameManager : MonoBehaviour
     public void Load()
     {
         // Check to see if a save file already exists
-        if (File.Exists(Application.persistentDataPath + "/MansionMayhem.dat"))
+        if (File.Exists(Application.persistentDataPath + "/MansionMayhemDemo.dat"))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/MansionMayhem.dat", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/MansionMayhemDemo.dat", FileMode.Open);
             PlayerData data = (PlayerData)bf.Deserialize(file);
             file.Close();
 

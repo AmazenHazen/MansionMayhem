@@ -6,6 +6,8 @@ public class EnemyManager : MonoBehaviour
 {
     #region Enemy Attributes
     // Attributes Set by editor
+    const float INITIAL_SHOOT_DELAY = 1f;
+
     // Enemy Behavior variables
     public enemyType monster;                   // The specific monster creature name
     public enemyClass primarymonsterType;      // The primary type of monster (demon, ghost, spider)
@@ -49,6 +51,7 @@ public class EnemyManager : MonoBehaviour
     protected int blobCount;
     protected bool canShoot;
     public int bulletCount;
+    private bool initialBulletDelay;
 
     // Boss Management
     public int phase;
@@ -117,6 +120,9 @@ public class EnemyManager : MonoBehaviour
 
         // start the enmy phase on 0
         phase = 0;
+
+        // set initial bullet delay to true
+        initialBulletDelay = true;
     }
     #endregion
 
@@ -130,6 +136,10 @@ public class EnemyManager : MonoBehaviour
         {
             // update deltaTime next
             totalTime += Time.deltaTime;
+            if(totalTime>INITIAL_SHOOT_DELAY)
+            {
+                initialBulletDelay = false;
+            }
         }
 
         #region Special Movement and shoot methods (For bosses mostly)
@@ -209,7 +219,7 @@ public class EnemyManager : MonoBehaviour
         #endregion
 
         // Enemy Shooting allows any enemy to shoot when possible
-        if (hasBullets == true && canShoot==true && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
+        if (hasBullets == true && canShoot==true && initialBulletDelay==false && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
         {
             Shoot();
         }

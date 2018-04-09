@@ -78,6 +78,9 @@ public enum bulletTypes
     CelestialCrystal,
     DarkEnergy,
     Xenon,
+    blood,
+    mucus,
+    phlegm,
 }
 
 public enum trinkets
@@ -308,9 +311,21 @@ public enum enemyType
 
 
     // Mucks (180-200)
-    blackMuck = 180,          // art done
-    purpleSludgeMuck = 181,      // art done
-    ectoplasmMuck = 182,         // art done
+    oilSlime = 180,
+    oilMuck = 181,          // art done
+    oilOozoma = 182,
+    mucusSlime = 183, 
+    mucusMuck = 184,
+    mucusOozoma = 185,
+    phlegmSlime = 186,
+    phlegmMuck = 187,
+    phlegmOozoma = 188,
+    bloodSlime = 189,
+    bloodMuck = 190,
+    bloodOozoma = 191,
+    BeastoftheFourBiles = 192,
+    purpleSludgeMuck = 195,      // art done
+    ectoplasmMuck = 196,         // art done
 
     // Elementals (210-220)
     infernalElemental = 210,   //Burn
@@ -356,7 +371,7 @@ public enum enemyClass
     Demon,
     Shade,
     Possesed,
-    Skeleton,
+    skeleton,
     Zombie,
     Cthulhians,
     Elementals,

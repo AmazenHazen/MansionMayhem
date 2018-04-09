@@ -339,7 +339,28 @@ public class EnemyMovement : CharacterMovement
                 #endregion
 
                 #region Muck
-                case enemyType.blackMuck:
+                case enemyType.oilSlime:
+                case enemyType.bloodSlime:
+                case enemyType.phlegmSlime:
+                case enemyType.mucusSlime:
+                    // Jumping Movement
+                    if (readyToMove)
+                    {
+                        ultimateForce += seek(player.transform.position) * 50;
+                        readyToMove = false;
+                        resettingMovement = true;
+                    }
+                    else if (resettingMovement)
+                    {
+                        resettingMovement = false;
+                        Invoke("ResetMoveBool", 1);
+                    }
+                    break;
+
+                case enemyType.mucusMuck:
+                case enemyType.phlegmMuck:
+                case enemyType.bloodMuck:
+                case enemyType.oilMuck:
                     ultimateForce += seek(player.transform.position);
                     break;
 

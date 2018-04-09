@@ -14,6 +14,7 @@ public abstract class CharacterMovement : MonoBehaviour
     public float mass;
     public float maxSpeed;
     public float frictionVar;
+    public bool rotateBool;
 
     // Rotation Variables
     protected Quaternion angle;
@@ -157,7 +158,10 @@ public abstract class CharacterMovement : MonoBehaviour
 
         // For 2D
         // Draw the vehicle at the correct rotation
-        transform.rotation = Quaternion.Euler(0, 0, angleOfRotation);
+        if (rotateBool == true)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, angleOfRotation);
+        }
 
         // Draw the vehicle at the right position
         gameObject.transform.position = position;

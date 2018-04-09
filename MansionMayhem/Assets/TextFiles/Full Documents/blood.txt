@@ -1,0 +1,23 @@
+You search the bookcase and find a bloodstained tome.
+Do you wish to read it?
+*2
+Yes[SayYes](10)
+Do Nothing[SayNothing]
+
++
+"Blood"
+From birth I circulate
+I deliver necessary substances through your body
+I am the Sanguine Temperament
+Enthusiastic and Active
+Infecting me causes disease
+Without me you die
+[StartQuest]
+In the back of the book you notice some other markings. Do you wish to read them?
+
+
+[Exit]
+
+-
+No! You are a pink hater as well!
+[Exit]

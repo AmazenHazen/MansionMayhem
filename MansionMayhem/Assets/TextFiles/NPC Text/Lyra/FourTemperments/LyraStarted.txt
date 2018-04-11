@@ -1,0 +1,22 @@
+Castor returns! Does he have the transcripted texts of the slimy monsters?
+*2
+Yes[SayYes](11)
+No[SayNo](7)
+
+-
+I don't think you have them yet!
+No worries, I got my air freshoner, it'll keep the monsters at bay until you find me the texts.
+[Exit]
+
++
+Hmmm....
+[CheckRequirements](13)(6)
+Ahh the texts! Thank you so much!
+It seems the monsters are connecting to Humorism, an ancient system of medicine!
+This ancient system of medicine has been deemed to not work.
+But maybe it holds some sort of truth we didn't know before! 
+Here's a nifty reward that I'm sure an inventor like you can put to good use! :)
+(Half Light gives you 450 screws)
+[Reward](450)
+[CompleteQuest]
+[Exit]

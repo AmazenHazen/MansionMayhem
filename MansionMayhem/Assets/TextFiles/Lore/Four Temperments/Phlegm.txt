@@ -1,0 +1,18 @@
+You search the bookcase and find a tome oozing with mucus.
+Do you wish to read it?
+*2
+Yes[SayYes](7)
+Don't Read[SayNothing]
+
++
+You put on gloves and open the book to the only pages that aren't drenched.
+"Phlegm"
+
+"In old age I prevent sickness"
+"I protect your airways and prevent diseases"
+"I am the Phlegmatic Temperament"
+"Relaxed and Peaceful"
+"Infecting me causes suffocation"
+"Without me you suffocate"
+[CompleteQuest]
+[Exit]

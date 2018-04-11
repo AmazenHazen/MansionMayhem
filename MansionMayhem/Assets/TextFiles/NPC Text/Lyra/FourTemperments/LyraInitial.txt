@@ -1,0 +1,24 @@
+Ah, who might you be?
+Castor? Ah you are the supernatural hunter inventor I have been hearing a lot about! I was wondering if I'd ever bump into you!
+I'm Lyra, a young biochemist! Don't let my age fool you though, I'm an expert in researching supernatural biomaterials.
+All my life I have wondered, how is ectoplasm created? What supernatural process allows the secretion of that material.
+Nuggets! I'm getting off track like I always do!
+I got here shortly before you and discovered that there are unceasing secreting monsters in this chateau.
+Through what I have gathered they are monsters of human secretion, but to a monstrous degree.
+Oil, Mucus, Wax, and Blood.
+Anyways, I was searching around and was able to find texts about these monsters!
+But before I was able to snag a look, I was chased out by a funky gunky monster.
+It would be coolest if you were to find all the texts for the four types of secretionous monsters, I'll reward you greatly.
+Will you help me with my research?
+*2
+Yes[SayYes](17)
+No[SayNo](22)
+
++
+Oh thank you thanks you! You are a real life saver!
+[StartQuest]
+[Exit]
+
+-
+Ah fecal matter! Come back if you change your mind!
+[Exit]

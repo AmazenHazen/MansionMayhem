@@ -433,9 +433,9 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// Heals the enemy if it hits the use with 
     /// </summary>
-    public void VampyricHeal()
+    public void VampyricHeal(float damageFloat)
     {
-        CurrentLife += damage;
+        CurrentLife += damageFloat;
     }
     #endregion
     #endregion

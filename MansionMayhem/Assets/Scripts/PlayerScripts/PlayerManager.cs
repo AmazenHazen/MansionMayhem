@@ -247,7 +247,7 @@ public class PlayerManager : MonoBehaviour
                     if (collider.gameObject.GetComponent<EnemyManager>().vampyric == true)
                     {
                         // Call the vampyric heal method
-                        collider.gameObject.GetComponent<EnemyManager>().VampyricHeal();
+                        collider.gameObject.GetComponent<EnemyManager>().VampyricHeal(collider.gameObject.GetComponent<EnemyManager>().damage);
                     }
 
 
@@ -291,7 +291,7 @@ public class PlayerManager : MonoBehaviour
                     if (collider.gameObject.GetComponent<EnemyWeaponScript>().vampyric == true)
                     {
                         // Call the vampyric heal method
-                        collider.gameObject.GetComponent<EnemyWeaponScript>().owner.GetComponent<EnemyManager>().VampyricHeal();
+                        collider.gameObject.GetComponent<EnemyWeaponScript>().owner.GetComponent<EnemyManager>().VampyricHeal(collider.gameObject.GetComponent<EnemyWeaponScript>().damage);
                     }
 
 

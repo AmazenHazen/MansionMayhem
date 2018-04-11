@@ -1,0 +1,18 @@
+You search the bookcase and find a tome covered in a hard yellow-orangish wax.
+Do you wish to break the hardened wax and read the tome?
+*2
+Yes[SayYes](7)
+Don't Read[SayNothing]
+
++
+You break the seal of wax and open the first page you see.
+"Wax"
+
+"In childhood I protect your senses"
+"I protect your airways and prevent infection"
+"I am the Choleric Temperament"
+"Independence and Decisive"
+"Infecting me causes imbalance"
+"Without me you lose your sense"
+[CompleteQuest]
+[Exit]

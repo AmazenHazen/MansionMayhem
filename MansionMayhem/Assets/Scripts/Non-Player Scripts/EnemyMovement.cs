@@ -361,6 +361,7 @@ public class EnemyMovement : CharacterMovement
                 case enemyType.phlegmMuck:
                 case enemyType.bloodMuck:
                 case enemyType.oilMuck:
+                case enemyType.BeastoftheFourBiles:
                     ultimateForce += seek(player.transform.position);
                     break;
 

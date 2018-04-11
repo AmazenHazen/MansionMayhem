@@ -1,0 +1,19 @@
+You search the bookcase and find a tome covered in a slippery clear substance.
+Do you wish to read the tome?
+*2
+Yes[SayYes](7)
+Don't Read[SayNothing]
+
++
+The tome is too slippery, slides through your hands, and falls to the ground.
+You sit down and use the floor to read the first page you turn to.
+"Oil"
+
+"Through your adulthood I cause you to smell"
+"I protect your skin from the outside elements"
+"I am the Melancholic Temperament"
+"Detailed and Profound"
+"Infecting me causes acne"
+"Without me you burn from the inside"
+[CompleteQuest]
+[Exit]

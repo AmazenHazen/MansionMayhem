@@ -45,7 +45,7 @@ public class BlobScript : MonoBehaviour
         if (blobComposite == bulletTypes.ectoPlasm)
         {
             damage = .0001f;
-            isPoisonous = true;
+            //isPoisonous = true;
         }
 
         if (blobComposite == bulletTypes.web)
@@ -112,7 +112,7 @@ public class BlobScript : MonoBehaviour
         if (blobComposite == bulletTypes.ectoPlasm)
         {
             damage = .0001f;
-            isPoisonous = true;
+            //isPoisonous = true;
         }
 
         if (blobComposite == bulletTypes.web)
@@ -124,7 +124,14 @@ public class BlobScript : MonoBehaviour
         {
             slippy = true;
         }
-        if(blobComposite == bulletTypes.Portal)
+
+        if (blobComposite == bulletTypes.blood)
+        {
+            damage = .001f;
+        }
+
+
+        if (blobComposite == bulletTypes.Portal)
         {
             int tempPortalNum = owner.GetComponent<PlayerManager>().PortalNum;
             portalNum = tempPortalNum;
@@ -145,6 +152,7 @@ public class BlobScript : MonoBehaviour
             BlobStartNoOwner();
         }
 
+            /*
         if(blobComposite == bulletTypes.ectoPlasm)
         {
             if (owner == false)
@@ -153,6 +161,7 @@ public class BlobScript : MonoBehaviour
                 StartCoroutine(deleteBlob());
             }
         }
+            */
 	}
 
 
@@ -181,6 +190,11 @@ public class BlobScript : MonoBehaviour
 
             // Damage Player
             collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;
+            if (blobComposite == bulletTypes.blood)
+            {
+                owner.GetComponent<EnemyManager>().VampyricHeal(damage);
+            }
+
 
             // Apply Poison to player
             if (isPoisonous)

@@ -1,0 +1,38 @@
+You search the bookcase and find a bloodstained tome.
+Do you wish to read the tome?
+*2
+Yes[SayYes](7)
+Don't Read[SayNothing]
+
++
+"Blood"
+"From birth I circulate"
+"I deliver necessary substances through your body"
+"I am the Sanguine Temperament"
+"Enthusiastic and Active"
+"Infecting me causes disease"
+"Without me you die"
+
+In the back of the book you notice some writing in blood. Do you wish to read it?
+*2
+Yes[SayYes](22)
+Stop Reading[SayNo](32)
+
++
+"The Blood Moon beckens the beast of dripping blood."
+"Every single drop of blood belongs to him."
+"He sees into your life force."
+"Dreor stirs!"
+
+You freeze in place.
+You feel your blood stop circulating.
+Your heart clenches as it skips a few beats.
+You close the book and blood gushes out from the edges of the book.
+Everything becomes cold and you see your breath.
+You try to scream but you hear nothing.
+Then everything returns to normal.
+You look down expecting to see a pool of blood on the ground.
+But there isn't a single drop.
+You feel as though you now know of an ancient evil you didn't yet know.
+[CompleteQuest]
+[Exit]

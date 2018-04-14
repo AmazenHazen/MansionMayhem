@@ -92,6 +92,7 @@
      <Compile Include="Assets\Scripts\PlayerScripts\PlayerMapScript.cs" />
      <Compile Include="Assets\Scripts\PlayerScripts\PlayerMovement.cs" />
      <None Include="Assets\TextFiles\Lore\Four Temperments\Wax.txt" />
+     <None Include="Assets\TextFiles\Level Objective Messages\Level27DreorForest.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\XenonPulser.txt" />
      <None Include="Assets\TextFiles\NPC Text\Lyra\FourTemperments\LyraCompleted.txt" />
      <None Include="Assets\TextFiles\NPC Text\Lyra\FourTemperments\LyraStarted.txt" />

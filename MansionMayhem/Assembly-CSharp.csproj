@@ -94,6 +94,7 @@
      <None Include="Assets\TextFiles\Lore\Four Temperments\Wax.txt" />
      <None Include="Assets\TextFiles\Level Objective Messages\Level27DreorForest.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\XenonPulser.txt" />
+     <None Include="Assets\TextFiles\NPC Text\Tom\TomStarted.txt" />
      <None Include="Assets\TextFiles\NPC Text\Lyra\FourTemperments\LyraCompleted.txt" />
      <None Include="Assets\TextFiles\NPC Text\Lyra\FourTemperments\LyraStarted.txt" />
      <None Include="Assets\TextFiles\Level Objective Messages\Level5Necromancer.txt" />
@@ -117,6 +118,7 @@
      <None Include="Assets\TextFiles\NPC Text\Charlie\Demon In Need\CharlieInitial.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\HellFireShotgun.txt" />
      <None Include="Assets\TextFiles\NPC Text\HalfLight\Purgatory Penetentiary\HalfLight1Complete.txt" />
+     <None Include="Assets\TextFiles\NPC Text\Tom\TomInitial.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\ElectronCannon.txt" />
      <None Include="Assets\TextFiles\Level Objective Messages\Level4PurgatoryPenitentiary.txt" />
      <None Include="Assets\TextFiles\NPC Text\HalfLight\Purgatory Penetentiary\HalfLight1Start.txt" />

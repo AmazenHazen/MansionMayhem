@@ -1,7 +1,8 @@
 Thank god you are here! I need some help.
 What is that? My daughter sent you to check on me?
-Well here I am, trapped as a ghost.
-I need you help. I cannot return back to the realm of the living, but I can help you try to defeat the ancient evil presence in this forest.
+Well, here I am, trapped as a ghost.
+I need your help. I cannot return back to the realm of the living.
+I can help you defeat the ancient evil that lurks in this forest.
 Are you up for the task?
 *2
 Sure![SayYes](10)
@@ -10,29 +11,25 @@ Nah[SayNo](32)
 +
 Great. I must first tell you how I got like this.
 While at the cabin I decided to go hunt during the Blood Moon.
-During the Blood Moon, the night belongs to it’s master:
+During the Blood Moon, everythign belongs to its master:
 The Beast of Dripping Blood.
-Every and all animals are it’s property on that night.
+Every animal is its property at night.
 I hunted a deer and violated his property.
-The beast of dripping blood could smell the blood spilled and appeared to me.
-He was huge! Body made of blood and a mane of a thousand leeches.
+The Beast of Dripping Blood could smell the blood spilled and appeared to me.
+He was huge! His body was made of blood and he had a mane of a thousand leeches.
 He told me that a sacrifice was required to replace what I had stolen.
-He separated my body from my soul, consumed my body, and tethered my soul to this plane.
+He seperated my body from my soul, consumed my body, and tethered my soul to this plane.
 The only way to break it is to perform a sacrificial ritual to replace what is owed.
 A life for a life.
-What needs to be done is a sacrificial ritual.
-North of here is a cave with offering stones.
-This is what you need:
-The teeth of an ancient blood sucking fish,
-The sap of the bleeding Black Blood tree, 
-And a live animal sacrifice.
+North of here is a cave with three offering stones.
+This is what you need for the offering stones and the ritual:
+The teeth of an ancient blood sucking fish, the sap of the bleeding Black Blood tree, and a living animal sacrifice.
 Use what you can find around the cabin and the shed to get these.
 Then perform the ritual in the cave to the north.
 That should be enough to free me.
 [StartQuest]
 [Exit]
 
-
 -
-Well I can’t leave, so I’ll be here when you are ready.
+Well I can't leave, so I'll be here when you are ready.
 [Exit]

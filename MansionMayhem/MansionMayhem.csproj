@@ -294,6 +294,8 @@
     <None Include="Assets\TextFiles\NPC Text\Lyra\FourTemperments\LyraCompleted.txt" />
     <None Include="Assets\TextFiles\NPC Text\Lyra\FourTemperments\LyraInitial.txt" />
     <None Include="Assets\TextFiles\NPC Text\Lyra\FourTemperments\LyraStarted.txt" />
+    <None Include="Assets\TextFiles\NPC Text\Tom\TomInitial.txt" />
+    <None Include="Assets\TextFiles\NPC Text\Tom\TomStarted.txt" />
     <None Include="Assets\TextFiles\NPC Text\Warden\Puragatory Penetentiary\WardenInitial.txt" />
     <None Include="Assets\TextFiles\NPC Text\Warden\Puragatory Penetentiary\WardenStarted.txt" />
   </ItemGroup>

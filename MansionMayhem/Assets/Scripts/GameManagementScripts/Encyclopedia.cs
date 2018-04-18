@@ -486,12 +486,29 @@ public enum ItemType
     #endregion
 
     #region Quest Items
-    // Weapon
+    // Demon In Need Level
     TwistedDemonHorn = 50,
     VialOfBlood =51,
     RedChalk =52,
     DemonicTome =53,
+
+    // Purgatory Prison
     DeathClutchJournal = 54,
+
+    // Forest of Dripping Blood
+    Bucket = 80,
+    TreeTap = 81,
+    BucketOfBloodSap = 82,
+
+    Harpoon = 83,
+    Lamprey = 84,
+    LampreyTeeth = 85,
+
+    RawSteak = 86,
+    SleepingMedication = 87,
+    RabidSleepingMonsterAnimal = 88,
+
+
     #endregion
 
 }

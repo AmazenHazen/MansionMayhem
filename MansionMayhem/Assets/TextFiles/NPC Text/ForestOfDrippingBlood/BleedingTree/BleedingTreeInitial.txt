@@ -1,0 +1,14 @@
+You attempt to tap the bleeding tree for its blood sap...
+[CheckItemRequirements](8)(4)
+
+-
+You do not have the bucket and tree tap needed to harvest the blood sap.
+[Exit]
+
++ 
+You plunge the tree tap into the tree and blood sap gushes out over your hands.
+You quickly put the bucket under the tap to fill up.
+The bucket quickly overflows with blood sap.
+Looks like you have what you need from the bleeding tree.
+[StartQuest]
+[Exit]

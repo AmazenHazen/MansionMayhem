@@ -5,13 +5,13 @@ I need your help. I cannot return back to the realm of the living.
 I can help you defeat the ancient evil that lurks in this forest.
 Are you up for the task?
 *2
-Sure![SayYes](10)
+Sure![SayYes](11)
 Nah[SayNo](32)
 
 +
 Great. I must first tell you how I got like this.
 While at the cabin I decided to go hunt during the Blood Moon.
-During the Blood Moon, everythign belongs to its master:
+During the Blood Moon, everything belongs to its master:
 The Beast of Dripping Blood.
 Every animal is its property at night.
 I hunted a deer and violated his property.

@@ -1,0 +1,13 @@
+You attempt to fish for a ancient blood sucking fish in these waters
+[CheckItemRequirements](8)(4)
+
+-
+You do not have the harpoon needed to catch fish.
+[Exit]
+
++ 
+You thrust your harpoon into the water hoping to catch an ancient blood sucking fish.
+You end up catching a bass.
+That isn't a blood sucking fish! You release the fish back into the pond.
+[StartQuest]
+[Exit]

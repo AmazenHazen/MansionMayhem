@@ -1,0 +1,15 @@
+You attempt to fish for a ancient blood sucking fish in these waters
+[CheckItemRequirements](8)(4)
+
+-
+You do not have the harpoon needed to catch fish.
+[Exit]
+
++ 
+You thrust your harpoon into the water hoping to catch an ancient blood sucking fish.
+You catch a Lamprey on the side of the boulder nearby!
+It hisses and attaches itself to your arm as you catch it.
+You pull it off and put the Lamprey in your bag.
+Sadly, you know the Lamprey won't survive a trip back to the cabin.
+[StartQuest]
+[Exit]

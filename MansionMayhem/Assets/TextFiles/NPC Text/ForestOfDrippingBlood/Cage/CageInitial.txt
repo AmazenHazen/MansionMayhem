@@ -1,0 +1,19 @@
+You look in your bag to see what you can use with the cage to lure an animal in.
+[CheckItemRequirements](8)(4)
+
+-
+You do not have what you need to lure an animal in the cabin. Maybe you need to look around the Kitchen and Bathroom of the cabin.
+[Exit]
+
++ 
+You stuff the steak in your inventory with the sleeping pill you found and set up the cage to trap an animal.
+You hide in the bushes and wait for an animal to fall for the trap.
+You see this crazy looking blood red spiked creature head towards the cave.
+You see tenticles expel from its mouth to drain the blood of the steak.
+After draining all of the steaks blood it goes in and devours the steak.
+It immediately falls asleep.
+I wonder what would happen if you sacrificed this creature of dripping blood instead of a normal animal.
+You put the ferocious blood sucking beast in your bag.
+[GiveItem](0)
+[StartQuest]
+[Exit]

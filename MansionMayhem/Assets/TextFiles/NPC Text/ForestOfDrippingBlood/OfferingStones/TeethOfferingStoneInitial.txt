@@ -1,0 +1,10 @@
+You check your bag for the teeth of an ancient blood sucking fish...
+[CheckItemRequirements](8)(4)
+
+-
+You don't have the teeth of an ancient blood sucking beast.
+[Exit]
+
++ 
+You place the teeth on the offering stone.
+[Exit]

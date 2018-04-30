@@ -1,0 +1,42 @@
+You attempt to perform the ritual of dripping blood...
+[CheckItemRequirements](9)(4)
+
+-
+You don't have everything placed on the offering stone for the ritual of dripping blood.
+I would check the offering stones to check which parts of the ritual you still need.
+[Exit]
+
++ 
+You read the latin writing from the book on the stone alter.
+The lettering in the book shines with a bright red light.
+You freeze in place.
+You feel your blood stop circulating.
+Your heart clenches as it skips a few beats.
+Blood gushes out from the lettering of the book causing the alter to be covered with blood.
+The teeth from the Lamprey float and fly in front of the alter.
+The blood sap from the bleeding tree bubbles over and moves along the ground to in front of the alter.
+The beast wakes up in what seems to be a trance and walks over to the ground in the frotn of the alter.
+Everything becomes hot and you can feel yourself sweat.
+You try to breathe but you can't seem to get a gasp of fresh air.
+Then everything stops.
+In front of you is a huge humanoid made of blood.
+It has the teeth of the Lamprey, a body of blood from the bleeding tree, and vein tentacles coming off its back fo the beast.
+The blood-like humanoid opens it's mouth to speak.
+
+"The proxy ritual has been completed? I cannot believe that a human has brought me back into this realm. Who dares summon me?"
+*2
+Castor![SayYes](31)
+Don't say anything[SayNo](30)
+-/+
+"Remaining silent I see, well I hope you will have more to say then just that in front of my Proxy."
+"It really doesn't matter who you are. You have helped awaken me."
+"Even though I awaken I can feel that I am still chained to the Dark Elemental..."
+"Why have you awakened me?"
+"You want to free a man's soul from my control? I guess I can do that since you summoned me. I will let it be done."
+The proxy snaps his fingers and you can tell a soul has been freed from this realm.
+"AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
+You notice that the humanoid creature starts to look like it is melting.
+"What have you done...No! You have sacrificed one of my own creatures to create this Proxy!"
+"You fiend, as long as this Proxy stands I will "
+
+[Exit]

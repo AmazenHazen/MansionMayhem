@@ -1,0 +1,10 @@
+You check your bag for a living animal sacrifice...
+[CheckItemRequirements](8)(4)
+
+-
+You don't have a living animal sacrifice.
+[Exit]
+
++ 
+You take the unimaginable sleeping blood beast in your bag out and curl it up in the nook of the ritual stone.
+[Exit]

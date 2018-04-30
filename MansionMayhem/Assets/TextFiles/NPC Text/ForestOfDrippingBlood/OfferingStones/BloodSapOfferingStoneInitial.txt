@@ -1,0 +1,10 @@
+You check your bag for the blood sap of the bleeding tree...
+[CheckItemRequirements](8)(4)
+
+-
+You don't have the blood sap of the bleeding tree.
+[Exit]
+
++ 
+You poor the blood sap from your bucket into the offering stone.
+[Exit]

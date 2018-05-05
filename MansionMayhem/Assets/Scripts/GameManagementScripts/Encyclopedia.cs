@@ -303,6 +303,7 @@ public enum enemyType
     gargoyle = 133,           // art done
     demonLord = 134,          //Demon Boss    art done
     cerberus = 135,           //Demon Boss
+    bloodDemon = 136,
 
     // Shadow (150-170)
     shadeKnight = 150,
@@ -333,6 +334,7 @@ public enum enemyType
     acidicElemental = 212,     //Venom
     pyreLord = 213,           //Elemental Boss
     darkElemental = 214,
+    dreorsProxy = 215,
 
     // Beasts (230-250)
     shadowBeast = 230,

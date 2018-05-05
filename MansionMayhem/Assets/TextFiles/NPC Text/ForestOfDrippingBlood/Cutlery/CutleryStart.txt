@@ -1,11 +1,12 @@
-You attempt to use the cutlery for what you have in your inventory.
+You attempt to use the cutlery with what you have in your inventory.
 [CheckItemRequirements](8)(4)
 
 -
-You have nothing to use with the cutlery
+You don't have anything you can use with the cutlery.
 [Exit]
 
 + 
-You carfuly dissect a number of teeth from the Vampyric Lamprey
+You carfuly dissect a number of teeth from the vampyric lamprey.
+[GiveItem](0)
 [StartQuest]
 [Exit]

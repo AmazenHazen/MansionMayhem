@@ -7,4 +7,5 @@ You don't have the teeth of an ancient blood sucking beast.
 
 + 
 You place the teeth on the offering stone.
+[CompleteQuest]
 [Exit]

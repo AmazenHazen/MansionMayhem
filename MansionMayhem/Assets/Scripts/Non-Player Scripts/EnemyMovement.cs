@@ -182,11 +182,10 @@ public class EnemyMovement : CharacterMovement
                 #region demons
                 // Demons
                 case enemyType.imp:
-
+                case enemyType.darkimp:
+                case enemyType.bloodDemon:
                     // Seek
                     ultimateForce += seek(player.transform.position);
-                        break;
-                case enemyType.darkimp:
                     ultimateForce += seek(player.transform.position);
                     break;
 
@@ -404,6 +403,9 @@ public class EnemyMovement : CharacterMovement
 
                 case enemyType.pyreLord:
 
+                    break;
+                case enemyType.dreorsProxy:
+                    ultimateForce += pursue(player);
                     break;
 
                 #endregion

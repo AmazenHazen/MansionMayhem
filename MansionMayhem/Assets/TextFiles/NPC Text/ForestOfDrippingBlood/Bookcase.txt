@@ -1,0 +1,12 @@
+You look in the bookcase and find a "Fishing Encyclopedia for Dummies".
+You flip to the first page.
+"Bass: This common fish likes to swim anywhere in lakes, ponds, or streams.
+"This fish can make for a tasty dinner."
+"Leech: An aquatic worm that can latch onto a host and suck its blood for food."
+"Be careful when detaching a leech if it latches onto you."
+"Angler Fish: This uncommon fish has a fiend-like appearance and uses the light on its head to attract other fish to eat."
+"Angler Fish like to swim in deep water."
+"Lamprey: A jawless ancient fish that latches onto a host and sucks its blood.
+"Lampreys are known as stone lickers because they enjoy living and latching onto rocks."
+Interesting selection of fish for the first four pages. You close the book and put it back on the shelf
+[Exit]

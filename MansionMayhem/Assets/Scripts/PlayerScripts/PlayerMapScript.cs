@@ -28,7 +28,7 @@ public class PlayerMapScript : MonoBehaviour
         // Currently start them at the initial location
         destination = locations[0];
         currentLocationIndex = 0;
-        locationIndexMax = 4; // Total Location indexes currently
+        locationIndexMax = locations.Count-1; // Total Location indexes currently
     }
 
     // Update is called once per frame

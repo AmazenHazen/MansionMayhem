@@ -7,4 +7,5 @@ You don't have the blood sap of the bleeding tree.
 
 + 
 You poor the blood sap from your bucket into the offering stone.
+[CompleteQuest]
 [Exit]

@@ -127,7 +127,7 @@ public class BlobScript : MonoBehaviour
 
         if (blobComposite == bulletTypes.blood)
         {
-            damage = .001f;
+            damage = .005f;
         }
 
 
@@ -152,8 +152,8 @@ public class BlobScript : MonoBehaviour
             BlobStartNoOwner();
         }
 
-            /*
-        if(blobComposite == bulletTypes.ectoPlasm)
+            
+        if(blobComposite == bulletTypes.ectoPlasm || blobComposite == bulletTypes.blood)
         {
             if (owner == false)
             {
@@ -161,7 +161,7 @@ public class BlobScript : MonoBehaviour
                 StartCoroutine(deleteBlob());
             }
         }
-            */
+            
 	}
 
 

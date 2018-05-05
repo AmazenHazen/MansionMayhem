@@ -1,0 +1,6 @@
+You look inside the medicine cabnet.
+Cough Syrup, Bandaids, and Sleeping Medication.
+Maybe you can use the sleeping medication later to catch an animal.
+[GiveItem](0)
+[StartQuest]
+[Exit]

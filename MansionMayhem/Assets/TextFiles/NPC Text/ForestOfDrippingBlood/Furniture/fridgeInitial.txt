@@ -1,0 +1,8 @@
+You look inside the fridge.
+Oh wow a chocolate pudding cup! You snatch it quickly and grab a spoon.
+The pudding is delicious and fills your hunger.
+You also notice that there is a thawed steak in the fridge...
+Maybe you can use it to catch an animal in the wild.
+[GiveItem](0)
+[StartQuest]
+[Exit]

@@ -7,12 +7,12 @@ You do not have the harpoon needed to catch fish.
 
 + 
 You thrust your harpoon into the water hoping to catch an ancient blood sucking fish.
-You catch a Lamprey on the side of the boulder nearby!
+You catch a lamprey on the side of the boulder nearby!
 It hisses and attaches itself to your arm as you catch it.
 As it attached to your arm you you use your harpoon to seperate it from your body.
-The harpoon breaks but the Lamprey is no longer attached to you.
-You stuff the Lamprey in your bag.
-Sadly, you know the Lamprey won't survive a trip back to the cabin.
+The harpoon breaks but the lamprey is no longer attached to you.
+You stuff the lamprey in your bag.
+Sadly, you know the lamprey won't survive a trip back to the cabin.
 [GiveItem](0)
 [StartQuest]
 [Exit]

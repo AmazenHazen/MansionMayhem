@@ -35,6 +35,8 @@ public class NPC : CharacterMovement
     private GameObject questIcon;
     public List<Sprite> QuestSprites; // for changing the overhead sprite of the NPC
     public List<GameObject> items; // for items that the NPC will take from or accept from the player
+    public List<GameObject> enemies;
+    public List<GameObject> otherStuff; // for anything else needing to be accessed.
     public List<ItemType> itemRequirements;
     public List<GameObject> requirements; // requirements for completing a quest (could be items, interactive objects, or NPCs)
     public QuestStatus currentQuestStatus;
@@ -61,7 +63,10 @@ public class NPC : CharacterMovement
         player = GameObject.FindGameObjectWithTag("player");
 
         // Get the queest icon sprite
-        questIcon = transform.GetChild(0).gameObject;
+        if (transform.Find("Icon"))
+        {
+            questIcon = transform.Find("Icon").gameObject;
+        }
 
         currentLine = 0;
 
@@ -74,7 +79,10 @@ public class NPC : CharacterMovement
 
         // Start the quest status of the NPC to not started
         currentQuestStatus = QuestStatus.NotStarted;
-        questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[0];
+        if (questIcon != null)
+        {
+            questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[0];
+        }
 
         base.Start();
     }
@@ -84,7 +92,7 @@ public class NPC : CharacterMovement
     // Update is called once per frame
     protected override void Update()
     {
-        if(talkingBool)
+        if (talkingBool)
         {
             TalkingTo();
         }
@@ -125,7 +133,7 @@ public class NPC : CharacterMovement
 
         if (GUIManager.dialogBox.activeSelf == false)
         {
-        // Activate the dialog box
+            // Activate the dialog box
             GUIManager.TurnOnDialogBox();
 
             // Start the scrolling text 
@@ -168,7 +176,7 @@ public class NPC : CharacterMovement
             // If the text box is currently printing the text then cancel the scrolling
             else if (GUIManager.isTyping && !GUIManager.cancelTyping)
             {
-            //Debug.Log("Cancel Typing");
+                //Debug.Log("Cancel Typing");
 
                 GUIManager.cancelTyping = true;
             }
@@ -185,10 +193,10 @@ public class NPC : CharacterMovement
                 CheckCommand();
             }
         }
-            
+
     }
     #endregion
-     
+
     #region Special Commands
     public void CheckCommand()
     {
@@ -220,7 +228,7 @@ public class NPC : CharacterMovement
             i++;
         } while (endOfCommand == false);
 
-            #endregion
+        #endregion
 
         #region Secondary Command
         // getting the text for item management with an NPC or number for going to a different text line
@@ -298,7 +306,10 @@ public class NPC : CharacterMovement
             case "StartQuest":
                 //Debug.Log("Command: " + commandText + secondayCommand);
                 currentQuestStatus = QuestStatus.Started;
-                questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[1];
+                if (questIcon != null)
+                {
+                    questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[1];
+                }
                 TextFileSetUp(startedQuestTextFile);
                 currentLine = 0;
                 endDialogue();
@@ -396,13 +407,28 @@ public class NPC : CharacterMovement
                 currentLine = secondaryNum;
                 break;
 
+            case "DeleteSelf":
+                // Go to a specific text line
+                transform.position = new Vector3(10000, 10000, 0);
+                break;
+
             case "CompleteQuest":
                 currentQuestStatus = QuestStatus.Completed;
                 //questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[2];
-                questIcon.GetComponent<SpriteRenderer>().sprite = null;
+                if (questIcon != null)
+                {
+                    questIcon.GetComponent<SpriteRenderer>().sprite = null;
+                }
                 TextFileSetUp(completedQuestTextFile);
                 currentLine = 0;
                 endDialogue();
+                break;
+
+            case "StartBossFight":
+                // Start the boss fight
+                enemies[0].SetActive(true);
+                GUIManager.bossFight = true;
+                currentLine++;
                 break;
 
             case "Exit":

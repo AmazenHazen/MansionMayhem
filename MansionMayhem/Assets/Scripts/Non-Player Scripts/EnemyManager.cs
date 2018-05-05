@@ -211,6 +211,20 @@ public class EnemyManager : MonoBehaviour
                 }
                 break;
 
+            case enemyType.dreorsProxy:
+                // Forwarding the phase depending on time
+                if ((currentLife / maxHealth) < .5f && phase == 0)
+                {
+                    phase++;
+                    for (int i = 0; i < enemyWeapons.Count; i++)
+                    {
+                        enemyWeapons[i].SetActive(true);
+                    }
+                    timeBetweenShots = .5f;
+                    abilityRestrictionNumber[0] = 80;
+                }
+                break;
+
 
             default:
 

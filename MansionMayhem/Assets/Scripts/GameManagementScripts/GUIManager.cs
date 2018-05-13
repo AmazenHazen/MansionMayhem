@@ -91,14 +91,6 @@ public class GUIManager : MonoBehaviour
 
         }
 
-        if (GameObject.Find("LevelManager").GetComponent<LevelManager>().levelObjective == levelType.boss)
-        {
-            boss = GameObject.Find("LevelManager").GetComponent<LevelManager>().boss;
-            // Set the healthBar Max value
-            bossMaxHealth = boss.GetComponent<EnemyManager>().maxHealth;
-            bossHealthBar.maxValue = bossMaxHealth;
-        }
-
         // Health Management
         HealthColors = new List<Color>();
         HealthColors.Add(new Color32(0, 0, 0, 255));
@@ -312,6 +304,17 @@ public class GUIManager : MonoBehaviour
     #endregion
     
     #region Boss HealthBar Management
+    public void BossHealthSetUp(GameObject bossVar)
+    {
+        boss = bossVar;
+        // Set the healthBar Max value
+        bossMaxHealth = boss.GetComponent<EnemyManager>().maxHealth;
+        bossHealthBar.maxValue = bossMaxHealth;
+
+        // Turn on the boss health bar
+        bossHealthCanvas.gameObject.SetActive(true);
+    }
+
     void BossHealthManagement()
     {
         if (boss != null && boss.activeSelf == true && bossFight == true)

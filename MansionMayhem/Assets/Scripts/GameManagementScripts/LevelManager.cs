@@ -7,13 +7,16 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     // Level Variables
-    public levelType levelObjective;
+    public levelType[] levelObjective;
 
     // Requirement Variables
-    public GameObject boss;
-    public GameObject taskNPC;
+    public GameObject[] boss;
+    public GameObject[] taskNPC;
     GameObject[] getListArray;
     public List<GameObject> levelRequirements;
+
+    // For completing the level
+    public int[] levelUnlockOnCompletion;
 
 
     // Starting Variables
@@ -28,19 +31,18 @@ public class LevelManager : MonoBehaviour
         GameObject.Find("ObjectiveHeader").GetComponent<Text>().text = levelName;
         GameObject.Find("ObjectiveText").GetComponent<Text>().text = levelObjectiveText.text;
 
-
-        // Sets the initial case for level
-        switch (levelObjective)
+        for (int i = 0; i < levelObjective.Length; i++)
         {
-            case levelType.extermination:
-                // Find all enemies (objects with tag enemy) and put them in the list.
+            // Sets the initial case for level
+            if (levelObjective[i] == levelType.extermination)
+            {
                 getListArray = GameObject.FindGameObjectsWithTag("enemy");
 
-                for (int i = 0; i < getListArray.Length; i++)
+                for (int j = 0; j < getListArray.Length; j++)
                 {
-                    levelRequirements.Add(getListArray[i]);
+                    levelRequirements.Add(getListArray[j]);
                 }
-                break;
+            }
         }
     }
 
@@ -50,40 +52,56 @@ public class LevelManager : MonoBehaviour
         CheckLevelCompletion();
     }
 
+
+    /// <summary>
+    /// Method that checks whether the level has been completed
+    /// </summary>
     void CheckLevelCompletion()
     {
-        // Case: Extermination or task requires the requirement list to be empty or 0
-        if (levelObjective == levelType.extermination)
+        for (int i = 0; i < levelObjective.Length; i++)
         {
-            if (levelRequirements.Count == 0)
+            switch (levelObjective[i])
             {
-                //Advance the level
-                AdvanceLevel();
-            }
-        }
-        else if(levelObjective == levelType.task)
-        {
-            if(taskNPC.gameObject.GetComponent<NPC>())
-            {
-                if(taskNPC.gameObject.GetComponent<NPC>().CurrentQuestStatus == QuestStatus.Completed)
-                {
-                    AdvanceLevel();
-                }
-            }
-        }
-        else if (levelObjective == levelType.boss)
-        {
-            if (boss == null)
-            {
-                AdvanceLevel();
+                // Case: Extermination or task requires the requirement list to be empty or 0
+                case levelType.extermination:
+                    if (levelRequirements.Count == 0)
+                    {
+                        //Advance the level
+                        CompleteLevel(levelUnlockOnCompletion[i]);
+                    }
+                    break;
+
+
+                // Case: Task/Quest is completed
+                case levelType.task:
+                    if (taskNPC[i].GetComponent<NPC>())
+                    {
+                        if (taskNPC[i].GetComponent<NPC>().CurrentQuestStatus == QuestStatus.Completed)
+                        {
+                            //Advance the level
+                            CompleteLevel(levelUnlockOnCompletion[i]);
+                        }
+                    }
+                    break;
+
+                // Case: Boss is killed
+                case levelType.boss:
+
+                    if (boss[i] == null)
+                    {
+                        CompleteLevel(levelUnlockOnCompletion[i]);
+                    }
+                    break;
+
             }
         }
     }
+    
 
     /// <summary>
     /// Is called when the player completes the level, automatically reloads the level selection screen
     /// </summary>
-    void AdvanceLevel()
+    void CompleteLevel(int unlockLevel)
     {
         //Debug.Log("Completed Level!");
 
@@ -92,9 +110,16 @@ public class LevelManager : MonoBehaviour
         if (GameManager.instance)
         {
             // Increase the highest level
-            if (GameManager.instance.currentLevel == GameManager.instance.highestLevel)
+            if (GameManager.instance.unlockedLevels[unlockLevel]==false)
             {
-                GameManager.instance.highestLevel++;
+                // Unlock the level in the gameManager instance
+                GameManager.instance.unlockedLevels[unlockLevel] = true;
+
+                // Set the highest level to the newest level reached
+                if (unlockLevel < GameManager.instance.highestLevel)
+                {
+                    GameManager.instance.highestLevel = unlockLevel;
+                }
             }
         }
         // Sets the instance to win, HUI manager handles the rest
@@ -105,9 +130,13 @@ public class LevelManager : MonoBehaviour
 
     public void EnemyEliminated(GameObject enemy)
     {
-        if(levelObjective == levelType.extermination)
+        for (int i = 0; i < levelObjective.Length; i++)
         {
-            levelRequirements.Remove(enemy);
+            // Sets the initial case for level
+            if (levelObjective[i] == levelType.extermination)
+            {
+                levelRequirements.Remove(enemy);
+            }
         }
     }
 }

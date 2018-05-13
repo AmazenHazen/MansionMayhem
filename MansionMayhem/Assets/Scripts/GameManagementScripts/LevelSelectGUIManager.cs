@@ -75,7 +75,7 @@ public class LevelSelectGUIManager : MonoBehaviour {
     {
         // Get variables needed for the HUD Text
         scoreText.text = "Screws: " + GameManager.instance.screws;
-        levelText.text = "Level: " + player.GetComponent<PlayerMapScript>().Destination.GetComponent<LevelLocation>().name;
+        levelText.text = "Level: " + player.GetComponent<PlayerMapScript>().destinationName;
     }
     #endregion
 

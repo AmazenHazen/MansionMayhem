@@ -11,6 +11,7 @@ public class DoorScript : MonoBehaviour
     public List<GameObject> monsterRequirements;
     public GameObject lockOnDoor;
     public bool bossDoor;
+    public GameObject boss;
 
     // bool that makes sure the player is only interacting with this object
     private bool interactBool;
@@ -123,7 +124,9 @@ public class DoorScript : MonoBehaviour
 
         if (bossDoor)
         {
+            GameObject.Find("HUDCanvas").GetComponent<GUIManager>().BossHealthSetUp(boss);
             GUIManager.bossFight = true;
+            
         }
 
     }

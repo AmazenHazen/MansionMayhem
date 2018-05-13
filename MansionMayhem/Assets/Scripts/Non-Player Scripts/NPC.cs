@@ -427,6 +427,7 @@ public class NPC : CharacterMovement
             case "StartBossFight":
                 // Start the boss fight
                 enemies[0].SetActive(true);
+                GameObject.Find("HUDCanvas").GetComponent<GUIManager>().BossHealthSetUp(enemies[0]);
                 GUIManager.bossFight = true;
                 currentLine++;
                 break;

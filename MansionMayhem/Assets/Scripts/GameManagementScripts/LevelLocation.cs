@@ -18,7 +18,7 @@ public class LevelLocation : MonoBehaviour
         if (GameManager.instance != null)
         {
             // Unlock the all the levels below the highest level and the next level
-            if ((GameManager.instance.highestLevel + 1) >= level)
+            if ((GameManager.instance.unlockedLevels[level]))
             {
                 unlocked = true;
             }
@@ -27,6 +27,10 @@ public class LevelLocation : MonoBehaviour
                 unlocked = false;
                 gameObject.GetComponent<SpriteRenderer>().color = Color.black;
                 gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                if(gameObject.GetComponent<ParticleSystem>())
+                {
+                    gameObject.GetComponent<ParticleSystem>().startColor = Color.black;
+                }
             }
         }
         else

@@ -10,8 +10,8 @@ public class GUIHoverMouseChange : MonoBehaviour {
     public TextAsset descriptionChange;
 
     // Reference to the text and image to change
-    public GameObject imageToChange;
-    public GameObject descriptionToChange;
+    GameObject imageToChange;
+    GameObject descriptionToChange;
 
 	// Use this for initialization
 	void Start () {

@@ -49,39 +49,6 @@ public class PlayerMovement : CharacterMovement
     }
     #endregion
 
-    #region Player Movement Method
-    // Player Input is handled here
-    public Vector3 playerMovementInput()
-    {
-        Vector3 playerForce = Vector3.zero;
-
-        // Player Movement Code
-        if (Input.GetKey(KeyCode.W))
-        {
-            playerForce += new Vector3(0, 5, 0);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            playerForce += new Vector3(-5, 0, 0);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            playerForce += new Vector3(5, 0, 0);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            playerForce += new Vector3(0, -5, 0);
-        }
-
-        // Step 3: Scale Desired to maximum speed
-        //         so I move as fast as possible
-        playerForce.Normalize();
-        playerForce *= maxSpeed;
-
-        return playerForce;
-    }
-    #endregion
-
     #region Player Rotation
     /// <summary>
     /// Rotates the player based on the direction its facing

@@ -12,8 +12,7 @@ public class GameManager : MonoBehaviour
 {
     #region Variables
     // Contstant Variables
-    public int MAX_EQUIPMENT = 3;
-    public int MAX_HEALTH = 30;
+    const int TOTAL_LEVELS = 54;
 
     // Static instance of the GameManager to allows it to be accessed from any script
     public static GameManager instance = null;
@@ -27,6 +26,7 @@ public class GameManager : MonoBehaviour
     #region SaveVariables
     // Game Currency and progress variables
     public int highestLevel; // Highest level/Progress Variable
+    public bool[] unlockedLevels;
     public int screws; // Currency Variable
     public int healthTotal; // Hearts Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
@@ -191,13 +191,14 @@ public class GameManager : MonoBehaviour
     public void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/MansionMayhemDemo.dat");
+        FileStream file = File.Create(Application.persistentDataPath + "/MansionMayhemTest.dat");
 
         PlayerData data = new PlayerData();
 
         // Puts the Variables that need to be saved into the data Class
         data.screws = screws;
         data.highestLevel = highestLevel;
+        data.unlockedLevels = unlockedLevels;
         data.healthTotal = healthTotal;
         data.equipmentTotal = equipmentTotal;
 
@@ -317,16 +318,17 @@ public class GameManager : MonoBehaviour
     public void Load()
     {
         // Check to see if a save file already exists
-        if (File.Exists(Application.persistentDataPath + "/MansionMayhemDemo.dat"))
+        if (File.Exists(Application.persistentDataPath + "/MansionMayhemTest.dat"))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/MansionMayhemDemo.dat", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/MansionMayhemTest.dat", FileMode.Open);
             PlayerData data = (PlayerData)bf.Deserialize(file);
             file.Close();
 
             // Set variables based on the save file
             screws = data.screws;
             highestLevel = data.highestLevel;
+            unlockedLevels = data.unlockedLevels;
             healthTotal = data.healthTotal;
             equipmentTotal = data.equipmentTotal;
             currentGuns = data.currentGuns;
@@ -437,6 +439,11 @@ public class GameManager : MonoBehaviour
             // Giving players 2000 screws and some weapons unlocked for the demo
             screws = 2000;
             highestLevel = 0;
+
+            // Unlock the first level
+            unlockedLevels = new bool[TOTAL_LEVELS];
+            unlockedLevels[0] = true;
+
             healthTotal = 5;
             equipmentTotal = 10;
             currentGuns[0] = rangeWeapon.laserpistol;
@@ -562,6 +569,7 @@ class PlayerData
 {
     // Game Currency and progress variables
     public int highestLevel; // Highest level/Progress Variable
+    public bool[] unlockedLevels;
     public int screws; // Currency Variable
     public int healthTotal; // Hearts Unlocked
     public int equipmentTotal; // Equipment Slots unlocked

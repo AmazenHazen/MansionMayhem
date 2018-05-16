@@ -11,9 +11,12 @@ public class LevelManager : MonoBehaviour
 
     // Requirement Variables
     public GameObject[] boss;
+
+    // Variable to keep track of all the enemies in the level
     public GameObject[] taskNPC;
-    GameObject[] getListArray;
-    public List<GameObject> levelRequirements;
+    GameObject[] getEnemyArray;
+    GameObject[] getBossArray;
+    public static List<GameObject> enemies;
 
     // For completing the level
     public int[] levelUnlockOnCompletion;
@@ -27,22 +30,31 @@ public class LevelManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //Find the 
+        //Find the Objective Text for the intro message
         GameObject.Find("ObjectiveHeader").GetComponent<Text>().text = levelName;
         GameObject.Find("ObjectiveText").GetComponent<Text>().text = levelObjectiveText.text;
 
-        for (int i = 0; i < levelObjective.Length; i++)
-        {
-            // Sets the initial case for level
-            if (levelObjective[i] == levelType.extermination)
-            {
-                getListArray = GameObject.FindGameObjectsWithTag("enemy");
+        // Create a list to hold all enemies for the level (used for seperation force in Character Movement Scripts and Elimination levels)
+        getEnemyArray = GameObject.FindGameObjectsWithTag("enemy");
+        getBossArray = GameObject.FindGameObjectsWithTag("boss");
 
-                for (int j = 0; j < getListArray.Length; j++)
-                {
-                    levelRequirements.Add(getListArray[j]);
-                }
-            }
+        Debug.Log("Hi");
+
+        enemies = new List<GameObject>();
+
+        for (int j = 0; j < getEnemyArray.Length; j++)
+        {
+            Debug.Log(getEnemyArray[j]);
+            enemies.Add(getEnemyArray[j]);
+        }
+        for (int j = 0; j < getBossArray.Length; j++)
+        {
+            enemies.Add(getBossArray[j]);
+        }
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            Debug.Log(enemies[i]);
         }
     }
 
@@ -64,7 +76,7 @@ public class LevelManager : MonoBehaviour
             {
                 // Case: Extermination or task requires the requirement list to be empty or 0
                 case levelType.extermination:
-                    if (levelRequirements.Count == 0)
+                    if (enemies.Count == 0)
                     {
                         //Advance the level
                         CompleteLevel(levelUnlockOnCompletion[i]);
@@ -128,15 +140,12 @@ public class LevelManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Method to allow enemies to be removed from the big enemy array
+    /// </summary>
+    /// <param name="enemy"></param>
     public void EnemyEliminated(GameObject enemy)
     {
-        for (int i = 0; i < levelObjective.Length; i++)
-        {
-            // Sets the initial case for level
-            if (levelObjective[i] == levelType.extermination)
-            {
-                levelRequirements.Remove(enemy);
-            }
-        }
+         enemies.Remove(enemy);
     }
 }

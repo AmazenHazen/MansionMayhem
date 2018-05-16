@@ -57,12 +57,14 @@ public class EnemyMovement : CharacterMovement
                 case enemyType.smallSpider:
                     // Seek
                     ultimateForce += seek(player.transform.position);
+                    ultimateForce += Seperation();
                     break;
                 case enemyType.blackWidow:
-                    ultimateForce += pursue(player);
-                    break;
                 case enemyType.redTermis:
+                case enemyType.silkSpinnerSpider:
+                case enemyType.spiderQueen:
                     ultimateForce += pursue(player);
+                    ultimateForce += Seperation();
                     break;
                 case enemyType.tarantula:
                     // No movement
@@ -81,9 +83,6 @@ public class EnemyMovement : CharacterMovement
                         Invoke("ResetMoveBool", 1);
                     }
                     break;
-                case enemyType.silkSpinnerSpider:
-                    ultimateForce += pursue(player);
-                    break;
                 case enemyType.fatalCrimson:
                     if (readyToMove)
                     {
@@ -97,11 +96,6 @@ public class EnemyMovement : CharacterMovement
                         Invoke("ResetMoveBool", 1);
                     }
                     break;
-
-                case enemyType.spiderQueen:
-                    ultimateForce += pursue(player);
-                    break;
-
                 #endregion
 
                 #region ghosts
@@ -186,7 +180,7 @@ public class EnemyMovement : CharacterMovement
                 case enemyType.bloodDemon:
                     // Seek
                     ultimateForce += seek(player.transform.position);
-                    ultimateForce += seek(player.transform.position);
+                    ultimateForce += Seperation();
                     break;
 
                 case enemyType.boneDemon:
@@ -232,16 +226,18 @@ public class EnemyMovement : CharacterMovement
 
                 #region zombies
                 case enemyType.crawlingHand:
-                    ultimateForce += seek(player.transform.position);
-                    break;
                 case enemyType.crawlingZombie:
-                    ultimateForce += seek(player.transform.position);
-                    break;
                 case enemyType.basicZombie:
+                case enemyType.runnerZombie:
+                case enemyType.spitterZombie:
+                case enemyType.fatZombie:
+                case enemyType.tankZombie:
                     ultimateForce += seek(player.transform.position);
+                    ultimateForce += Seperation();
                     break;
                 case enemyType.stalkerZombie:
                     ultimateForce += seek(player.transform.position);
+                    ultimateForce += Seperation();
 
                     // Jumping Movement
                     if ((player.transform.position - transform.position).magnitude < 1.75f)
@@ -260,12 +256,9 @@ public class EnemyMovement : CharacterMovement
                         }
                     }
                     break;
-                case enemyType.runnerZombie:
-                    ultimateForce += seek(player.transform.position);
-                    break;
-
                 case enemyType.gasZombie:
                     ultimateForce += pursue(player);
+                    ultimateForce += Seperation();
 
                     // Jumping Movement
                     if ((player.transform.position - transform.position).magnitude < 1.75f)
@@ -284,15 +277,6 @@ public class EnemyMovement : CharacterMovement
 
                         }
                     }
-                    break;
-                case enemyType.spitterZombie:
-                    ultimateForce += seek(player.transform.position);
-                    break;
-                case enemyType.fatZombie:
-                    ultimateForce += seek(player.transform.position);
-                    break;
-                case enemyType.tankZombie:
-                    ultimateForce += seek(player.transform.position);
                     break;
                 case enemyType.zombiehordeLeader:
                     ultimateForce += pursue(player);

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class CharacterMovement : MonoBehaviour
 {
-
     #region Movement Variables
     // Vectors for force-based movement
     private Vector3 position;
@@ -19,6 +18,10 @@ public abstract class CharacterMovement : MonoBehaviour
     // Rotation Variables
     protected Quaternion angle;
     protected float angleOfRotation;
+
+    // Variables for seperation force
+    const float seperationBubble = 1.0f;
+    const float seperationForce = 1.5f;
 
     // Variables for wandering
     Vector3 futurePosition;
@@ -358,6 +361,40 @@ public abstract class CharacterMovement : MonoBehaviour
 
         // Step 3: Seek the new wandered position and add it to the ultimate force
         return seek(futurePosition);
+    }
+
+    /// <summary>
+    /// Seperation Method that returns a steering force to move an enemy away from another enemy if too close.
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 Seperation()
+    {
+        // Create a new steering force
+        Vector3 steeringForce = Vector3.zero;
+
+        // Find nearest neighbor
+        foreach (GameObject enemy in LevelManager.enemies)
+        {
+            if ((transform.position - enemy.transform.position).magnitude < seperationBubble)
+            {
+                if ((transform.position - enemy.transform.position).magnitude != 0)
+                {
+                    // Step 1: Find Desired Velocity
+                    // This is the vector pointing from my target to my myself
+                    Vector3 desiredVelocity = position - enemy.transform.position;
+
+                    // Step 2: Scale Desired to maximum speed
+                    //         so I move as fast as possible
+                    desiredVelocity.Normalize();
+                    desiredVelocity *= seperationForce;
+
+                    // Step 3: Calculate your Steering Force
+                    steeringForce = desiredVelocity - velocity;
+                }
+            }
+        }
+
+        return steeringForce;
     }
 
     #endregion

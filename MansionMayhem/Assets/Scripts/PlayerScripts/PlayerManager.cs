@@ -388,7 +388,6 @@ public class PlayerManager : MonoBehaviour
                         // Add the object to the Inventory
                         pickedUp = AddItem(collider.gameObject);
                         //Debug.Log("Made it past adding the item to GUI");
-                        //collider.gameObject.GetComponent<ItemScript>().objectOwner.GetComponent<ArtifactScript>().requirements.Remove(collider.gameObject);
                         break;
                         #endregion
                 }
@@ -396,38 +395,6 @@ public class PlayerManager : MonoBehaviour
                 if (pickedUp == true)
                 {
                     Destroy(collider.gameObject);
-                }
-
-                break;
-
-
-
-            #endregion
-
-            #region artifact
-            case "InteractableObject":
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-
-                    // Debug Line
-                    //Debug.Log("Using Interactable Object:" + collider.gameObject);
-
-                    collider.gameObject.GetComponent<ArtifactScript>().Activate();
-                }
-
-                break;
-            #endregion
-
-            #region interactableObject
-            case "interactableobject":
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    // Debug Line
-                    //Debug.Log("Using Interactable Object:" + collider.gameObject);
-
-                    UseItem(collider.gameObject);
-
-                    collider.gameObject.GetComponent<InteractableObjectScript>().InteractBool = true;
                 }
 
                 break;

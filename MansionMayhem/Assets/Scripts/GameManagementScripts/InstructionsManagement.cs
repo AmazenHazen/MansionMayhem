@@ -8,7 +8,7 @@ public class InstructionsManagement : MonoBehaviour {
     public GameObject instructionsScreen;
     public List<GameObject> instructionPages;
     public List<GameObject> instructionButtons;
-    public int instructionsPage;
+    public int instructionsPage = 0;
 
     void Update()
     {

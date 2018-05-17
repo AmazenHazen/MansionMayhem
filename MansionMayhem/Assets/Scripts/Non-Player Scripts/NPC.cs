@@ -138,7 +138,10 @@ public class NPC : CharacterMovement
 
             // Start the scrolling text 
             //Debug.Log("Starting Dialog");
-            StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
+            if (textLines[currentLine][0] != '[')
+            {
+                StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
+            }
         }
 
         // Advance the text if the player hits Enter or Space
@@ -153,7 +156,7 @@ public class NPC : CharacterMovement
                 }
 
                 // Don't let the user go past the endline
-                if (currentLine >= endAtLine)
+                if (currentLine > endAtLine)
                 {
                     //Debug.Log("Manually Exit Dialog");
 
@@ -165,8 +168,8 @@ public class NPC : CharacterMovement
                 {
                     //Debug.Log("Starting Dialog Scrolling if not at the end of the text");
 
-                    // Check to see if the line is already printed out
-                    if (GUIManager.dialogText.GetComponent<Text>().text != textLines[currentLine])
+                    // Check to see if the line is already printed out or if the line is a command line (don't want to print out commands!)
+                    if (GUIManager.dialogText.GetComponent<Text>().text != textLines[currentLine] && textLines[currentLine][0] != '[')
                     {
                         // Otherwise start typing it out
                         StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
@@ -183,16 +186,17 @@ public class NPC : CharacterMovement
         }
 
         // Check for dialog options
-        // Dialog Options designated with a [ at the beginning of the line
-        if (talkingBool)
-        {
-            CheckForOptions();
+        // The command for determining the dialog options is the "*" character at the begginging of lines
+        // Dialog Options designated with a [ at the beginning of the line (just like any command)
+        CheckForOptions();
 
-            if (textLines[currentLine][0] == '[')
-            {
-                CheckCommand();
-            }
+
+        // Commands are inside square brackets, so commands check if the first character is a "["
+        if (textLines[currentLine][0] == '[')
+        {
+            CheckCommand();
         }
+        
 
     }
     #endregion
@@ -200,6 +204,7 @@ public class NPC : CharacterMovement
     #region Special Commands
     public void CheckCommand()
     {
+        #region Variables for checking a command
         bool endOfCommand = false;
         string fullOptionText = textLines[currentLine];
         string commandText = "";
@@ -207,8 +212,8 @@ public class NPC : CharacterMovement
         string tertiaryCommandText = "";
         int secondaryNum = -1; // can represent an item number to take from the NPC or give the NPC or a line number to jump to
         int tertiaryNum = -1; // can represent a line number to jump to
+        #endregion
 
-        //string secondayCommand = "";
         int i = 1;
 
         #region Primary Command
@@ -296,11 +301,11 @@ public class NPC : CharacterMovement
 
             Console.WriteLine(tertiaryNum);
         }
-    
+
         #endregion
-
+        
         //Debug.Log("Command: " + commandText + " Secondary Command Number: " + secondaryNum + " Tertiary Command Number: " + tertiaryCommandText);
-
+        #region Commands
         switch (commandText)
         {
             case "StartQuest":
@@ -357,13 +362,6 @@ public class NPC : CharacterMovement
                             completedRequirements++;
                         }
                     }
-                    if (requirements[j].GetComponent<InteractableObjectScript>())
-                    {
-                        if(requirements[j].GetComponent<InteractableObjectScript>().currentQuestStatus == QuestStatus.Completed)
-                        {
-                            completedRequirements++;
-                        }
-                    }
                 }
 
                 if (completedRequirements == requirements.Count)
@@ -410,6 +408,7 @@ public class NPC : CharacterMovement
             case "DeleteSelf":
                 // Go to a specific text line
                 transform.position = new Vector3(10000, 10000, 0);
+                currentLine++;
                 break;
 
             case "CompleteQuest":
@@ -436,9 +435,13 @@ public class NPC : CharacterMovement
                 endDialogue();
                 break;
         }
+        #endregion
 
-        // Start the scrolling text 
-        StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
+        // Start the scrolling text (if the command isn't an Exit related command)
+        if (!(commandText == "Exit" || commandText == "CompleteQuest" || commandText == "StartQuest"))
+        {
+            StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
+        }
     }
     #endregion
 
@@ -455,13 +458,14 @@ public class NPC : CharacterMovement
         int totalNumsFulfilled = 0;
 
         // Check to see if players have all the requirements
-        for (int i = 0; i < playerItems.Length; i++)
+        foreach (ItemType requirement in itemRequirements)
         {
-            foreach (ItemType requirement in itemRequirements)
+            for (int i = 0; i < playerItems.Length; i++)
             {
                 if (playerItems[i] == requirement)
                 {
                     totalNumsFulfilled++;
+                    break;
                 }
             }
         }
@@ -469,16 +473,17 @@ public class NPC : CharacterMovement
         // if the player has all the requirements
         if (totalNumsFulfilled == itemRequirements.Count)
         {
-            // Remove the items from the player's inventory
-            for (int i = 0; i < playerItems.Length; i++)
+            foreach (ItemType requirement in itemRequirements)
             {
-                foreach (ItemType requirement in itemRequirements)
+                // Remove the items from the player's inventory
+                for (int i = 0; i < playerItems.Length; i++)
                 {
                     if (playerItems[i] == requirement)
                     {
                         //Debug.Log("Remove item requirement npc");
                         player.GetComponent<PlayerManager>().playerItems[i] = ItemType.NoItem;
                         GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(i);
+                        break;
                     }
                 }
             }
@@ -504,7 +509,10 @@ public class NPC : CharacterMovement
             //Debug.Log("Chose Yes!");
             GUIManager.EndOptions();
             currentLine = lineJumpNumber;
-            StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
+            if (textLines[currentLine][0] != '[')
+            {
+                StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
+            }
             return;
         }
 
@@ -514,7 +522,10 @@ public class NPC : CharacterMovement
             //Debug.Log("Chose No!");
             GUIManager.EndOptions();
             currentLine = lineJumpNumber;
-            StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
+            if (textLines[currentLine][0] != '[')
+            {
+                StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
+            }
             return;
 
         }
@@ -684,9 +695,10 @@ public class NPC : CharacterMovement
     /// Helper method to end text
     /// </summary>
     public void endDialogue()
-    { 
-        // Set the Talking to bool to false
-        talkingBool = false;
+    {
+        // Set the dialog to the beginning
+        currentLine = 0;
+
 
         // Set playerChoices to null
         playerChoices = null;
@@ -694,10 +706,10 @@ public class NPC : CharacterMovement
         //Turn off options for next time you talk to NPCs
         GUIManager.EndOptions();
 
-        // Set the dialog to the beginning
-        currentLine = 0;
-
         GUIManager.TurnOffDialogBox();
+
+        // Set the Talking to bool to false
+        talkingBool = false;
     }
     #endregion
 

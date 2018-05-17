@@ -113,9 +113,6 @@ public class ChestScript : MonoBehaviour {
             {
                 //Debug.Log("Give Quest Item");
             }
-
-
-
         }
     }
 

@@ -69,7 +69,7 @@ public class GUIManager : MonoBehaviour
     // Scrolling Autotyping variables
     public static bool isTyping = false;
     public static bool cancelTyping = false;
-    private static float typeSpeed = 0.0f;
+    private static float typeSpeed = 0.01f;
 
     public static bool talkingBool;
     public static bool optionBool;
@@ -535,7 +535,8 @@ public class GUIManager : MonoBehaviour
             dialogText.GetComponent<Text>().text += lineOfText[letter];
             letter++;
 
-            yield return new WaitForSeconds(typeSpeed);
+            Debug.Log("Wait for seconds: " + typeSpeed);
+            yield return new WaitForSecondsRealtime(typeSpeed);
         }
         dialogText.GetComponent<Text>().text = lineOfText;
         isTyping = false;

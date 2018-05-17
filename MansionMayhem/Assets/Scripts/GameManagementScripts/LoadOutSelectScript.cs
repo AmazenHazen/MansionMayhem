@@ -10,6 +10,7 @@ public class LoadOutSelectScript : MonoBehaviour
 
     // Attributes
     Color selectedColor = new Color(.55f, .85f, .245f);
+    Color unSelectedColor = new Color32(0x77, 0x78, 0xC1, 0xFF);
 
     // Weapon Variables
     // Holds a reference to all the buttons in the weapons menu
@@ -75,7 +76,7 @@ public class LoadOutSelectScript : MonoBehaviour
     {
 
         // Turn off the button
-        buttonChosen.GetComponent<Image>().color = Color.white;
+        buttonChosen.GetComponent<Image>().color = unSelectedColor;
 
         // Set button Bool to false
         buttonChosen.GetComponent<LoadOutButtonScript>().selected = false;
@@ -179,11 +180,11 @@ public class LoadOutSelectScript : MonoBehaviour
                             if (oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon == GameManager.instance.currentGuns[weaponSlot])
                             {
                                 //twoButtons[j].GetComponent<Button>().interactable = true;
-                                twoButtons[j].GetComponent<Image>().color = Color.white;
+                                twoButtons[j].GetComponent<Image>().color = unSelectedColor;
                                 twoButtons[j].GetComponent<LoadOutButtonScript>().selected = false;
 
                                 //threeButtons[j].GetComponent<Button>().interactable = true;
-                                threeButtons[j].GetComponent<Image>().color = Color.white;
+                                threeButtons[j].GetComponent<Image>().color = unSelectedColor;
                                 threeButtons[j].GetComponent<LoadOutButtonScript>().selected = false;
                             }
                         }
@@ -194,10 +195,10 @@ public class LoadOutSelectScript : MonoBehaviour
                             if (oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon == GameManager.instance.currentGuns[weaponSlot])
                             {
                                 //oneButtons[j].GetComponent<Button>().interactable = true;
-                                oneButtons[j].GetComponent<Image>().color = Color.white;
+                                oneButtons[j].GetComponent<Image>().color = unSelectedColor;
                                 oneButtons[j].GetComponent<LoadOutButtonScript>().selected = false;
                                 //threeButtons[j].GetComponent<Button>().interactable = true;
-                                threeButtons[j].GetComponent<Image>().color = Color.white;
+                                threeButtons[j].GetComponent<Image>().color = unSelectedColor;
                                 threeButtons[j].GetComponent<LoadOutButtonScript>().selected = false;
                             }
                         }
@@ -208,10 +209,10 @@ public class LoadOutSelectScript : MonoBehaviour
                             if (oneButtons[j].GetComponent<LoadOutButtonScript>().buttonWeapon == GameManager.instance.currentGuns[weaponSlot])
                             {
                                 //twoButtons[j].GetComponent<Button>().interactable = true;
-                                twoButtons[j].GetComponent<Image>().color = Color.white;
+                                twoButtons[j].GetComponent<Image>().color = unSelectedColor;
                                 twoButtons[j].GetComponent<LoadOutButtonScript>().selected = false;
                                 //oneButtons[j].GetComponent<Button>().interactable = true;
-                                oneButtons[j].GetComponent<Image>().color = Color.white;
+                                oneButtons[j].GetComponent<Image>().color = unSelectedColor;
                                 oneButtons[j].GetComponent<LoadOutButtonScript>().selected = false;
                             }
                         }
@@ -241,7 +242,7 @@ public class LoadOutSelectScript : MonoBehaviour
                     {
                         //Debug.Log("Reset Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
                         //oneButtons[i].GetComponent<Button>().interactable = true;
-                        oneButtons[i].GetComponent<Image>().color = Color.white;
+                        oneButtons[i].GetComponent<Image>().color = unSelectedColor;
                         oneButtons[i].GetComponent<LoadOutButtonScript>().selected = false;
                     }
                 }
@@ -254,7 +255,7 @@ public class LoadOutSelectScript : MonoBehaviour
                     {
                         //Debug.Log("Reset Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
                         //twoButtons[i].GetComponent<Button>().interactable = true;
-                        twoButtons[i].GetComponent<Image>().color = Color.white;
+                        twoButtons[i].GetComponent<Image>().color = unSelectedColor;
                         twoButtons[i].GetComponent<LoadOutButtonScript>().selected = false;
                     }
                 }
@@ -267,7 +268,7 @@ public class LoadOutSelectScript : MonoBehaviour
                     {
                         //Debug.Log("Reset " + i + " Button:" + oneButtons[i].GetComponent<LoadOutButtonScript>().buttonWeapon);
                         //threeButtons[i].GetComponent<Button>().interactable = true;
-                        threeButtons[i].GetComponent<Image>().color = Color.white;
+                        threeButtons[i].GetComponent<Image>().color = unSelectedColor;
                         threeButtons[i].GetComponent<LoadOutButtonScript>().selected = false;
                     }
                 }

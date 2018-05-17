@@ -106,6 +106,7 @@
      <None Include="Assets\TextFiles\Level Objective Messages\Level1Spider.txt" />
      <None Include="Assets\TextFiles\NPC Text\FourTemperments\Bookcase\Oil.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\SoundCannon.txt" />
+     <None Include="Assets\TextFiles\NPC Text\DemonInNeed\DemonCircle\DemonCircleComplete.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\AntiMatterEmitter.txt" />
      <None Include="Assets\TextFiles\NPC Text\FourTemperments\Bookcase\Phlegm.txt" />
      <None Include="Assets\TextFiles\NPC Text\FourTemperments\Lyra\LyraInitial.txt" />
@@ -121,6 +122,7 @@
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Cutlery\CutleryStart.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\AetherLight Bow.txt" />
      <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\Warden\Puragatory Penetentiary\WardenStarted.txt" />
+     <None Include="Assets\TextFiles\NPC Text\DemonInNeed\DemonCircle\DemonCircleInitial.txt" />
      <None Include="Assets\TextFiles\Level Objective Messages\Level3DemonInNeed.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\TeethOfferingStoneInitial.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\AnimalOfferingStoneInitial.txt" />

@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{E0D5C062-69FD-D224-1D02-AE9FC0611889}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -51,144 +52,147 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Combat Related Scripts\BlobScript.cs" />
-     <Compile Include="Assets\Scripts\Combat Related Scripts\BulletManager.cs" />
-     <Compile Include="Assets\Scripts\Combat Related Scripts\EnemyWeaponScript.cs" />
-     <Compile Include="Assets\Scripts\Combat Related Scripts\GunScript.cs" />
-     <Compile Include="Assets\Scripts\Combat Related Scripts\ParticleGunScript.cs" />
-     <Compile Include="Assets\Scripts\Combat Related Scripts\RotatingShieldFlame.cs" />
-     <Compile Include="Assets\Scripts\Environment Scripts\ArtifactScript.cs" />
-     <Compile Include="Assets\Scripts\Environment Scripts\BreakableObject.cs" />
-     <Compile Include="Assets\Scripts\Environment Scripts\ChestScript.cs" />
-     <Compile Include="Assets\Scripts\Environment Scripts\DoorScript.cs" />
-     <Compile Include="Assets\Scripts\Environment Scripts\InteractableObjectScript.cs" />
-     <Compile Include="Assets\Scripts\Environment Scripts\ItemScript.cs" />
-     <Compile Include="Assets\Scripts\Environment Scripts\RoomScript.cs" />
-     <Compile Include="Assets\Scripts\Environment Scripts\Spawner.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\ChangeMusic.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\Encyclopedia.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\GameManager.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\GUIHoverMouseChange.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\GUIManager.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\InstructionsManagement.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\LevelLocation.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\LevelManager.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\LevelSelectGUIManager.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\LoadOnClick.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\LoadOutButtonScript.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\LoadOutSelectScript.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\WorkBenchItem.cs" />
-     <Compile Include="Assets\Scripts\GameManagementScripts\WorkBenchManager.cs" />
-     <Compile Include="Assets\Scripts\Non-Player Scripts\DialogOptionScript.cs" />
-     <Compile Include="Assets\Scripts\Non-Player Scripts\EnemyManager.cs" />
-     <Compile Include="Assets\Scripts\Non-Player Scripts\EnemyMovement.cs" />
-     <Compile Include="Assets\Scripts\Non-Player Scripts\HealthBar.cs" />
-     <Compile Include="Assets\Scripts\Non-Player Scripts\NPC.cs" />
-     <Compile Include="Assets\Scripts\PlayerScripts\CameraScript.cs" />
-     <Compile Include="Assets\Scripts\PlayerScripts\CharacterMovement.cs" />
-     <Compile Include="Assets\Scripts\PlayerScripts\MeleeAttackScript.cs" />
-     <Compile Include="Assets\Scripts\PlayerScripts\PlayerCollision.cs" />
-     <Compile Include="Assets\Scripts\PlayerScripts\PlayerManager.cs" />
-     <Compile Include="Assets\Scripts\PlayerScripts\PlayerMapScript.cs" />
-     <Compile Include="Assets\Scripts\PlayerScripts\PlayerMovement.cs" />
-     <None Include="Assets\TextFiles\NPC Text\FourTemperments\Bookcase\Wax.txt" />
-     <None Include="Assets\TextFiles\Level Objective Messages\Level27DreorForest.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\RitualAlterInitial.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\BloodSapOfferingStoneInitial.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\MedicineCabnetStarted.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\XenonPulser.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Tom\TomStarted.txt" />
-     <None Include="Assets\TextFiles\NPC Text\FourTemperments\Lyra\LyraCompleted.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\fridgeStarted.txt" />
-     <None Include="Assets\TextFiles\NPC Text\FourTemperments\Lyra\LyraStarted.txt" />
-     <None Include="Assets\TextFiles\Level Objective Messages\Level5Necromancer.txt" />
-     <None Include="Assets\TextFiles\NPC Text\exitText.txt" />
-     <None Include="Assets\TextFiles\Level Objective Messages\Level1Spider.txt" />
-     <None Include="Assets\TextFiles\NPC Text\FourTemperments\Bookcase\Oil.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\SoundCannon.txt" />
-     <None Include="Assets\TextFiles\NPC Text\DemonInNeed\DemonCircle\DemonCircleComplete.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\AntiMatterEmitter.txt" />
-     <None Include="Assets\TextFiles\NPC Text\FourTemperments\Bookcase\Phlegm.txt" />
-     <None Include="Assets\TextFiles\NPC Text\FourTemperments\Lyra\LyraInitial.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\TeethOfferingStoneStarted.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\PlasmaCharger.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Pond\SuccessFishSpotCaught.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\Flamethrower.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Pond\FailFishSpot.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\MedicineCabnetInitial.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\LaserPistol.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Cage\CageInitial.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\BloodSapInitial.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Cutlery\CutleryStart.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\AetherLight Bow.txt" />
-     <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\Warden\Puragatory Penetentiary\WardenStarted.txt" />
-     <None Include="Assets\TextFiles\NPC Text\DemonInNeed\DemonCircle\DemonCircleInitial.txt" />
-     <None Include="Assets\TextFiles\Level Objective Messages\Level3DemonInNeed.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\TeethOfferingStoneInitial.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\AnimalOfferingStoneInitial.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\Frostweaver.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\AntiEctoplasmSplatterGun.txt" />
-     <None Include="Assets\TextFiles\NPC Text\FourTemperments\Bookcase\blood.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\AnimalOfferingStoneStarted.txt" />
-     <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\Warden\Puragatory Penetentiary\WardenInitial.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Cage\CageStarted.txt" />
-     <None Include="Assets\TextFiles\NPC Text\DemonInNeed\Charlie\CharlieStarted.txt" />
-     <None Include="Assets\TextFiles\NPC Text\DemonInNeed\Charlie\CharlieInitial.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\HellFireShotgun.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\fridgeInitial.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\BloodSapOfferingStoneStarted.txt" />
-     <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\HalfLight\HalfLight1Complete.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Tom\TomInitial.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\ToiletStarted.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\ElectronCannon.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\ToiletInitial.txt" />
-     <None Include="Assets\TextFiles\Level Objective Messages\Level4PurgatoryPenitentiary.txt" />
-     <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\HalfLight\HalfLight1Start.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\MedicineCabnet.txt" />
-     <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\HalfLight\HalfLight1Initial.txt" />
-     <None Include="Assets\TextFiles\Full Documents\Four Temperments Poem.txt" />
-     <None Include="Assets\TextFiles\Level Objective Messages\Level2ZombieGraveyard.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Pond\SuccessFishSpot.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\BleedingTree\BleedingTreeInitial.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\DarkEnergySniperRifle.txt" />
-     <None Include="Assets\TextFiles\Level Objective Messages\Level15Biles.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\BleedingTree\BleedingTreeStart.txt" />
-     <None Include="Assets\TextFiles\Gun Descriptions\CelestialPistol.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Bookcase.txt" />
-     <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\ToiletComplete.txt" />
- <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Networking">
- <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.TestRunner">
- <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="nunit.framework">
- <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Timeline">
- <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UIAutomation">
- <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.GoogleAudioSpatializer">
- <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.HoloLens">
- <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.SpatialTracking">
- <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Users/Alex Hazen/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Purchasing">
- <HintPath>C:/Users/Alex Hazen/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\Scripts\Combat Related Scripts\BlobScript.cs" />
+    <Compile Include="Assets\Scripts\Combat Related Scripts\BulletManager.cs" />
+    <Compile Include="Assets\Scripts\Combat Related Scripts\EnemyWeaponScript.cs" />
+    <Compile Include="Assets\Scripts\Combat Related Scripts\GunScript.cs" />
+    <Compile Include="Assets\Scripts\Combat Related Scripts\ParticleGunScript.cs" />
+    <Compile Include="Assets\Scripts\Combat Related Scripts\RotatingShieldFlame.cs" />
+    <Compile Include="Assets\Scripts\Environment Scripts\ArtifactScript.cs" />
+    <Compile Include="Assets\Scripts\Environment Scripts\BreakableObject.cs" />
+    <Compile Include="Assets\Scripts\Environment Scripts\ChestScript.cs" />
+    <Compile Include="Assets\Scripts\Environment Scripts\DoorScript.cs" />
+    <Compile Include="Assets\Scripts\Environment Scripts\ItemScript.cs" />
+    <Compile Include="Assets\Scripts\Environment Scripts\RoomScript.cs" />
+    <Compile Include="Assets\Scripts\Environment Scripts\Spawner.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\ChangeMusic.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\Encyclopedia.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\GUIHoverMouseChange.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\GUIManager.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\InstructionsManagement.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\LevelLocation.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\LevelManager.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\LevelSelectGUIManager.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\LoadOnClick.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\LoadOutButtonScript.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\LoadOutSelectScript.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\WorkBenchItem.cs" />
+    <Compile Include="Assets\Scripts\GameManagementScripts\WorkBenchManager.cs" />
+    <Compile Include="Assets\Scripts\Non-Player Scripts\AllyManager.cs" />
+    <Compile Include="Assets\Scripts\Non-Player Scripts\AllyMovement.cs" />
+    <Compile Include="Assets\Scripts\Non-Player Scripts\DialogOptionScript.cs" />
+    <Compile Include="Assets\Scripts\Non-Player Scripts\EnemyManager.cs" />
+    <Compile Include="Assets\Scripts\Non-Player Scripts\EnemyMovement.cs" />
+    <Compile Include="Assets\Scripts\Non-Player Scripts\HealthBar.cs" />
+    <Compile Include="Assets\Scripts\Non-Player Scripts\NPC.cs" />
+    <Compile Include="Assets\Scripts\Non-Player Scripts\NPCMovement.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\CameraScript.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\CharacterMovement.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\MeleeAttackScript.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\PlayerCollision.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\PlayerMapScript.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\PlayerMovement.cs" />
+    <None Include="Assets\TextFiles\NPC Text\FourTemperments\Bookcase\Wax.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level27DreorForest.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\RitualAlterInitial.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\BloodSapOfferingStoneInitial.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\MedicineCabnetStarted.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\XenonPulser.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Tom\TomStarted.txt" />
+    <None Include="Assets\TextFiles\NPC Text\FourTemperments\Lyra\LyraCompleted.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\fridgeStarted.txt" />
+    <None Include="Assets\TextFiles\NPC Text\FourTemperments\Lyra\LyraStarted.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level5Necromancer.txt" />
+    <None Include="Assets\TextFiles\NPC Text\exitText.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level1Spider.txt" />
+    <None Include="Assets\TextFiles\NPC Text\FourTemperments\Bookcase\Oil.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\SoundCannon.txt" />
+    <None Include="Assets\TextFiles\NPC Text\DemonInNeed\DemonCircle\DemonCircleComplete.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\AntiMatterEmitter.txt" />
+    <None Include="Assets\TextFiles\NPC Text\FourTemperments\Bookcase\Phlegm.txt" />
+    <None Include="Assets\TextFiles\NPC Text\FourTemperments\Lyra\LyraInitial.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\TeethOfferingStoneStarted.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\PlasmaCharger.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Pond\SuccessFishSpotCaught.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\Flamethrower.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Pond\FailFishSpot.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\MedicineCabnetInitial.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\LaserPistol.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Cage\CageInitial.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\BloodSapInitial.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Cutlery\CutleryStart.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\AetherLight Bow.txt" />
+    <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\Warden\Puragatory Penetentiary\WardenStarted.txt" />
+    <None Include="Assets\TextFiles\NPC Text\DemonInNeed\DemonCircle\DemonCircleInitial.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level3DemonInNeed.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\TeethOfferingStoneInitial.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\AnimalOfferingStoneInitial.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\Frostweaver.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\AntiEctoplasmSplatterGun.txt" />
+    <None Include="Assets\TextFiles\NPC Text\FourTemperments\Bookcase\blood.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\AnimalOfferingStoneStarted.txt" />
+    <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\Warden\Puragatory Penetentiary\WardenInitial.txt" />
+    <None Include="Assets\TextFiles\NPC Text\Hellpups\HellPupFollow.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Cage\CageStarted.txt" />
+    <None Include="Assets\TextFiles\NPC Text\DemonInNeed\Charlie\CharlieStarted.txt" />
+    <None Include="Assets\TextFiles\NPC Text\DemonInNeed\Charlie\CharlieInitial.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\HellFireShotgun.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\fridgeInitial.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\BloodSapOfferingStoneStarted.txt" />
+    <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\HalfLight\HalfLight1Complete.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Tom\TomInitial.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\ToiletStarted.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\ElectronCannon.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\ToiletInitial.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level4PurgatoryPenitentiary.txt" />
+    <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\HalfLight\HalfLight1Start.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\MedicineCabnet.txt" />
+    <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\HalfLight\HalfLight1Initial.txt" />
+    <None Include="Assets\TextFiles\Full Documents\Four Temperments Poem.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level2ZombieGraveyard.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Pond\SuccessFishSpot.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\BleedingTree\BleedingTreeInitial.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\DarkEnergySniperRifle.txt" />
+    <None Include="Assets\TextFiles\Level Objective Messages\Level15Biles.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\BleedingTree\BleedingTreeStart.txt" />
+    <None Include="Assets\TextFiles\Gun Descriptions\CelestialPistol.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Bookcase.txt" />
+    <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\ToiletComplete.txt" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Timeline">
+      <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIAutomation">
+      <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GoogleAudioSpatializer">
+      <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>C:/Program Files/Unity2.0f3/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>C:/Users/Alex Hazen/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>C:/Users/Alex Hazen/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -198,5 +202,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

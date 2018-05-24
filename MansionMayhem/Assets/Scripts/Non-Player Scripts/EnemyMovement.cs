@@ -6,7 +6,7 @@ public class EnemyMovement : CharacterMovement
 {
     #region Additional Movement Variables
     // Variables for enemy targeting
-    public GameObject player;
+    private GameObject player;
     private bool readyToMove;
     private bool resettingMovement;
 
@@ -45,7 +45,7 @@ public class EnemyMovement : CharacterMovement
         Vector3 ultimateForce = Vector3.zero;
 
         // Apply forces to the enemy
-        if ((player.transform.position - transform.position).magnitude < gameObject.GetComponent<EnemyManager>().seekDistance)
+        if ((player.transform.position - transform.position).magnitude < awareDistance)
         {
             // Have the enemy face the player
             Rotate();
@@ -469,7 +469,7 @@ public class EnemyMovement : CharacterMovement
     protected override void Rotate()
     {
         Vector3 targetPosition = player.transform.position;
-        Vector3 dir = targetPosition - this.transform.position;
+        Vector3 dir = targetPosition - transform.position;
         angleOfRotation = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg)-90;
     }
     #endregion

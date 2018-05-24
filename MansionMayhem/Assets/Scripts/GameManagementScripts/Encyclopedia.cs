@@ -94,10 +94,12 @@ public enum trinkets
 }
 
 
-public enum bulletOwners
+public enum Owner
 {
-    player,
-    enemy,
+    Player,
+    Enemy,
+    Ally,
+    None,
 }
 #endregion
 
@@ -442,13 +444,6 @@ public enum QuestStatus
     PartialCompletion,
     Completed,
 }
-public enum InteractableObjectType
-{
-    Chest,
-    Giver, // gives the player an item
-    Taker, // takes from the player
-}
-
 #endregion
 
 #region itemTypes

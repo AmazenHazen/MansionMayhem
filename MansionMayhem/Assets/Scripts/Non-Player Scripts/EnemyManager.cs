@@ -8,18 +8,19 @@ public class EnemyManager : MonoBehaviour
     // Attributes Set by editor
     const float INITIAL_SHOOT_DELAY = 1f;
 
-    // Enemy Behavior variables
+    // Gameobject reference to the player
+    private GameObject player;
+
+    // Enemy Behavior variables - All of these are set in the inspector
     public enemyType monster;                   // The specific monster creature name
     public enemyClass primarymonsterType;      // The primary type of monster (demon, ghost, spider)
     public enemyClass secondarymonsterType;    // The secondary type of monster
-    public bool boss;                           // Bool determining if the enemy is a boss monster
     public bool hasBullets;                    // Determines if the enemy has bullets
     public bool hasAbility;                    // Determines if the enemy has an ability (shoot a web/leave slime behind it)
     public bool isPoisonous;                   // Determines if the enemy can poison the player
     public bool vampyric;                      // Determines if the enemy heals when hitting the player
     public float maxHealth;                    // The amount of health the enemy spawns with
     public float damage;                       // Damage caused when the player is hit by the monster (collision)
-    public float seekDistance;                 // The distance at which an enemy can sense where you are
     public float rangeDamage;                   // Damage caused when the player is hit by the monster (collision)
     public float timeBetweenShots;              // time between bullets
     public List<GameObject> enemyBulletPrefabs; // Prefabs of Bullets shot
@@ -29,6 +30,7 @@ public class EnemyManager : MonoBehaviour
     public List<float> timeBetweenAbilities;    // Determines how long to wait between abilities
     public List<int> abilityRestrictionNumber;  // The number ascociated with the ability to determine how many ability object there can be in the scene
     public List<GameObject> enemyObjects;       // Holds additional objects that work with the enemy.
+    private float seekDistance;                 // The distance at which an enemy can sense where you are - takes this from awareDistance from EnemyMovement Class
 
 
     // Basic Monster Attributes
@@ -39,18 +41,16 @@ public class EnemyManager : MonoBehaviour
     protected bool hitByMeleeBool;                 // Determines if the enemy has been hit by a melee attack by the player
 
     // Ability Management
-    protected List<bool> canUseAbility;
-    protected List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
-    public List<GameObject> enemyBullets;           // a list keeping track of all of the current bullets on the screen
-    public List<GameObject> enemyAbilityObjects;    // a list keeping track of all of the abilities out for a specific ability
-    public List<GameObject> enemyBlobs;
-    protected GameObject parent;
-    protected int parentAbilityNum;
+    private List<bool> canUseAbility;
+    private List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
+    [HideInInspector] public List<GameObject> enemyBullets;           // a list keeping track of all of the current bullets on the screen
+    [HideInInspector] public List<GameObject> enemyAbilityObjects;    // a list keeping track of all of the abilities out for a specific ability
+    [HideInInspector] public List<GameObject> enemyBlobs;
+    private GameObject parent;
+    private int parentAbilityNum;
 
     // Bullet Management
-    protected int blobCount;
     protected bool canShoot;
-    public int bulletCount;
     private bool initialBulletDelay;
 
     // Boss Management
@@ -58,25 +58,15 @@ public class EnemyManager : MonoBehaviour
     private float totalTime;
     #endregion
 
-    #region EnemyProperties
+    #region Enemy Properties
     public float CurrentLife
     {
         get { return currentLife; }
         set { currentLife = value; }
     }
-    public int BulletCount
-    {
-        get { return bulletCount; }
-        set { bulletCount = value; }
-    }
     public bool HitByMeleeBool
     {
         get { return hitByMeleeBool; }
-    }
-    public int BlobCount
-    {
-        get { return blobCount; }
-        set { blobCount = value; }
     }
     public GameObject Parent
     {
@@ -97,6 +87,12 @@ public class EnemyManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        // Set the player reference
+        player = GameObject.FindGameObjectWithTag("player");
+
+        // Sets up the enemy's awareness distance in this class
+        seekDistance = GetComponent<EnemyMovement>().awareDistance;
+
         // Sets up whether and enemy can shoot bullets or not
         canShoot = true; // Set to true if player gets within distance of the enemy
 
@@ -116,7 +112,7 @@ public class EnemyManager : MonoBehaviour
 
         // Sets up Enemy's HealthBar
         currentLife = maxHealth;
-        gameObject.GetComponent<HealthBar>().HealthBarInstantiate();
+        GetComponent<HealthBar>().HealthBarInstantiate();
 
         // start the enmy phase on 0
         phase = 0;
@@ -130,9 +126,9 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         // Check for death first
-        death();
+        Death();
 
-        if ((gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
+        if ((player.transform.position - transform.position).magnitude < seekDistance)
         {
             // update deltaTime next
             totalTime += Time.deltaTime;
@@ -233,7 +229,7 @@ public class EnemyManager : MonoBehaviour
         #endregion
 
         // Enemy Shooting allows any enemy to shoot when possible
-        if (hasBullets == true && canShoot==true && initialBulletDelay==false && (gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance)
+        if (hasBullets == true && canShoot==true && initialBulletDelay==false && (player.transform.position - transform.position).magnitude < seekDistance)
         {
             Shoot();
         }
@@ -243,7 +239,7 @@ public class EnemyManager : MonoBehaviour
         {
             if (hasAbility == true)
             {
-                if (canUseAbility[i] == true && ((gameObject.GetComponent<EnemyMovement>().player.transform.position - transform.position).magnitude < seekDistance))
+                if (canUseAbility[i] == true && ((player.transform.position - transform.position).magnitude < seekDistance))
                 {
                     // Use the ability
                     Ability(abilityTypes[i], i);
@@ -267,7 +263,7 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// Checks if the Enemy should be dead
     /// </summary>
-    void death()
+    void Death()
     {
         if(currentLife <= 0)
         {
@@ -290,7 +286,7 @@ public class EnemyManager : MonoBehaviour
                 // Kil enemy minions if the owner dies.
                 if (ability.GetComponent<EnemyManager>() != null)
                 {
-                    ability.GetComponent<EnemyManager>().death();
+                    ability.GetComponent<EnemyManager>().Death();
                 }
             }
 
@@ -312,7 +308,6 @@ public class EnemyManager : MonoBehaviour
         bulletCopy = Instantiate(enemyBulletPrefabs[0], transform.position, transform.rotation) as GameObject;
         bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
         enemyBullets.Add(bulletCopy);
-        bulletCount++;
 
         JustShot();
     }
@@ -449,7 +444,7 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     public void VampyricHeal(float damageFloat)
     {
-        CurrentLife += damageFloat;
+        currentLife += damageFloat;
     }
     #endregion
     #endregion

@@ -11,7 +11,7 @@ public class BlobScript : MonoBehaviour
     private float damage;
     public bulletTypes blobComposite;
     public GameObject owner;
-    public bulletOwners ownerType;
+    public Owner ownerType;
 
     bool isPoisonous;
     public bool ownerAlive;
@@ -30,7 +30,7 @@ public class BlobScript : MonoBehaviour
     {
         #region assign Ownership for blob
         // Set the tag to a copy
-          ownerType = bulletOwners.enemy;
+          ownerType = Owner.Enemy;
         #endregion
 
         ownerAlive = true;
@@ -91,11 +91,11 @@ public class BlobScript : MonoBehaviour
         {
             if (owner.tag == "player")
             {
-                ownerType = bulletOwners.player;
+                ownerType = Owner.Player;
             }
             else
             {
-                ownerType = bulletOwners.enemy;
+                ownerType = Owner.Enemy;
             }
         }
         #endregion
@@ -175,21 +175,21 @@ public class BlobScript : MonoBehaviour
     {
         #region Enemy Collision with playerBlob
         // If an enemy runs ovr the blob
-        if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == bulletOwners.player)
+        if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == Owner.Player)
         {
             // Damage Enemy
-            collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
+            collider.GetComponent<EnemyManager>().CurrentLife -= damage;
 
         }
         #endregion
 
         #region Player Collision with enemyBlob
-        else if (collider.tag == "player" && ownerType == bulletOwners.enemy)
+        else if (collider.tag == "player" && ownerType == Owner.Enemy)
         {
             //Debug.Log("Blob Hit Player");
 
             // Damage Player
-            collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;
+            collider.GetComponent<PlayerManager>().CurrentLife -= damage;
             if (blobComposite == bulletTypes.blood)
             {
                 owner.GetComponent<EnemyManager>().VampyricHeal(damage);
@@ -199,26 +199,26 @@ public class BlobScript : MonoBehaviour
             // Apply Poison to player
             if (isPoisonous)
             {
-                collider.gameObject.GetComponent<PlayerManager>().StartPoison();
+                collider.GetComponent<PlayerManager>().StartPoison();
             }
 
             if (slowsPlayer)
             {
                 // Webs slows down player
-                collider.gameObject.GetComponent<PlayerMovement>().BeingSlowed = true;
-                collider.gameObject.GetComponent<PlayerMovement>().CurrentSpeed -= .025f;
+                collider.GetComponent<PlayerMovement>().BeingSlowed = true;
+                collider.GetComponent<PlayerMovement>().CurrentSpeed -= .025f;
             }
 
             if (slippy)
             {
-                collider.gameObject.GetComponent<PlayerMovement>().BeingSped = true;
-                collider.gameObject.GetComponent<PlayerMovement>().CurrentSpeed += .025f;
+                collider.GetComponent<PlayerMovement>().BeingSped = true;
+                collider.GetComponent<PlayerMovement>().CurrentSpeed += .025f;
             }
         }
         #endregion
 
         #region Player Collision with playerblob
-        else if (collider.tag == "player" && ownerType == bulletOwners.player)
+        else if (collider.tag == "player" && ownerType == Owner.Player)
         {
             if (blobComposite == bulletTypes.Portal)
             {

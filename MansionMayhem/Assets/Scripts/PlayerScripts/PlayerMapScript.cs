@@ -169,19 +169,19 @@ public class PlayerMapScript : CharacterMovement
     /// <param name="collider"></param>
     void OnTriggerStay2D(Collider2D collider)
     {
-        Debug.Log("Colliding with level: " + destination);
+        //Debug.Log("Colliding with level: " + destination);
         // Get the tag associated with the collision
         switch (collider.tag)
         {
             case "level":
-                Debug.Log("Colliding with level: " + destination);
+                //Debug.Log("Colliding with level: " + destination);
                 destination = collider.gameObject;
                 currentLocationIndex = collider.gameObject.GetComponent<LevelLocation>().level;
                 destinationName = collider.gameObject.GetComponent<LevelLocation>().name;
                 SelectLevel();
                 break;
             default:
-                Debug.Log("Not colliding with level");
+                //Debug.Log("Not colliding with level");
                 break;
 
         }

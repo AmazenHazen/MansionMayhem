@@ -9,7 +9,7 @@ Gah! Stop wasting my time! I could be getting closer to my goal!
 [Exit]
 
 +
-[CheckItemRequirements](12)(6)
+[CheckRequirements](12)(6)
 This is it! This is what I needed!
 "August 26th, 2013 - There is no way out! That damn Warden and his guards have trapped me yet again in Purgatory!"
 "One day I will move on in my life."

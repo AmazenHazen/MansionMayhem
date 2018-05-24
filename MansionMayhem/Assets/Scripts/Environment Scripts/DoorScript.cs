@@ -41,7 +41,16 @@ public class DoorScript : MonoBehaviour
                 // Hide the lock!
                 lockOnDoor.SetActive(false);
             }
+        }
 
+        // If the door is the boss door, set the boss to be the same as the Level Manager
+        if(bossDoor)
+        {
+            GameObject[] bosses = GameObject.Find("LevelManager").GetComponent<LevelManager>().boss;
+            for (int i=0; i<bosses.Length; i++)
+            {
+                boss = bosses[i] ?? boss;
+            }
         }
     }
 

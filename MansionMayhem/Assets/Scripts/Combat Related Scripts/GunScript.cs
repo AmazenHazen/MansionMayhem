@@ -11,7 +11,7 @@ public class GunScript : MonoBehaviour
     
     // Basic Gun attributes
     public rangeWeapon gunType;
-    public bulletOwners gunOwner;
+    public Owner gunOwner;
     public GameObject bulletPrefab;
     public float timeBetweenShots;
     
@@ -65,6 +65,7 @@ public class GunScript : MonoBehaviour
     }
     #endregion
 
+    #region Start
     // Use this for initialization
     void Start()
     {
@@ -84,14 +85,21 @@ public class GunScript : MonoBehaviour
         }
 
     }
-	
-	// Update is called once per frame
-	void Update ()
+    #endregion
+
+    #region Update
+    // Update is called once per frame
+    void Update ()
     {
         BulletManagement();
         BlobManagement();
 	}
+    #endregion
 
+    #region Fire Weapon
+    /// <summary>
+    /// Fires the weapon depending on what weapon is currently equipped or being used
+    /// </summary>
     public void FireWeapon()
     {
         if (canShoot && finishSwitch && Input.GetMouseButton(0))
@@ -159,12 +167,12 @@ public class GunScript : MonoBehaviour
                 JustShot();
             }
         }
-
-        
     }
+    #endregion
 
+    #region Shooting Bullet method
     /// <summary>
-    /// Launches a bullet
+    /// Launches a bullet (method to shoot a single shot)
     /// </summary>
     void ShootBullet()
     {
@@ -181,7 +189,9 @@ public class GunScript : MonoBehaviour
 
         JustShot();
     }
+    #endregion
 
+    #region Charge Bullet Method - Used for Charging bullets
     /// <summary>
     /// Charges a bullet
     /// </summary>
@@ -194,7 +204,7 @@ public class GunScript : MonoBehaviour
             bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
             bulletCopy.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);
             bulletCopy.GetComponent<BulletManager>().owner = gameObject;
-            bulletCopy.GetComponent<BulletManager>().ownerType = bulletOwners.player;
+            bulletCopy.GetComponent<BulletManager>().ownerType = Owner.Player;
             playerBullets.Add(bulletCopy);
             charging = true;
         }
@@ -222,8 +232,9 @@ public class GunScript : MonoBehaviour
             }
         }
     }
+    #endregion
 
-
+    #region Shooting Helper Method for burst guns
     // Helper method for shooting bullets for Xenon Pulser
     IEnumerator XenonShoot(int bulletPrefab, float delayTime)
     {
@@ -238,6 +249,7 @@ public class GunScript : MonoBehaviour
         }
         Invoke("ResetBurst", .5f);
     }
+    #endregion
 
     #region ResetShooting Methods
     /// <summary>
@@ -291,7 +303,10 @@ public class GunScript : MonoBehaviour
 
     #endregion
 
-    #region Bullet and Blob Management
+    #region Bullet and Blob Management Methods
+    /// <summary>
+    /// Handles the management of current bullets shot out
+    /// </summary>
     void BulletManagement()
     {
         if (playerBullets.Count > maxBullets)
@@ -303,6 +318,9 @@ public class GunScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the management of current blobs
+    /// </summary>
     void BlobManagement()
     {
         if (blobCount > maxBlobs)
@@ -314,7 +332,6 @@ public class GunScript : MonoBehaviour
         }
     }
     #endregion
-
 
     #region ParticleWeapons
 

@@ -14,14 +14,15 @@ public abstract class CharacterMovement : MonoBehaviour
     public float maxSpeed;
     public float frictionVar;
     public bool rotateBool;
+    public float awareDistance;
 
     // Rotation Variables
     protected Quaternion angle;
     protected float angleOfRotation;
 
     // Variables for seperation force
-    const float seperationBubble = 1.0f;
-    const float seperationForce = 1.5f;
+    public float seperationBubble; // basic force is 1.0
+    public float seperationForce; // basic seperation force is 1.5 for enemies, 4 for allies
 
     // Variables for wandering
     Vector3 futurePosition;
@@ -173,7 +174,7 @@ public abstract class CharacterMovement : MonoBehaviour
 
     #endregion
 
-    #region Enemy Movement Methods
+    #region Enemy/Ally Movement Methods
     /// <summary>
     /// Seek a Target (Basic Enemy Movement)
     /// </summary>
@@ -372,25 +373,55 @@ public abstract class CharacterMovement : MonoBehaviour
         // Create a new steering force
         Vector3 steeringForce = Vector3.zero;
 
-        // Find nearest neighbor
-        foreach (GameObject enemy in LevelManager.enemies)
+        if (GetComponent<EnemyMovement>())
         {
-            if ((transform.position - enemy.transform.position).magnitude < seperationBubble)
+            // Find nearest neighbor
+            foreach (GameObject enemy in LevelManager.enemies)
             {
-                if ((transform.position - enemy.transform.position).magnitude != 0)
+                if ((transform.position - enemy.transform.position).magnitude < seperationBubble)
                 {
-                    // Step 1: Find Desired Velocity
-                    // This is the vector pointing from my target to my myself
-                    Vector3 desiredVelocity = position - enemy.transform.position;
+                    if ((transform.position - enemy.transform.position).magnitude != 0)
+                    {
+                        // Step 1: Find Desired Velocity
+                        // This is the vector pointing from my target to my myself
+                        Vector3 desiredVelocity = position - enemy.transform.position;
 
-                    // Step 2: Scale Desired to maximum speed
-                    //         so I move as fast as possible
-                    desiredVelocity.Normalize();
-                    desiredVelocity *= seperationForce;
+                        // Step 2: Scale Desired to maximum speed
+                        //         so I move as fast as possible
+                        desiredVelocity.Normalize();
+                        desiredVelocity *= seperationForce;
 
-                    // Step 3: Calculate your Steering Force
-                    steeringForce = desiredVelocity - velocity;
+                        // Step 3: Calculate your Steering Force
+                        steeringForce = desiredVelocity - velocity;
+                    }
                 }
+
+            }
+        }
+
+        else if (GetComponent<AllyMovement>())
+        {
+            // Find nearest neighbor
+            foreach (GameObject ally in LevelManager.allies)
+            {
+                if ((transform.position - ally.transform.position).magnitude < seperationBubble)
+                {
+                    if ((transform.position - ally.transform.position).magnitude != 0)
+                    {
+                        // Step 1: Find Desired Velocity
+                        // This is the vector pointing from my target to my myself
+                        Vector3 desiredVelocity = position - ally.transform.position;
+
+                        // Step 2: Scale Desired to maximum speed
+                        //         so I move as fast as possible
+                        desiredVelocity.Normalize();
+                        desiredVelocity *= seperationForce;
+
+                        // Step 3: Calculate your Steering Force
+                        steeringForce = desiredVelocity - velocity;
+                    }
+                }
+
             }
         }
 

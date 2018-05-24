@@ -15,8 +15,8 @@ Don't Read[SayNothing]
 
 In the back of the book you notice some writing in blood. Do you wish to read it?
 *2
-Yes[SayYes](22)
-Stop Reading[SayNo](32)
+Yes[SayYes](21)
+Stop Reading[SayNo](36)
 
 +
 "The Blood Moon beckens the beast of dripping blood."

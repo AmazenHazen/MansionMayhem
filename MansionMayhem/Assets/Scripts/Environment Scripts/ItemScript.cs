@@ -20,8 +20,11 @@ public class ItemScript : MonoBehaviour
 
         transform.Rotate(0, 0, 2);
 
-        // If the player has a magnet
-        if (player.GetComponent<PlayerManager>().magnet && ((player.transform.position - gameObject.transform.position).magnitude < player.GetComponent<PlayerManager>().magnetDistance) && gameObject.GetComponent<Rigidbody2D>())
+        // If the player has a magnet, is close enough to the player, has a rigidbody, and the game isn't paused
+        if (player.GetComponent<PlayerManager>().magnet &&
+            ((player.transform.position - gameObject.transform.position).magnitude < player.GetComponent<PlayerManager>().magnetDistance)
+            && gameObject.GetComponent<Rigidbody2D>()
+            && GameManager.instance.currentGameState!=GameState.Paused)
         {
             //Debug.Log("Magnetizing");
 

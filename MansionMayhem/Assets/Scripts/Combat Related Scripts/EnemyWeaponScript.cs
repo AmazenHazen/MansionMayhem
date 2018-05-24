@@ -14,7 +14,6 @@ public class EnemyWeaponScript : MonoBehaviour
     // private variables tracking it's original condition
     private Quaternion initialRot;
 
-
     void Start()
     {
         initialRot = transform.rotation; 

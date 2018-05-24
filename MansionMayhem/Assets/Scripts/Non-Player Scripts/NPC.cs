@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NPC : CharacterMovement
+public class NPC : MonoBehaviour
 {
     #region Attributes
     // Attributes
     private string charName;
-    public GameObject player;
-    public float awareDistance;
+    protected GameObject player;
 
     // For Text Files
     public TextAsset initialTextFile;
@@ -20,7 +19,6 @@ public class NPC : CharacterMovement
 
     // Variables to track dialogue options
     private ResponseType[] Responses;
-    private string playerChoices;
     private int optionNumber;            // Number of options for current question
 
     // Reference to the current line for dialog
@@ -33,13 +31,12 @@ public class NPC : CharacterMovement
 
     // Quest Variables
     private GameObject questIcon;
-    public List<Sprite> QuestSprites; // for changing the overhead sprite of the NPC
+    private List<Sprite> QuestSprites; // for changing the overhead sprite of the NPC
     public List<GameObject> items; // for items that the NPC will take from or accept from the player
     public List<GameObject> enemies;
-    public List<GameObject> otherStuff; // for anything else needing to be accessed.
-    public List<ItemType> itemRequirements;
     public List<GameObject> requirements; // requirements for completing a quest (could be items, interactive objects, or NPCs)
-    public QuestStatus currentQuestStatus;
+    public List<ItemType> itemRequirements;
+    protected QuestStatus currentQuestStatus;
     #endregion
 
     #region NPC properties
@@ -57,7 +54,7 @@ public class NPC : CharacterMovement
 
     #region Start Method
     // Use this for initialization
-    public override void Start()
+    protected virtual void Start()
     {
         // Find the player game object
         player = GameObject.FindGameObjectWithTag("player");
@@ -67,6 +64,12 @@ public class NPC : CharacterMovement
         {
             questIcon = transform.Find("Icon").gameObject;
         }
+
+        // Load in the Icons for the NPCS
+        QuestSprites = new List<Sprite>(3);
+        QuestSprites.Add(Resources.Load<Sprite>("Images/NPCs/Quest Icon"));
+        QuestSprites.Add(Resources.Load<Sprite>("Images/NPCs/Started Icon"));
+        QuestSprites.Add(Resources.Load<Sprite>("Images/NPCs/Completed Icon"));
 
         currentLine = 0;
 
@@ -83,25 +86,21 @@ public class NPC : CharacterMovement
         {
             questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[0];
         }
-
-        base.Start();
     }
     #endregion
 
     #region Update
     // Update is called once per frame
-    protected override void Update()
+    protected virtual void Update()
     {
         if (talkingBool)
         {
             TalkingTo();
         }
-
-        base.Update();
     }
     #endregion
 
-    #region dialogue helper methods
+    #region Dialogue helper methods
     /// <summary>
     /// Helper method that takes checks whether there is a valid text file and set it as the current tect for the NPC
     /// </summary>
@@ -113,10 +112,10 @@ public class NPC : CharacterMovement
         {
             // Create an array of text with the different lines of the text file
             textLines = textFile.text.Split('\n');
-        }
 
-        // Set endAtLine to the textLines length - 1
-        endAtLine = textLines.Length - 1;
+            // Set endAtLine to the textLines length - 1
+            endAtLine = textLines.Length - 1;
+        }
 
     }
 
@@ -308,18 +307,7 @@ public class NPC : CharacterMovement
         #region Commands
         switch (commandText)
         {
-            case "StartQuest":
-                //Debug.Log("Command: " + commandText + secondayCommand);
-                currentQuestStatus = QuestStatus.Started;
-                if (questIcon != null)
-                {
-                    questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[1];
-                }
-                TextFileSetUp(startedQuestTextFile);
-                currentLine = 0;
-                endDialogue();
-                break;
-
+            #region Item based commands (give/remove)
             case "GiveItem":
                 // give player that item
                 //Debug.Log("Gave player: " + items[secondaryNum]);
@@ -346,8 +334,13 @@ public class NPC : CharacterMovement
                 GameManager.instance.screws += secondaryNum;
                 currentLine++;
                 break;
+            #endregion
 
-
+            #region Dynamic Commands
+            // This command checks all requirements including Items, Enemies, and NPCs
+            // Items are checked in the inventory and only removed once all requirements are met
+            // Enemies are checked if they are null (they are removed from the list and are deleted from the scene if dead)
+            // NPCs are checked if they have a Complete Quest Status
             case "CheckRequirements":
                 // give player that item
                 //Debug.Log("Check Requirements");
@@ -355,6 +348,14 @@ public class NPC : CharacterMovement
 
                 for(int j=0; j<requirements.Count; j++)
                 {
+                    // For enemies (they would be deleted if they are defeated)
+                    // This must be checked first so that a nullreferenece exception doesn't occur
+                    if (requirements[j]==null)
+                    {
+                        requirements.Remove(requirements[j]);
+                    }
+
+                    // For NPCS (if their quest has been completed)
                     if(requirements[j].GetComponent<NPC>())
                     {
                         if (requirements[j].GetComponent<NPC>().currentQuestStatus == QuestStatus.Completed)
@@ -362,11 +363,26 @@ public class NPC : CharacterMovement
                             completedRequirements++;
                         }
                     }
+
+                    // For Allies (if their quest has been completed)
+                    if (requirements[j].GetComponent<AllyManager>())
+                    {
+                        if (requirements[j].GetComponent<AllyManager>().currentQuestStatus == QuestStatus.Completed)
+                        {
+                            completedRequirements++;
+                        }
+                    }
                 }
 
-                if (completedRequirements == requirements.Count)
+                // Check For Items
+                bool requirementfulfilled = true;
+                requirementfulfilled = CheckInventory(player.GetComponent<PlayerManager>().playerItems);
+
+                if (completedRequirements == requirements.Count && requirementfulfilled)
                 {
                     //Debug.Log("Requirements fulfilled, moved to line " + secondaryNum);
+                    // Only remove Item requirements if the full check has been completed
+                    RemoveItemRequirements(player.GetComponent<PlayerManager>().playerItems);
                     currentLine = secondaryNum;
                 }
                 else
@@ -377,38 +393,30 @@ public class NPC : CharacterMovement
 
                 //Debug.Log("Current Line: " + currentLine);
                 break;
+            #endregion
 
-            case "CheckItemRequirements":
-                // give player that item
-                //Debug.Log("Check Item Requirements");
-
-                bool requirementfulfilled = CheckInventory(player.GetComponent<PlayerManager>().playerItems);
-
-
-                if (requirementfulfilled)
+            #region Quest Commands
+            case "ResetQuest":
+                //Debug.Log("Command: " + commandText + secondayCommand);
+                currentQuestStatus = QuestStatus.NotStarted;
+                if (questIcon != null)
                 {
-                    //Debug.Log("Requirements fulfilled, moved to line " + secondaryNum);
-                    currentLine = secondaryNum;
+                    questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[1];
                 }
-                else
+                TextFileSetUp(startedQuestTextFile);
+                currentLine = 0;
+                endDialogue();
+                break;
+            case "StartQuest":
+                //Debug.Log("Command: " + commandText + secondayCommand);
+                currentQuestStatus = QuestStatus.Started;
+                if (questIcon != null)
                 {
-                    //Debug.Log("Requirements not fulfilled, moved to line " + tertiaryNum);
-                    currentLine = tertiaryNum;
+                    questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[1];
                 }
-
-                //Debug.Log("Current Line: " + currentLine);
-                break;
-
-
-            case "GoToLine":
-                // Go to a specific text line
-                currentLine = secondaryNum;
-                break;
-
-            case "DeleteSelf":
-                // Go to a specific text line
-                transform.position = new Vector3(10000, 10000, 0);
-                currentLine++;
+                TextFileSetUp(startedQuestTextFile);
+                currentLine = 0;
+                endDialogue();
                 break;
 
             case "CompleteQuest":
@@ -422,7 +430,9 @@ public class NPC : CharacterMovement
                 currentLine = 0;
                 endDialogue();
                 break;
+            #endregion
 
+            #region Spawning Enemy commands
             case "StartBossFight":
                 // Start the boss fight
                 enemies[0].SetActive(true);
@@ -430,9 +440,35 @@ public class NPC : CharacterMovement
                 GUIManager.bossFight = true;
                 currentLine++;
                 break;
+            #endregion
+
+            #region Dialogue Specific Commands
+            case "GoToLine":
+                // Go to a specific text line
+                currentLine = secondaryNum;
+                break;
 
             case "Exit":
                 endDialogue();
+                break;
+            #endregion
+
+            #region Ally Commands
+            case "StartFollowing":
+                GetComponent<AllyMovement>().FollowingPlayer = true;
+                currentLine++;
+                break;
+
+            case "StopFollowing":
+                GetComponent<AllyMovement>().FollowingPlayer = false;
+                currentLine++;
+                break;
+            #endregion
+
+            case "DeleteSelf":
+                // Go to a specific spot in the scene
+                transform.position = new Vector3(10000, 10000, 0);
+                currentLine++;
                 break;
         }
         #endregion
@@ -445,7 +481,7 @@ public class NPC : CharacterMovement
     }
     #endregion
 
-    #region commandHelperMethods
+    #region Command Helper Methods
     /// <summary>
     /// Checks the player's inventory to see if the player fulfills all the NPC's item requirements
     /// May want to move this to the player manager script
@@ -473,25 +509,34 @@ public class NPC : CharacterMovement
         // if the player has all the requirements
         if (totalNumsFulfilled == itemRequirements.Count)
         {
-            foreach (ItemType requirement in itemRequirements)
-            {
-                // Remove the items from the player's inventory
-                for (int i = 0; i < playerItems.Length; i++)
-                {
-                    if (playerItems[i] == requirement)
-                    {
-                        //Debug.Log("Remove item requirement npc");
-                        player.GetComponent<PlayerManager>().playerItems[i] = ItemType.NoItem;
-                        GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(i);
-                        break;
-                    }
-                }
-            }
             return true;
         }
         else
         {
             return false;
+        }
+    }
+
+
+    /// <summary>
+    /// Method to remove all itemRequirements from the inventory
+    /// </summary>
+    /// <param name="playerItems"></param>
+    public void RemoveItemRequirements(ItemType[] playerItems)
+    {
+        foreach (ItemType requirement in itemRequirements)
+        {
+            // Remove the items from the player's inventory
+            for (int i = 0; i < playerItems.Length; i++)
+            {
+                if (playerItems[i] == requirement)
+                {
+                    //Debug.Log("Remove item requirement npc");
+                    player.GetComponent<PlayerManager>().playerItems[i] = ItemType.NoItem;
+                    GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(i);
+                    break;
+                }
+            }
         }
     }
     #endregion
@@ -699,10 +744,6 @@ public class NPC : CharacterMovement
         // Set the dialog to the beginning
         currentLine = 0;
 
-
-        // Set playerChoices to null
-        playerChoices = null;
-
         //Turn off options for next time you talk to NPCs
         GUIManager.EndOptions();
 
@@ -711,61 +752,6 @@ public class NPC : CharacterMovement
         // Set the Talking to bool to false
         talkingBool = false;
     }
-    #endregion
-
-    #region Movement Methods
-    #region CalcSteerForce
-    // Call the necessary Forces on the player
-    protected override void CalcSteeringForces()
-    {
-        // Rotate the facing of the NPC if the player is close enough
-        if ((player.transform.position - transform.position).magnitude < awareDistance)
-        {
-            Rotate();
-        }
-    }
-    #endregion
-
-    #region Rotation Method
-    protected override void Rotate()
-    {
-        Vector3 targetPosition = player.transform.position;
-        Vector3 dir = targetPosition - this.transform.position;
-        angleOfRotation = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg) - 90;
-    }
-    #endregion
-
-    #region Revert Speed Method for NPCs
-    /// <summary>
-    /// Returns Speed to Max Speed
-    /// </summary>
-    protected override void RevertSpeed()
-    {
-        // Reset speed if you are slowed
-        if (currentSpeed < maxSpeed && beingSlowed == false)
-        {
-            currentSpeed += .05f;
-        }
-
-        //Reset speed if on slippery surface
-        if (currentSpeed > maxSpeed && beingSped == false)
-        {
-            currentSpeed -= .05f;
-        }
-
-        // Don't allow speed to be negative or 0
-        if (currentSpeed < .25f)
-        {
-            currentSpeed = .25f;
-        }
-
-        // Don't allow speed to be too high
-        if (currentSpeed > 6f)
-        {
-            currentSpeed = 6f;
-        }
-    }
-    #endregion
     #endregion
 
 }

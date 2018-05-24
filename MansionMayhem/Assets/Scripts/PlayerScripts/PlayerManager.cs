@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
     private float shieldLife;
     private bool invincibility;
     public bool canTravel;
-    private bool canMelee;
+    //private bool canMelee;
     private bool canShield;
 
     // Status Conditions
@@ -79,7 +79,7 @@ public class PlayerManager : MonoBehaviour
         currentLife = GameManager.instance.healthTotal;
         shieldLife = 1;
         invincibility = false;
-        canMelee = true;
+        //canMelee = true;
         canShield = true;
         canTravel = true;
         applypoison = true; // Starts as true, turned to false only if poisoned
@@ -204,30 +204,30 @@ public class PlayerManager : MonoBehaviour
             case "door":
                 //Debug.Log("Door");
 
-                // Travel first
-                if (canTravel == true && collider.gameObject.GetComponent<DoorScript>().requirements.Count==0 && collider.gameObject.GetComponent<DoorScript>().monsterRequirements.Count == 0 && !GUIManager.bossFight)
+                // Check to see if the player can travel first
+                if (canTravel == true && collider.GetComponent<DoorScript>().requirements.Count==0 && collider.GetComponent<DoorScript>().monsterRequirements.Count == 0 && !GUIManager.bossFight)
                 {
                     //Debug.Log("Travel");
-                    collider.gameObject.GetComponent<DoorScript>().Travel(gameObject);
+                    collider.GetComponent<DoorScript>().Travel(gameObject);
                     // Activate just traveled method
                     JustTraveled();
                 }
 
-                // Using interaction to unlock the door
+                // If not then check to see if they are using interaction to unlock the door
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     // Unlock the door
                     UseItem(collider.gameObject);
 
                     // Message the player of the requirements stil left of the door
-                    if (collider.gameObject.GetComponent<DoorScript>().requirements.Count > 0)
+                    if (collider.GetComponent<DoorScript>().requirements.Count > 0)
                     {
-                        collider.gameObject.GetComponent<DoorScript>().MessageRequirementsItem();
+                        collider.GetComponent<DoorScript>().MessageRequirementsItem();
                     }
                     // Message the player of the requirements stil left of the door
-                    else if (collider.gameObject.GetComponent<DoorScript>().monsterRequirements.Count > 0)
+                    else if (collider.GetComponent<DoorScript>().monsterRequirements.Count > 0)
                     {
-                        collider.gameObject.GetComponent<DoorScript>().MessageRequirementsMonster();
+                        collider.GetComponent<DoorScript>().MessageRequirementsMonster();
                     }
                 }     
                 break;
@@ -241,19 +241,19 @@ public class PlayerManager : MonoBehaviour
                 {
 
                     //Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
-                    currentLife -= collider.gameObject.GetComponent<EnemyManager>().damage;
+                    currentLife -= collider.GetComponent<EnemyManager>().damage;
 
                     // Heal the enemy if hit and a vampyric enemy
-                    if (collider.gameObject.GetComponent<EnemyManager>().vampyric == true)
+                    if (collider.GetComponent<EnemyManager>().vampyric == true)
                     {
                         // Call the vampyric heal method
-                        collider.gameObject.GetComponent<EnemyManager>().VampyricHeal(collider.gameObject.GetComponent<EnemyManager>().damage);
+                        collider.GetComponent<EnemyManager>().VampyricHeal(collider.GetComponent<EnemyManager>().damage);
                     }
 
 
                     // Poison the player if the enemy is poisonous
                     // The Enemy Poisons the player with the melee attack if poisonous
-                    if (collider.gameObject.GetComponent<EnemyManager>().isPoisonous == true)
+                    if (collider.GetComponent<EnemyManager>().isPoisonous == true)
                     {
                         // Set poison to true and reset the counter
                         StartPoison();
@@ -267,11 +267,11 @@ public class PlayerManager : MonoBehaviour
                 {
 
                     //Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
-                    currentLife -= collider.gameObject.GetComponent<EnemyManager>().damage;
+                    currentLife -= collider.GetComponent<EnemyManager>().damage;
 
                     // Poison the player if the enemy is poisonous
                     // The Enemy Poisons the player with the melee attack if poisonous
-                    if (collider.gameObject.GetComponent<EnemyManager>().isPoisonous == true)
+                    if (collider.GetComponent<EnemyManager>().isPoisonous == true)
                     {
                         // Set poison to true and reset the counter
                         StartPoison();
@@ -285,19 +285,19 @@ public class PlayerManager : MonoBehaviour
                 {
 
                     //Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
-                    currentLife -= collider.gameObject.GetComponent<EnemyWeaponScript>().damage;
+                    currentLife -= collider.GetComponent<EnemyWeaponScript>().damage;
 
                     // Heal the enemy if hit and a vampyric enemy
-                    if (collider.gameObject.GetComponent<EnemyWeaponScript>().vampyric == true)
+                    if (collider.GetComponent<EnemyWeaponScript>().vampyric == true)
                     {
                         // Call the vampyric heal method
-                        collider.gameObject.GetComponent<EnemyWeaponScript>().owner.GetComponent<EnemyManager>().VampyricHeal(collider.gameObject.GetComponent<EnemyWeaponScript>().damage);
+                        collider.GetComponent<EnemyWeaponScript>().owner.GetComponent<EnemyManager>().VampyricHeal(collider.GetComponent<EnemyWeaponScript>().damage);
                     }
 
 
                     // Poison the player if the enemy is poisonous
                     // The Enemy Poisons the player with the melee attack if poisonous
-                    if (collider.gameObject.GetComponent<EnemyWeaponScript>().isPoisonous == true)
+                    if (collider.GetComponent<EnemyWeaponScript>().isPoisonous == true)
                     {
                         // Set poison to true and reset the counter
                         StartPoison();
@@ -315,9 +315,8 @@ public class PlayerManager : MonoBehaviour
                 // Debug Line
                 //Debug.Log("Item: " + collider.gameObject.GetComponent<ItemScript>().itemVar);
 
-
                 // Make a copy of the type of item for determining what to do with it.
-                ItemType itemVarCopy = collider.gameObject.GetComponent<ItemScript>().itemVar;
+                ItemType itemVarCopy = collider.GetComponent<ItemScript>().itemVar;
                 bool pickedUp = false;
                 GameObject itemCopy = collider.gameObject;
 
@@ -402,9 +401,10 @@ public class PlayerManager : MonoBehaviour
 
             #region NPC
             case "npc":
+            case "ally":
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    collider.gameObject.GetComponent<NPC>().TalkingBool = true;
+                    collider.GetComponent<NPC>().TalkingBool = true;
 
                     //Debug.Log("Talking to " + collider.gameObject.GetComponent<NPC>().name);
                 }
@@ -415,15 +415,7 @@ public class PlayerManager : MonoBehaviour
             case "chest":
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    // Pause the gameplay
-                    // Set pauseGame to true
-                    /*
-                    GUIManager.pausedGame = true;
-                    GUIManager.usingOtherInterface = true;
-                    Time.timeScale = 0;
-                    */
-
-                    collider.gameObject.GetComponent<ChestScript>().OpenChest();
+                    collider.GetComponent<ChestScript>().OpenChest();
                 }
                 break;
             #endregion
@@ -516,8 +508,9 @@ public class PlayerManager : MonoBehaviour
             if (playerGunPrefabs[weaponNum].GetComponent<GunScript>().Charging)
             {
                 playerGunPrefabs[weaponNum].GetComponent<GunScript>().Charging = false;
-                // Shoot the Charging bullet if not hitting the mouse button
-                playerGunPrefabs[weaponNum].GetComponent<GunScript>().bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+
+                // Shoot the Charging bullet if you switch guns while charging the bullet (shoot as though you call Fire Weapon)
+                playerGunPrefabs[weaponNum].GetComponent<GunScript>().bulletCopy.GetComponent<BulletManager>().BulletStart(playerGunPrefabs[weaponNum]);
                 playerGunPrefabs[weaponNum].GetComponent<GunScript>().BulletCount++;
                 playerGunPrefabs[weaponNum].GetComponent<GunScript>().JustShot();
             }
@@ -707,45 +700,6 @@ public class PlayerManager : MonoBehaviour
                         break;
                     }
                 }
-            }
-        }
-        #endregion
-
-        #region InteractableObject
-        // If the object is an interactable Object
-        if (interactingObject.GetComponent<InteractableObjectScript>())
-        {
-            if (interactingObject.GetComponent<InteractableObjectScript>().CheckRequirements(playerItems))
-            {
-                // Check the requirements
-                for (int i = 0; i < playerItems.Length; i++)
-                {
-                    foreach (ItemType requirement in interactingObject.GetComponent<InteractableObjectScript>().requirements)
-                    {
-                        if (playerItems[i] == requirement)
-                        {
-                            // Debug Statment
-                            //Debug.Log("Using Item: " + playerItems[i]);
-
-                            // Remove the requirement throught the door helper method
-                            interactingObject.GetComponent<InteractableObjectScript>().removeRequirement(playerItems[i]);
-
-                            // Remove inventory graphic
-                            GameObject.Find("HUDCanvas").GetComponent<GUIManager>().RemoveItemGUI(i);
-
-                            // Remove the player's item
-                            playerItems[i] = ItemType.NoItem;
-
-                            //Debug.Log(playerItems[i]);
-
-                            // Break out of the loop
-                            break;
-                        }
-                    }
-                }
-
-                // Set the object to being "Complete"
-                interactingObject.GetComponent<InteractableObjectScript>().currentQuestStatus = QuestStatus.Completed;
             }
         }
         #endregion

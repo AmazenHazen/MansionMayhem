@@ -1,5 +1,5 @@
 You check your bag for the blood sap of the bleeding tree...
-[CheckItemRequirements](8)(4)
+[CheckRequirements](8)(4)
 
 -
 You don't have the blood sap of the bleeding tree.

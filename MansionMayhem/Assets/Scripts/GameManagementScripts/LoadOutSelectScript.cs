@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class LoadOutSelectScript : MonoBehaviour
 {
-    // To be global and saved attributes
-    int totalEquipementNum;
-
     // Attributes
     Color selectedColor = new Color(.55f, .85f, .245f);
     Color unSelectedColor = new Color32(0x77, 0x78, 0xC1, 0xFF);
@@ -47,7 +44,7 @@ public class LoadOutSelectScript : MonoBehaviour
     public void EquipArmor(GameObject buttonChosen)
     {
         // check to see if you already have too much equipped or already equipped
-        if (equipedNum >= totalEquipementNum/* && already equipped*/)
+        if (equipedNum >= GameManager.instance.equipmentTotal/* && already equipped*/)
         {
             // Send message to player that too many numbers who have been selected
         }

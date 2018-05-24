@@ -24,8 +24,6 @@ public class LoadOutButtonScript : MonoBehaviour
         set { locked = value; }
     }
 
-    Color selectedColor = new Color(.55f, .85f, .245f);
-
     // Use this for initialization
     void Start()
     {

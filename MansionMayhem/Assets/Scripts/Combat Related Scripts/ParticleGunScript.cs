@@ -8,7 +8,7 @@ public class ParticleGunScript : MonoBehaviour
     private GameObject owner;
     public GameObject collidingPerson;
     public rangeWeapon particleGun;
-    bulletOwners ownerType;
+    Owner ownerType;
     public float damage;
     public float burnEffect;
     public int enemyCollisionCounter;
@@ -29,11 +29,11 @@ public class ParticleGunScript : MonoBehaviour
         {
             if (owner.tag == "player")
             {
-                ownerType = bulletOwners.player;
+                ownerType = Owner.Player;
             }
             else
             {
-                ownerType = bulletOwners.enemy;
+                ownerType = Owner.Enemy;
             }
         }
         #endregion
@@ -69,7 +69,7 @@ public class ParticleGunScript : MonoBehaviour
     /// <param name="collider"></param>
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == bulletOwners.player)
+        if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == Owner.Player)
         {
             enemyCollisionCounter++;
         }
@@ -82,7 +82,7 @@ public class ParticleGunScript : MonoBehaviour
     {
         if (particleGun == rangeWeapon.flamethrower)
         {
-            if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == bulletOwners.player)
+            if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == Owner.Player)
             {
                 enemyCollisionCounter--;
             }
@@ -103,7 +103,7 @@ public class ParticleGunScript : MonoBehaviour
     {
         #region Enemy Collision with player Particle Gun
         // Player particle System Collides with Enemy
-        if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == bulletOwners.player)
+        if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == Owner.Player)
         {
             if (particleGun == rangeWeapon.cryoGun && collider.gameObject.GetComponent<EnemyMovement>().CurrentSpeed > 1.5f)
             {
@@ -123,7 +123,7 @@ public class ParticleGunScript : MonoBehaviour
         #endregion
 
         #region Player or Enemy Particle Gun collides with breakable object
-        if (collider.tag == "breakable" && (ownerType == bulletOwners.player || ownerType == bulletOwners.enemy))
+        if (collider.tag == "breakable" && (ownerType == Owner.Player || ownerType == Owner.Enemy))
         {
             // Spawn an object
             collider.GetComponent<BreakableObject>().SpawnInsides();

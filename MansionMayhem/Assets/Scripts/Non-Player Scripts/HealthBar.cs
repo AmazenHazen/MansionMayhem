@@ -6,30 +6,62 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     // Values needed for health bar
-    public float maxHealth;
-    public float currentHealth;
-    public GameObject healthBarCanvas;
-    public Slider healthBar;
+    private float maxHealth;
+    private float currentHealth;
+    private GameObject healthBarCanvas;
+    private Slider healthBar;
+    private Owner ownerType;
+
+    void Start()
+    {
+        healthBarCanvas = transform.Find("HealthBarCanvas").gameObject;
+        healthBar = healthBarCanvas.transform.GetChild(0).GetComponent<Slider>();
+    }
 
 	// Use this for initialization
-	public void HealthBarInstantiate ()
+	public void HealthBarInstantiate()
     {
-        // Turn off health bar canvas at the beginning
-        healthBarCanvas.SetActive(false);
+        if (GetComponent<EnemyManager>())
+        {
+            ownerType = Owner.Enemy;
 
+            // Set the healthBar Max value
+            maxHealth = GetComponent<EnemyManager>().maxHealth;
+        }
+        else if (GetComponent<AllyManager>())
+        {
+            ownerType = Owner.Ally;
+
+            // Set the healthBar Max value
+            maxHealth = GetComponent<AllyManager>().maxHealth;
+        }
+        else
+        {
+            ownerType = Owner.None;
+        }
         // Set the healthBar Max value
-        maxHealth = gameObject.GetComponent<EnemyManager>().maxHealth;
+        Debug.Log("HealthBar" + healthBar + "maxhealth" + maxHealth);
         healthBar.maxValue = maxHealth;
+
+        // Turn off health bar canvas at the beginning
+        //healthBarCanvas.SetActive(false);
+
     }
 	
 	// Update is called once per frame
-	void Update ()
+	void Update()
     {
-
         // Get current health and update the bar
-        currentHealth = gameObject.GetComponent<EnemyManager>().CurrentLife;
-        healthBar.value = currentHealth;
+        if (ownerType == Owner.Enemy)
+        {
+            currentHealth = GetComponent<EnemyManager>().CurrentLife;
+        }
+        if (ownerType == Owner.Ally)
+        {
+            currentHealth = GetComponent<AllyManager>().CurrentLife;
+        }
 
+        healthBar.value = currentHealth;
         // Turn on the HealthBar only if you damage the enemy
         if(maxHealth!=currentHealth)
         {

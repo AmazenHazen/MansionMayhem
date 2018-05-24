@@ -1,5 +1,5 @@
 You check your bag for a living animal sacrifice...
-[CheckItemRequirements](8)(4)
+[CheckRequirements](8)(4)
 
 -
 You don't have a living animal sacrifice.

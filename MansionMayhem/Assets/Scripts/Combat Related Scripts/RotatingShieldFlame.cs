@@ -7,13 +7,12 @@ public class RotatingShieldFlame : MonoBehaviour
 
     // Reference to owner and stuff
     public GameObject owner;
-    Rigidbody2D rb;
     float angleOfRotation;
 
     // Combat variables
     public float damage;
     public float speed;
-    public bulletOwners ownerType;
+    public Owner ownerType;
 
 
     // vector storing the vector for the shield's start position
@@ -26,10 +25,6 @@ public class RotatingShieldFlame : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-
-        //Debug.Log(startPos);
-        //owner = gameObject.transform.parent.gameObject;
-        rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -79,12 +74,12 @@ public class RotatingShieldFlame : MonoBehaviour
         //Debug.Log(collider.tag);
 
         //Debug.Log("Colliding");
-        if(collider.tag == "player" && (ownerType == bulletOwners.enemy) && !GameObject.Find("Shield"))
+        if(collider.tag == "player" && (ownerType == Owner.Enemy) && !GameObject.Find("Shield"))
         {
             //Debug.Log("Fire damage enemy");
 
             // Damage Player
-            collider.gameObject.GetComponent<PlayerManager>().CurrentLife -= damage;
+            collider.GetComponent<PlayerManager>().CurrentLife -= damage;
             gameObject.SetActive(false);
         }
 

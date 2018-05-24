@@ -1,0 +1,13 @@
+It's a cute Hellpup!
+Do you wish the hellpup to follow you?
+*2
+Yes![SayYes](7)
+Nope :([SayNo](11)
+
++
+[StartFollowing]
+[Exit]
+
+-
+[StopFollowing]
+[Exit]

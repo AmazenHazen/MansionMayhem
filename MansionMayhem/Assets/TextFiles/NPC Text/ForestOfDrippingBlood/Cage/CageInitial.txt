@@ -1,5 +1,5 @@
 You look in your bag to see what you can use with the cage to lure an animal in.
-[CheckItemRequirements](8)(4)
+[CheckRequirements](8)(4)
 
 -
 You do not have what you need to lure an animal in the cabin. Maybe you need to look around the Kitchen and Bathroom of the cabin.

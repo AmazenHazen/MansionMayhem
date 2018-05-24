@@ -15,8 +15,11 @@ public class LevelManager : MonoBehaviour
     // Variable to keep track of all the enemies in the level
     public GameObject[] taskNPC;
     GameObject[] getEnemyArray;
+    GameObject[] getAllyArray;
     GameObject[] getBossArray;
     public static List<GameObject> enemies;
+    public static List<GameObject> allies;
+
 
     // For completing the level
     public int[] levelUnlockOnCompletion;
@@ -36,26 +39,27 @@ public class LevelManager : MonoBehaviour
 
         // Create a list to hold all enemies for the level (used for seperation force in Character Movement Scripts and Elimination levels)
         getEnemyArray = GameObject.FindGameObjectsWithTag("enemy");
+        getAllyArray = GameObject.FindGameObjectsWithTag("ally");
         getBossArray = GameObject.FindGameObjectsWithTag("boss");
 
-        Debug.Log("Hi");
-
         enemies = new List<GameObject>();
+        allies = new List<GameObject>();
 
         for (int j = 0; j < getEnemyArray.Length; j++)
         {
-            Debug.Log(getEnemyArray[j]);
+            //Debug.Log(getEnemyArray[j]);
             enemies.Add(getEnemyArray[j]);
         }
         for (int j = 0; j < getBossArray.Length; j++)
         {
             enemies.Add(getBossArray[j]);
         }
-
-        for (int i = 0; i < enemies.Count; i++)
+        for (int j = 0; j < getAllyArray.Length; j++)
         {
-            Debug.Log(enemies[i]);
+            //Debug.Log(getAllyArray[j]);
+            allies.Add(getAllyArray[j]);
         }
+
     }
 
     // Update is called once per frame

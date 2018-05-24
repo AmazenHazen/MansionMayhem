@@ -1,5 +1,5 @@
 You attempt to fish for a ancient blood sucking fish in these waters...
-[CheckItemRequirements](8)(4)
+[CheckRequirements](8)(4)
 
 -
 You do not have the harpoon needed to catch fish.

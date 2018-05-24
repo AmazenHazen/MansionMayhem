@@ -535,7 +535,7 @@ public class GUIManager : MonoBehaviour
             dialogText.GetComponent<Text>().text += lineOfText[letter];
             letter++;
 
-            Debug.Log("Wait for seconds: " + typeSpeed);
+            //Debug.Log("Wait for seconds: " + typeSpeed);
             yield return new WaitForSecondsRealtime(typeSpeed);
         }
         dialogText.GetComponent<Text>().text = lineOfText;

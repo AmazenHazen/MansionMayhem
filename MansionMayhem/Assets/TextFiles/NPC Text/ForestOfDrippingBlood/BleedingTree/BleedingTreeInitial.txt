@@ -1,5 +1,5 @@
 You attempt to tap the bleeding tree for its blood sap...
-[CheckItemRequirements](8)(4)
+[CheckRequirements](8)(4)
 
 -
 You do not have the bucket and tree tap needed to harvest the blood sap.

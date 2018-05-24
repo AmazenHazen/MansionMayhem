@@ -1,4 +1,4 @@
-[CheckItemRequirements](1)(5)
+[CheckRequirements](1)(5)
 You restore the Demon Circle with the Demonic Tome, the vial of blood, and the twisted demon horn.
 [CompleteQuest]
 [Exit]

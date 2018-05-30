@@ -37,7 +37,6 @@ public class LevelSelectGUIManager : MonoBehaviour {
             gameObject.GetComponent<Canvas>().planeDistance = 100;
             gameObject.GetComponent<Canvas>().sortingLayerName = "UI";
             gameObject.GetComponent<Canvas>().sortingOrder = 2;
-
         }
 
         // Get reference to the player
@@ -75,7 +74,7 @@ public class LevelSelectGUIManager : MonoBehaviour {
     {
         // Get variables needed for the HUD Text
         scoreText.text = "Screws: " + GameManager.instance.screws;
-        levelText.text = "Level: " + player.GetComponent<PlayerMapScript>().destinationName;
+        levelText.text = player.GetComponent<PlayerMapScript>().destinationName;
     }
     #endregion
 

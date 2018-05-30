@@ -5,19 +5,11 @@ using UnityEngine;
 public class RoomScript : MonoBehaviour
 {
     // Screw Attributes
-    public GameObject normalScrew;
-    public GameObject redScrew;
-    public GameObject goldScrew;
     int screwCount;
     int screwRNG;
 
     // Health Spawn Attributes
     int healthRNG;
-    public GameObject heart;
-    public GameObject firstaidKit;
-    public GameObject healthPotion;
-    public GameObject goldenHeart;
-
 
     // Keeps track of rooms that are connected
     public GameObject topRoom;
@@ -102,15 +94,15 @@ public class RoomScript : MonoBehaviour
 
             if (screwRNG < 80)
             {
-                Instantiate(normalScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
+                Instantiate(GameManager.screwItems[0], new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
             if (screwRNG >= 80 && screwRNG <95)
             { 
-                Instantiate(redScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
+                Instantiate(GameManager.screwItems[1], new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
             if (screwRNG >95)
             {
-                Instantiate(goldScrew, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
+                Instantiate(GameManager.screwItems[2], new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), 0), transform.rotation);
             }
         }
         #endregion
@@ -124,19 +116,19 @@ public class RoomScript : MonoBehaviour
         {
             if(GameManager.instance.currentLevel<=5)
             {
-                Instantiate(heart, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
+                Instantiate(GameManager.recoveryItems[0], new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
             }
             if (GameManager.instance.currentLevel > 5 && GameManager.instance.currentLevel <= 15)
             {
-                Instantiate(healthPotion, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
+                Instantiate(GameManager.recoveryItems[1], new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
             }
             if (GameManager.instance.currentLevel > 15 && GameManager.instance.currentLevel <= 25)
             {
-                Instantiate(firstaidKit, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
+                Instantiate(GameManager.recoveryItems[2], new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
             }
             if (GameManager.instance.currentLevel > 25)
             {
-                Instantiate(goldenHeart, new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
+                Instantiate(GameManager.recoveryItems[3], new Vector3(transform.position.x + Random.Range(-width, width), transform.position.y + Random.Range(-length, length), gameObject.transform.position.z), transform.rotation);
             }
         }
         #endregion

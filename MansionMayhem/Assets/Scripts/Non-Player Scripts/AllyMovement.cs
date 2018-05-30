@@ -18,6 +18,7 @@ public class AllyMovement : CharacterMovement
     #region Properties
     public bool FollowingPlayer
     {
+        get { return followingPlayer; }
         set { followingPlayer = value; }
     }
     #endregion

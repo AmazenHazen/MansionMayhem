@@ -365,7 +365,6 @@ public class PlayerManager : MonoBehaviour
                     #endregion
 
                     #region Screw Pickups
-
                     case ItemType.NormalScrewPickup:
                         GameManager.instance.screws++;
                         pickedUp = true;
@@ -376,6 +375,18 @@ public class PlayerManager : MonoBehaviour
                         break;
                     case ItemType.GoldenScrewPickup:
                         GameManager.instance.screws += 10;
+                        pickedUp = true;
+                        break;
+                    case ItemType.ToolBox:
+                        GameManager.instance.screws += 50;
+                        pickedUp = true;
+                        break;
+                    case ItemType.Experience:
+                        GameManager.instance.experience += 1;
+                        pickedUp = true;
+                        break;
+                    case ItemType.Blueprint:
+                        GameManager.instance.blueprints += 1;
                         pickedUp = true;
                         break;
 
@@ -488,7 +499,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (playerGunPrefabs[weaponNum] != null)
         {
-            playerGunPrefabs[weaponNum].GetComponent<GunScript>().FireWeapon();
+            playerGunPrefabs[weaponNum].GetComponent<GunScript>().PlayerFireWeapon();
         }
     }
 

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/LevelScenes/Level2ZombieGraveyard1.unity
+- path: Assets/Scenes/LevelScenes/Level27DreorForesst.unity
   isLoaded: 1
   isActive: 1

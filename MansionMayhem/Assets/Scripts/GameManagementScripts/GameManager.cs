@@ -17,6 +17,13 @@ public class GameManager : MonoBehaviour
     // Static instance of the GameManager to allows it to be accessed from any script
     public static GameManager instance = null;
 
+    // Common Items to be static and accessible by other scripts
+    public static List<GameObject> screwItems;
+    public static List<GameObject> recoveryItems;
+    public static GameObject experienceOrb;
+
+    public static bool DebugMode;
+
     // Level Variables
     public int currentLevel;
     public GameState currentGameState;
@@ -27,7 +34,9 @@ public class GameManager : MonoBehaviour
     // Game Currency and progress variables
     public int highestLevel; // Highest level/Progress Variable
     public bool[] unlockedLevels;
-    public int screws; // Currency Variable
+    public int screws; // Main Currency Variable
+    public int experience; // Secondary Currency Variable
+    public int blueprints; // Tertiary Currency
     public int healthTotal; // Hearts Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
     public List<rangeWeapon> currentGuns; // The current weapons the player has equiped
@@ -164,6 +173,24 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         #endregion
 
+        // Set some static game objects
+        experienceOrb = Resources.Load<GameObject>("Prefabs/Items/Pickups/ExperienceOrb");
+
+
+        // Screw = 1 screw, red screw = 5 screws, golden screw = 10 screws, toolbox = 50 screws
+        screwItems = new List<GameObject>(3);
+        screwItems.Add(Resources.Load<GameObject>("Prefabs/Items/Pickups/Screw"));
+        screwItems.Add(Resources.Load<GameObject>("Prefabs/Items/Pickups/Red Screw"));
+        screwItems.Add(Resources.Load<GameObject>("Prefabs/Items/Pickups/Golden Screw"));
+
+        // Heart = 1 heart, potion = 3, healthkit = 5, goldenheart = 10, toolbox = 50
+        recoveryItems = new List<GameObject>(4);
+        recoveryItems.Add(Resources.Load<GameObject>("Prefabs/Items/Pickups/Heart"));
+        recoveryItems.Add(Resources.Load<GameObject>("Prefabs/Items/Pickups/Health Potion"));
+        recoveryItems.Add(Resources.Load<GameObject>("Prefabs/Items/Pickups/FirstAidPack"));
+        recoveryItems.Add(Resources.Load<GameObject>("Prefabs/Items/Pickups/goldenHeart"));
+
+
         // Start the currentGameState to MainMenu
         currentGameState = GameState.MainMenu;
 
@@ -182,7 +209,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-
+        // Check if the Debug Command is used
+        if((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            if (DebugMode) { DebugMode = false; }
+            else { DebugMode = true; }
+        }
     }
     #endregion
 
@@ -197,6 +229,8 @@ public class GameManager : MonoBehaviour
 
         // Puts the Variables that need to be saved into the data Class
         data.screws = screws;
+        data.experience = experience;
+        data.blueprints = blueprints;
         data.highestLevel = highestLevel;
         data.unlockedLevels = unlockedLevels;
         data.healthTotal = healthTotal;
@@ -327,6 +361,8 @@ public class GameManager : MonoBehaviour
 
             // Set variables based on the save file
             screws = data.screws;
+            experience = data.experience;
+            blueprints = data.blueprints;
             highestLevel = data.highestLevel;
             unlockedLevels = data.unlockedLevels;
             healthTotal = data.healthTotal;
@@ -438,6 +474,8 @@ public class GameManager : MonoBehaviour
             // Variables that are not saved are set to original value otherwise
             // Giving players 2000 screws and some weapons unlocked for the demo
             screws = 2000;
+            experience = 0;
+            blueprints = 0;
             highestLevel = 0;
 
             // Unlock the first level
@@ -571,6 +609,8 @@ class PlayerData
     public int highestLevel; // Highest level/Progress Variable
     public bool[] unlockedLevels;
     public int screws; // Currency Variable
+    public int experience; // Secondary Currency Variable
+    public int blueprints; // Tertiary Variable
     public int healthTotal; // Hearts Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
     public List<rangeWeapon> currentGuns; // Current weapons the player has equipped

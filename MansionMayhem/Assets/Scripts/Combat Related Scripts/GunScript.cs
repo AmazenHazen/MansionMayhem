@@ -27,7 +27,8 @@ public class GunScript : MonoBehaviour
     // Special gun tracking attributes
     GameObject particles;
     public bool poisonous;
-    private float plasmaSizeVar = 1.0f;
+    private float chargingSizeVar = 1.0f;
+    public float maxChargingSizeVar; //5 for PlasmaPistol
     private bool charging;
 
     // Reset Bullet attributes
@@ -35,6 +36,10 @@ public class GunScript : MonoBehaviour
     public bool canShoot;
     public bool finishSwitch;
     private bool canBurst;
+
+    // Enemy Guns
+    public int numberOfBullets;     // number of bullets shot out of a gun when shot
+    public float bulletDamage;      // Player's gun's damage is determined by upgrades/unlocks
 
     // Bullet Attributes
     // These will be based in the save file cause they can be upgraded but for now will be public attributes
@@ -96,11 +101,11 @@ public class GunScript : MonoBehaviour
 	}
     #endregion
 
-    #region Fire Weapon
+    #region Player Fire Weapon
     /// <summary>
     /// Fires the weapon depending on what weapon is currently equipped or being used
     /// </summary>
-    public void FireWeapon()
+    public void PlayerFireWeapon()
     {
         if (canShoot && finishSwitch && Input.GetMouseButton(0))
         {
@@ -108,10 +113,7 @@ public class GunScript : MonoBehaviour
             {
                 // Special because there are a number of shots shot out
                 case rangeWeapon.hellfireshotgun:
-                    for (int i = 0; i < 4; i++)
-                    {
-                        ShootBullet();
-                    }
+                    ShootShotgunBullet();
                     break;
 
                 // Special because the courotine for the 3 round burst starts here
@@ -127,7 +129,7 @@ public class GunScript : MonoBehaviour
                 case rangeWeapon.PlasmaCannon:
                     if (!charging)
                     {
-                        plasmaSizeVar = 1;
+                        chargingSizeVar = 1;
                     }
                     ChargeBullet();
                     break;
@@ -170,6 +172,47 @@ public class GunScript : MonoBehaviour
     }
     #endregion
 
+    #region Enemy Fire Weapon
+    /// <summary>
+    /// Fires the weapon depending on what weapon is currently equipped or being used
+    /// </summary>
+    public void EnemyFireWeapon()
+    {
+        if (canShoot && finishSwitch)
+        {
+            switch (gunType)
+            {
+                // Special because there are a number of shots shot out
+                case rangeWeapon.EnemyShotGun:
+                    ShootShotgunBullet();
+                    break;
+                case rangeWeapon.EnemyAllDirectionsGun:
+                    ShootAllWays();
+                    break;
+                case rangeWeapon.EnemyChargeGun:
+                    if (!charging)
+                    {
+                        chargingSizeVar = 1;
+                    }
+                    ChargeBullet();
+                    // if the bullet reaches it's potential size
+                    if (chargingSizeVar>=maxChargingSizeVar)
+                    {
+                        // Shoot the Charging bullet if not hitting the mouse button
+                        charging = false;
+                        bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+                        bulletCount++;
+                        JustShot();
+                    }
+                    break;
+                default:
+                    ShootBullet();
+                    break;
+            }
+        }
+    }
+    #endregion
+
     #region Shooting Bullet method
     /// <summary>
     /// Launches a bullet (method to shoot a single shot)
@@ -180,6 +223,7 @@ public class GunScript : MonoBehaviour
 
         // Shoot the bullet
         bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
+
         playerBullets.Add(bulletCopy);
 
         // Call Special start method for bullets
@@ -188,6 +232,67 @@ public class GunScript : MonoBehaviour
         bulletCount++;
 
         JustShot();
+    }
+    #endregion
+
+    #region Shooting Shotgun Method
+    /// <summary>
+    /// Launches multiple bullets with randomized spray
+    /// </summary>
+    void ShootShotgunBullet()
+    {
+        for (int i = 0; i < numberOfBullets; i++)
+        {
+            // Shoot the bullet
+            bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
+
+            playerBullets.Add(bulletCopy);
+
+            // Determining Shotgun pellets rotation
+            float rotationAngle = transform.rotation.z;  // Gets current Angle
+
+            // Determine a random Angle
+            rotationAngle += Random.Range(-20, 20);
+
+            // Spread of the bullets
+            bulletCopy.transform.Rotate(0, 0, rotationAngle);
+            
+            // Call Special start method for bullets
+            bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+
+            bulletCount++;
+
+            JustShot();
+        }
+    }
+    #endregion
+
+    #region Shooting All Directions Method
+    void ShootAllWays()
+    {
+        for (int i = 0; i < numberOfBullets; i++)
+        {
+            // Shoot the bullet
+            bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
+
+            playerBullets.Add(bulletCopy);
+
+            // Determining Shotgun pellets rotation
+            float rotationAngle = transform.rotation.z;  // Gets current Angle
+
+            // Determine the angle the bullet shoots out
+            rotationAngle += i * (360 / numberOfBullets);
+
+            // Spread of the bullets
+            bulletCopy.transform.Rotate(0, 0, rotationAngle);
+
+            // Call Special start method for bullets
+            bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+
+            bulletCount++;
+
+            JustShot();
+        }
     }
     #endregion
 
@@ -204,7 +309,7 @@ public class GunScript : MonoBehaviour
             bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
             bulletCopy.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);
             bulletCopy.GetComponent<BulletManager>().owner = gameObject;
-            bulletCopy.GetComponent<BulletManager>().ownerType = Owner.Player;
+            bulletCopy.GetComponent<BulletManager>().ownerType = gunOwner;
             playerBullets.Add(bulletCopy);
             charging = true;
         }
@@ -222,13 +327,13 @@ public class GunScript : MonoBehaviour
                 bulletCopy.transform.rotation = transform.rotation;
 
                 // Keeps the bullet from being too big
-                if (plasmaSizeVar < 5)
+                if (chargingSizeVar < maxChargingSizeVar)
                 {
-                    plasmaSizeVar += 1.1f * Time.deltaTime;
+                    chargingSizeVar += 1.1f * Time.deltaTime;
                 }
 
                 // Scales the bullet
-                bulletCopy.transform.localScale = new Vector3(plasmaSizeVar, plasmaSizeVar, transform.localScale.z);
+                bulletCopy.transform.localScale = new Vector3(chargingSizeVar, chargingSizeVar, transform.localScale.z);
             }
         }
     }

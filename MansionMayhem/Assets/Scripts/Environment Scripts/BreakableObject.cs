@@ -4,17 +4,6 @@ using UnityEngine;
 
 public class BreakableObject : MonoBehaviour
 {
-    // Screw Attributes
-    public GameObject normalScrew;
-    public GameObject redScrew;
-    public GameObject goldScrew;
-
-    // Health Spawn Attributes
-    public GameObject heart;
-    public GameObject healthPotion;
-    public GameObject fairyDust;
-    public GameObject goldenHeart;
-
     // Bug breaking attribute
     public bool alreadyBroken;
 
@@ -39,38 +28,38 @@ public class BreakableObject : MonoBehaviour
             if (randomItemRoll < 35)
             {
                 //Debug.Log("Breakable Spawned a Red Screw");
-                Instantiate(redScrew, new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
+                Instantiate(GameManager.screwItems[1], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
             }
             // 25% chance of low health object
             else if (randomItemRoll >= 35 && randomItemRoll < 60)
             {
                 //Debug.Log("Breakable Spawned a Low Health Object");
-                Instantiate(heart, new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
+                Instantiate(GameManager.recoveryItems[0], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
 
             }
             // 20% chance of gold Screw
             else if (randomItemRoll >= 60 && randomItemRoll < 80)
             {
                 //Debug.Log("Breakable Spawned a Gold Screw Object");
-                Instantiate(goldScrew, new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
+                Instantiate(GameManager.screwItems[2], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
             }
             // 20% chance of high health object
             else if (randomItemRoll >= 80 && randomItemRoll < 90)
             {
                 //Debug.Log("Breakable Spawned a High Health Object");
-                Instantiate(healthPotion, new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
+                Instantiate(GameManager.recoveryItems[1], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
             }
             // 5% chance of toolbox
             else if (randomItemRoll >= 90 && randomItemRoll < 95)
             {
                 //Debug.Log("Breakable Spawned a ToolBox");
-                Instantiate(goldScrew, new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
+                Instantiate(GameManager.screwItems[2], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
             }
             // 5% chance of ultimate health object
             else if (randomItemRoll >= 95 && randomItemRoll < 100)
             {
                 //Debug.Log("Breakable Spawned an Ultimate Health Object");
-                Instantiate(goldenHeart, new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
+                Instantiate(GameManager.recoveryItems[3], new Vector3(transform.position.x, transform.position.y, 0), transform.rotation);
             }
         }
     }

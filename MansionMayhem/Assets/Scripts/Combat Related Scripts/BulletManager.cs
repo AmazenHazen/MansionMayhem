@@ -157,15 +157,6 @@ public class BulletManager : MonoBehaviour {
                     speed = 5f;
                     if (GameManager.instance.HellFireShotgunUpgrade1Unlock) { damage = .70f; }
                     else { damage = .55f; }
-
-                    // Determining Shotgun pellets rotation
-                    float rotationAngle = shooter.transform.rotation.z;  // Gets current Angle
-
-                    // Determine a random Angle
-                    rotationAngle += Random.Range(-20, 20);
-
-                    // Spread of the bullets
-                    transform.Rotate(0, 0, rotationAngle);
                     return;
             }
         }
@@ -175,7 +166,19 @@ public class BulletManager : MonoBehaviour {
         #region Enemy Bullets
         else if (ownerType == Owner.Enemy)
         {
-            damage = shooter.GetComponent<EnemyManager>().rangeDamage;
+            if (shooter.GetComponent<GunScript>())
+            {
+                if (shooter.GetComponent<GunScript>().bulletDamage != 0)
+                {
+                    damage = shooter.GetComponent<GunScript>().bulletDamage;
+                }
+            }
+            else
+            {
+                damage = shooter.GetComponent<EnemyManager>().rangeDamage;
+            }
+
+            currentChargingBullet = false;
 
             switch (bulletType)
             {
@@ -189,7 +192,7 @@ public class BulletManager : MonoBehaviour {
             }
         }
         #endregion
-
+        
     }
 
     #endregion
@@ -200,6 +203,12 @@ public class BulletManager : MonoBehaviour {
     {
         //increasing delta time
         totalTime += Time.deltaTime;
+
+        // If the enemy dies
+        if(owner == null)
+        {
+            Destroy(gameObject);
+        }
 
         // Check to make sure the bullet hasn't been on the screen too long
         if(totalTime > 15 && bulletType!=bulletTypes.Plasma)
@@ -230,13 +239,6 @@ public class BulletManager : MonoBehaviour {
         
         // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
         if (bulletType == bulletTypes.antiEctoPlasm && ownerType == Owner.Player && (startPos - transform.position).magnitude > 4)
-        {
-            PlayerBlob();
-            PlayerBulletDestroy();
-        }
-
-        // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
-        if (bulletType == bulletTypes.Portal && ownerType == Owner.Player && (startPos - transform.position).magnitude > 5)
         {
             PlayerBlob();
             PlayerBulletDestroy();
@@ -316,7 +318,7 @@ public class BulletManager : MonoBehaviour {
         if (owner != null)
         {
             // Add Spider Web Blob
-            owner.GetComponent<EnemyManager>().enemyBlobs.Add(blobCopy);
+            owner.GetComponent<GunScript>().playerBlobs.Add(blobCopy);
 
             blobCopy.GetComponent<BlobScript>().BlobStart(owner);
         }
@@ -428,14 +430,6 @@ public class BulletManager : MonoBehaviour {
     /// </summary>
     private void EnemyBulletDestroy()
     { 
-    
-        // Check to make sure the enemy hasn't already been killed
-        if (owner != null)
-        {
-            // Delete the bullet reference in the Enemy Manager
-            owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
-        }
-        // Delete the bullet
         Destroy(gameObject);
     }
 
@@ -526,12 +520,7 @@ public class BulletManager : MonoBehaviour {
             if (ownerType == Owner.Enemy)
             {
                 // Check to make sure the enemy hasn't already been killed
-                if (owner != null)
-                {
-                    // Delete the bullet reference in the Enemy Manager
-                    owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
-                }
-                Destroy(gameObject);
+                EnemyBulletDestroy();
             }
         }
         #endregion

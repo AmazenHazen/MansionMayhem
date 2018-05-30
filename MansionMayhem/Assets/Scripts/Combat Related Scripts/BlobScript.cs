@@ -192,7 +192,7 @@ public class BlobScript : MonoBehaviour
             collider.GetComponent<PlayerManager>().CurrentLife -= damage;
             if (blobComposite == bulletTypes.blood)
             {
-                owner.GetComponent<EnemyManager>().VampyricHeal(damage);
+                owner.transform.parent.GetComponent<EnemyManager>().VampyricHeal(damage);
             }
 
 

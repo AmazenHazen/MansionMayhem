@@ -10,6 +10,7 @@ public class EnemyManager : MonoBehaviour
 
     // Gameobject reference to the player
     private GameObject player;
+    private GameObject levelManager;
 
     // Enemy Behavior variables - All of these are set in the inspector
     public enemyType monster;                   // The specific monster creature name
@@ -19,7 +20,9 @@ public class EnemyManager : MonoBehaviour
     public bool hasAbility;                    // Determines if the enemy has an ability (shoot a web/leave slime behind it)
     public bool isPoisonous;                   // Determines if the enemy can poison the player
     public bool vampyric;                      // Determines if the enemy heals when hitting the player
+    public bool boss;                           // Rewards experience directly if defeated
     public float maxHealth;                    // The amount of health the enemy spawns with
+    private int experience;                    // The amount of experience rewarded atthe death of an enemy
     public float damage;                       // Damage caused when the player is hit by the monster (collision)
     public float rangeDamage;                   // Damage caused when the player is hit by the monster (collision)
     public float timeBetweenShots;              // time between bullets
@@ -31,7 +34,7 @@ public class EnemyManager : MonoBehaviour
     public List<int> abilityRestrictionNumber;  // The number ascociated with the ability to determine how many ability object there can be in the scene
     public List<GameObject> enemyObjects;       // Holds additional objects that work with the enemy.
     private float seekDistance;                 // The distance at which an enemy can sense where you are - takes this from awareDistance from EnemyMovement Class
-
+    
 
     // Basic Monster Attributes
     protected float currentLife;                  // The current health the enemy has
@@ -51,7 +54,9 @@ public class EnemyManager : MonoBehaviour
 
     // Bullet Management
     protected bool canShoot;
+    private int currentGunIndex;
     private bool initialBulletDelay;
+    private List<GameObject> enemyGuns;
 
     // Boss Management
     public int phase;
@@ -89,12 +94,27 @@ public class EnemyManager : MonoBehaviour
     {
         // Set the player reference
         player = GameObject.FindGameObjectWithTag("player");
+        levelManager = GameObject.Find("LevelManager");
 
         // Sets up the enemy's awareness distance in this class
         seekDistance = GetComponent<EnemyMovement>().awareDistance;
 
         // Sets up whether and enemy can shoot bullets or not
         canShoot = true; // Set to true if player gets within distance of the enemy
+        currentGunIndex = 0; // Set the current Gun index to 0
+        // Create a list full of the enemies guns
+        enemyGuns = new List<GameObject>();
+        if(hasBullets)
+        {
+            foreach(Transform child in transform)
+            {
+                if(child.GetComponent<GunScript>())
+                {
+                    enemyGuns.Add(child.gameObject);
+                    Debug.Log(child.gameObject);
+                }
+            }
+        }
 
         // Adds a list of for tracking active abilities in the level and if you can use it
         abilityCount = new List<int>();
@@ -119,6 +139,9 @@ public class EnemyManager : MonoBehaviour
 
         // set initial bullet delay to true
         initialBulletDelay = true;
+
+        // Determining Experience
+        experience = Mathf.CeilToInt(maxHealth + damage + rangeDamage); // initial calculation
     }
     #endregion
 
@@ -259,7 +282,7 @@ public class EnemyManager : MonoBehaviour
 
     #region Enemy Helper Methods
 
-    #region Death
+    #region Death Related Function
     /// <summary>
     /// Checks if the Enemy should be dead
     /// </summary>
@@ -290,10 +313,46 @@ public class EnemyManager : MonoBehaviour
                 }
             }
 
+            // Reward player with experience
+            DropRewards();
 
             // Destroy Enemys
-            GameObject.Find("LevelManager").GetComponent<LevelManager>().EnemyEliminated(gameObject);
+            levelManager.GetComponent<LevelManager>().EnemyEliminated(gameObject);
             Destroy(gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Rewards player with experience at the death of the enemy
+    /// </summary>
+    void DropRewards()
+    {
+        bool experienceDropped = false;
+
+        // Special Case: The enemy is a boss, reward the player directly
+        if(boss)
+        {
+            GameManager.instance.experience += experience;
+            experienceDropped = true;
+        }
+
+        // Special Case: Last enemy in an elimination level
+        foreach(levelType objective in levelManager.GetComponent<LevelManager>().levelObjective)
+        {
+            if(objective == levelType.extermination && LevelManager.enemies.Count == 1)
+            {
+                GameManager.instance.experience += experience;
+                experienceDropped = true;
+            }
+        }
+
+        // If the other experience dropped isn't true
+        if (!experienceDropped)
+        {
+            for (int i = 0; i < experience; i++)
+            {
+                Instantiate(GameManager.experienceOrb, new Vector3(transform.position.x + Random.Range(-transform.localScale.x / 3, transform.localScale.x / 3), transform.position.y + Random.Range(-transform.localScale.y / 3, transform.localScale.y / 3)), transform.rotation);
+            }
         }
     }
     #endregion
@@ -304,12 +363,10 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     void Shoot()
     {
-        GameObject bulletCopy;
-        bulletCopy = Instantiate(enemyBulletPrefabs[0], transform.position, transform.rotation) as GameObject;
-        bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-        enemyBullets.Add(bulletCopy);
-
-        JustShot();
+        if (enemyGuns[currentGunIndex] != null)
+        {
+            enemyGuns[currentGunIndex].GetComponent<GunScript>().EnemyFireWeapon();
+        }
     }
 
     /// <summary>

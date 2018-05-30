@@ -40,7 +40,7 @@ public class HealthBar : MonoBehaviour
             ownerType = Owner.None;
         }
         // Set the healthBar Max value
-        Debug.Log("HealthBar" + healthBar + "maxhealth" + maxHealth);
+        //Debug.Log("HealthBar" + healthBar + "maxhealth" + maxHealth);
         healthBar.maxValue = maxHealth;
 
         // Turn off health bar canvas at the beginning

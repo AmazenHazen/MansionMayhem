@@ -54,6 +54,14 @@ public enum rangeWeapon
     DarkEnergyRifle = 10,
     XenonPulser = 11,
     AntimatterParticle = 12,
+
+
+    // Enemy Weapons
+    EnemySingleBulletGun = 30,
+    EnemyShotGun = 31,
+    EnemyAllDirectionsGun = 32,
+    EnemyChargeGun = 33,
+
 }
 
 public enum bulletTypes
@@ -420,14 +428,6 @@ public enum EnemyWeapon
 }
 
 #endregion
-
-#region Boss
-public enum BossEnum
-{
-    DemonLord,
-    Dreor,
-}
-#endregion
 #endregion
 
 #region NPC Enums
@@ -457,7 +457,9 @@ public enum ItemType
     NormalScrewPickup = 0,
     RedScrewPickup = 1,
     GoldenScrewPickup = 2,
-
+    ToolBox = 3,
+    Experience = 4,
+    Blueprint = 5,
     #endregion
 
     #region Health Pickups

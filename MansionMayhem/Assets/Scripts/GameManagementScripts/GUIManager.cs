@@ -39,6 +39,7 @@ public class GUIManager : MonoBehaviour
     rangeWeapon currentRangeWeapon;
     public Text scoreText;
     public Text levelText;
+    public Text experienceText;
 
     // Variables for escape screen
     public GameObject escapeScreen;
@@ -243,59 +244,75 @@ public class GUIManager : MonoBehaviour
     #region Text Management
     void TextUpdate()
     {
-        // Get variables needed for the HUD Text
-        currentRangeWeapon = player.GetComponent<PlayerManager>().CurrentRangeWeapon;
-        string weaponString;
+        scoreText.text = "Screws: " + GameManager.instance.screws;
 
-        switch (currentRangeWeapon)
+        // Get variables needed for the HUD Text
+        if (GameManager.DebugMode)
         {
-            case rangeWeapon.laserpistol:
-                weaponString = "Laser Pistol";
-                break;
-            case rangeWeapon.aetherLightBow:
-                weaponString = "AetherLight Bow";
-                break;
-            case rangeWeapon.antiEctoPlasmator:
-                weaponString = "Anti-Ectoplasm Splatter Gun";
-                break;
-            case rangeWeapon.AntimatterParticle:
-                weaponString = "Anti-Matter Particle Emitter";
-                break;
-            case rangeWeapon.CelestialRepeater:
-                weaponString = "Celestial Repeater";
-                break;
-            case rangeWeapon.cryoGun:
-                weaponString = "Frostweaver";
-                break;
-            case rangeWeapon.DarkEnergyRifle:
-                weaponString = "Dark Energy Rifle";
-                break;
-            case rangeWeapon.ElectronSeeker:
-                weaponString = "Electron Pulser";
-                break;
-            case rangeWeapon.flamethrower:
-                weaponString = "Flamethrower";
-                break;
-            case rangeWeapon.hellfireshotgun:
-                weaponString = "Hellfire Shotgun";
-                break;
-            case rangeWeapon.PlasmaCannon:
-                weaponString = "Plasma Charger";
-                break;
-            case rangeWeapon.soundCannon:
-                weaponString = "Sound Cannon";
-                break;
-            case rangeWeapon.XenonPulser:
-                weaponString = "Xenon Pulser";
-                break;
-            default:
-                weaponString = "No Weapon";
-                break;
+            // Create the text for weapons
+            currentRangeWeapon = player.GetComponent<PlayerManager>().CurrentRangeWeapon;
+            string weaponString;
+
+            switch (currentRangeWeapon)
+            {
+                case rangeWeapon.laserpistol:
+                    weaponString = "Laser Pistol";
+                    break;
+                case rangeWeapon.aetherLightBow:
+                    weaponString = "AetherLight Bow";
+                    break;
+                case rangeWeapon.antiEctoPlasmator:
+                    weaponString = "Anti-Ectoplasm Splatter Gun";
+                    break;
+                case rangeWeapon.AntimatterParticle:
+                    weaponString = "Anti-Matter Particle Emitter";
+                    break;
+                case rangeWeapon.CelestialRepeater:
+                    weaponString = "Celestial Repeater";
+                    break;
+                case rangeWeapon.cryoGun:
+                    weaponString = "Frostweaver";
+                    break;
+                case rangeWeapon.DarkEnergyRifle:
+                    weaponString = "Dark Energy Rifle";
+                    break;
+                case rangeWeapon.ElectronSeeker:
+                    weaponString = "Electron Pulser";
+                    break;
+                case rangeWeapon.flamethrower:
+                    weaponString = "Flamethrower";
+                    break;
+                case rangeWeapon.hellfireshotgun:
+                    weaponString = "Hellfire Shotgun";
+                    break;
+                case rangeWeapon.PlasmaCannon:
+                    weaponString = "Plasma Charger";
+                    break;
+                case rangeWeapon.soundCannon:
+                    weaponString = "Sound Cannon";
+                    break;
+                case rangeWeapon.XenonPulser:
+                    weaponString = "Xenon Pulser";
+                    break;
+                default:
+                    weaponString = "No Weapon";
+                    break;
+            }
+            rangeWeaponText.text = "Current Weapon: " + weaponString;
+
+            // Print out the level number
+            levelText.text = "Level: " + (GameManager.instance.currentLevel + 1);
+
+            // Print out Experience Number
+            experienceText.text = "Experience: " + (GameManager.instance.experience);
+        }
+        else
+        {
+            levelText.text = "";
+            rangeWeaponText.text = "";
+            experienceText.text = "";
         }
 
-        rangeWeaponText.text = "Current Weapon: " + weaponString;
-        scoreText.text = "Screws: " + GameManager.instance.screws;
-        levelText.text = "Level: " + (GameManager.instance.currentLevel +1);
         if (bossFight && boss!=null)
         {
             bossText.text = boss.name + ": ";

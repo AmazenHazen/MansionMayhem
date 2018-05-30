@@ -39,19 +39,14 @@ public class AllyManager : NPC
     // Ability Management
     protected List<bool> canUseAbility;
     protected List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
-    public List<GameObject> allyBullets;           // a list keeping track of all of the current bullets on the screen
-    public List<GameObject> allyAbilityObjects;    // a list keeping track of all of the abilities out for a specific ability
-    public List<GameObject> allyBlobs;
-    protected GameObject parent;
-    protected int parentAbilityNum;
+    [HideInInspector] public List<GameObject> allyBullets;           // a list keeping track of all of the current bullets on the screen
+    [HideInInspector] public List<GameObject> allyAbilityObjects;    // a list keeping track of all of the abilities out for a specific ability
+    [HideInInspector] public List<GameObject> allyBlobs;
 
     // Bullet Management
     protected bool canShoot;
-    private bool initialBulletDelay;
-
-    // Extra stuff
-    public int phase;
     private float totalTime;
+    private bool initialBulletDelay;
     #endregion
 
     #region Ally Properties
@@ -63,19 +58,6 @@ public class AllyManager : NPC
     public bool HitByMeleeBool
     {
         get { return hitByMeleeBool; }
-    }
-    public GameObject Parent
-    {
-        set { parent = value; }
-    }
-    public int ParentAbilityNum
-    {
-        set { parentAbilityNum = value; }
-    }
-    public int Phase
-    {
-        get { return phase; }
-        set { phase = value; }
     }
     #endregion
 
@@ -108,8 +90,6 @@ public class AllyManager : NPC
         currentLife = maxHealth;
         GetComponent<HealthBar>().HealthBarInstantiate();
 
-        // start the ally phase on 0
-        phase = 0;
 
         // set initial bullet delay to true
         initialBulletDelay = true;

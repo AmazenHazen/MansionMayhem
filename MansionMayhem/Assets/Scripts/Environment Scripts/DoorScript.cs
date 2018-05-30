@@ -24,8 +24,9 @@ public class DoorScript : MonoBehaviour
         set { interactBool = value; }
     }
 
-    #region
-    public void Start()
+    #region Start for the door (linking doors and locking doors and setting boss door [if necessary])
+    // Start Method
+    void Start()
     {
         // set it as default that you aren't interacting with this door
         interactBool = false;
@@ -53,8 +54,9 @@ public class DoorScript : MonoBehaviour
             }
         }
     }
+    #endregion
 
-
+    #region Update Method (checks if you are trying to unlock a door)
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -66,11 +68,8 @@ public class DoorScript : MonoBehaviour
                 GUIManager.TurnOffDialogBox();
             }
         }
-
         CheckMonsterRequirement();
         CheckLockOnDoor();
-
-        
     }
     #endregion
 
@@ -106,30 +105,16 @@ public class DoorScript : MonoBehaviour
     #region Travel Method
     public void Travel(GameObject player)
     {
-            if (linkedDoor.name == "topdoor")
+
+        player.transform.position = new Vector3(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + .5f*transform.up;
+
+        foreach (GameObject ally in LevelManager.allies)
+        {
+            if(ally.GetComponent<AllyMovement>().FollowingPlayer)
             {
-                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, -.5f);
+                ally.transform.position = new Vector3(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + .5f * transform.up;
             }
-            if (linkedDoor.name == "bottomdoor")
-            {
-                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, .5f);
-            }
-            if (linkedDoor.name == "leftdoor")
-            {
-                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(.5f, 0);
-            }
-            if (linkedDoor.name == "rightdoor")
-            {
-                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(-.5f, 0);
-            }
-            if (linkedDoor.name == "upstairs")
-            {
-                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, -.5f);
-            }
-            if (linkedDoor.name == "downstairs")
-            {
-                player.transform.position = new Vector2(linkedDoor.transform.position.x, linkedDoor.transform.position.y) + new Vector2(0, .5f);
-            }
+        }
 
         if (bossDoor)
         {
@@ -140,6 +125,10 @@ public class DoorScript : MonoBehaviour
 
     }
 
+    #region Message Player Methods for doors with locks
+    /// <summary>
+    /// Message to unlock the door with Item Requirements
+    /// </summary>
     public void MessageRequirementsItem()
     {
         // Interacting with this door
@@ -157,7 +146,9 @@ public class DoorScript : MonoBehaviour
         StartCoroutine(GUIManager.TextScroll(requirementString));
     }
 
-
+    /// <summary>
+    /// Method to unlock a door with Monster Requirements
+    /// </summary>
     public void MessageRequirementsMonster()
     {
         // Interacting with this door
@@ -174,7 +165,7 @@ public class DoorScript : MonoBehaviour
 
         StartCoroutine(GUIManager.TextScroll(requirementString));
     }
-
+    #endregion
 
     #endregion
 }

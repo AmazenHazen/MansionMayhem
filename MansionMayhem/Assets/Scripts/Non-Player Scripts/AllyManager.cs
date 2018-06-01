@@ -185,7 +185,7 @@ public class AllyManager : NPC
     {
         GameObject bulletCopy;
         bulletCopy = Instantiate(allyBulletPrefabs[0], transform.position, transform.rotation) as GameObject;
-        bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
+        //bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
         allyBullets.Add(bulletCopy);
 
         JustShot();

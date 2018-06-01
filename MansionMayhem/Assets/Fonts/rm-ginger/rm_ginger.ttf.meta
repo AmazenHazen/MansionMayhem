@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: a6bf5def2df1ab4408f13f107510e130
+timeCreated: 1527787322
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: RM Ginger
+  fontNames:
+  - RM Ginger
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -17,6 +17,7 @@ public class BulletManager : MonoBehaviour {
     private Vector3 velocity;
     public Vector3 direction;
     public GameObject owner;        // Owner refers to the gun shooting it (in most cases)
+    private GunScript ownerGunScript;
     public Owner ownerType;         // Either player, Enemy, or Ally
 
     // Additional Variables for special weapons/bullets
@@ -32,9 +33,10 @@ public class BulletManager : MonoBehaviour {
 
     // variable held to make sure a bullet is deleted after a certain amount of time
     private float totalTime;
+    private float currentDistance;
 
     // variable for plasma pistol
-    bool currentChargingBullet = true;
+    bool currentChargingBullet;
 
     #endregion
 
@@ -49,6 +51,16 @@ public class BulletManager : MonoBehaviour {
         get { return damage; }
         set { damage = value; }
     }
+    public float Speed
+    {
+        get { return speed; }
+        set { speed = value; }
+    }
+    public bool CurrentCharingBullet
+    {
+        get { return currentChargingBullet; }
+        set { currentChargingBullet = value; }
+    }
     #endregion
 
     #region BulletStartMethod
@@ -59,42 +71,21 @@ public class BulletManager : MonoBehaviour {
     /// determine bullet behavior
     /// </summary>
     /// <param name="shooter"></param>
-    public void BulletStart(GameObject shooter)
+    void Start()
     {
-        // Set can Damage to true
-        canDamage = true;
-
-        // Set the owner of the shooter and the position of the shot
-        owner = shooter;
-
-        // Check to see if a gun shot out the bullets and if it has an owner associated to it
-        if(shooter.GetComponent<GunScript>())
-        {
-            ownerType = shooter.GetComponent<GunScript>().gunOwner;
-        }
-        // Otherwise assign the ownership based on the tag of the parent
-        else
-        {
-            if(owner.tag == "player")
-            {
-                ownerType = Owner.Player;
-            }
-            if (owner.tag == "enemy" || owner.tag == "boss")
-            {
-                ownerType = Owner.Enemy;
-            }
-            else
-            {
-                ownerType = Owner.None;
-            }
-        }
-
-
-        // Set the start position in bullet start (except for the charge bullet)
-
+        // Variables for any instantiated bullets
+        currentChargingBullet = true;
         startPos = transform.position;
+        canDamage = true;
+        totalTime = 0;
 
 
+        ownerGunScript = owner.GetComponent<GunScript>();
+
+        if (ownerGunScript.bulletSpeed != 0)
+        {
+            speed = ownerGunScript.bulletSpeed;
+        }
 
         // Set bullet speed depending on the bullet for the player
         #region Player Bullets
@@ -150,8 +141,8 @@ public class BulletManager : MonoBehaviour {
                     else { damage = .22f; }
                     return;
                 case bulletTypes.Plasma:
-                    speed = 5f;
-                    currentChargingBullet = false;
+                    speed = 0;
+                    currentChargingBullet = true;
                     return;
                 case bulletTypes.hellFire:
                     speed = 5f;
@@ -166,16 +157,14 @@ public class BulletManager : MonoBehaviour {
         #region Enemy Bullets
         else if (ownerType == Owner.Enemy)
         {
-            if (shooter.GetComponent<GunScript>())
+            if (ownerGunScript.bulletDamage != 0)
             {
-                if (shooter.GetComponent<GunScript>().bulletDamage != 0)
-                {
-                    damage = shooter.GetComponent<GunScript>().bulletDamage;
-                }
+                damage = ownerGunScript.bulletDamage;
             }
+            
             else
             {
-                damage = shooter.GetComponent<EnemyManager>().rangeDamage;
+                Debug.Log("Damage for gun not set.");
             }
 
             currentChargingBullet = false;
@@ -203,54 +192,41 @@ public class BulletManager : MonoBehaviour {
     {
         //increasing delta time
         totalTime += Time.deltaTime;
+        currentDistance = (startPos - transform.position).magnitude;
 
         // If the enemy dies
-        if(owner == null)
+        if (owner == null)
         {
-            Destroy(gameObject);
+            BulletDestroy();
         }
 
         // Check to make sure the bullet hasn't been on the screen too long
-        if(totalTime > 15 && bulletType!=bulletTypes.Plasma)
+        if (totalTime > 15 && bulletType!=bulletTypes.Plasma)
         {
-            if (ownerType == Owner.Player)
-            {
-                PlayerBulletDestroy();
-            }
-            if (ownerType == Owner.Enemy)
-            {
-                EnemyBulletDestroy();
-            }
+            BulletDestroy();
         }
 
         // Check to make sure the bullet didn't go too far or is moving too slow
-        if ((transform.position - startPos).magnitude > 20 || speed<0)
+        if (currentDistance > 20 || speed<0)
         {
-            if (ownerType == Owner.Player)
-            {
-                PlayerBulletDestroy();
-            }
-            if (ownerType == Owner.Enemy)
-            {
-                EnemyBulletDestroy();
-            }
+            BulletDestroy();
         }
 
         
         // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
-        if (bulletType == bulletTypes.antiEctoPlasm && ownerType == Owner.Player && (startPos - transform.position).magnitude > 4)
+        if (bulletType == bulletTypes.antiEctoPlasm && currentDistance > 4)
         {
             PlayerBlob();
-            PlayerBulletDestroy();
+            BulletDestroy();
         }
 
         // For electrons seek the closest enemy
-        if (bulletType == bulletTypes.electron && ownerType == Owner.Player)
+        if (bulletType == bulletTypes.electron)
         {
             GameObject enemy = null;
             enemy = FindClosestEnemy();
 
-            if ((transform.position - enemy.transform.position).magnitude < 4 && (startPos - transform.position).magnitude > 1f && enemy != null)
+            if ((transform.position - enemy.transform.position).magnitude < 4 && (currentDistance > 1f && enemy != null))
             {
                 SeekingBullet();
             }
@@ -277,18 +253,13 @@ public class BulletManager : MonoBehaviour {
         if(bulletType == bulletTypes.aetherlight)
         {
             speed+=.5f;
-            damage = speed * .2f;
-            if (GameManager.instance.AetherlightBowUpgrade1Unlock) { damage = speed * .25f; }
-            else { damage = speed * .2f; }
-
-            if (damage>4.0f) { damage = 4.5f; }
-
         }
         if (bulletType == bulletTypes.Weight)
         {
             speed -= Mathf.Pow(.1f, .9f);
         }
         velocity = transform.up * speed * Time.deltaTime;
+        //Debug.Log(speed);
         transform.position += velocity;
     }
     #endregion
@@ -296,14 +267,8 @@ public class BulletManager : MonoBehaviour {
     #region PlayerBullet Special Helper Methods
     void PlayerBlob()
     {
-        GameObject blobCopy = Instantiate(secondaryBullet, transform.position, transform.rotation);
-
         // Add Anti-Ectoplasm Blob
-        owner.GetComponent<GunScript>().playerBlobs.Add(blobCopy);
-        owner.GetComponent<GunScript>().BlobCount++;
-
-        blobCopy.GetComponent<BlobScript>().BlobStart(owner);
-
+        ownerGunScript.BulletPlopBlob(gameObject);
     }
 
     /// <summary>
@@ -311,16 +276,14 @@ public class BulletManager : MonoBehaviour {
     /// </summary>
     void SplatterBlob()
     {
-        // First Instantiate a blob where the bullet is
-        GameObject blobCopy = Instantiate(secondaryBullet, transform.position, transform.rotation);
-
         // Check to make sure the enemy hasn't already been killed
         if (owner != null)
         {
             // Add Spider Web Blob
-            owner.GetComponent<GunScript>().playerBlobs.Add(blobCopy);
-
-            blobCopy.GetComponent<BlobScript>().BlobStart(owner);
+            //owner.GetComponent<GunScript>().playerBlobs.Add(blobCopy);
+            //
+            //blobCopy.GetComponent<BlobScript>().BlobStart(owner);
+            ownerGunScript.BulletPlopBlob(gameObject);
         }
     }
 
@@ -368,13 +331,15 @@ public class BulletManager : MonoBehaviour {
 
             // Instantiate an electron
             GameObject electronCopy = Instantiate(secondaryBullet, transform.position, transform.rotation);
+            electronCopy.GetComponent<BulletManager>().owner = owner;
+            electronCopy.GetComponent<BulletManager>().ownerType = ownerType;
 
             // Change the rotation for each bullet
             rotationAngle += 72;
             transform.Rotate(new Vector3(0,0, rotationAngle));
 
             // Call the special start method to spawn elections
-            electronCopy.GetComponent<BulletManager>().BulletStart(owner);
+            //electronCopy.GetComponent<BulletManager>().BulletStart(owner);
         }
     }
 
@@ -428,20 +393,9 @@ public class BulletManager : MonoBehaviour {
     /// <summary>
     /// Enemy Bullet Destory Method
     /// </summary>
-    private void EnemyBulletDestroy()
-    { 
-        Destroy(gameObject);
-    }
-
-    /// <summary>
-    /// Player Bullet Destory Method
-    /// </summary>
-    private void PlayerBulletDestroy()
+    private void BulletDestroy()
     {
-        // Remove and Destroy bullet
-        //owner.GetComponent<PlayerManager>().playerBullets.Remove(this.gameObject);
-        //owner.GetComponent<PlayerManager>().BulletCount--;
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     #endregion
@@ -507,20 +461,17 @@ public class BulletManager : MonoBehaviour {
                 Bounce(collider.gameObject);
             }
 
-
-            // Remove refernece to the bullet
-            if (ownerType == Owner.Player)
+            if (!(bulletType == bulletTypes.Plasma && velocity.magnitude <= 0))
             {
-                if (!((bulletType == bulletTypes.Plasma && velocity == Vector3.zero) || (bulletType == bulletTypes.CelestialCrystal)))
-                {
-                    // Delete the bullet reference in the Player Manager
-                    PlayerBulletDestroy();
-                }
+                //Debug.Log("Destroy Bullet");
+                // Delete the bullet reference in the Player Manager
+                BulletDestroy();
             }
+            
             if (ownerType == Owner.Enemy)
             {
                 // Check to make sure the enemy hasn't already been killed
-                EnemyBulletDestroy();
+                BulletDestroy();
             }
         }
         #endregion
@@ -535,7 +486,14 @@ public class BulletManager : MonoBehaviour {
             }
 
             //Debug.Log("Bullet Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
+            if(bulletType == bulletTypes.aetherlight)
+            {
+                damage = speed * .2f;
+                if (GameManager.instance.AetherlightBowUpgrade1Unlock) { damage = speed * .25f; }
+                else { damage = speed * .2f; }
 
+                if (damage > 4.0f) { damage = 4.5f; }
+            }
 
             //Debug.Log("Bullet Damaged enemy for: " + damage);
             // Damage Enemy
@@ -544,14 +502,14 @@ public class BulletManager : MonoBehaviour {
                 if (GameManager.instance.PlasmaPistolUpgrade1Unlock) { damage = .75f * Mathf.Pow(transform.localScale.x, 1.5f); }
                 else { damage = .7f * Mathf.Pow(transform.localScale.x, 1.5f); }
                 collider.GetComponent<EnemyManager>().CurrentLife -= damage;
-                if (owner.GetComponent<GunScript>())
+
+
+                if (ownerGunScript.Charging && currentChargingBullet)
                 {
-                    if (owner.GetComponent<GunScript>().Charging && currentChargingBullet)
-                    {
-                        owner.GetComponent<GunScript>().Charging = false;
-                        owner.GetComponent<GunScript>().JustShot();
-                    }
+                    ownerGunScript.Charging = false;
+                    ownerGunScript.JustShot();
                 }
+                
             }
             else
             {
@@ -571,7 +529,7 @@ public class BulletManager : MonoBehaviour {
             // Delete the player bullet
             if (bulletType != bulletTypes.DarkEnergy)
             {
-                PlayerBulletDestroy();
+                BulletDestroy();
             }
 
         }
@@ -591,14 +549,8 @@ public class BulletManager : MonoBehaviour {
                 collider.GetComponentInParent<PlayerManager>().ShieldKilled();
             }
 
-            // Check to make sure the enemy hasn't already been killed
-            if (owner != null)
-            {
-                // Delete the bullet reference in the Enemy Manager
-                owner.GetComponent<EnemyManager>().enemyBullets.Remove(gameObject);
-            }
             // Delete the bullete
-            Destroy(gameObject);
+            BulletDestroy();
         }
         #endregion
 
@@ -621,7 +573,7 @@ public class BulletManager : MonoBehaviour {
                 SplatterBlob();
             }
 
-            EnemyBulletDestroy();
+            BulletDestroy();
         }
         #endregion
 
@@ -633,6 +585,7 @@ public class BulletManager : MonoBehaviour {
 
             // Delete the object
             Destroy(collider.gameObject);
+            BulletDestroy();
 
             // if the bullet is antiEctoplasm also spawn a blob
             if (bulletType == bulletTypes.antiEctoPlasm || bulletType == bulletTypes.PortalShot)
@@ -648,23 +601,16 @@ public class BulletManager : MonoBehaviour {
             // If the bullet is a charging plasma weapon
             if (owner.GetComponent<GunScript>())
             {
-                if (owner.GetComponent<GunScript>().Charging && currentChargingBullet)
+                if (ownerGunScript.Charging && currentChargingBullet)
                 {
-                    owner.GetComponent<GunScript>().Charging = false;
-                    owner.GetComponent<GunScript>().JustShot();
+                    ownerGunScript.Charging = false;
+                    ownerGunScript.JustShot();
                 }
             }
 
 
             // Check to make sure the enemy hasn't already been killed
-            if (ownerType == Owner.Player)
-            {
-                PlayerBulletDestroy();
-            }
-            if (ownerType == Owner.Enemy)
-            {
-                EnemyBulletDestroy();
-            }
+            BulletDestroy();
         }
 
         else if (collider.tag == "DestructableEnemy" && (ownerType == Owner.Player))
@@ -684,12 +630,12 @@ public class BulletManager : MonoBehaviour {
             }
 
             // If the bullet is a charging plasma weapon
-            if (owner.GetComponent<GunScript>())
+            if (ownerGunScript)
             {
-                if (owner.GetComponent<GunScript>().Charging && currentChargingBullet)
+                if (ownerGunScript.Charging && currentChargingBullet)
                 {
-                    owner.GetComponent<GunScript>().Charging = false;
-                    owner.GetComponent<GunScript>().JustShot();
+                    ownerGunScript.Charging = false;
+                    ownerGunScript.JustShot();
                 }
             }
 
@@ -697,7 +643,7 @@ public class BulletManager : MonoBehaviour {
             // Check to make sure the enemy hasn't already been killed
             if (ownerType == Owner.Player)
             {
-                PlayerBulletDestroy();
+                BulletDestroy();
             }
         }
 
@@ -705,5 +651,28 @@ public class BulletManager : MonoBehaviour {
 
         }
     #endregion
+
+    /// <summary>
+    /// On enable method
+    /// </summary>
+    void OnEnable()
+    {
+        //Debug.Log("On Enable");
+
+        // Set the start position in bullet start (except for the charge bullet)
+        startPos = transform.position;
+
+        canDamage = true;
+        totalTime = 0;
+        if (bulletType == bulletTypes.Plasma)
+        {
+            speed = 0;
+        }
+        if(bulletType == bulletTypes.aetherlight)
+        {
+            speed = 5f;
+        }
+        currentChargingBullet = true;
+    }
 }
 

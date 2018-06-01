@@ -510,20 +510,21 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            GunScript currentGunScript = playerGunPrefabs[weaponNum].GetComponent<GunScript>();
+
             // For particle guns turn off the particles if you switch weapons
-            if (playerGunPrefabs[weaponNum].GetComponent<GunScript>().Particles)
+            if (currentGunScript.Particles)
             {
-                playerGunPrefabs[weaponNum].GetComponent<GunScript>().Particles.SetActive(false);
+                currentGunScript.Particles.SetActive(false);
             }
             // For charging gun shooting
-            if (playerGunPrefabs[weaponNum].GetComponent<GunScript>().Charging)
+            if (currentGunScript.Charging)
             {
-                playerGunPrefabs[weaponNum].GetComponent<GunScript>().Charging = false;
+                currentGunScript.Charging = false;
 
                 // Shoot the Charging bullet if you switch guns while charging the bullet (shoot as though you call Fire Weapon)
-                playerGunPrefabs[weaponNum].GetComponent<GunScript>().bulletCopy.GetComponent<BulletManager>().BulletStart(playerGunPrefabs[weaponNum]);
-                playerGunPrefabs[weaponNum].GetComponent<GunScript>().BulletCount++;
-                playerGunPrefabs[weaponNum].GetComponent<GunScript>().JustShot();
+                currentGunScript.bulletCopy.GetComponent<BulletManager>().Speed = currentGunScript.bulletSpeed;
+                currentGunScript.JustShot();
             }
 
             // turn off the current gun sprite

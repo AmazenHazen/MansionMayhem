@@ -49,9 +49,6 @@ public class GUIManager : MonoBehaviour
 
     // Variables for Instructions Screen
     public GameObject instructionsScreen;
-    public List<GameObject> instructionPages;
-    public List<GameObject> instructionButtons;
-    public int instructionsPage;
 
     // Variables for Death Screen
     public GameObject deathScreen;
@@ -74,6 +71,10 @@ public class GUIManager : MonoBehaviour
 
     public static bool talkingBool;
     public static bool optionBool;
+
+    // FPS variables
+    public Text FPSText;
+    float deltaTime = 0.0f;
     #endregion
 
     #region Start
@@ -152,7 +153,7 @@ public class GUIManager : MonoBehaviour
         }
 
         // instruction page variables
-        instructionsPage = 0;
+        instructionsScreen.GetComponent<InstructionsManagement>().instructionsPage = 0;
 
         // set boss fight to false
         bossFight = false;
@@ -168,7 +169,12 @@ public class GUIManager : MonoBehaviour
         HealthManagement();
         TextUpdate();
         EscapeScreenManagement();
-        if(GameManager.instance.currentGameState == GameState.Died)
+
+        // To display FPS
+        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
+        
+
+        if (GameManager.instance.currentGameState == GameState.Died)
         {
             DeathManagement();
         }
@@ -305,12 +311,17 @@ public class GUIManager : MonoBehaviour
 
             // Print out Experience Number
             experienceText.text = "Experience: " + (GameManager.instance.experience);
+
+            // Print out the FPS
+            FPSText.text = "FPS: " + 1.0f/deltaTime;
         }
         else
         {
             levelText.text = "";
             rangeWeaponText.text = "";
             experienceText.text = "";
+            FPSText.text = "";
+
         }
 
         if (bossFight && boss!=null)
@@ -375,11 +386,11 @@ public class GUIManager : MonoBehaviour
 
         // Instructions Pages
         instructionsScreen.SetActive(false);
-        instructionPages[0].SetActive(true);
-        instructionPages[1].SetActive(false);
-        instructionButtons[0].SetActive(false);
-        instructionButtons[1].SetActive(true);
-        instructionsPage = 0;
+        instructionsScreen.GetComponent<InstructionsManagement>().instructionPages[0].SetActive(true);
+        instructionsScreen.GetComponent<InstructionsManagement>().instructionPages[1].SetActive(false);
+        instructionsScreen.GetComponent<InstructionsManagement>().instructionButtons[0].SetActive(false);
+        instructionsScreen.GetComponent<InstructionsManagement>().instructionButtons[1].SetActive(true);
+        instructionsScreen.GetComponent<InstructionsManagement>().instructionsPage = 0;
 
         objectiveScreen.SetActive(false);
         GameManager.instance.currentGameState = GameState.Play;
@@ -598,55 +609,5 @@ public class GUIManager : MonoBehaviour
         }
     }
     #endregion
-    #endregion
-
-    #region instructions management
-
-    /// <summary>
-    /// Handling clicking next and previous buttons for the insturction screen
-    /// </summary>
-    /// <param name="forward"></param>
-    public void pageTurn(bool forward)
-    {
-        // turn off current page
-        for(int i=0; i< instructionPages.Count; i++)
-        {
-            if(instructionPages[instructionsPage])
-            {
-                instructionPages[instructionsPage].SetActive(false);
-            }
-        }
-        if(forward)
-        {
-            instructionsPage++;
-        }
-        else
-        {
-            instructionsPage--;
-        }
-
-        instructionPages[instructionsPage].SetActive(true);
-
-
-        // Turn off or on the next page button if needed
-        if (instructionsPage < instructionButtons.Count-1)
-        {
-            instructionButtons[1].SetActive(true);
-        }
-        else
-        {
-            instructionButtons[1].SetActive(false);
-        }
-
-        if (instructionsPage > 0)
-        {
-            instructionButtons[0].SetActive(true);
-        }
-        else
-        {
-            instructionButtons[0].SetActive(false);
-        }
-
-    }
     #endregion
 }

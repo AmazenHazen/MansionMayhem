@@ -1,0 +1,5 @@
+You look under this bed's matress and find Death Clutch's journal!
+[GiveItem](0)
+You should return it to Half Light.
+[StartQuest]
+[Exit]

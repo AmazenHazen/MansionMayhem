@@ -24,9 +24,6 @@ public class EnemyManager : MonoBehaviour
     public float maxHealth;                    // The amount of health the enemy spawns with
     private int experience;                    // The amount of experience rewarded atthe death of an enemy
     public float damage;                       // Damage caused when the player is hit by the monster (collision)
-    public float rangeDamage;                   // Damage caused when the player is hit by the monster (collision)
-    public float timeBetweenShots;              // time between bullets
-    public List<GameObject> enemyBulletPrefabs; // Prefabs of Bullets shot
     public List<GameObject> enemyAbilityPrefabs;// Prefab of Ability being used (Webs, Slime, Etc.)
     public List<GameObject> enemyWeapons;       // Additional Weapons of the enemy
     public List<abilityType> abilityTypes;      // Determines the ability of the enemy
@@ -53,7 +50,6 @@ public class EnemyManager : MonoBehaviour
     private int parentAbilityNum;
 
     // Bullet Management
-    protected bool canShoot;
     private int currentGunIndex;
     private bool initialBulletDelay;
     private List<GameObject> enemyGuns;
@@ -100,7 +96,6 @@ public class EnemyManager : MonoBehaviour
         seekDistance = GetComponent<EnemyMovement>().awareDistance;
 
         // Sets up whether and enemy can shoot bullets or not
-        canShoot = true; // Set to true if player gets within distance of the enemy
         currentGunIndex = 0; // Set the current Gun index to 0
         // Create a list full of the enemies guns
         enemyGuns = new List<GameObject>();
@@ -111,7 +106,7 @@ public class EnemyManager : MonoBehaviour
                 if(child.GetComponent<GunScript>())
                 {
                     enemyGuns.Add(child.gameObject);
-                    Debug.Log(child.gameObject);
+                    //Debug.Log(child.gameObject);
                 }
             }
         }
@@ -141,7 +136,7 @@ public class EnemyManager : MonoBehaviour
         initialBulletDelay = true;
 
         // Determining Experience
-        experience = Mathf.CeilToInt(maxHealth + damage + rangeDamage); // initial calculation
+        experience = Mathf.CeilToInt(maxHealth + damage); // initial calculation
     }
     #endregion
 
@@ -167,14 +162,14 @@ public class EnemyManager : MonoBehaviour
             case enemyType.prisonLeader:
                 if (phase == 0)
                 {
-                    canShoot = false;
+                    hasBullets = false;
                 }
 
                 // Forwarding the phase depending on the Prisoner Leader's health
                 if ((currentLife / maxHealth) < .666f && phase == 0)
                 {
                     phase++;
-                    canShoot = true;
+                    hasBullets = true;
                     timeBetweenAbilities[0] = Mathf.Infinity;
                 }
                 if ((currentLife / maxHealth) < .333f && phase == 1)
@@ -205,7 +200,7 @@ public class EnemyManager : MonoBehaviour
                     {
                         case 0:
                             //Debug.Log("Phase 1");
-                            timeBetweenShots = 1f;
+                            enemyGuns[currentGunIndex].GetComponent<GunScript>().timeBetweenShots = 1f;
                             hasAbility = false;
                             for (int i = 0; i < 4; i++)
                             {
@@ -215,12 +210,12 @@ public class EnemyManager : MonoBehaviour
                         case 1:
                             hasAbility = false;
                             //Debug.Log("Phase 2");
-                            timeBetweenShots = .3f;
+                            enemyGuns[currentGunIndex].GetComponent<GunScript>().timeBetweenShots = .3f;
                             break;
                         case 2:
                             //Debug.Log("Phase 3");
                             // Reset Bullets
-                            timeBetweenShots = 3f;
+                            enemyGuns[currentGunIndex].GetComponent<GunScript>().timeBetweenShots = 3f;
                             for (int i = 4; i < 7; i++)
                             {
                                 enemyObjects[i].GetComponent<Spawner>().SpawnEnemy();
@@ -239,7 +234,7 @@ public class EnemyManager : MonoBehaviour
                     {
                         enemyWeapons[i].SetActive(true);
                     }
-                    timeBetweenShots = .5f;
+                    enemyGuns[currentGunIndex].GetComponent<GunScript>().timeBetweenShots = .5f;
                     abilityRestrictionNumber[0] = 80;
                 }
                 break;
@@ -252,7 +247,7 @@ public class EnemyManager : MonoBehaviour
         #endregion
 
         // Enemy Shooting allows any enemy to shoot when possible
-        if (hasBullets == true && canShoot==true && initialBulletDelay==false && (player.transform.position - transform.position).magnitude < seekDistance)
+        if (hasBullets == true && initialBulletDelay==false && (player.transform.position - transform.position).magnitude < seekDistance)
         {
             Shoot();
         }
@@ -367,27 +362,6 @@ public class EnemyManager : MonoBehaviour
         {
             enemyGuns[currentGunIndex].GetComponent<GunScript>().EnemyFireWeapon();
         }
-    }
-
-    /// <summary>
-    /// Keeps the player from spamming the shoot button
-    /// </summary>
-    void JustShot()
-    {
-        // Player Gains Invincibility for 3 seconds
-        canShoot = false;
-        //gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
-        Invoke("ResetShooting", timeBetweenShots);
-
-    }
-
-    /// <summary>
-    /// Resets Player's canShoot Bool
-    /// </summary>
-    void ResetShooting()
-    {
-        canShoot = true;
-        //gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
     #endregion
 

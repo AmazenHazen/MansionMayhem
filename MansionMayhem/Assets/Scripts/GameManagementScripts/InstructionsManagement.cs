@@ -5,30 +5,30 @@ using UnityEngine;
 public class InstructionsManagement : MonoBehaviour {
 
     // Variables for Instructions Screen
-    public GameObject instructionsScreen;
     public List<GameObject> instructionPages;
     public List<GameObject> instructionButtons;
     public int instructionsPage = 0;
+    public bool mainMenu;
 
     void Update()
     {
-        EscapeScreenManagement();
+        CloseInstructionsScreen();
     }
 
 
     #region Escape Screen Management
-    public void EscapeScreenManagement()
+    public void CloseInstructionsScreen()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && (instructionsScreen.activeSelf == true))
+        if (Input.GetKeyDown(KeyCode.Escape) && mainMenu && gameObject.activeSelf)
         {
             ContinueGame();
         }
     }
 
     public void ContinueGame()
-    {
+    { 
         // Instructions Pages
-        instructionsScreen.SetActive(false);
+        gameObject.SetActive(false);
         instructionPages[0].SetActive(true);
         instructionPages[1].SetActive(false);
         instructionButtons[0].SetActive(false);

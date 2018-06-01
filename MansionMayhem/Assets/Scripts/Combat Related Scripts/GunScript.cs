@@ -13,16 +13,18 @@ public class GunScript : MonoBehaviour
     public rangeWeapon gunType;
     public Owner gunOwner;
     public GameObject bulletPrefab;
+    public GameObject blobPrefab;
+    public float bulletDamage;      // Player's gun's damage is determined by upgrades/unlocks
+    public float bulletSpeed;
     public float timeBetweenShots;
-    
+
 
     // Bullet Tracking
-    public List<GameObject> playerBullets;
-    public List<GameObject> playerBlobs;
+    [HideInInspector] public List<GameObject> poolBullets;
+    [HideInInspector] public List<GameObject> poolBlobs;
     public int maxBullets;
     public int maxBlobs;
     private int blobCount;
-    private int bulletCount;
 
     // Special gun tracking attributes
     GameObject particles;
@@ -33,13 +35,12 @@ public class GunScript : MonoBehaviour
 
     // Reset Bullet attributes
     public GameObject bulletCopy;
-    public bool canShoot;
-    public bool finishSwitch;
+    private bool canShoot;
+    private bool finishSwitch;
     private bool canBurst;
 
     // Enemy Guns
     public int numberOfBullets;     // number of bullets shot out of a gun when shot
-    public float bulletDamage;      // Player's gun's damage is determined by upgrades/unlocks
 
     // Bullet Attributes
     // These will be based in the save file cause they can be upgraded but for now will be public attributes
@@ -53,20 +54,10 @@ public class GunScript : MonoBehaviour
     {
         get { return particles; }
     }
-    public int BlobCount
-    {
-        get { return blobCount; }
-        set { blobCount = value; }
-    }
     public bool Charging
     {
         get { return charging; }
         set { charging = value; }
-    }
-    public int BulletCount
-    {
-        get { return bulletCount; }
-        set { bulletCount = value; }
     }
     #endregion
 
@@ -79,6 +70,27 @@ public class GunScript : MonoBehaviour
         canShoot = true;
         canBurst = true;
         finishSwitch = true;
+
+        // Create a bullet pool for the player/enemy
+        poolBullets = new List<GameObject>();
+        for(int i=0; i<maxBullets; i++)
+        {
+            poolBullets.Add(Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject);
+            poolBullets[i].GetComponent<BulletManager>().owner = gameObject;
+            poolBullets[i].GetComponent<BulletManager>().ownerType = gunOwner;
+            poolBullets[i].SetActive(false);
+        }
+
+        // Create a blob pool for the player/enemy
+        poolBlobs = new List<GameObject>();
+        for (int i = 0; i < maxBlobs; i++)
+        {
+            poolBlobs.Add(Instantiate(blobPrefab, transform.position, transform.rotation) as GameObject);
+            poolBlobs[i].SetActive(false);
+        }
+
+        // To get rid of the first blob if hitting the max
+        blobCount = maxBlobs-1;
 
         switch (gunType)
         {
@@ -96,8 +108,8 @@ public class GunScript : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        BulletManagement();
-        BlobManagement();
+        //BulletManagement();
+        //BlobManagement();
 	}
     #endregion
 
@@ -107,51 +119,47 @@ public class GunScript : MonoBehaviour
     /// </summary>
     public void PlayerFireWeapon()
     {
-        if (canShoot && finishSwitch && Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && canShoot && finishSwitch)
         {
-            switch (gunType)
-            {
-                // Special because there are a number of shots shot out
-                case rangeWeapon.hellfireshotgun:
-                    ShootShotgunBullet();
-                    break;
+                switch (gunType)
+                {
+                    // Special because there are a number of shots shot out
+                    case rangeWeapon.hellfireshotgun:
+                        ShootShotgunBullet();
+                        break;
 
-                // Special because the courotine for the 3 round burst starts here
-                case rangeWeapon.XenonPulser:
-                    if (canBurst)
-                    {
-                        StartCoroutine(XenonShoot(4, .05f));
-                        canBurst = false;
-                    }
-                    break;
+                    // Special because the courotine for the 3 round burst starts here
+                    case rangeWeapon.XenonPulser:
+                        if (canBurst)
+                        {
+                            StartCoroutine(XenonShoot(4, .05f));
+                            canBurst = false;
+                        }
+                        break;
 
-                // Special because you can charge the weapon up
-                case rangeWeapon.PlasmaCannon:
-                    if (!charging)
-                    {
-                        chargingSizeVar = 1;
-                    }
-                    ChargeBullet();
-                    break;
+                    // Special because you can charge the weapon up
+                    case rangeWeapon.PlasmaCannon:
+                        ChargeBullet();
+                        break;
 
-                // Turn on the particle systems for the flamethrower and the frost gun
-                case rangeWeapon.cryoGun:
-                case rangeWeapon.flamethrower:
-                case rangeWeapon.AntimatterParticle:
-                    particles.SetActive(true);
-                    break;
-                default:
-                    ShootBullet();
-                    break;
+                    // Turn on the particle systems for the flamethrower and the frost gun
+                    case rangeWeapon.cryoGun:
+                    case rangeWeapon.flamethrower:
+                    case rangeWeapon.AntimatterParticle:
+                        particles.SetActive(true);
+                        break;
+                    default:
+                        ShootBullet();
+                        break;
+               
             }
         }
-
         // If not holding down the mouse button/shooting
         else
         {
             switch (gunType)
             {
-            // Set the particle guns off
+                // Set the particle guns off
                 case rangeWeapon.flamethrower:
                 case rangeWeapon.cryoGun:
                 case rangeWeapon.AntimatterParticle:
@@ -164,9 +172,11 @@ public class GunScript : MonoBehaviour
             {
                 // Shoot the Charging bullet if not hitting the mouse button
                 charging = false;
-                bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-                bulletCount++;
                 JustShot();
+
+                // Set the speed to shoot the bullet, also make the current copy not the currentChargingBullet
+                bulletCopy.GetComponent<BulletManager>().speed = bulletSpeed;
+                bulletCopy.GetComponent<BulletManager>().CurrentCharingBullet = false;
             }
         }
     }
@@ -200,9 +210,11 @@ public class GunScript : MonoBehaviour
                     {
                         // Shoot the Charging bullet if not hitting the mouse button
                         charging = false;
-                        bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-                        bulletCount++;
                         JustShot();
+
+                        // Set the speed to shoot the bullet
+                        bulletCopy.GetComponent<BulletManager>().speed = bulletSpeed;
+                        bulletCopy.GetComponent<BulletManager>().CurrentCharingBullet = false;
                     }
                     break;
                 default:
@@ -222,16 +234,50 @@ public class GunScript : MonoBehaviour
         //Debug.Log("Firing Bullet" + bulletPrefab);
 
         // Shoot the bullet
-        bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
-
-        playerBullets.Add(bulletCopy);
-
-        // Call Special start method for bullets
-        bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-
-        bulletCount++;
+        foreach(GameObject bullet in poolBullets)
+        {
+            if(!bullet.activeSelf)
+            {
+                bulletCopy = bullet;
+                bullet.transform.position = transform.position;
+                bullet.transform.rotation = transform.rotation;
+                bullet.SetActive(true);
+                break;
+            }
+        }
 
         JustShot();
+    }
+    #endregion
+
+    #region Plopping Blob method
+    /// <summary>
+    /// Launches a bullet (method to shoot a single shot)
+    /// </summary>
+    public void BulletPlopBlob(GameObject bullet)
+    {
+        //Debug.Log("Firing Bullet" + bulletPrefab);
+        // Increase the blob count number
+        blobCount++;
+        blobCount %= maxBlobs;
+        if(poolBlobs[blobCount].activeSelf)
+        {
+            poolBlobs[blobCount].SetActive(false);
+        }
+
+        // Plop the blob
+        foreach (GameObject blob in poolBlobs)
+        {
+            if (!blob.activeSelf)
+            {
+                blob.transform.position = bullet.transform.position;
+                blob.transform.rotation = bullet.transform.rotation;
+                blob.SetActive(true);
+                blob.GetComponent<BlobScript>().BlobStart(gameObject);
+                break;
+            }
+        }
+
     }
     #endregion
 
@@ -244,9 +290,17 @@ public class GunScript : MonoBehaviour
         for (int i = 0; i < numberOfBullets; i++)
         {
             // Shoot the bullet
-            bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
-
-            playerBullets.Add(bulletCopy);
+            foreach (GameObject bullet in poolBullets)
+            {
+                if (!bullet.activeSelf)
+                {
+                    bulletCopy = bullet;
+                    bullet.transform.position = transform.position;
+                    bullet.transform.rotation = transform.rotation;
+                    bullet.SetActive(true);
+                    break;
+                }
+            }
 
             // Determining Shotgun pellets rotation
             float rotationAngle = transform.rotation.z;  // Gets current Angle
@@ -256,14 +310,8 @@ public class GunScript : MonoBehaviour
 
             // Spread of the bullets
             bulletCopy.transform.Rotate(0, 0, rotationAngle);
-            
-            // Call Special start method for bullets
-            bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-
-            bulletCount++;
-
-            JustShot();
         }
+        JustShot();
     }
     #endregion
 
@@ -273,26 +321,28 @@ public class GunScript : MonoBehaviour
         for (int i = 0; i < numberOfBullets; i++)
         {
             // Shoot the bullet
-            bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
-
-            playerBullets.Add(bulletCopy);
+            foreach (GameObject bullet in poolBullets)
+            {
+                if (!bullet.activeSelf)
+                {
+                    bulletCopy = bullet;
+                    bullet.transform.position = transform.position;
+                    bullet.transform.rotation = transform.rotation;
+                    bullet.SetActive(true);
+                    break;
+                }
+            }
 
             // Determining Shotgun pellets rotation
             float rotationAngle = transform.rotation.z;  // Gets current Angle
 
             // Determine the angle the bullet shoots out
-            rotationAngle += i * (360 / numberOfBullets);
+            rotationAngle += i * (360.0f / numberOfBullets);
 
             // Spread of the bullets
             bulletCopy.transform.Rotate(0, 0, rotationAngle);
-
-            // Call Special start method for bullets
-            bulletCopy.GetComponent<BulletManager>().BulletStart(gameObject);
-
-            bulletCount++;
-
-            JustShot();
         }
+        JustShot();
     }
     #endregion
 
@@ -305,13 +355,27 @@ public class GunScript : MonoBehaviour
         // Start Charging the bullet
         if (!charging)
         {
+            Debug.Log("Attempting to start to charge bullet");
             //Start charging the bullet
-            bulletCopy = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
-            bulletCopy.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);
-            bulletCopy.GetComponent<BulletManager>().owner = gameObject;
-            bulletCopy.GetComponent<BulletManager>().ownerType = gunOwner;
-            playerBullets.Add(bulletCopy);
-            charging = true;
+            foreach (GameObject bullet in poolBullets)
+            {
+                if (!bullet.activeSelf)
+                {
+                    // Scales the bullet
+                    charging = true;
+                    chargingSizeVar = 1;
+                    bulletCopy = bullet;
+                    // resets all initial values for the bullet
+                    bullet.transform.localScale = new Vector3(chargingSizeVar, chargingSizeVar, transform.localScale.z);
+                    bullet.GetComponent<BulletManager>().owner = gameObject;
+                    bullet.GetComponent<BulletManager>().ownerType = gunOwner;
+                    bullet.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);        
+                    bullet.transform.position = transform.position + (.5f * transform.up);
+                    bullet.transform.rotation = transform.rotation;
+                    bullet.SetActive(true);
+                    break;
+                }
+            }
         }
         else
         {
@@ -320,6 +384,7 @@ public class GunScript : MonoBehaviour
             if (bulletCopy != null)
             {
                 bulletCopy.transform.position = transform.position + (.5f * transform.up);
+
                 // Set the start pos of the bullet while charging so it doesn't get destroyed if not shooting between 0-20 Unity units
                 bulletCopy.GetComponent<BulletManager>().StartPos = transform.position + (.5f * transform.up);
 
@@ -409,33 +474,32 @@ public class GunScript : MonoBehaviour
     #endregion
 
     #region Bullet and Blob Management Methods
-    /// <summary>
-    /// Handles the management of current bullets shot out
-    /// </summary>
-    void BulletManagement()
-    {
-        if (playerBullets.Count > maxBullets)
-        {
-            GameObject playerBulletCopy = playerBullets[0];
-            bulletCount--;
-            playerBullets.Remove(playerBulletCopy);
-            Destroy(playerBulletCopy);
-        }
-    }
+    ///// <summary>
+    ///// Handles the management of current bullets shot out
+    ///// </summary>
+    //void BulletManagement()
+    //{
+    //    if (poolBullets.Count > maxBullets)
+    //    {
+    //        GameObject playerBulletCopy = poolBullets[0];
+    //        poolBullets.Remove(playerBulletCopy);
+    //        Destroy(playerBulletCopy);
+    //    }
+    //}
 
-    /// <summary>
-    /// Handles the management of current blobs
-    /// </summary>
-    void BlobManagement()
-    {
-        if (blobCount > maxBlobs)
-        {
-            GameObject playerBlobCopy = playerBlobs[0];
-            blobCount--;
-            playerBlobs.Remove(playerBlobCopy);
-            Destroy(playerBlobCopy);
-        }
-    }
+    ///// <summary>
+    ///// Handles the management of current blobs
+    ///// </summary>
+    //void BlobManagement()
+    //{
+    //    if (blobCount > maxBlobs)
+    //    {
+    //        GameObject playerBlobCopy = playerBlobs[0];
+    //        blobCount--;
+    //        playerBlobs.Remove(playerBlobCopy);
+    //        Destroy(playerBlobCopy);
+    //    }
+    //}
     #endregion
 
     #region ParticleWeapons

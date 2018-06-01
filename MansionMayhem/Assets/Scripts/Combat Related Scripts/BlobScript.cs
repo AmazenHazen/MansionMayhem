@@ -30,7 +30,7 @@ public class BlobScript : MonoBehaviour
     {
         #region assign Ownership for blob
         // Set the tag to a copy
-          ownerType = Owner.Enemy;
+        ownerType = Owner.Enemy;
         #endregion
 
         ownerAlive = true;
@@ -184,7 +184,7 @@ public class BlobScript : MonoBehaviour
         #endregion
 
         #region Player Collision with enemyBlob
-        else if (collider.tag == "player" && ownerType == Owner.Enemy)
+        else if (collider.tag == "player" && ownerType == Owner.Enemy && owner!= null)
         {
             //Debug.Log("Blob Hit Player");
 
@@ -192,7 +192,14 @@ public class BlobScript : MonoBehaviour
             collider.GetComponent<PlayerManager>().CurrentLife -= damage;
             if (blobComposite == bulletTypes.blood)
             {
-                owner.transform.parent.GetComponent<EnemyManager>().VampyricHeal(damage);
+                if (owner.tag == "enemy")
+                {
+                    owner.GetComponent<EnemyManager>().VampyricHeal(damage);
+                }
+                else
+                {
+                    owner.transform.parent.GetComponent<EnemyManager>().VampyricHeal(damage);
+                }
             }
 
 

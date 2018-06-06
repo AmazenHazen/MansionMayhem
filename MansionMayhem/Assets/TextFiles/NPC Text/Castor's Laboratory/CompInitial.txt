@@ -1,0 +1,15 @@
+"Welcome back Castor, how are you today?"
+"Do you wish to review your computer goggle interface?"
+*2
+Yes[SayYes](7)
+No[SayNothing]
+
++
+"In the top left corner is your health, if you lose all your healh you will have to leave your mission and come back later."
+"Below that is your Stanima Gauge. It replenishes over time and allows you to sprint."
+"In the top right corner is your screw count, the more you have, the more you can build!"
+"Below that is the indicator if you have collected the level's soul stone."
+"In the bottom right corner is your inventory."
+"Click the button that says inventory to bring up a visualization of what you have currently."
+"If you ever forget the basics, I'll always be here to help you review it!"
+[Exit]

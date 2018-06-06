@@ -37,6 +37,7 @@ public class LoadOutSelectScript : MonoBehaviour
 	}
 
 
+        /*
     /// <summary>
     /// Handles if you equip armor
     /// </summary>
@@ -44,7 +45,7 @@ public class LoadOutSelectScript : MonoBehaviour
     public void EquipArmor(GameObject buttonChosen)
     {
         // check to see if you already have too much equipped or already equipped
-        if (equipedNum >= GameManager.instance.equipmentTotal/* && already equipped*/)
+        if (equipedNum >= GameManager.instance.equipmentTotal && already equipped)
         {
             // Send message to player that too many numbers who have been selected
         }
@@ -63,6 +64,7 @@ public class LoadOutSelectScript : MonoBehaviour
             equipedNum++;
         }
     }
+        */
 
 
     /// <summary>

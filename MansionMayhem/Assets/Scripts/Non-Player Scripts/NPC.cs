@@ -36,6 +36,7 @@ public class NPC : MonoBehaviour
     public List<GameObject> enemies;
     public List<GameObject> requirements; // requirements for completing a quest (could be items, interactive objects, or NPCs)
     public List<ItemType> itemRequirements;
+    public List<GameObject> additionalObjectsNeeded;
     protected QuestStatus currentQuestStatus;
     #endregion
 
@@ -211,6 +212,7 @@ public class NPC : MonoBehaviour
         string tertiaryCommandText = "";
         int secondaryNum = -1; // can represent an item number to take from the NPC or give the NPC or a line number to jump to
         int tertiaryNum = -1; // can represent a line number to jump to
+        GameObject otherObject;
         #endregion
 
         int i = 1;
@@ -236,43 +238,55 @@ public class NPC : MonoBehaviour
 
         #region Secondary Command
         // getting the text for item management with an NPC or number for going to a different text line
-        if (commandText == "GiveItem" || commandText == "RemoveItem" || commandText == "GoToLine" || commandText == "CheckRequirements" || commandText == "CheckItemRequirements" || commandText == "Reward")
+        switch (commandText)
         {
-            // Increment by one for the beginning parenthesis
-            i++;
-
-            // Reset endofCommand to flase for the do/while loop
-            endOfCommand = false;
-
-            // loop through to get the full number
-            do
-            {
-                if (fullOptionText[i] == ')')
-                {
-                    endOfCommand = true;
-                }
-                else if (endOfCommand != true)
-                {
-                    secondaryCommandText += fullOptionText[i];
-                }
-
+            case "GiveItem":        // Second number is index of the item in items list
+            case "RemoveItem":      // Second number is index of the item in items list
+            case "SpawnEnemy":      // Second number is the index of the enemy in the enemies list
+            case "StartQuestOtherObject":// Second number is the index of the additionalObjectsNeeded list
+            case "SetObjectActive":     // Second number is the index of the additionalObjectsNeeded list
+            case "GoToLine":        // Second number is line number the text will go to
+            case "CheckRequirements": // Second number is the line to go to if the player fulfills the requirements
+            case "Reward":              // Second number is the number of screws rewarded to the player
+                // Increment by one for the beginning parenthesis
                 i++;
-            } while (endOfCommand == false);
+
+                // Reset endofCommand to flase for the do/while loop
+                endOfCommand = false;
+
+                // loop through to get the full number
+                do
+                {
+                    if (fullOptionText[i] == ')')
+                    {
+                        endOfCommand = true;
+                    }
+                    else if (endOfCommand != true)
+                    {
+                        secondaryCommandText += fullOptionText[i];
+                    }
+
+                    i++;
+                } while (endOfCommand == false);
 
 
-            // Loops through
-            // Saves the text between the square brackets
-            int.TryParse(secondaryCommandText, out secondaryNum);
+                // Loops through
+                // Saves the text between the square brackets
+                int.TryParse(secondaryCommandText, out secondaryNum);
 
-            Console.WriteLine(secondaryNum);
+                Console.WriteLine(secondaryNum);
+
+                break;
         }
         #endregion
 
         #region Tertiary Command
-        // Tertiary command set to object
-        // used for conditional statements
-        if (commandText == "CheckRequirements" || commandText == "CheckItemRequirements")
+        switch (commandText)
         {
+            // Tertiary command set to object
+            // used for conditional statements
+            case "CheckRequirements":// Third number is the line the text document goes to if requirements are not met
+            case "SpawnEnemy":      // Third number represents the line to go to if there are no enemies left to spawn
             // Increment by one for the beginning parenthesis
             i++;
 
@@ -299,6 +313,7 @@ public class NPC : MonoBehaviour
             int.TryParse(tertiaryCommandText, out tertiaryNum);
 
             Console.WriteLine(tertiaryNum);
+                break;
         }
 
         #endregion
@@ -346,31 +361,34 @@ public class NPC : MonoBehaviour
                 //Debug.Log("Check Requirements");
                 int completedRequirements = 0;
 
-                for(int j=0; j<requirements.Count; j++)
+                for (int j=0; j<requirements.Count; j++)
                 {
                     // For enemies (they would be deleted if they are defeated)
                     // This must be checked first so that a nullreferenece exception doesn't occur
-                    if (requirements[j]==null)
+                    if (requirements[j] != null)
+                    {
+                        // For NPCS (if their quest has been completed)
+                        if (requirements[j].GetComponent<NPC>())
+                        {
+                            if (requirements[j].GetComponent<NPC>().currentQuestStatus == QuestStatus.Completed)
+                            {
+                                completedRequirements++;
+                            }
+                        }
+
+                        // For Allies (if their quest has been completed)
+                        if (requirements[j].GetComponent<AllyManager>())
+                        {
+                            if (requirements[j].GetComponent<AllyManager>().currentQuestStatus == QuestStatus.Completed)
+                            {
+                                completedRequirements++;
+                            }
+                        }
+                    }
+                    else
                     {
                         requirements.Remove(requirements[j]);
-                    }
-
-                    // For NPCS (if their quest has been completed)
-                    if(requirements[j].GetComponent<NPC>())
-                    {
-                        if (requirements[j].GetComponent<NPC>().currentQuestStatus == QuestStatus.Completed)
-                        {
-                            completedRequirements++;
-                        }
-                    }
-
-                    // For Allies (if their quest has been completed)
-                    if (requirements[j].GetComponent<AllyManager>())
-                    {
-                        if (requirements[j].GetComponent<AllyManager>().currentQuestStatus == QuestStatus.Completed)
-                        {
-                            completedRequirements++;
-                        }
+                        j--;
                     }
                 }
 
@@ -418,6 +436,19 @@ public class NPC : MonoBehaviour
                 currentLine = 0;
                 endDialogue();
                 break;
+            case "StartQuestOtherObject":
+                //Debug.Log("Command: " + commandText + secondayCommand);
+                otherObject = additionalObjectsNeeded[secondaryNum];
+                NPC otherNPCScript = otherObject.GetComponent<NPC>();
+                otherNPCScript.currentQuestStatus = QuestStatus.Started;
+                if (otherNPCScript.questIcon != null)
+                {
+                    otherNPCScript.questIcon.GetComponent<SpriteRenderer>().sprite = QuestSprites[1];
+                }
+                otherNPCScript.TextFileSetUp(otherNPCScript.startedQuestTextFile);
+                otherNPCScript.currentLine = 0;
+                currentLine++;
+                break;
 
             case "CompleteQuest":
                 currentQuestStatus = QuestStatus.Completed;
@@ -432,7 +463,29 @@ public class NPC : MonoBehaviour
                 break;
             #endregion
 
-            #region Spawning Enemy commands
+            #region Spawning Commands
+            case "SetObjectActive":
+                if (additionalObjectsNeeded[secondaryNum] != null)
+                {
+                    additionalObjectsNeeded[secondaryNum].SetActive(true);
+                    currentLine++;
+                }
+                else
+                {
+                    currentLine = tertiaryNum;
+                }
+                break;
+            case "SpawnEnemy":
+                if (enemies[secondaryNum] != null)
+                {
+                    enemies[secondaryNum].SetActive(true);
+                    currentLine++;
+                }
+                else
+                {
+                    currentLine = tertiaryNum;
+                }
+                break;
             case "StartBossFight":
                 // Start the boss fight
                 enemies[0].SetActive(true);
@@ -470,11 +523,18 @@ public class NPC : MonoBehaviour
                 transform.position = new Vector3(10000, 10000, 0);
                 currentLine++;
                 break;
+
+            #region Exiting Level
+            case "ExitLevel":
+                LoadOnClick.ReturnToLevelSelectScreen();
+                currentLine++;
+                break;
+                #endregion
         }
         #endregion
 
         // Start the scrolling text (if the command isn't an Exit related command)
-        if (!(commandText == "Exit" || commandText == "CompleteQuest" || commandText == "StartQuest"))
+        if (!(commandText == "Exit" || commandText == "CompleteQuest" || commandText == "StartQuest" || commandText == "ExitLevel"))
         {
             StartCoroutine(GUIManager.TextScroll(textLines[currentLine]));
         }

@@ -1,0 +1,4 @@
+This is a labratory fume hood which allows the experimentation of different chemicals.
+Looks like there is Anti-Ectoplasm and Ectoplasm still in the fume hood.
+You mix them but they seperate from each other instantly.
+[Exit]

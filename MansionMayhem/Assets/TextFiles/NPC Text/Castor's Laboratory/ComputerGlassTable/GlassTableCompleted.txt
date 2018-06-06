@@ -1,0 +1,15 @@
+You have shown you know how to fight enemies and all robots have been defeated.
+Do you need another explination on how combat works?
+*2
+Yes[SayYes](7)
+No[SayNothing]
+
++
+You can identify enemies by the health bar above their head.
+Each enemy behaves differently, so be careful.
+Colliding with any enemy or enemy projectile will damage the player.
+Using the left mouse button you can shoot your own projectiles.
+If you want to switch your weapon, just press the Q key (other weapons must be equiped).
+To use a Trinket's ability use the E Key (A trinket must be equipped).
+To run, hit the shift button! But you must have Stanima!
+[Exit]

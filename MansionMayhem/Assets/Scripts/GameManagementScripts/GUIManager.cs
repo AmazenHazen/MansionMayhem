@@ -368,6 +368,10 @@ public class GUIManager : MonoBehaviour
         {
             ContinueGame();
         }
+        else if((Input.GetKeyDown(KeyCode.Space) && objectiveScreen.activeSelf == true) && GameManager.instance.currentGameState == GameState.Paused)
+        {
+            ContinueGame();
+        }
         else if ((Input.GetKeyDown(KeyCode.Escape) && escapeScreen.activeSelf == false) && GameManager.instance.currentGameState != GameState.Paused)
         {
             PauseGame();

@@ -47,13 +47,15 @@ public enum rangeWeapon
     cryoGun = 3, // FreezeRay
     hellfireshotgun = 4,    // Shotgun
     flamethrower = 5,   // Flamethrower
-    soundCannon = 6,    // Three Round Burst Sound Cannon
+    soundCannon = 6,    
     ElectronSeeker = 7, // Gun with seeking bullets
     CelestialRepeater = 8,
     PlasmaCannon = 9,
     DarkEnergyRifle = 10,
-    XenonPulser = 11,
+    XenonPulser = 11, // Three Round Burst Sound Cannon
     AntimatterParticle = 12,
+    Tempest = 13,
+    PreciousRevolver = 14,
 
 
     // Enemy Weapons
@@ -89,6 +91,8 @@ public enum bulletTypes
     blood,
     mucus,
     phlegm,
+    Tempest,
+    PreciousMetal,
 }
 
 public enum trinkets
@@ -139,103 +143,7 @@ public enum Unlock
     equipmentIncrease = 1,
 
     // Gun Unlocks
-    // Laser Pistol
-    LaserPistol = 5,
-    LaserPistolUpgrade1 = 6,
-    LaserPistolUpgrade2 = 7,
-    LaserPistolUpgrade3 = 8,
-
-    // Anti Ectoplasm Splatter Gun
-    AntiEctoGun = 10,
-    AntiEctoGunUpgrade1 = 11,
-    AntiEctoGunUpgrade2 = 12,
-    AntiEctoGunUpgrade3 = 13,
-
-    // Plasma Pistol
-    PlasmaPistol = 15,
-    PlasmaPistolUpgrade1 = 16,
-    PlasmaPistolUpgrade2 = 17,
-    PlasmaPistolUpgrade3 = 18,
-
-    // CryoGun
-    CryoGun = 20,
-    CryoGunUpgrade1 = 21,
-    CryoGunUpgrade2 = 22,
-    CryoGunUpgrade3 = 23,
-
-    // Flamethrower
-    FlameThrower = 25,
-    FlameThrowerUpgrade1 = 26,
-    FlameThrowerUpgrade2 = 27,
-    FlameThrowerUpgrade3 = 28,
-
-    // Hellfire Shotgun
-    HellFireShotgun = 30,
-    HellFireShotgunUpgrade1 = 31,
-    HellFireShotgunUpgrade2 = 32,
-    HellFireShotgunUpgrade3 = 33,
-    
-    // Sound Cannon
-    SoundCannon = 35,
-    SoundCannonUpgrade1 = 36,
-    SoundCannonUpgrade2 = 37,
-    SoundCannonUpgrade3 = 38,
-
-    // Dark Energy Sniper
-    DarkEnergySniper = 40,
-    DarkEnergySniperUpgrade1 = 41,
-    DarkEnergySniperUpgrade2 = 42,
-    DarkEnergySniperUpgrade3 = 43,
-
-    // Electron Cannon
-    ElectronPulseCannon = 45,
-    ElectronPulseCannonUpgrade1 = 46,
-    ElectronPulseCannonUpgrade2 = 47,
-    ElectronPulseCannonUpgrade3 = 48,
-
-    // Aetherlight Bow
-    AetherlightBow = 50,
-    AetherlightBowUpgrade1 = 51,
-    AetherlightBowUpgrade2 = 52,
-    AetherlightBowUpgrade3 = 53,
-
-    // Celestial Repeater
-    CelestialRepeater = 55,
-    CelestialRepeaterUpgrade1 = 56,
-    CelestialRepeaterUpgrade2 = 57,
-    CelestialRepeaterUpgrade3 = 58,
-
-    // Xenon Pulser
-    XenonPulser = 60,
-    XenonPulserUpgrade1 = 61,
-    XenonPulserUpgrade2 = 62,
-    XenonPulserUpgrade3 = 63,
-
-    // Antimatter Particle Gun
-    AntiMatterParticle = 65,
-    AntiMatterParticleUpgrade1 = 66,
-    AntiMatterParticleUpgrade2 = 67,
-    AntiMatterParticleUpgrade3 = 68,
-
-    // Trinket Unlocks
-    AntiMatterDevice = 100,
-    PortalDevice = 101,
-    NanoBotHealingSwarm = 102,
-    Drone = 103,
-    HologramClone = 104,
-    Shield = 105,
-    BootRockets = 106,
-
-
-    // Equipment Unlocks
-    FireResistantUnderArmor = 200,
-    HeatedCoatLining = 201,
-    FrictionBoots = 202,
-    AntidotePatch = 203,
-    ScrewMagnet = 204,
-    RoboticHeart = 205,
-    DragonscaleArmor = 206,
-    GooRepellingTreatment = 207,
+    GunUnlock = 2,
 }
 #endregion
 
@@ -460,6 +368,7 @@ public enum ItemType
     ToolBox = 3,
     Experience = 4,
     Blueprint = 5,
+    Soulstone = 6,
     #endregion
 
     #region Health Pickups

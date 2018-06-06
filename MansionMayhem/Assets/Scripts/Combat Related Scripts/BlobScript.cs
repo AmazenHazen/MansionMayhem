@@ -59,6 +59,8 @@ public class BlobScript : MonoBehaviour
         }
         if (blobComposite == bulletTypes.Portal)
         {
+            ownerType = Owner.Player;
+            owner = GameObject.Find("Player");
             int tempPortalNum = owner.GetComponent<PlayerManager>().PortalNum;
             portalNum = tempPortalNum;
             tempPortalNum++;
@@ -184,7 +186,7 @@ public class BlobScript : MonoBehaviour
         #endregion
 
         #region Player Collision with enemyBlob
-        else if (collider.tag == "player" && ownerType == Owner.Enemy && owner!= null)
+        else if (collider.tag == "player" && ownerType == Owner.Enemy)
         {
             //Debug.Log("Blob Hit Player");
 
@@ -192,7 +194,7 @@ public class BlobScript : MonoBehaviour
             collider.GetComponent<PlayerManager>().CurrentLife -= damage;
             if (blobComposite == bulletTypes.blood)
             {
-                if (owner.tag == "enemy")
+                if (owner.tag == "enemy" && owner != null)
                 {
                     owner.GetComponent<EnemyManager>().VampyricHeal(damage);
                 }

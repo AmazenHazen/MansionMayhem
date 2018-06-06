@@ -1,0 +1,15 @@
+Do you wish to learn about how to invent new items?
+*2
+Yes[SayYes](5)
+No[SayNothing]
++
+While in the "Workbench" Menu you can spend the screws you own to create cool inventions.
+There are three types of inventions you can create: Character, Weapons, and Trinkets.
+Character inventions improve aspects of Castor such as increasing stanima, health, or being able to collect screws from a distance.
+Weapon inventions unlock the ability to use new weapons or improve already unlocked weapons. Each weapon behaves differently so choose what you want to invent wisely.
+Trinket inventions are inventions that are special in nature and can do anything! Some will come in handy against certain enemies.
+Also, it is important to note that Castor can only carry three weapons and one trinket when going on a Paranormal Hunt.
+You can change what Castor has equipped through the "Loadout" Menu on the level select screen.
+To use more screws and to create more inventions in the future, access "Workbench" Menu in the level select screen.
+[CompleteQuest]
+[Exit]

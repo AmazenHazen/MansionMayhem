@@ -14,6 +14,7 @@ public class LoadOutButtonScript : MonoBehaviour
     // weaponSlot number for weapons
     public int weaponSlot;
     public rangeWeapon buttonWeapon;
+    public int unlockNumber;
 
     public Equipment buttonEquipment;
     public trinkets buttontrinket;
@@ -29,7 +30,7 @@ public class LoadOutButtonScript : MonoBehaviour
     {
         checkUnlocked();
     }
-    
+
     void OnEnable()
     {
         checkUnlocked();
@@ -38,7 +39,16 @@ public class LoadOutButtonScript : MonoBehaviour
 
     public void checkUnlocked()
     {
+        if (!(GameManager.instance.unlockableBuyables[unlockNumber]))
+        {
+            gameObject.GetComponent<Button>().interactable = false;
+        }
+        else
+        {
+            gameObject.GetComponent<Button>().interactable = true;
+        }
         #region Checking if the guns/trinkets/equipement are unlocked
+        /*
         // Unlock the variable
         switch (buttonWeapon)
         {
@@ -207,8 +217,9 @@ public class LoadOutButtonScript : MonoBehaviour
                 }
                 break;
 
-        #endregion
         }
+        */
+        #endregion
         // turn off the button being selected
         selected = false;
     }

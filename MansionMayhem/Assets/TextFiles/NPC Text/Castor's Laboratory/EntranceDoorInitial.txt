@@ -1,0 +1,8 @@
+Do you wish to leave Castor's Labratory, you can always come back and learn more.
+*2
+Yes[SayYes](6)
+No[SayNothing]
+
++
+[ExitLevel]
+[Exit]

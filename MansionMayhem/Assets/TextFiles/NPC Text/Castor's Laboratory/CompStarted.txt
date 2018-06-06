@@ -1,0 +1,10 @@
+Wow, that's a super cool invention! A laser gun!
+(To shoot lasers from it you will have to press the left mouse.)
+I can't wait to see the next blueprints you come up with Castor.
+I'm sure that in the future there will be other cool weapons to invent!
+(If you have more than one weapon you can switch between weapons using the "Q" key.)
+Even though you have your cool new laser weapon, you should practice your marksmanship.
+Go to the testing room to the north and use the terminal.
+It will activate some of those old robots that have been lying around for awhile.
+When you have defeated all of them return back to me.
+[CompleteQuest]

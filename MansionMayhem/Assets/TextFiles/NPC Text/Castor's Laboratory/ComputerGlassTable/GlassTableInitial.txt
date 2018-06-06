@@ -1,0 +1,54 @@
+[CheckRequirements](49)(1)
+Welcome to the Combat Testing Room.
+Do you want an explination on how combat works?
+*2
+Yes[SayYes](8)
+No[SayNo](18)
+
++
+You can identify enemies by the health bar above their head.
+Each enemy behaves differently, so be careful.
+Colliding with any enemy or enemy projectile will damage the player.
+Using the left mouse button you can shoot your own projectiles.
+If you want to switch your weapon, just press the Q key (other weapons must be equiped).
+To use a Trinket's ability use the E Key (A trinket must be equipped).
+To run, hit the shift button! But you must have Stanima!
+[GoToLine](18)
+
+-
+Should I spawn safe training robots for you?
+*4
+Small Robots[SayYes](26)
+Large Robots[SayYes](34)
+Boss Robot[SayYes](40)
+No[SayNothing]
+
+(Small Robots)
+Spawning Small Robots...
+[SpawnEnemy](0)(45)
+[SpawnEnemy](1)(45)
+[SpawnEnemy](2)(45)
+[SpawnEnemy](3)(45)
+[Exit]
+
+(Large Robots)
+Spawning Large Robots...
+[SpawnEnemy](4)(45)
+[SpawnEnemy](5)(45)
+[Exit]
+
+(Boss Robots)
+Spawning Boss Robot...
+[SpawnEnemy](6)(45)
+[Exit]
+
+(Fail to Spawn Enemy Result)
+Failed to spawn robot, system backtracking...
+[GoToLine](18)
+
+(Defeated all Robots)
+You have defeated all the training robots.
+Access Granted to this level's Soul Stone.
+[SetObjectActive](0)
+[CompleteQuest]
+[Exit]

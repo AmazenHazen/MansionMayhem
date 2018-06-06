@@ -132,13 +132,20 @@ public class GunScript : MonoBehaviour
                     case rangeWeapon.XenonPulser:
                         if (canBurst)
                         {
-                            StartCoroutine(XenonShoot(4, .05f));
+                            StartCoroutine(BurstShoot(.05f));
                             canBurst = false;
                         }
                         break;
+                case rangeWeapon.PreciousRevolver:
+                    if (canBurst)
+                    {
+                        StartCoroutine(BurstShoot(.07f));
+                        canBurst = false;
+                    }
+                    break;
 
-                    // Special because you can charge the weapon up
-                    case rangeWeapon.PlasmaCannon:
+                // Special because you can charge the weapon up
+                case rangeWeapon.PlasmaCannon:
                         ChargeBullet();
                         break;
 
@@ -406,18 +413,18 @@ public class GunScript : MonoBehaviour
 
     #region Shooting Helper Method for burst guns
     // Helper method for shooting bullets for Xenon Pulser
-    IEnumerator XenonShoot(int bulletPrefab, float delayTime)
+    IEnumerator BurstShoot(float delayTime)
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < numberOfBullets; i++)
         {
-            if (gunType == rangeWeapon.XenonPulser)
+            if ((gunType == rangeWeapon.XenonPulser || gunType == rangeWeapon.PreciousRevolver))
             {
                 ShootBullet();
                 yield return new WaitForSeconds(delayTime);
                 //Debug.Log("Burst");
             }
         }
-        Invoke("ResetBurst", .5f);
+        Invoke("ResetBurst", timeBetweenShots);
     }
     #endregion
 

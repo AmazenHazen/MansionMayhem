@@ -1,0 +1,13 @@
+You look in the bookcase and see a book titled "The Dark Elements" by Pollux Starf. Do you wish to read the book?
+*2
+Yes[SayYes](5)
+Don't Read[SayNothing]
++
+"Humans have always associated elements with forces of nature."
+"Water, Earth, Fire, and Air."
+"While this is true for our realm, I believe that this is not the case for the underworld"
+"A supernatural being from the underworld is a result of the corruption or creation of the following elements:"
+"Fire, Blood, Bone, or Shadow."
+"Do not fret, not all creatures of the underworld are evil."
+"But the master of all the dark elements is..."
+[Exit]

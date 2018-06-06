@@ -31,13 +31,15 @@ public class BulletManager : MonoBehaviour {
     GameObject lastBounceWall;
     public LayerMask collisionMask;
 
+    // Variables for RayCast Collision
+    Vector3 previousPos;
+
     // variable held to make sure a bullet is deleted after a certain amount of time
     private float totalTime;
     private float currentDistance;
 
     // variable for plasma pistol
     bool currentChargingBullet;
-
     #endregion
 
     #region Properties
@@ -76,6 +78,7 @@ public class BulletManager : MonoBehaviour {
         // Variables for any instantiated bullets
         currentChargingBullet = true;
         startPos = transform.position;
+        previousPos = transform.position;
         canDamage = true;
         totalTime = 0;
 
@@ -96,57 +99,62 @@ public class BulletManager : MonoBehaviour {
                 case bulletTypes.aetherlight:
                     speed = 5f;
                     return;
-                case bulletTypes.antiEctoPlasm:
-                    speed = 4f;
-                    if (GameManager.instance.AntiEctoGunUpgrade1Unlock){ damage = 2.0f; }
-                    else { damage = 1.75f; }
-                    return;
-                case bulletTypes.ice:
-                    speed = 5f;
-                    damage = 1;
-                    return;
-                case bulletTypes.Xenon:
-                    speed = 5f;
-                    if (GameManager.instance.XenonPulserUpgrade1Unlock) { damage = .75f; }
-                    else { damage = .90f; }
-                    return;
-                case bulletTypes.sound:
-                    speed = 5f;
-                    if (GameManager.instance.SoundCannonUpgrade1Unlock) { damage = .75f; }
-                    else { damage = .90f; }
-                    return;
                 case bulletTypes.laser:
                     speed = 6f;
-                    if (GameManager.instance.LaserPistolUnlock) { damage = .3f; }
+                    if (GameManager.instance.unlockableBuyables[1]) { damage = .3f; }
                     else { damage = .25f; }
                     return;
-                case bulletTypes.CelestialCrystal:
-                    speed = 10f;
-                    if (GameManager.instance.CelestialRepeaterUpgrade1Unlock) { damage = .15f; }
-                    else { damage = .1f; }
-                    return;
-                case bulletTypes.ElectronBall:
-                    speed = 3f;
-                    if (GameManager.instance.ElectronPulseCannonUpgrade1Unlock) { damage = 1.25f; }
-                    else { damage = 1.0f; }
-                    return;
-                case bulletTypes.electron:
-                    speed = 3f;
-                    if (GameManager.instance.ElectronPulseCannonUpgrade2Unlock) { damage = .6f; }
-                    else { damage = .4f; }
-                    return;
-                case bulletTypes.DarkEnergy:
-                    speed = 9f;
-                    if (GameManager.instance.DarkEnergySniperUpgrade1Unlock) { damage = .25f; }
-                    else { damage = .22f; }
+                case bulletTypes.antiEctoPlasm:
+                    speed = 4f;
+                    if (GameManager.instance.unlockableBuyables[6]){ damage = 2.0f; }
+                    else { damage = 1.75f; }
                     return;
                 case bulletTypes.Plasma:
                     speed = 0;
                     currentChargingBullet = true;
                     return;
+                case bulletTypes.ice:
+                    speed = 5f;
+                    damage = 1;
+                    return;
                 case bulletTypes.hellFire:
                     speed = 5f;
-                    if (GameManager.instance.HellFireShotgunUpgrade1Unlock) { damage = .70f; }
+                    if (GameManager.instance.unlockableBuyables[26]) { damage = .70f; }
+                    else { damage = .55f; }
+                    return;
+                case bulletTypes.sound:
+                    speed = 5f;
+                    if (GameManager.instance.unlockableBuyables[31]) { damage = 1f; }
+                    else { damage = 2f; }
+                    return;
+                case bulletTypes.DarkEnergy:
+                    speed = 9f;
+                    if (GameManager.instance.unlockableBuyables[36]) { damage = .25f; }
+                    else { damage = .22f; }
+                    return;
+                case bulletTypes.Xenon:
+                    speed = 5f;
+                    if (GameManager.instance.unlockableBuyables[41]) { damage = .75f; }
+                    else { damage = .90f; }
+                    return;
+                case bulletTypes.ElectronBall:
+                    speed = 3f;
+                    if (GameManager.instance.unlockableBuyables[46]) { damage = 1.25f; }
+                    else { damage = 1.0f; }
+                    return;
+                case bulletTypes.electron:
+                    speed = 3f;
+                    if (GameManager.instance.unlockableBuyables[47]) { damage = .6f; }
+                    else { damage = .4f; }
+                    return;
+                case bulletTypes.PreciousMetal:
+                    speed = 5f;
+                    if (GameManager.instance.unlockableBuyables[56]) { damage = .70f; }
+                    else { damage = .55f; }
+                    return;
+                case bulletTypes.Tempest:
+                    speed = 5f;
+                    if (GameManager.instance.unlockableBuyables[61]) { damage = .70f; }
                     else { damage = .55f; }
                     return;
             }
@@ -212,33 +220,55 @@ public class BulletManager : MonoBehaviour {
             BulletDestroy();
         }
 
-        
-        // For AntiEctoplasm gun check to see if the bullet got a certain distance, if so then splatter and destory this bullet
-        if (bulletType == bulletTypes.antiEctoPlasm && currentDistance > 4)
+        switch(bulletType)
         {
-            PlayerBlob();
-            BulletDestroy();
-        }
-
-        // For electrons seek the closest enemy
-        if (bulletType == bulletTypes.electron)
-        {
-            GameObject enemy = null;
-            enemy = FindClosestEnemy();
-
-            if ((transform.position - enemy.transform.position).magnitude < 4 && (currentDistance > 1f && enemy != null))
-            {
-                SeekingBullet();
-            }
-            else
-            {
+            // Splatter the bullet if antiectoplasm
+            case bulletTypes.antiEctoPlasm:
+                if(currentDistance > 4)
+                {
+                    PlayerBlob();
+                    BulletDestroy();
+                }
                 Move();
-            }
+                break;
+                
+            // Increase speed for an aetherlight bullet
+            case bulletTypes.aetherlight:
+                speed += .5f;
+                Move();
+                break;
+                
+                    
+            // For electrons seek the closest enemy
+            case bulletTypes.electron:
+                GameObject enemy = null;
+                enemy = FindClosestEnemy();
+
+                if ((transform.position - enemy.transform.position).magnitude < 4 && (currentDistance > 1f && enemy != null))
+                {
+                    SeekingBullet();
+                }
+                else
+                {
+                    Move();
+                }
+                break;
+
+            // Weights slow down dramatically
+            case bulletTypes.Weight:
+                speed -= Mathf.Pow(.1f, .9f);
+                Move();
+                break;
+
+
+            // The default is to move a bullet
+            default:
+                Move();
+                break;
+            
         }
-        else
-        {
-            Move();
-        }
+        // Check for collisions
+        RayCastCollisionDetection();
     }
     #endregion
 
@@ -250,14 +280,9 @@ public class BulletManager : MonoBehaviour {
     /// </summary>
     private void Move()
     {
-        if(bulletType == bulletTypes.aetherlight)
-        {
-            speed+=.5f;
-        }
-        if (bulletType == bulletTypes.Weight)
-        {
-            speed -= Mathf.Pow(.1f, .9f);
-        }
+        // Set previous pos
+        previousPos = transform.position;
+
         velocity = transform.up * speed * Time.deltaTime;
         //Debug.Log(speed);
         transform.position += velocity;
@@ -323,7 +348,6 @@ public class BulletManager : MonoBehaviour {
 
     private void ElectronSpawn()
     {
-        
         // Spawn 5 elctrons
         for (int i = 0; i < 5; i++)
         {
@@ -337,6 +361,7 @@ public class BulletManager : MonoBehaviour {
             // Change the rotation for each bullet
             rotationAngle += 72;
             transform.Rotate(new Vector3(0,0, rotationAngle));
+            electronCopy.transform.position += electronCopy.transform.up * .1f;
 
             // Call the special start method to spawn elections
             //electronCopy.GetComponent<BulletManager>().BulletStart(owner);
@@ -434,7 +459,7 @@ public class BulletManager : MonoBehaviour {
     /// Bullet collision Handled Here. This includes any objects that are effected by a bullet colliding with it.
     /// </summary>
     /// <param name="collider"></param>
-    void OnTriggerStay2D(Collider2D collider)
+    void ManageCollision(Collider2D collider)
     {
         // If the bullet Runs into a wall
         #region Wall Collision
@@ -442,36 +467,39 @@ public class BulletManager : MonoBehaviour {
         {
             // Delete the player bullet
             //Debug.Log("Wall!");
+            if (!collider.isTrigger)
+            {
 
-            // if the bullet is antiEctoplasm or portal shot also spawn a blob
-            if (bulletType == bulletTypes.antiEctoPlasm || bulletType == bulletTypes.PortalShot)
-            {
-                PlayerBlob();
-            }
-            if (bulletType == bulletTypes.splatterWeb)
-            {
-                SplatterBlob();
-            }
-            if (bulletType == bulletTypes.ElectronBall)
-            {
-                ElectronSpawn();
-            }
-            if (bulletType == bulletTypes.CelestialCrystal)
-            {
-                Bounce(collider.gameObject);
-            }
+                // if the bullet is antiEctoplasm or portal shot also spawn a blob
+                if (bulletType == bulletTypes.antiEctoPlasm || bulletType == bulletTypes.PortalShot)
+                {
+                    PlayerBlob();
+                }
+                if (bulletType == bulletTypes.splatterWeb)
+                {
+                    SplatterBlob();
+                }
+                if (bulletType == bulletTypes.ElectronBall)
+                {
+                    ElectronSpawn();
+                }
+                if (bulletType == bulletTypes.CelestialCrystal)
+                {
+                    Bounce(collider.gameObject);
+                }
 
-            if (!(bulletType == bulletTypes.Plasma && velocity.magnitude <= 0))
-            {
-                //Debug.Log("Destroy Bullet");
-                // Delete the bullet reference in the Player Manager
-                BulletDestroy();
-            }
-            
-            if (ownerType == Owner.Enemy)
-            {
-                // Check to make sure the enemy hasn't already been killed
-                BulletDestroy();
+                if (!(bulletType == bulletTypes.Plasma && velocity.magnitude <= 0))
+                {
+                    //Debug.Log("Destroy Bullet");
+                    // Delete the bullet reference in the Player Manager
+                    BulletDestroy();
+                }
+
+                if (ownerType == Owner.Enemy)
+                {
+                    // Check to make sure the enemy hasn't already been killed
+                    BulletDestroy();
+                }
             }
         }
         #endregion
@@ -489,17 +517,29 @@ public class BulletManager : MonoBehaviour {
             if(bulletType == bulletTypes.aetherlight)
             {
                 damage = speed * .2f;
-                if (GameManager.instance.AetherlightBowUpgrade1Unlock) { damage = speed * .25f; }
+                if (GameManager.instance.unlockableBuyables[51]) { damage = speed * .25f; }
                 else { damage = speed * .2f; }
 
                 if (damage > 4.0f) { damage = 4.5f; }
+            }
+            if (bulletType == bulletTypes.sound)
+            {
+                if(collider.GetComponent<EnemyMovement>().CurrentSpeed > 2)
+                {
+                    collider.GetComponent<EnemyMovement>().CurrentSpeed /= 2.5f;
+                }
+                else
+                {
+                    collider.GetComponent<EnemyMovement>().CurrentSpeed /= 4.0f;
+                }
+                //Debug.Log("Push Enemy Back");
             }
 
             //Debug.Log("Bullet Damaged enemy for: " + damage);
             // Damage Enemy
             if (bulletType == bulletTypes.Plasma)
             {
-                if (GameManager.instance.PlasmaPistolUpgrade1Unlock) { damage = .75f * Mathf.Pow(transform.localScale.x, 1.5f); }
+                if (GameManager.instance.unlockableBuyables[11]) { damage = .75f * Mathf.Pow(transform.localScale.x, 1.5f); }
                 else { damage = .7f * Mathf.Pow(transform.localScale.x, 1.5f); }
                 collider.GetComponent<EnemyManager>().CurrentLife -= damage;
 
@@ -653,6 +693,23 @@ public class BulletManager : MonoBehaviour {
     #endregion
 
     /// <summary>
+    /// Method to  determind if there was a collision based on a Raycast
+    /// </summary>
+    void RayCastCollisionDetection()
+    {
+        // Vector between last position and this position
+        Vector3 differenceVector = transform.position - previousPos;
+
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(previousPos, .1f, differenceVector.normalized, differenceVector.magnitude);
+
+        for(int i=0; i <hits.Length; i++)
+        {
+            //Debug.Log("Hit");
+            ManageCollision(hits[i].collider);
+        }
+    }
+
+    /// <summary>
     /// On enable method
     /// </summary>
     void OnEnable()
@@ -661,9 +718,10 @@ public class BulletManager : MonoBehaviour {
 
         // Set the start position in bullet start (except for the charge bullet)
         startPos = transform.position;
-
         canDamage = true;
+        currentChargingBullet = true;
         totalTime = 0;
+
         if (bulletType == bulletTypes.Plasma)
         {
             speed = 0;
@@ -672,7 +730,27 @@ public class BulletManager : MonoBehaviour {
         {
             speed = 5f;
         }
-        currentChargingBullet = true;
+        if(bulletType == bulletTypes.Weight)
+        {
+            speed = 10f;
+        }
+        if(bulletType == bulletTypes.PreciousMetal)
+        {
+            // Spawn the bullet with bronze silver or gold coloring
+            switch(Random.Range(0, 3))
+            {
+                case 0:
+                    GetComponent<SpriteRenderer>().color = new Color32(0x8C, 0x78, 0x53, 0xFF);
+                    break;
+                case 1:
+                    GetComponent<SpriteRenderer>().color = new Color32(0xE6, 0xE8, 0xFA, 0xFF);
+                    break;
+                case 2:
+                    GetComponent<SpriteRenderer>().color = new Color32(0xCF, 0xB5, 0x3B, 0xFF);
+                    break;
+            }
+
+        }
     }
 }
 

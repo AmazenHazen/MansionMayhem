@@ -142,6 +142,12 @@ public class PlayerManager : MonoBehaviour
                 case rangeWeapon.AntimatterParticle:
                     playerGunPrefabs.Add(GameObject.Find("AntiMatterParticle"));
                     break;
+                case rangeWeapon.Tempest:
+                    playerGunPrefabs.Add(GameObject.Find("Tempest"));
+                    break;
+                case rangeWeapon.PreciousRevolver:
+                    playerGunPrefabs.Add(GameObject.Find("PreciousMetalRevolver"));
+                    break;
                 default:
                     playerGunPrefabs.Add(null);
                     break;
@@ -412,6 +418,7 @@ public class PlayerManager : MonoBehaviour
 
             #region NPC
             case "npc":
+            case "interactableobject":
             case "ally":
                 if (Input.GetKeyDown(KeyCode.Space))
                 {

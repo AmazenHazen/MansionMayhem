@@ -31,7 +31,6 @@ public class LoadOnClick : MonoBehaviour
     public void ExitLevel(int level)
     {
         GUIManager.bossFight = false;
-        GameManager.instance.currentLevel = level;
         GameManager.instance.currentGameState = GameState.MainMenu;
 
         // Check to make sure the game manager exists
@@ -44,6 +43,26 @@ public class LoadOnClick : MonoBehaviour
         // Exit Level
         SceneManager.LoadScene(level);
     }
+
+    /// <summary>
+    /// Static method to be called to load a level
+    /// </summary>
+    public static void ReturnToLevelSelectScreen()
+    {
+        GUIManager.bossFight = false;
+        GameManager.instance.currentGameState = GameState.MainMenu;
+
+        // Check to make sure the game manager exists
+        if (GameManager.instance != null)
+        {
+            // First Save Game
+            GameManager.instance.Save();
+        }
+
+        // Exit Level
+        SceneManager.LoadScene(1);
+    }
+
 
 
     /// <summary>

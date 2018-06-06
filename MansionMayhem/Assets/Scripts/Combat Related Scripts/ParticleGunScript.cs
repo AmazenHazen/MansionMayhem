@@ -41,17 +41,17 @@ public class ParticleGunScript : MonoBehaviour
 
         if (particleGun == rangeWeapon.flamethrower)
         {
-            if (GameManager.instance.FlameThrowerUpgrade1Unlock) { damage = .032f; }
+            if (GameManager.instance.unlockableBuyables[16]) { damage = .032f; }
             else { damage = .025f; }
         }
         if (particleGun == rangeWeapon.cryoGun)
         {
-            if (GameManager.instance.CryoGunUpgrade1Unlock) { damage = .032f; }
+            if (GameManager.instance.unlockableBuyables[21]) { damage = .032f; }
             else { damage = .025f; }
         }
         if (particleGun == rangeWeapon.AntimatterParticle)
         {
-            if (GameManager.instance.AntiMatterParticleUpgrade1Unlock) { damage = .042f; }
+            if (GameManager.instance.unlockableBuyables[66]) { damage = .042f; }
             else { damage = .035f; }
         }
 

@@ -21,9 +21,10 @@ public class EnemyMovement : CharacterMovement
     #region Start Method
     public override void Start()
     {
+        base.Start();
+
         readyToMove = true;
         resettingMovement = false;
-        currentSpeed = maxSpeed;
         player = GameObject.FindGameObjectWithTag("player");
     }
     #endregion

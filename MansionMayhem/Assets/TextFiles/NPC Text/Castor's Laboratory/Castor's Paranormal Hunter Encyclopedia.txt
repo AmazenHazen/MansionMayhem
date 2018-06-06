@@ -1,0 +1,15 @@
+You look in the bookcase and find your Paranormal Hunter's Encyclopedia. Do you wish to read the book?
+*2
+Yes[SayYes](5)
+Don't Read[SayNothing]
++
+You open the book and look at the entries in the Encyclopedia.
+Ghost: A spirit or soul that manifests itself in our reality. Ghosts have the ability to travel through solid state objects.
+Zombie: An infected human made feral through a Zombie Infection. Zombies can gather in large groups and overwhelm human targets.
+Demons: A being of infernal origin. Demons can manipulate fire from the underworld and use them as projectiles.
+Shadows: A being created from the absence of light. Shadow Creatures can hide in their shadow form if threatened.
+Spiders: Eight-legged arachnids. Spiders can spin webs that can be difficult to escape.
+Slimes: Amorphous blobs made of different colloids. Slimes leave trails of goo behind their bodies.
+Skeletons: Reanimated corpses of previous humans. Skeletons can use necromancy and the skills of their previous lives.
+Elementals: A being made of a single element. Elementals have full control of any element it is aligned with.
+[Exit]

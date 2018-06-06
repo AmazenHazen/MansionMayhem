@@ -10,6 +10,7 @@ public abstract class CharacterMovement : MonoBehaviour
     private Vector3 direction;
     private Vector3 velocity;
     private Vector3 acceleration;
+    private Vector3 startPosition;
     public float mass;
     public float maxSpeed;
     public float frictionVar;
@@ -59,7 +60,10 @@ public abstract class CharacterMovement : MonoBehaviour
     // Use this for initialization
     public virtual void Start()
     {
+        // Set the current Speed to the maxspeed (to start)
         currentSpeed = maxSpeed;
+        // Set the start position to the position
+        startPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -126,6 +130,16 @@ public abstract class CharacterMovement : MonoBehaviour
     public void ApplyForce(Vector3 force)
     {
         acceleration += force / mass;
+    }
+
+
+    /// <summary>
+    /// Applies a force to the vehicle
+    /// </summary>
+    /// <param name="force"></param>
+    public void ApplyForceNoMass(Vector3 force)
+    {
+        acceleration += force;
     }
 
     /// <summary>

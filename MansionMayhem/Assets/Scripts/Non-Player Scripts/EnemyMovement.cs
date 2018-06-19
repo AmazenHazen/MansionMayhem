@@ -107,7 +107,7 @@ public class EnemyMovement : CharacterMovement
 
 
                 case enemyType.ghostknight:
-
+                    ultimateForce += seek(player.transform.position);
                     break;
 
                 case enemyType.banshee:

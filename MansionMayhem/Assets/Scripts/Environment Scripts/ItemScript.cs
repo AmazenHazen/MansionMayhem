@@ -13,6 +13,14 @@ public class ItemScript : MonoBehaviour
     {
         transform.rotation = Quaternion.Euler(0, 0, Random.Range(0,360));
         player = GameObject.FindGameObjectWithTag("player");
+
+        if(itemVar == ItemType.Soulstone)
+        {
+            if(GameManager.instance.soulStones[GameManager.instance.currentLevel])
+            {
+                GetComponent<SpriteRenderer>().color = Color.grey;
+            }
+        }
     }
 
     void Update()

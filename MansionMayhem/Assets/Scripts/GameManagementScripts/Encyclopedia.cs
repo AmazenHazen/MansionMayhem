@@ -63,6 +63,9 @@ public enum rangeWeapon
     EnemyShotGun = 31,
     EnemyAllDirectionsGun = 32,
     EnemyChargeGun = 33,
+    EnemyFlameThrower = 34,
+    EnemyFrostWeaver = 35,
+
 
 }
 
@@ -325,6 +328,12 @@ public enum movementType
     dodging,    // Move in an unpredicted manor when the player shoots
     mimic,  // Moves when the player moves
     notLookingSeek, // Moves when the player isn't looking at it
+}
+public enum RotationType
+{
+    None,
+    SlowTurn,
+    RotateTowards,
 }
 #endregion
 

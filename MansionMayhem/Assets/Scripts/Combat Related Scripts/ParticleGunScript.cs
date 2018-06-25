@@ -54,6 +54,11 @@ public class ParticleGunScript : MonoBehaviour
             if (GameManager.instance.unlockableBuyables[66]) { damage = .042f; }
             else { damage = .035f; }
         }
+        if (particleGun == rangeWeapon.EnemyFlameThrower)
+        {
+            if (GameManager.instance.unlockableBuyables[16]) { damage = .032f; }
+            else { damage = .025f; }
+        }
 
     }
 

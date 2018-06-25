@@ -1,0 +1,14 @@
+Thank you for coming to my mansion and solving my riddles. I mean no harm.
+Now that my riddles have been solved I can be free.
+But first, let me return the favor.
+Since you have solved my riddles I'll give you one to help your journey.
+
+"The Dark Elemental is made of four."
+"Fire, Bone, Blood, and Shadow."
+"But he fears the light from lore."
+"The Aether Light, the heaven's bow."
+
+With that information I wish you best of luck on your journey.
+Good Bye.
+[CompleteQuest]
+[Exit]

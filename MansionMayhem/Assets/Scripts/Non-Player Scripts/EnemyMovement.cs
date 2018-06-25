@@ -102,24 +102,12 @@ public class EnemyMovement : CharacterMovement
                 #region ghosts
                 // Ghosts
                 case enemyType.basicGhost:
-                    ultimateForce += seek(player.transform.position);
-                    break;
-
-
                 case enemyType.ghostknight:
-                    ultimateForce += seek(player.transform.position);
-                    break;
-
                 case enemyType.banshee:
-                    // Seek
-                    ultimateForce += seek(player.transform.position);
-                    break;
-
                 case enemyType.ghosthead:
-                    // Seek
                     ultimateForce += seek(player.transform.position);
+                    ultimateForce += Seperation();
                     break;
-
 
                 case enemyType.wraith:
                     ultimateForce += pursue(player);
@@ -180,6 +168,10 @@ public class EnemyMovement : CharacterMovement
                 case enemyType.darkimp:
                 case enemyType.bloodDemon:
                     // Seek
+                    ultimateForce += seek(player.transform.position);
+                    ultimateForce += Seperation();
+                    break;
+                case enemyType.gargoyle:
                     ultimateForce += seek(player.transform.position);
                     ultimateForce += Seperation();
                     break;
@@ -313,7 +305,7 @@ public class EnemyMovement : CharacterMovement
                     ultimateForce += seek(player.transform.position);
                     break;
                 case enemyType.skeletonDragon:
-
+                    ultimateForce += seek(player.transform.position);
                     break;
 
                 case enemyType.necromancer:
@@ -366,7 +358,7 @@ public class EnemyMovement : CharacterMovement
                     break;
 
                 case enemyType.shadow:
-
+                    ultimateForce += seek(player.transform.position);
                     break;
                 case enemyType.shadowBehemoth:
 
@@ -428,10 +420,6 @@ public class EnemyMovement : CharacterMovement
                 #endregion
 
                 #region other
-                case enemyType.gargoyle:
-
-                    break;
-
                 #endregion
 
                 #region default monster

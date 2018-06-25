@@ -101,6 +101,7 @@
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\BloodSapOfferingStoneInitial.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\MedicineCabnetStarted.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\XenonPulser.txt" />
+     <None Include="Assets\TextFiles\NPC Text\RiddleMaster\Riddle1.txt" />
      <None Include="Assets\Fonts\sector-034\read me.txt" />
      <None Include="Assets\TextFiles\NPC Text\Castor&apos;s Laboratory\CompStarted.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Tom\TomStarted.txt" />
@@ -131,8 +132,10 @@
      <None Include="Assets\TextFiles\NPC Text\PurgatoryPrison\DeathClutchBedInitial.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\LaserPistol.txt" />
      <None Include="Assets\Fonts\blzee\dontreadme.txt" />
+     <None Include="Assets\TextFiles\NPC Text\RiddleMaster\RiddleMaster.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Cage\CageInitial.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\OfferingStones\BloodSapInitial.txt" />
+     <None Include="Assets\TextFiles\Level Objective Messages\Level4GhostRuins.txt" />
      <None Include="Assets\TextFiles\NPC Text\Castor&apos;s Laboratory\EntranceDoorInitial.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Cutlery\CutleryStart.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\AetherLight Bow.txt" />
@@ -150,7 +153,11 @@
      <None Include="Assets\TextFiles\NPC Text\Hellpups\HellPupFollow.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Cage\CageStarted.txt" />
      <None Include="Assets\Fonts\sector-034\license.txt" />
+     <None Include="Assets\TextFiles\NPC Text\RiddleMaster\Riddle4.txt" />
      <None Include="Assets\TextFiles\NPC Text\DemonInNeed\Charlie\CharlieStarted.txt" />
+     <None Include="Assets\TextFiles\NPC Text\RiddleMaster\Riddle2.txt" />
+     <None Include="Assets\TextFiles\NPC Text\RiddleMaster\Riddle6.txt" />
+     <None Include="Assets\TextFiles\Level Objective Messages\Level7RiddleMansion.txt" />
      <None Include="Assets\TextFiles\NPC Text\DemonInNeed\Charlie\CharlieInitial.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\HellFireShotgun.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\fridgeInitial.txt" />
@@ -175,6 +182,8 @@
      <None Include="Assets\TextFiles\Level Objective Messages\Level15Biles.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\BleedingTree\BleedingTreeStart.txt" />
      <None Include="Assets\TextFiles\Gun Descriptions\CelestialPistol.txt" />
+     <None Include="Assets\TextFiles\NPC Text\RiddleMaster\Riddle5.txt" />
+     <None Include="Assets\TextFiles\NPC Text\RiddleMaster\Riddle3.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Bookcase.txt" />
      <None Include="Assets\TextFiles\NPC Text\ForestOfDrippingBlood\Furniture\ToiletComplete.txt" />
  <Reference Include="UnityEngine.UI">

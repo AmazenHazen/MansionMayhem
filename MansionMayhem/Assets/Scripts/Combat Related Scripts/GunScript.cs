@@ -41,6 +41,7 @@ public class GunScript : MonoBehaviour
 
     // Enemy Guns
     public int numberOfBullets;     // number of bullets shot out of a gun when shot
+    public float timeBetweenParticles;      // This is used in tandom with time between shots for enemy particle guns
 
     // Bullet Attributes
     // These will be based in the save file cause they can be upgraded but for now will be public attributes
@@ -97,6 +98,8 @@ public class GunScript : MonoBehaviour
             case rangeWeapon.flamethrower:
             case rangeWeapon.cryoGun:
             case rangeWeapon.AntimatterParticle:
+            case rangeWeapon.EnemyFlameThrower:
+            case rangeWeapon.EnemyFrostWeaver:
                 particles = gameObject.transform.GetChild(0).gameObject;
                 break;
         }
@@ -204,6 +207,7 @@ public class GunScript : MonoBehaviour
                     ShootShotgunBullet();
                     break;
                 case rangeWeapon.EnemyAllDirectionsGun:
+                    Debug.Log("Shoot All Directions!");
                     ShootAllWays();
                     break;
                 case rangeWeapon.EnemyChargeGun:
@@ -223,6 +227,10 @@ public class GunScript : MonoBehaviour
                         bulletCopy.GetComponent<BulletManager>().speed = bulletSpeed;
                         bulletCopy.GetComponent<BulletManager>().CurrentCharingBullet = false;
                     }
+                    break;
+                case rangeWeapon.EnemyFlameThrower:
+                case rangeWeapon.EnemyFrostWeaver:
+                    ParticleShoot();
                     break;
                 default:
                     ShootBullet();
@@ -362,7 +370,7 @@ public class GunScript : MonoBehaviour
         // Start Charging the bullet
         if (!charging)
         {
-            Debug.Log("Attempting to start to charge bullet");
+            //Debug.Log("Attempting to start to charge bullet");
             //Start charging the bullet
             foreach (GameObject bullet in poolBullets)
             {
@@ -411,9 +419,32 @@ public class GunScript : MonoBehaviour
     }
     #endregion
 
+
+    #region Particle Gun Method (only for enemy particle weapons)
+    /// <summary>
+    /// Launches a bullet (method to shoot a single shot)
+    /// </summary>
+    void ParticleShoot()
+    {
+        if (!particles.activeSelf)
+        {
+            Debug.Log("Activate flames!");
+            particles.SetActive(true);
+            JustShot();
+        }
+        else if (particles.activeSelf)
+        {
+            Debug.Log("Deactivate flames!");
+            canShoot = false;
+            particles.SetActive(false);
+            Invoke("ResetShooting", timeBetweenParticles);
+        }
+    }
+        #endregion
+
     #region Shooting Helper Method for burst guns
-    // Helper method for shooting bullets for Xenon Pulser
-    IEnumerator BurstShoot(float delayTime)
+        // Helper method for shooting bullets for Xenon Pulser
+        IEnumerator BurstShoot(float delayTime)
     {
         for (int i = 0; i < numberOfBullets; i++)
         {
@@ -435,7 +466,7 @@ public class GunScript : MonoBehaviour
     public void JustShot()
     {
         // Player Can't shoot for .5 seconds
-        //Debug.Log("We Just Shot!");
+        //Debug.Log("We Just Shot: " + gameObject);
         canShoot = false;
         //gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
         Invoke("ResetShooting", timeBetweenShots);
@@ -477,7 +508,6 @@ public class GunScript : MonoBehaviour
     {
         canBurst = true;
     }
-
     #endregion
 
     #region Bullet and Blob Management Methods
@@ -507,9 +537,5 @@ public class GunScript : MonoBehaviour
     //        Destroy(playerBlobCopy);
     //    }
     //}
-    #endregion
-
-    #region ParticleWeapons
-
     #endregion
 }

@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     // Game Currency and progress variables
     public int highestLevel; // Highest level/Progress Variable
     public bool[] unlockedLevels;
+    public bool[] soulStones;
     public int screws; // Main Currency Variable
     public int experience; // Secondary Currency Variable
     public int blueprints; // Tertiary Currency
@@ -135,6 +136,7 @@ public class GameManager : MonoBehaviour
         data.unlockedLevels = unlockedLevels;
         data.healthTotal = healthTotal;
         data.unlockableBuyables = unlockableBuyables;
+        data.soulStones = soulStones;
 
         // Only load the list if it is correct
         data.currentGuns = currentGuns;
@@ -163,25 +165,37 @@ public class GameManager : MonoBehaviour
             healthTotal = data.healthTotal;
             currentGuns = data.currentGuns;
             unlockableBuyables = data.unlockableBuyables;
+            soulStones = data.soulStones;
         }
         else
         {
             // Variables that are not saved are set to original value otherwise
             // Giving players 2000 screws and some weapons unlocked for the demo
-            screws = 2000;
+            screws = 0;//2000;
             experience = 0;
             blueprints = 0;
             highestLevel = 0;
 
-            // Unlock the first three levels (Optional Tutorial Area, Spider Mansion, Ghost Knight)
-            unlockedLevels = new bool[TOTAL_LEVELS];
-            unlockedLevels[0] = true;
-            unlockedLevels[1] = true;
-            //unlockedLevels[2] = true;
-            for (int i = 2; i < 100; i++)
+
+            soulStones = new bool[TOTAL_LEVELS];
+            // Set all the SoulStone Collectibles to false
+            for (int i = 0; i < TOTAL_LEVELS; i++)
             {
-                unlockableBuyables[i] = false;
+                soulStones[i] = false;
             }
+
+            unlockedLevels = new bool[TOTAL_LEVELS];
+
+            for (int i = 0; i < TOTAL_LEVELS; i++)
+            {
+                unlockedLevels[i] = false;
+            }
+            
+            // Set default unlocked levels
+            // Unlock the first three levels (Optional Tutorial Area, Spider Mansion, Ghost Knight)
+            unlockedLevels[0] = true;   // Castor's Laboratory (optional tutorial)
+            unlockedLevels[1] = true;   // Optional Path 1 - Spider Queen Mansion
+            unlockedLevels[4] = true;   // Main Path - The Ghost Ruins
 
 
             healthTotal = 5;
@@ -224,6 +238,7 @@ class PlayerData
     public int equipmentTotal; // Equipment Slots unlocked
     public List<rangeWeapon> currentGuns; // Current weapons the player has equipped
     public bool[] unlockableBuyables;
+    public bool[] soulStones;
 }
 #endregion
 

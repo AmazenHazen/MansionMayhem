@@ -19,6 +19,8 @@ public class GUIManager : MonoBehaviour
     public List<GameObject> FullHearts;
     public List<GameObject> HalfHearts;
 
+    public GameObject SoulStoneCollectibleIndicator;
+
     // Inventory Management
     public GameObject InventoryPanel;
     public GameObject[] InventoryItems;
@@ -96,7 +98,7 @@ public class GUIManager : MonoBehaviour
         // Health Management
         HealthColors = new List<Color>();
         HealthColors.Add(new Color32(0, 0, 0, 255));
-        HealthColors.Add(new Color32(186, 0, 0, 255));
+        HealthColors.Add(new Color32(255, 0, 0, 255));
         HealthColors.Add(new Color32(255, 215, 0, 255));
 
         // hide containers if not unlocked
@@ -157,6 +159,12 @@ public class GUIManager : MonoBehaviour
 
         // set boss fight to false
         bossFight = false;
+
+        Debug.Log("Current Level: " + GameManager.instance.currentLevel);
+        if(!GameManager.instance.soulStones[GameManager.instance.currentLevel])
+        {
+            SoulStoneCollectibleIndicator.GetComponent<Image>().color = Color.black;
+        }
     }
 
     #endregion
@@ -165,8 +173,9 @@ public class GUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        BossHealthManagement();
         HealthManagement();
+        SoulStoneCollectibleManagement();
+        BossHealthManagement();
         TextUpdate();
         EscapeScreenManagement();
 
@@ -247,10 +256,26 @@ public class GUIManager : MonoBehaviour
 
     #endregion
 
+    #region Collectible Management
+    /// <summary>
+    /// Manages the SoulStone Collectible Icon
+    /// </summary>
+    void SoulStoneCollectibleManagement()
+    {
+        if (GameManager.instance.soulStones[GameManager.instance.currentLevel])
+        {
+            if (SoulStoneCollectibleIndicator.GetComponent<Image>().color == Color.black)
+            {
+                SoulStoneCollectibleIndicator.GetComponent<Image>().color = Color.white;
+            }
+        }
+    }
+    #endregion
+
     #region Text Management
     void TextUpdate()
     {
-        scoreText.text = "Screws: " + GameManager.instance.screws;
+        scoreText.text = "x " + GameManager.instance.screws;
 
         // Get variables needed for the HUD Text
         if (GameManager.DebugMode)

@@ -398,6 +398,13 @@ public class PlayerManager : MonoBehaviour
 
                     #endregion
 
+                    #region SoulStone Collectible
+                    case ItemType.Soulstone:
+                        GameManager.instance.soulStones[GameManager.instance.currentLevel] = true;
+                        pickedUp = true;
+                        break;
+                    #endregion
+
                     #region Level Pickups
                     // Keys and Quest Items go through the default item handler and are added to the player's inventory
                     default:

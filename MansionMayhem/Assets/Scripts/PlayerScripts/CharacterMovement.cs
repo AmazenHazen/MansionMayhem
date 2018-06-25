@@ -14,7 +14,8 @@ public abstract class CharacterMovement : MonoBehaviour
     public float mass;
     public float maxSpeed;
     public float frictionVar;
-    public bool rotateBool;
+    public RotationType rotateType;
+    public float rotationSpeed;
     public float awareDistance;
 
     // Rotation Variables
@@ -24,6 +25,9 @@ public abstract class CharacterMovement : MonoBehaviour
     // Variables for seperation force
     public float seperationBubble; // basic force is 1.0
     public float seperationForce; // basic seperation force is 1.5 for enemies, 4 for allies
+
+    private int currentPathPoint;
+    public List<GameObject> pathPoints;
 
     // Variables for wandering
     Vector3 futurePosition;
@@ -91,7 +95,6 @@ public abstract class CharacterMovement : MonoBehaviour
     /// </summary>
     /// <returns>The vehicle.</returns>
     protected abstract void Rotate();
-
 
     /// <summary>
     /// UpdatePosition
@@ -176,9 +179,14 @@ public abstract class CharacterMovement : MonoBehaviour
 
         // For 2D
         // Draw the vehicle at the correct rotation
-        if (rotateBool == true)
+        if (rotateType == RotationType.RotateTowards)
         {
             transform.rotation = Quaternion.Euler(0, 0, angleOfRotation);
+        }
+        if(rotateType == RotationType.SlowTurn)
+        {
+            Quaternion rotateTowards = Quaternion.Euler(0, 0, angleOfRotation);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateTowards, Time.deltaTime * rotationSpeed);
         }
 
         // Draw the vehicle at the right position
@@ -267,8 +275,8 @@ public abstract class CharacterMovement : MonoBehaviour
         else if ((position - tar.transform.position).magnitude > 4)
         {
             Vector3 scaledForward = tar.transform.up;
-            scaledForward.x = tar.transform.up.x * 2.5f;
-            scaledForward.y = tar.transform.up.y * 2.5f;
+            scaledForward.x = tar.transform.up.x * 3f;
+            scaledForward.y = tar.transform.up.y * 3f;
             scaledForward.z = 0;
             futurePos = tar.transform.position + scaledForward;
         }
@@ -296,7 +304,7 @@ public abstract class CharacterMovement : MonoBehaviour
     public Vector3 evade(GameObject tar)
     {
         // step 1: Find the Future Position of the target
-        Vector3 futurePos = tar.transform.position + tar.transform.up;
+        Vector3 futurePos = tar.transform.position + tar.transform.up*3;
 
         // Step 1.5: If the target is too close scale the futurePos so you aren't suicidal
         if ((position - tar.transform.position).magnitude < 2)
@@ -358,7 +366,6 @@ public abstract class CharacterMovement : MonoBehaviour
 
         // Step 5: Return the Steering force
         return steeringForce;
-
     }
 
     /// <summary>
@@ -378,6 +385,28 @@ public abstract class CharacterMovement : MonoBehaviour
         return seek(futurePosition);
     }
 
+    /// <summary>
+    /// Path following method that returns a steering force based off of the current and future path point
+    /// the character is going towards.
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 pathfollow()
+    {
+        // If the enemy unit gets close enough to the path point it advances the current path point
+        if ((transform.position - pathPoints[currentPathPoint].transform.position).magnitude <= .1f)
+        {
+            // Get the next hole number and set it as the new currentPathPoint
+            int nextHoleNum = currentPathPoint + 1;
+            nextHoleNum %= pathPoints.Count;
+            currentPathPoint = nextHoleNum;
+            velocity = Vector3.zero;
+        }
+
+        // Step 3: Seek the new wandered position and add it to the ultimate force
+        return seek(pathPoints[currentPathPoint].transform.position);
+    }
+
+    #region Seperation
     /// <summary>
     /// Seperation Method that returns a steering force to move an enemy away from another enemy if too close.
     /// </summary>
@@ -442,6 +471,7 @@ public abstract class CharacterMovement : MonoBehaviour
         return steeringForce;
     }
 
+    #endregion
     #endregion
 
     #region Additional Movement Helping Methods
@@ -578,108 +608,6 @@ public abstract class CharacterMovement : MonoBehaviour
     /// Returns Speed to Max Speed
     /// </summary>
     protected abstract void RevertSpeed();
-
-    /*
-    /// <summary>
-    /// If a character collides with a wall, move them off
-    /// </summary>
-    /// <param name="collider"></param>
-    void OnTriggerStay2D(Collider2D collider)
-    {
-        #region Walls
-        switch (collider.tag)
-        {
-            case "wall":
-                if (gameObject.GetComponent<CircleCollider2D>().enabled)
-                {
-                    // top collision
-                    if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.max.y < gameObject.GetComponent<CircleCollider2D>().bounds.max.y)
-                    {
-                        Debug.Log("Detectedtopcollision");
-                        // set x velocity to 0
-                        velocity.y = 0;
-                        acceleration.y = 0;
-                        transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.y + (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + gameObject.GetComponent<CircleCollider2D>().bounds.extents.y + .1f));
-                    }
-                    // Bottom Collision
-                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.min.y > gameObject.GetComponent<CircleCollider2D>().bounds.min.y)
-                    {
-                        Debug.Log("Detectedbottomcollision");
-                        // set x velocity to 0
-                        velocity.y = 0;
-                        acceleration.y = 0;
-                        transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.y - (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + gameObject.GetComponent<CircleCollider2D>().bounds.extents.y + .1f));
-                    }
-                    
-                    // Left Collision
-                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.min.x > gameObject.GetComponent<CircleCollider2D>().bounds.min.x)
-                    {
-                        Debug.Log("Detected left collision");
-                        // set x velocity to 0
-                        velocity.x = 0;
-                        acceleration.x = 0;
-                        // Puts the player on the edge (does this by taking the position of the wall + [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                        transform.position = new Vector2(collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.x - (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + gameObject.gameObject.GetComponent<CircleCollider2D>().bounds.extents.x + .1f), transform.position.y);
-                    }
-                    // right collision
-                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.max.x < gameObject.GetComponent<CircleCollider2D>().bounds.max.x)
-                    {
-                        Debug.Log("Detectedrightcollision");
-                        // set x velocity to 0
-                        velocity.x = 0;
-                        acceleration.x = 0;
-                        transform.position = new Vector2(collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.x + (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + gameObject.GetComponent<CircleCollider2D>().bounds.extents.x + .1f), transform.position.y);
-                    }
-                }
-                else if (gameObject.GetComponent<BoxCollider2D>().enabled)
-                {
-                    // Left Collision
-                    if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.min.x > gameObject.GetComponent<BoxCollider2D>().bounds.min.x)
-                    {
-                        Debug.Log("Detected left collision");
-                        // set x velocity to 0
-                        velocity.x = 0;
-                        acceleration.x = 0;
-                        // Puts the player on the edge (does this by taking the position of the wall + [the value between the center and the outside of wall + the value between the center of the player and the outside of the player sprite + small amount to make the player model off the wall])
-                        transform.position = new Vector2(collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.x - (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + gameObject.gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + .1f), transform.position.y);
-                    }
-                    // right collision
-                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.max.x < gameObject.GetComponent<BoxCollider2D>().bounds.max.x)
-                    {
-                        Debug.Log("Detectedrightcollision");
-                        // set x velocity to 0
-                        velocity.x = 0;
-                        acceleration.x = 0;
-                        transform.position = new Vector2(collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.x + (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + gameObject.GetComponent<BoxCollider2D>().bounds.extents.x + .1f), transform.position.y);
-                    }
-                    // top collision
-                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.max.y < gameObject.GetComponent<BoxCollider2D>().bounds.max.y)
-                    {
-                        Debug.Log("Detectedtopcollision");
-                        // set x velocity to 0
-                        velocity.y = 0;
-                        acceleration.y = 0;
-                        transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.y + (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + .1f));
-                    }
-                    // Bottom Collision
-                    else if (collider.gameObject.GetComponent<BoxCollider2D>().bounds.min.y > gameObject.GetComponent<BoxCollider2D>().bounds.min.y)
-                    {
-                        Debug.Log("Detectedbottomcollision");
-                        // set x velocity to 0
-                        velocity.y = 0;
-                        acceleration.y = 0;
-                        transform.position = new Vector2(transform.position.x, collider.gameObject.GetComponent<BoxCollider2D>().bounds.center.y - (collider.gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + gameObject.GetComponent<BoxCollider2D>().bounds.extents.y + .1f));
-                    }
-
-                    //transform.position = new Vector2(collider.gameObject.GetComponent<SpriteRenderer>().bounds.center.x + (collider.gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + gameObject.GetComponent<SpriteRenderer>().bounds.extents.x + .01f), transform.position.y);
-                }
-                break;
-                #endregion
-        }
-    
-    }
-        */
-
     #endregion
 
     #region Player Movement Method

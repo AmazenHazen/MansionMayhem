@@ -67,6 +67,9 @@ public class WorkBenchItem : MonoBehaviour
         }
         #endregion
 
+        // Set the Cost text
+        costText.text = "Cost: " + cost + " screws";
+
         #region Setting Dynamically Changing cost variables
         //Health
         
@@ -193,7 +196,7 @@ public class WorkBenchItem : MonoBehaviour
 
             #endregion
 
-            #region Dynamic unlocks
+            #region Buttons reacting to purchased upgrade
             // IF the unlock is a heart increase and healthtotal<maxhealth or the same with equipement, then keep the button interactable
             if (unlockItem == Unlock.heartIncrease && (GameManager.instance.healthTotal < MAX_HEALTH))
             {

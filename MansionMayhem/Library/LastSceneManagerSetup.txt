@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/MenuScenes/LevelSelectionFinal.unity
+- path: Assets/Scenes/LevelScenes/Level32DreorForest.unity
   isLoaded: 1
   isActive: 1

@@ -43,7 +43,6 @@ public class EnemyManager : MonoBehaviour
     // Ability Management
     private List<bool> canUseAbility;
     private List<int> abilityCount;       // Works has a count of the number of abilities are out for a specific ability (goes with the enemy ability prefab)
-    [HideInInspector] public List<GameObject> enemyBullets;           // a list keeping track of all of the current bullets on the screen
     [HideInInspector] public List<GameObject> enemyAbilityObjects;    // a list keeping track of all of the abilities out for a specific ability
     [HideInInspector] public List<GameObject> enemyBlobs;
     private GameObject parent;
@@ -121,7 +120,6 @@ public class EnemyManager : MonoBehaviour
         }
 
         hitByMeleeBool = false; // Set true so enemy can get hit by melee
-        enemyBullets = new List<GameObject>();
         enemyAbilityObjects = new List<GameObject>();
         enemyBlobs = new List<GameObject>();
 
@@ -237,6 +235,33 @@ public class EnemyManager : MonoBehaviour
                     enemyGuns[currentGunIndex].GetComponent<GunScript>().timeBetweenShots = .5f;
                     abilityRestrictionNumber[0] = 80;
                 }
+                break;
+
+            case enemyType.skeletonDragon:
+                if (phase == 0)
+                {
+                    hasAbility = false;
+                }
+
+                // Forwarding the phase depending on time
+                if (totalTime > 8f)
+                {
+                    // Increment the phase and reset the timer
+                    phase++;
+                    phase %= 3;
+                    totalTime = 0;
+
+                    switch (phase)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                    }
+                }
+
                 break;
 
 
@@ -358,9 +383,12 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     void Shoot()
     {
-        if (enemyGuns[currentGunIndex] != null)
+        for (int i = 0; i < enemyGuns.Count; i++)
         {
-            enemyGuns[currentGunIndex].GetComponent<GunScript>().EnemyFireWeapon();
+            if (enemyGuns[i] != null)
+            {
+                enemyGuns[i].GetComponent<GunScript>().EnemyFireWeapon();
+            }
         }
     }
     #endregion

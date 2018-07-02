@@ -30,7 +30,7 @@ public class AllyManager : NPC
     public float seekDistance;                 // The distance at which an ally can sense enemies - takes this from awareDistance from AllyMovement Class
 
     // Basic Monster Attributes
-    protected float currentLife;                  // The current health the ally has
+    protected float currentHealth;                  // The current health the ally has
 
     // Attack Variables - all set in the Prefab Instance
     protected bool invincibility;                 // Gives Enemy brief invincibility when hit by a melee attack
@@ -50,10 +50,10 @@ public class AllyManager : NPC
     #endregion
 
     #region Ally Properties
-    public float CurrentLife
+    public float CurrentHealth
     {
-        get { return currentLife; }
-        set { currentLife = value; }
+        get { return currentHealth; }
+        set { currentHealth = value; }
     }
     public bool HitByMeleeBool
     {
@@ -87,7 +87,7 @@ public class AllyManager : NPC
         allyBlobs = new List<GameObject>();
 
         // Sets up Ally's HealthBar
-        currentLife = maxHealth;
+        currentHealth = maxHealth;
         GetComponent<HealthBar>().HealthBarInstantiate();
 
 
@@ -154,7 +154,7 @@ public class AllyManager : NPC
     void Death()
     {
         // if currentHealth<=0
-        if (currentLife <= 0)
+        if (currentHealth <= 0)
         { 
             // Tell the abilities that the owner is dead
             foreach (GameObject ability in allyAbilityObjects)
@@ -312,7 +312,7 @@ public class AllyManager : NPC
     /// </summary>
     public void VampyricHeal(float damageFloat)
     {
-        currentLife += damageFloat;
+        currentHealth += damageFloat;
     }
     #endregion
     #endregion

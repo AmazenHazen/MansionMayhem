@@ -9,15 +9,21 @@ public class GUIManager : MonoBehaviour
 {
 
     #region Attributes
-    private GameObject player;
+    private PlayerManager player;
 
     // Health Management
     int colorIndex;
     private float health;
     private List<Color> HealthColors;
-    public List<GameObject> HeartContainers;
-    public List<GameObject> FullHearts;
-    public List<GameObject> HalfHearts;
+    public GameObject HealthUI;
+    private List<Slider> HeartContainers;
+    private List<Image> HeartContainersFill;
+    private List<Image> HeartContainersBackground;
+
+    private float stanima;
+    public GameObject StanimaUI;
+    private List<Slider> StanimaContainers;
+    private List<Image> StanimaContainersFill;
 
     public GameObject SoulStoneCollectibleIndicator;
 
@@ -83,7 +89,7 @@ public class GUIManager : MonoBehaviour
     // Start is called when the GUI is initialized
     void Start()
     {
-        player = GameObject.Find("Player");
+        player = GameObject.Find("Player").GetComponent<PlayerManager>();
 
         // Fix for inventory if the worldCamera is not set manually.
         if (gameObject.GetComponent<Canvas>().worldCamera == null)
@@ -101,12 +107,39 @@ public class GUIManager : MonoBehaviour
         HealthColors.Add(new Color32(255, 0, 0, 255));
         HealthColors.Add(new Color32(255, 215, 0, 255));
 
+        HeartContainers = new List<Slider>();
+        HeartContainersFill = new List<Image>();
+        HeartContainersBackground = new List<Image>();
+        for(int i=0; i<15; i++)
+        {
+            HeartContainers.Add(HealthUI.transform.GetChild(i).GetComponent<Slider>());
+            HeartContainersBackground.Add(HeartContainers[i].transform.GetChild(0).GetComponent<Image>());
+            HeartContainersFill.Add(HeartContainers[i].transform.GetChild(1).GetComponent<Image>());
+        }
+
         // hide containers if not unlocked
         if (GameManager.instance.healthTotal<15)
         {
             for (int i = GameManager.instance.healthTotal; i < 15; i++)
             {
-                HeartContainers[i].SetActive(false);
+                HeartContainers[i].gameObject.SetActive(false);
+            }
+        }
+
+        StanimaContainers = new List<Slider>();
+        StanimaContainersFill = new List<Image>();
+        for (int i = 0; i < 5; i++)
+        {
+            StanimaContainers.Add(StanimaUI.transform.GetChild(i).GetComponent<Slider>());
+            StanimaContainersFill.Add(StanimaContainers[i].transform.GetChild(1).GetComponent<Image>());
+        }
+
+        // hide containers if not unlocked
+        if (GameManager.instance.stanimaTotal < 5)
+        {
+            for (int i = GameManager.instance.stanimaTotal; i < 5; i++)
+            {
+                StanimaContainers[i].gameObject.SetActive(false);
             }
         }
 
@@ -174,6 +207,7 @@ public class GUIManager : MonoBehaviour
     void Update()
     {
         HealthManagement();
+        StanimaManagement();
         SoulStoneCollectibleManagement();
         BossHealthManagement();
         TextUpdate();
@@ -198,63 +232,97 @@ public class GUIManager : MonoBehaviour
     void HealthManagement()
     {
         // Health Management
-        health = player.GetComponent<PlayerManager>().CurrentLife;
+        health = player.CurrentHealth;
+
+        HeartManagement();
+
+    }
+
+    /// <summary>
+    /// Colors the hearts correctly based on how much health you have
+    /// </summary>
+    void HeartManagement()
+    {
+        int heartIndex = (int)(health % 15);
 
         // Color determination
         colorIndex = (int)((health / 15));
 
-        HalfHeartManagement();
-        FullHeartManagement();
-    }
-
-    #region Heart Activation
-    /// <summary>
-    /// Activates the hearts seen on screen
-    /// </summary>
-    void HalfHeartManagement()
-    {
-        // Set up hearts initially
-        for (int i = 1; i < 16; i++)
-        {
-            //Deactivate all Half Hearts
-            HalfHearts[i-1].SetActive(false);
-        }
-
-        // Activate halfHearts if you have a decimal health
-        if (health % 1.0f == .5)
-        {
-            // Color the half heart correctly
-            HalfHearts[(int)(((health - 0.5f) % 15.0f))].GetComponent<Image>().color = HealthColors[colorIndex+1];
-            HalfHearts[(int)(((health-0.5f)%15.0f))].SetActive(true);
-        }
-    }
-    #endregion
-    
-    #region Full Heart Managment
-    /// <summary>
-    /// Colors the hearts correctly based on how much health you have
-    /// </summary>
-    void FullHeartManagement()
-    {
-        int colorCount;
-        colorCount = (int)(health % 15);
-
         // Sets color of hearts to prev color
         for (int i = 0; i < 15; i++)
         {
-            FullHearts[i].GetComponent<Image>().color = HealthColors[colorIndex];
+            // Set the background color
+            HeartContainersBackground[i].color = HealthColors[colorIndex];
+            // Unfills the hearts to see the background
+            HeartContainers[i].GetComponent<Slider>().value = 0;
         }
 
-        // Sets color of rest of hearts to current color
-        for (int i = 0; i < colorCount; i++)
+        if (health > 0)
         {
-            FullHearts[i].GetComponent<Image>().color = HealthColors[colorIndex + 1];
-        }
+            // Sets color of rest of hearts to current color
+            for (int i = 0; i < heartIndex; i++)
+            {
+                // Set the fill to the current heart color
+                HeartContainersFill[i].color = HealthColors[colorIndex + 1];
+                // Fills the hearts
+                HeartContainers[i].value = 1.0f;
+            }
 
+            // Set the fill value
+            HeartContainers[heartIndex].value = health - Mathf.Floor(health);
+        }
+        
     }
     #endregion
 
+    #region Stanima Management
+    void StanimaManagement()
+    {
+        // Stanima Management
+        stanima = player.CurrentStanima;
+
+        StanimaCircleManagement();
+    }
+
+    /// <summary>
+    /// Manage the stanima containers
+    /// </summary>
+    void StanimaCircleManagement()
+    {
+        int stanimaIndex = (int)(stanima % 5);
+
+        // Sets Stanima circles to unfilled
+        for (int i = 0; i < 5; i++)
+        {
+            // Unfills the stanima gauges before this one
+            StanimaContainers[i].GetComponent<Slider>().value = 0;
+
+
+            // Set the fill to whether or not the player is worn out
+            if (player.WornOut)
+            {
+                StanimaContainersFill[i].color = Color.gray;
+            }
+            else
+            {
+                StanimaContainersFill[i].color = Color.green;
+            }
+        }
+        if (stanima > 0)
+        {
+            // Sets the Stanima circles to full
+            for (int i = 0; i < stanimaIndex; i++)
+            {
+                // Fills the hearts
+                StanimaContainers[i].value = 1.0f;
+            }
+
+            // Set the fill value
+            StanimaContainers[stanimaIndex].value = stanima - Mathf.Floor(stanima);
+        }
+    }
     #endregion
+
 
     #region Collectible Management
     /// <summary>
@@ -281,7 +349,7 @@ public class GUIManager : MonoBehaviour
         if (GameManager.DebugMode)
         {
             // Create the text for weapons
-            currentRangeWeapon = player.GetComponent<PlayerManager>().CurrentRangeWeapon;
+            currentRangeWeapon = player.CurrentRangeWeapon;
             string weaponString;
 
             switch (currentRangeWeapon)
@@ -331,6 +399,7 @@ public class GUIManager : MonoBehaviour
             }
             rangeWeaponText.text = "Current Weapon: " + weaponString;
 
+
             // Print out the level number
             levelText.text = "Level: " + (GameManager.instance.currentLevel + 1);
 
@@ -376,7 +445,7 @@ public class GUIManager : MonoBehaviour
             bossHealthCanvas.gameObject.SetActive(true);
 
             // Get current health and update the bar
-            bossCurrentHealth = boss.GetComponent<EnemyManager>().CurrentLife;
+            bossCurrentHealth = boss.GetComponent<EnemyManager>().CurrentHealth;
             bossHealthBar.value = bossCurrentHealth;
         }
         else

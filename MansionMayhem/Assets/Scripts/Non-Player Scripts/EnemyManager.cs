@@ -34,7 +34,7 @@ public class EnemyManager : MonoBehaviour
     
 
     // Basic Monster Attributes
-    protected float currentLife;                  // The current health the enemy has
+    protected float currentHealth;                  // The current health the enemy has
 
     // Attack Variables - all set in the Prefab Instance
     protected bool invincibility;                 // Gives Enemy brief invincibility when hit by a melee attack
@@ -59,10 +59,10 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     #region Enemy Properties
-    public float CurrentLife
+    public float CurrentHealth
     {
-        get { return currentLife; }
-        set { currentLife = value; }
+        get { return currentHealth; }
+        set { currentHealth = value; }
     }
     public bool HitByMeleeBool
     {
@@ -124,7 +124,7 @@ public class EnemyManager : MonoBehaviour
         enemyBlobs = new List<GameObject>();
 
         // Sets up Enemy's HealthBar
-        currentLife = maxHealth;
+        currentHealth = maxHealth;
         GetComponent<HealthBar>().HealthBarInstantiate();
 
         // start the enmy phase on 0
@@ -164,13 +164,13 @@ public class EnemyManager : MonoBehaviour
                 }
 
                 // Forwarding the phase depending on the Prisoner Leader's health
-                if ((currentLife / maxHealth) < .666f && phase == 0)
+                if ((currentHealth / maxHealth) < .666f && phase == 0)
                 {
                     phase++;
                     hasBullets = true;
                     timeBetweenAbilities[0] = Mathf.Infinity;
                 }
-                if ((currentLife / maxHealth) < .333f && phase == 1)
+                if ((currentHealth / maxHealth) < .333f && phase == 1)
                 {
                     phase++;
                     for(int i=0; i<enemyWeapons.Count; i++)
@@ -225,7 +225,7 @@ public class EnemyManager : MonoBehaviour
 
             case enemyType.dreorsProxy:
                 // Forwarding the phase depending on time
-                if ((currentLife / maxHealth) < .5f && phase == 0)
+                if ((currentHealth / maxHealth) < .5f && phase == 0)
                 {
                     phase++;
                     for (int i = 0; i < enemyWeapons.Count; i++)
@@ -308,7 +308,7 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     void Death()
     {
-        if(currentLife <= 0)
+        if(currentHealth <= 0)
         {
             // Tell the parent of it that it died
             if(parent!= null)
@@ -503,7 +503,7 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     public void VampyricHeal(float damageFloat)
     {
-        currentLife += damageFloat;
+        currentHealth += damageFloat;
     }
     #endregion
     #endregion

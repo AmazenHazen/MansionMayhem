@@ -123,7 +123,7 @@ public class ParticleGunScript : MonoBehaviour
             }
 
             // Damage Enemy
-            collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
+            collider.gameObject.GetComponent<EnemyManager>().CurrentHealth -= damage;
         }
         #endregion
 

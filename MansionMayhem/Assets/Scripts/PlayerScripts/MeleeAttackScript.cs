@@ -30,7 +30,7 @@ public class MeleeAttackScript : MonoBehaviour
                 //Debug.Log("Melee Attack Hit Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
 
                 // Damage Enemy
-                collider.gameObject.GetComponent<EnemyManager>().CurrentLife -= damage;
+                collider.gameObject.GetComponent<EnemyManager>().CurrentHealth -= damage;
 
                 // Give Enemy a very very brief invinsibility so the melee doesn't damage the enemy multiple times
                 collider.gameObject.GetComponent<EnemyManager>().HurtByMelee();

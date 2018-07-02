@@ -180,7 +180,7 @@ public class BlobScript : MonoBehaviour
         if ((collider.tag == "enemy" || collider.tag == "boss") && ownerType == Owner.Player)
         {
             // Damage Enemy
-            collider.GetComponent<EnemyManager>().CurrentLife -= damage;
+            collider.GetComponent<EnemyManager>().CurrentHealth -= damage;
 
         }
         #endregion
@@ -191,7 +191,7 @@ public class BlobScript : MonoBehaviour
             //Debug.Log("Blob Hit Player");
 
             // Damage Player
-            collider.GetComponent<PlayerManager>().CurrentLife -= damage;
+            collider.GetComponent<PlayerManager>().CurrentHealth -= damage;
             if (blobComposite == bulletTypes.blood)
             {
                 if (owner.tag == "enemy" && owner != null)

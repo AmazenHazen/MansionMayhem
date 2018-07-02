@@ -21,6 +21,9 @@ public class EnemyMovement : CharacterMovement
     #region Start Method
     public override void Start()
     {
+        //maxSpeed = 6;
+        minSpeed = .25f;
+
         base.Start();
 
         readyToMove = true;
@@ -102,11 +105,21 @@ public class EnemyMovement : CharacterMovement
                 #region ghosts
                 // Ghosts
                 case enemyType.basicGhost:
-                case enemyType.ghostknight:
                 case enemyType.banshee:
                 case enemyType.ghosthead:
                     ultimateForce += seek(player.transform.position);
                     ultimateForce += Seperation();
+                    break;
+                case enemyType.ghostknight:
+                    ultimateForce += seek(player.transform.position);
+                    if(player.GetComponent<PlayerManager>().IsSprinting)
+                    {
+                        maxSpeed=9f;
+                    }
+                    else
+                    {
+                        maxSpeed = 6.5f;
+                    }
                     break;
 
                 case enemyType.wraith:
@@ -154,8 +167,8 @@ public class EnemyMovement : CharacterMovement
                     // Third Phase he gets faster
                     if (phase == 2 && maxSpeed!=7)
                     {
-                        mass = 1.75f;
-                        maxSpeed = 7;
+                        mass = 1.5f;
+                        maxSpeed = 7.7f;
                     }
 
 

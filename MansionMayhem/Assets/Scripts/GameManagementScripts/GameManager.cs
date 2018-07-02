@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public int experience; // Secondary Currency Variable
     public int blueprints; // Tertiary Currency
     public int healthTotal; // Hearts Unlocked
+    public int stanimaTotal; // Stanima Unlocked
     public List<rangeWeapon> currentGuns; // The current weapons the player has equiped
     public bool[] unlockableBuyables; // Saves all of the data regarding unlocked guns and upgrades
     #endregion
@@ -135,6 +136,7 @@ public class GameManager : MonoBehaviour
         data.highestLevel = highestLevel;
         data.unlockedLevels = unlockedLevels;
         data.healthTotal = healthTotal;
+        data.stanimaTotal = stanimaTotal;
         data.unlockableBuyables = unlockableBuyables;
         data.soulStones = soulStones;
 
@@ -163,6 +165,7 @@ public class GameManager : MonoBehaviour
             highestLevel = data.highestLevel;
             unlockedLevels = data.unlockedLevels;
             healthTotal = data.healthTotal;
+            stanimaTotal = data.stanimaTotal;
             currentGuns = data.currentGuns;
             unlockableBuyables = data.unlockableBuyables;
             soulStones = data.soulStones;
@@ -189,6 +192,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < TOTAL_LEVELS; i++)
             {
                 unlockedLevels[i] = false;
+                unlockedLevels[i] = true;       // used to unlock and test all levels
             }
             
             // Set default unlocked levels
@@ -199,6 +203,7 @@ public class GameManager : MonoBehaviour
 
 
             healthTotal = 5;
+            stanimaTotal = 1;
             currentGuns[0] = rangeWeapon.laserpistol;
             currentGuns[1] = rangeWeapon.None;
             currentGuns[2] = rangeWeapon.None;
@@ -210,8 +215,16 @@ public class GameManager : MonoBehaviour
             for(int i=1;i<100;i++)
             {
                 unlockableBuyables[i] = false;
+                unlockableBuyables[i] = true;       // Used for testing all guns
             }
+
+
+
+
+
             #endregion
+            healthTotal = 8;    // used for testing purposes
+            stanimaTotal = 2;   // used for testing purposes
 
         }
     }
@@ -235,6 +248,7 @@ class PlayerData
     public int experience; // Secondary Currency Variable
     public int blueprints; // Tertiary Variable
     public int healthTotal; // Hearts Unlocked
+    public int stanimaTotal; // Stanima Circles Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
     public List<rangeWeapon> currentGuns; // Current weapons the player has equipped
     public bool[] unlockableBuyables;

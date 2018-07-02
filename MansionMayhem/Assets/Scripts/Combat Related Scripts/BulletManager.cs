@@ -541,7 +541,7 @@ public class BulletManager : MonoBehaviour {
             {
                 if (GameManager.instance.unlockableBuyables[11]) { damage = .75f * Mathf.Pow(transform.localScale.x, 1.5f); }
                 else { damage = .7f * Mathf.Pow(transform.localScale.x, 1.5f); }
-                collider.GetComponent<EnemyManager>().CurrentLife -= damage;
+                collider.GetComponent<EnemyManager>().CurrentHealth -= damage;
 
 
                 if (ownerGunScript.Charging && currentChargingBullet)
@@ -553,7 +553,7 @@ public class BulletManager : MonoBehaviour {
             }
             else
             {
-                collider.GetComponent<EnemyManager>().CurrentLife -= damage;
+                collider.GetComponent<EnemyManager>().CurrentHealth -= damage;
             }
 
             // if the bullet is antiEctoplasm or portal also spawn a blob
@@ -581,10 +581,10 @@ public class BulletManager : MonoBehaviour {
             //Debug.Log("Bullet Hit Shield");
 
             // Damage Enemy
-            collider.GetComponentInParent<PlayerManager>().ShieldLife -= damage;
+            collider.GetComponentInParent<PlayerManager>().ShieldHealth -= damage;
 
             // Kill the shield (and start it's reset time)
-            if (collider.GetComponentInParent<PlayerManager>().ShieldLife <= 0)
+            if (collider.GetComponentInParent<PlayerManager>().ShieldHealth <= 0)
             {
                 collider.GetComponentInParent<PlayerManager>().ShieldKilled();
             }
@@ -600,7 +600,7 @@ public class BulletManager : MonoBehaviour {
             //Debug.Log("Bullet Hit Player");
 
             // Damage Player
-            collider.GetComponent<PlayerManager>().CurrentLife -= damage;
+            collider.GetComponent<PlayerManager>().CurrentHealth -= damage;
 
             // Apply Poison to player
             if (isPoisonous)

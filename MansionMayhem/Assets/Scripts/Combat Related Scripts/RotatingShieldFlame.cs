@@ -79,7 +79,7 @@ public class RotatingShieldFlame : MonoBehaviour
             //Debug.Log("Fire damage enemy");
 
             // Damage Player
-            collider.GetComponent<PlayerManager>().CurrentLife -= damage;
+            collider.GetComponent<PlayerManager>().CurrentHealth -= damage;
             gameObject.SetActive(false);
         }
 

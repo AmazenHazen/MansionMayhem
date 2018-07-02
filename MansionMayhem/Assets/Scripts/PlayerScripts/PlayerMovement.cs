@@ -11,6 +11,16 @@ public class PlayerMovement : CharacterMovement
     #region Additional Movement Variables
     // Other Attributes for CalcSteeringForces Method
     public float maxForce;
+    private PlayerManager playerManager;
+    #endregion
+
+    #region Start
+    void Start()
+    {
+        maxSpeed = 3;
+        minSpeed = .75f;
+        playerManager = GetComponent<PlayerManager>();
+    }
     #endregion
 
     #region Update Method
@@ -22,6 +32,50 @@ public class PlayerMovement : CharacterMovement
             Rotate();
         }
         base.Update();
+    }
+    #endregion
+
+    #region Player Movement Method
+    // Player Input is handled here
+    public Vector3 playerMovementInput()
+    {
+        Vector3 playerForce = Vector3.zero;
+
+        // Player Movement Code
+        if (Input.GetKey(KeyCode.W))
+        {
+            playerForce += new Vector3(0, 5, 0);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            playerForce += new Vector3(-5, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            playerForce += new Vector3(5, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            playerForce += new Vector3(0, -5, 0);
+        }
+
+        // Sprinting
+        if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && !playerManager.IsSprinting && !playerManager.WornOut)
+        {
+            StartSprint();
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift) && !playerManager.WornOut)
+        {
+            EndSprint();
+        }
+
+
+        // Step 3: Scale Desired to maximum speed
+        //         so I move as fast as possible
+        playerForce.Normalize();
+        playerForce *= maxSpeed;
+
+        return playerForce;
     }
     #endregion
 
@@ -67,6 +121,31 @@ public class PlayerMovement : CharacterMovement
     }
     #endregion
 
+    #region Sprinting Movement Helper Methods
+    public void StartSprint()
+    {
+        if (!playerManager.IsSprinting)
+        {
+            playerManager.IsSprinting = true;
+            currentSpeed++;
+            maxSpeed++;
+            minSpeed++;
+        }
+    }
+
+    public void EndSprint()
+    {
+        if (playerManager.IsSprinting)
+        {
+            playerManager.IsSprinting = false;
+            currentSpeed--;
+            maxSpeed--;
+            minSpeed--;
+        }
+    }
+    #endregion
+
+
     #region CurrentSpeed Helper Method
     /// <summary>
     /// Returns Speed to Max Speed
@@ -86,16 +165,18 @@ public class PlayerMovement : CharacterMovement
         }
 
         // Don't allow speed to be negative or 0
-        if (currentSpeed < .75f)
+        if (currentSpeed < minSpeed)
         {
             currentSpeed = .75f;
         }
 
         // Don't allow speed to be too high
-        if (currentSpeed > 6f)
+        if (currentSpeed > maxSpeed)
         {
             currentSpeed = 6f;
         }
     }
     #endregion
+
+
 }

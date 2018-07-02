@@ -54,11 +54,11 @@ public class HealthBar : MonoBehaviour
         // Get current health and update the bar
         if (ownerType == Owner.Enemy)
         {
-            currentHealth = GetComponent<EnemyManager>().CurrentLife;
+            currentHealth = GetComponent<EnemyManager>().CurrentHealth;
         }
         if (ownerType == Owner.Ally)
         {
-            currentHealth = GetComponent<AllyManager>().CurrentLife;
+            currentHealth = GetComponent<AllyManager>().CurrentHealth;
         }
 
         healthBar.value = currentHealth;

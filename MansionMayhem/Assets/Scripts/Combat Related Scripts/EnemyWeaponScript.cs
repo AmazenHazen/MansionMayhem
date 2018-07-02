@@ -21,21 +21,24 @@ public class EnemyWeaponScript : MonoBehaviour
 
     void Update()
     {
-        switch (enemyWeapon)
+        if (GameManager.instance.currentGameState == GameState.Play)
         {
-            case EnemyWeapon.rightchain:
-                transform.Rotate(0, 0, speed);
-                break;
-            case EnemyWeapon.leftchain:
-                transform.Rotate(0, 0, -speed);
-                break;
-        }
+            switch (enemyWeapon)
+            {
+                case EnemyWeapon.rightchain:
+                    transform.Rotate(0, 0, speed);
+                    break;
+                case EnemyWeapon.leftchain:
+                    transform.Rotate(0, 0, -speed);
+                    break;
+            }
 
 
-        // If the object is set inactive, set the weapon back to it's original state
-        if(gameObject.activeSelf == false)
-        {
-            transform.rotation = initialRot;
+            // If the object is set inactive, set the weapon back to it's original state
+            if (gameObject.activeSelf == false)
+            {
+                transform.rotation = initialRot;
+            }
         }
     }
 

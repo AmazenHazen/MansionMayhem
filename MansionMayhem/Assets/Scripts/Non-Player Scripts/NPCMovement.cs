@@ -6,6 +6,9 @@ public class NPCMovement : CharacterMovement
 {
     private GameObject player;
 
+    private const float MAX_SPEED = 6.0f;
+    private const float MIN_SPEED = .25f;
+
     public override void Start()
     {
         // Find the player game object
@@ -44,25 +47,25 @@ public class NPCMovement : CharacterMovement
     protected override void RevertSpeed()
     {
         // Reset speed if you are slowed
-        if (currentSpeed < maxSpeed && beingSlowed == false)
+        if (currentSpeed < MAX_SPEED && beingSlowed == false)
         {
             currentSpeed += .05f;
         }
 
         //Reset speed if on slippery surface
-        if (currentSpeed > maxSpeed && beingSped == false)
+        if (currentSpeed > MAX_SPEED && beingSped == false)
         {
             currentSpeed -= .05f;
         }
 
         // Don't allow speed to be negative or 0
-        if (currentSpeed < .25f)
+        if (currentSpeed < MIN_SPEED)
         {
             currentSpeed = .25f;
         }
 
         // Don't allow speed to be too high
-        if (currentSpeed > 6f)
+        if (currentSpeed > MAX_SPEED)
         {
             currentSpeed = 6f;
         }

@@ -6,10 +6,14 @@ public class PlayerManager : MonoBehaviour
 {
     #region PlayerAttributes
     // Player's Attributes
-    private float maxLife;
-    private float currentLife;
-    private float shieldMaxLife;
-    private float shieldLife;
+    private int maxHealth;
+    private float currentHealth;
+    private int maxStanima;
+    private float currentStanima;
+    private bool isSprinting;
+    private bool wornOut;
+    private float shieldMaxHealth;
+    private float shieldHealth;
     private bool invincibility;
     public bool canTravel;
     //private bool canMelee;
@@ -32,22 +36,36 @@ public class PlayerManager : MonoBehaviour
 
     //private int itemCount;
 
-
     // Unlockable abilities
     public bool magnet;
     public float magnetDistance;
     #endregion
 
     #region PlayerProperties
-    public float CurrentLife
+    public float CurrentHealth
     {
-        get { return currentLife; }
-        set { currentLife = value; }
+        get { return currentHealth; }
+        set { currentHealth = value; }
     }
-    public float ShieldLife
+    public float CurrentStanima
     {
-        get { return shieldLife; }
-        set { shieldLife = value; }
+        get { return currentStanima; }
+        set { currentStanima = value; }
+    }
+    public bool IsSprinting
+    {
+        get { return isSprinting; }
+        set { isSprinting = value; }
+    }
+    public bool WornOut
+    {
+        get { return wornOut; }
+        set { wornOut = value; }
+    }
+    public float ShieldHealth
+    {
+        get { return shieldHealth; }
+        set { shieldHealth = value; }
     }
     public bool Poisoned
     {
@@ -75,10 +93,13 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         // Player Game Variables
-        maxLife = GameManager.instance.healthTotal;
-        currentLife = GameManager.instance.healthTotal;
-        shieldLife = 1;
+        maxHealth = GameManager.instance.healthTotal;
+        currentHealth = GameManager.instance.healthTotal;
+        maxStanima = GameManager.instance.stanimaTotal;
+        currentStanima = GameManager.instance.stanimaTotal;
+        shieldHealth = 1;
         invincibility = false;
+        isSprinting = false;
         //canMelee = true;
         canShield = true;
         canTravel = true;
@@ -177,7 +198,7 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         CheckStatusConditions();
-
+        SprintingManagement();
         WeaponSwitch();
 
         if (GameManager.instance.currentGameState != GameState.Paused)
@@ -186,7 +207,7 @@ public class PlayerManager : MonoBehaviour
         }
         //Melee();
         //Shield();
-        if(currentLife<=0)
+        if(currentHealth<=0)
         {
             Death();
         }
@@ -247,7 +268,7 @@ public class PlayerManager : MonoBehaviour
                 {
 
                     //Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
-                    currentLife -= collider.GetComponent<EnemyManager>().damage;
+                    currentHealth -= collider.GetComponent<EnemyManager>().damage;
 
                     // Heal the enemy if hit and a vampyric enemy
                     if (collider.GetComponent<EnemyManager>().vampyric == true)
@@ -273,7 +294,7 @@ public class PlayerManager : MonoBehaviour
                 {
 
                     //Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
-                    currentLife -= collider.GetComponent<EnemyManager>().damage;
+                    currentHealth -= collider.GetComponent<EnemyManager>().damage;
 
                     // Poison the player if the enemy is poisonous
                     // The Enemy Poisons the player with the melee attack if poisonous
@@ -291,7 +312,7 @@ public class PlayerManager : MonoBehaviour
                 {
 
                     //Debug.Log("Enemy: " + collider.gameObject.GetComponent<EnemyManager>().monster);
-                    currentLife -= collider.GetComponent<EnemyWeaponScript>().damage;
+                    currentHealth -= collider.GetComponent<EnemyWeaponScript>().damage;
 
                     // Heal the enemy if hit and a vampyric enemy
                     if (collider.GetComponent<EnemyWeaponScript>().vampyric == true)
@@ -331,40 +352,40 @@ public class PlayerManager : MonoBehaviour
                     #region Health Pickups
                         // Heart
                     case ItemType.HeartPickup:
-                        currentLife++;
-                        if (currentLife > maxLife)
+                        currentHealth++;
+                        if (currentHealth > maxHealth)
                         {
-                            currentLife = maxLife;
+                            currentHealth = maxHealth;
                         }
                         pickedUp = true;
                         break;
 
                         // Health Potion
                     case ItemType.HealthPotionPickup:
-                        currentLife += 3;
-                        if(currentLife>maxLife)
+                        currentHealth += 3;
+                        if(currentHealth>maxHealth)
                         {
-                            currentLife = maxLife;
+                            currentHealth = maxHealth;
                         }
                         pickedUp = true;
                         break;
 
                         // Health Kit
                     case ItemType.HealthKit:
-                        currentLife+= 5;
-                        if (currentLife > maxLife)
+                        currentHealth+= 5;
+                        if (currentHealth > maxHealth)
                         {
-                            currentLife = maxLife;
+                            currentHealth = maxHealth;
                         }
                         pickedUp = true;
                         break;
 
                     // Golden Heart
                     case ItemType.GoldenHeart:
-                        currentLife += 10;
-                        if (currentLife > maxLife)
+                        currentHealth += 10;
+                        if (currentHealth > maxHealth)
                         {
-                            currentLife = maxLife;
+                            currentHealth = maxHealth;
                         }
                         pickedUp = true;
                         break;
@@ -562,6 +583,35 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
+    #region Stanima Helper Method
+    /// <summary>
+    /// Manages sprinting and Stanima of the player
+    /// </summary>
+    void SprintingManagement()
+    {
+        if (isSprinting)
+        {
+            currentStanima -= Time.deltaTime/1.5f;
+        }
+        else if (currentStanima < maxStanima)
+        {
+            currentStanima += Time.deltaTime/3;
+        }
+        else if (currentStanima >= maxStanima)
+        {
+            currentStanima = maxStanima;
+            wornOut = false;
+            Debug.Log("Current Stanima: " + currentStanima);
+        }
+
+        if (currentStanima <=0)
+        {
+            wornOut = true;
+            GetComponent<PlayerMovement>().EndSprint();
+        }
+    }
+    #endregion
+
     #region Melee Helper Methods
     /*
     /// <summary>
@@ -679,7 +729,7 @@ public class PlayerManager : MonoBehaviour
     void ApplyPoison()
     {
         //Debug.Log("Poison Damages the player");
-        currentLife--;
+        currentHealth--;
         poisonCounter++;
         applypoison = false;
         Invoke("ResetPoisonBool", 30f);

@@ -83,6 +83,38 @@ public class PlayerMapScript : CharacterMovement
         }
     }
 
+    #region Player Movement Method
+    // Player Input is handled here
+    public Vector3 playerMovementInput()
+    {
+        Vector3 playerForce = Vector3.zero;
+
+        // Player Movement Code
+        if (Input.GetKey(KeyCode.W))
+        {
+            playerForce += new Vector3(0, 5, 0);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            playerForce += new Vector3(-5, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            playerForce += new Vector3(5, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            playerForce += new Vector3(0, -5, 0);
+        }
+
+        // Step 3: Scale Desired to maximum speed
+        //         so I move as fast as possible
+        playerForce.Normalize();
+        playerForce *= maxSpeed;
+
+        return playerForce;
+    }
+    #endregion
 
     #region Methods that must be overrided for this script to work
     #region Player Rotation
@@ -122,13 +154,13 @@ public class PlayerMapScript : CharacterMovement
         }
 
         // Don't allow speed to be negative or 0
-        if (currentSpeed < .75f)
+        if (currentSpeed < minSpeed)
         {
             currentSpeed = .75f;
         }
 
         // Don't allow speed to be too high
-        if (currentSpeed > 6f)
+        if (currentSpeed > maxSpeed)
         {
             currentSpeed = 6f;
         }
@@ -163,6 +195,8 @@ public class PlayerMapScript : CharacterMovement
         }
     }
     #endregion
+
+    #region Collision with Levels
     /// <summary>
     /// Player Collision Handled Here. This is for hovering over different levels.
     /// </summary>
@@ -194,4 +228,5 @@ public class PlayerMapScript : CharacterMovement
     {
         destinationName = "";
     }
+    #endregion
 }

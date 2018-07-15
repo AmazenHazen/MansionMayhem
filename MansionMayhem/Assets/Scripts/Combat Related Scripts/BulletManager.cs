@@ -243,14 +243,16 @@ public class BulletManager : MonoBehaviour {
             case bulletTypes.electron:
                 GameObject enemy = null;
                 enemy = FindClosestEnemy();
-
-                if ((transform.position - enemy.transform.position).magnitude < 4 && (currentDistance > 1f && enemy != null))
+                if (enemy != null)
                 {
-                    SeekingBullet();
-                }
-                else
-                {
-                    Move();
+                    if ((transform.position - enemy.transform.position).magnitude < 4 && (currentDistance > 1f))
+                    {
+                        SeekingBullet();
+                    }
+                    else
+                    {
+                        Move();
+                    }
                 }
                 break;
 

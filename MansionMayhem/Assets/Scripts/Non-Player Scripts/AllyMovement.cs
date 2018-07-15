@@ -8,14 +8,16 @@ public class AllyMovement : CharacterMovement
     // Private reference to the player
     private GameObject player;
 
-    // Attributes for CalcSteeringForces Method
-    public float maxForce;
-
     private const float MAX_SPEED = 6.0f;
     private const float MIN_SPEED = .25f;
 
     // Bool to see if the Ally is following the player or not
     [SerializeField] private bool followingPlayer;
+
+    [Header("Seperation Forces")]
+    // Variables for seperation force
+    public float seperationBubble; // basic force is 1.0
+    public float seperationForce; // basic seperation force is 1.5 for enemies, 4 for allies
     #endregion
 
     #region Properties
@@ -131,6 +133,39 @@ public class AllyMovement : CharacterMovement
         }
     }
     #endregion
+    /// <summary>
+    /// Seperation Method that returns a steering force to move an enemy away from another enemy if too close.
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 Seperation()
+    {
+        // Create a new steering force
+        Vector3 steeringForce = Vector3.zero;
+
+        // Find nearest neighbor
+        foreach (GameObject ally in LevelManager.allies)
+        {
+            if ((transform.position - ally.transform.position).magnitude < seperationBubble)
+            {
+                if ((transform.position - ally.transform.position).magnitude != 0)
+                {
+                    // Step 1: Find Desired Velocity
+                    // This is the vector pointing from my target to my myself
+                    Vector3 desiredVelocity = position - ally.transform.position;
+
+                    // Step 2: Scale Desired to maximum speed
+                    //         so I move as fast as possible
+                    desiredVelocity.Normalize();
+                    desiredVelocity *= seperationForce;
+
+                    // Step 3: Calculate your Steering Force
+                    steeringForce = desiredVelocity - velocity;
+                }
+            }
+
+        }
+        return steeringForce;
+    }
     #endregion
 
     #region otherHelperMethods

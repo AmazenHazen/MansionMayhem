@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour
     public GameObject[] boss;
 
     // Variable to keep track of all the enemies in the level
+    public int levelNumber;
     public GameObject[] taskNPC;
     GameObject[] getEnemyArray;
     GameObject[] getAllyArray;
@@ -26,6 +27,7 @@ public class LevelManager : MonoBehaviour
 
 
     // Starting Variables
+    GameObject LevelObjectiveGUI;
     public TextAsset levelObjectiveText;
     public string levelName;
 
@@ -33,9 +35,13 @@ public class LevelManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GameManager.instance.currentLevel = levelNumber;
+
         //Find the Objective Text for the intro message
-        GameObject.Find("ObjectiveHeader").GetComponent<Text>().text = levelName;
-        GameObject.Find("ObjectiveText").GetComponent<Text>().text = levelObjectiveText.text;
+        LevelObjectiveGUI = GameObject.Find("HUDCanvas").transform.Find("LevelObjective").gameObject;
+        LevelObjectiveGUI.transform.Find("ObjectiveHeader").GetComponent<Text>().text = levelName;
+        LevelObjectiveGUI.transform.Find("ObjectiveText").GetComponent<Text>().text = levelObjectiveText.text;
+        LevelObjectiveGUI.SetActive(true);
 
         // Create a list to hold all enemies for the level (used for seperation force in Character Movement Scripts and Elimination levels)
         getEnemyArray = GameObject.FindGameObjectsWithTag("enemy");

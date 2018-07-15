@@ -11,8 +11,16 @@ public class EnemyMovement : CharacterMovement
     private bool resettingMovement;
 
     // Attributes for CalcSteeringForces Method
-    public float maxForce;
 
+
+    [Header("Path Following")]
+    public List<GameObject> pathPoints;
+    private int currentPathPoint;
+
+    [Header("Seperation Forces")]
+    // Variables for seperation force
+    public float seperationBubble; // basic force is 1.0
+    public float seperationForce; // basic seperation force is 1.5 for enemies, 4 for allies
 
     // Current enemy phase
     int phase;
@@ -73,15 +81,15 @@ public class EnemyMovement : CharacterMovement
                 case enemyType.tarantula:
                     // No movement
                     break;
-                case enemyType.wolfSpider:     
+                case enemyType.wolfSpider:
                     // Jumping Movement
                     if (readyToMove)
                     {
-                        ultimateForce += seek(player.transform.position)*50;
+                        ultimateForce += seek(player.transform.position) * 50;
                         readyToMove = false;
                         resettingMovement = true;
                     }
-                    else if(resettingMovement)
+                    else if (resettingMovement)
                     {
                         resettingMovement = false;
                         Invoke("ResetMoveBool", 1);
@@ -112,9 +120,9 @@ public class EnemyMovement : CharacterMovement
                     break;
                 case enemyType.ghostknight:
                     ultimateForce += seek(player.transform.position);
-                    if(player.GetComponent<PlayerManager>().IsSprinting)
+                    if (player.GetComponent<PlayerManager>().IsSprinting)
                     {
-                        maxSpeed=9f;
+                        maxSpeed = 9f;
                     }
                     else
                     {
@@ -165,7 +173,7 @@ public class EnemyMovement : CharacterMovement
                     }
 
                     // Third Phase he gets faster
-                    if (phase == 2 && maxSpeed!=7)
+                    if (phase == 2 && maxSpeed != 7)
                     {
                         mass = 1.5f;
                         maxSpeed = 7.7f;
@@ -436,11 +444,11 @@ public class EnemyMovement : CharacterMovement
                 #endregion
 
                 #region default monster
-                    default:
+                default:
 
                     break;
 
-                #endregion
+                    #endregion
 
             }
 
@@ -472,7 +480,7 @@ public class EnemyMovement : CharacterMovement
     {
         Vector3 targetPosition = player.transform.position;
         Vector3 dir = targetPosition - transform.position;
-        angleOfRotation = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg)-90;
+        angleOfRotation = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg) - 90;
     }
     #endregion
 
@@ -487,6 +495,65 @@ public class EnemyMovement : CharacterMovement
         readyToMove = true;
         resettingMovement = false;
     }
+
+    /// <summary>
+    /// Seperation Method that returns a steering force to move an enemy away from another enemy if too close.
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 Seperation()
+    {
+        // Create a new steering force
+        Vector3 steeringForce = Vector3.zero;
+
+        // Find nearest neighbor
+        foreach (GameObject enemy in LevelManager.enemies)
+        {
+            if ((transform.position - enemy.transform.position).magnitude < seperationBubble)
+            {
+                if ((transform.position - enemy.transform.position).magnitude != 0)
+                {
+                    // Step 1: Find Desired Velocity
+                    // This is the vector pointing from my target to my myself
+                    Vector3 desiredVelocity = position - enemy.transform.position;
+
+                    // Step 2: Scale Desired to maximum speed
+                    //         so I move as fast as possible
+                    desiredVelocity.Normalize();
+                    desiredVelocity *= seperationForce;
+
+                    // Step 3: Calculate your Steering Force
+                    steeringForce = desiredVelocity - velocity;
+                }
+
+            }
+        }
+        return steeringForce;
+    }
+
+    
+
+
+    /// <summary>
+    /// Path following method that returns a steering force based off of the current and future path point
+    /// the character is going towards.
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 pathfollow()
+    {
+        // If the enemy unit gets close enough to the path point it advances the current path point
+        if ((transform.position - pathPoints[currentPathPoint].transform.position).magnitude <= .1f)
+        {
+            // Get the next hole number and set it as the new currentPathPoint
+            int nextHoleNum = currentPathPoint + 1;
+            nextHoleNum %= pathPoints.Count;
+            currentPathPoint = nextHoleNum;
+            velocity = Vector3.zero;
+        }
+
+        // Step 3: Seek the new wandered position and add it to the ultimate force
+        return seek(pathPoints[currentPathPoint].transform.position);
+    }
+
     #endregion
 
     #region Revert Speed Method for Enemies

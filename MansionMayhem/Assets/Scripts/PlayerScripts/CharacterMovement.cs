@@ -6,29 +6,27 @@ public abstract class CharacterMovement : MonoBehaviour
 {
     #region Movement Variables
     // Vectors for force-based movement
-    private Vector3 position;
-    private Vector3 direction;
-    private Vector3 velocity;
-    private Vector3 acceleration;
-    private Vector3 startPosition;
+    protected Vector3 position;
+    protected Vector3 direction;
+    protected Vector3 velocity;
+    protected Vector3 acceleration;
+    protected Vector3 startPosition;
+
+    [Header("Basic Movement Variables")]
     public float mass;
     public float maxSpeed;
     protected float minSpeed;
     public float frictionVar;
-    public RotationType rotateType;
-    public float rotationSpeed;
-    public float awareDistance;
+    public float maxForce;
+
 
     // Rotation Variables
+    [Header("Rotation Variables")]
+    public float awareDistance;
+    public RotationType rotateType;
+    public float rotationSpeed;
     protected Quaternion angle;
     protected float angleOfRotation;
-
-    // Variables for seperation force
-    public float seperationBubble; // basic force is 1.0
-    public float seperationForce; // basic seperation force is 1.5 for enemies, 4 for allies
-
-    private int currentPathPoint;
-    public List<GameObject> pathPoints;
 
     // Variables for wandering
     Vector3 futurePosition;
@@ -386,93 +384,6 @@ public abstract class CharacterMovement : MonoBehaviour
         return seek(futurePosition);
     }
 
-    /// <summary>
-    /// Path following method that returns a steering force based off of the current and future path point
-    /// the character is going towards.
-    /// </summary>
-    /// <returns></returns>
-    public Vector3 pathfollow()
-    {
-        // If the enemy unit gets close enough to the path point it advances the current path point
-        if ((transform.position - pathPoints[currentPathPoint].transform.position).magnitude <= .1f)
-        {
-            // Get the next hole number and set it as the new currentPathPoint
-            int nextHoleNum = currentPathPoint + 1;
-            nextHoleNum %= pathPoints.Count;
-            currentPathPoint = nextHoleNum;
-            velocity = Vector3.zero;
-        }
-
-        // Step 3: Seek the new wandered position and add it to the ultimate force
-        return seek(pathPoints[currentPathPoint].transform.position);
-    }
-
-    #region Seperation
-    /// <summary>
-    /// Seperation Method that returns a steering force to move an enemy away from another enemy if too close.
-    /// </summary>
-    /// <returns></returns>
-    public Vector3 Seperation()
-    {
-        // Create a new steering force
-        Vector3 steeringForce = Vector3.zero;
-
-        if (GetComponent<EnemyMovement>())
-        {
-            // Find nearest neighbor
-            foreach (GameObject enemy in LevelManager.enemies)
-            {
-                if ((transform.position - enemy.transform.position).magnitude < seperationBubble)
-                {
-                    if ((transform.position - enemy.transform.position).magnitude != 0)
-                    {
-                        // Step 1: Find Desired Velocity
-                        // This is the vector pointing from my target to my myself
-                        Vector3 desiredVelocity = position - enemy.transform.position;
-
-                        // Step 2: Scale Desired to maximum speed
-                        //         so I move as fast as possible
-                        desiredVelocity.Normalize();
-                        desiredVelocity *= seperationForce;
-
-                        // Step 3: Calculate your Steering Force
-                        steeringForce = desiredVelocity - velocity;
-                    }
-                }
-
-            }
-        }
-
-        else if (GetComponent<AllyMovement>())
-        {
-            // Find nearest neighbor
-            foreach (GameObject ally in LevelManager.allies)
-            {
-                if ((transform.position - ally.transform.position).magnitude < seperationBubble)
-                {
-                    if ((transform.position - ally.transform.position).magnitude != 0)
-                    {
-                        // Step 1: Find Desired Velocity
-                        // This is the vector pointing from my target to my myself
-                        Vector3 desiredVelocity = position - ally.transform.position;
-
-                        // Step 2: Scale Desired to maximum speed
-                        //         so I move as fast as possible
-                        desiredVelocity.Normalize();
-                        desiredVelocity *= seperationForce;
-
-                        // Step 3: Calculate your Steering Force
-                        steeringForce = desiredVelocity - velocity;
-                    }
-                }
-
-            }
-        }
-
-        return steeringForce;
-    }
-
-    #endregion
     #endregion
 
     #region Additional Movement Helping Methods

@@ -8,13 +8,14 @@ public class PlayerManager : MonoBehaviour
     // Player's Attributes
     private int maxHealth;
     private float currentHealth;
-    private int maxStanima;
-    private float currentStanima;
+    private int maxStamina;
+    private float currentStamina;
     private bool isSprinting;
     private bool wornOut;
     private float shieldMaxHealth;
     private float shieldHealth;
     private bool invincibility;
+    [HideInInspector]
     public bool canTravel;
     //private bool canMelee;
     private bool canShield;
@@ -26,18 +27,22 @@ public class PlayerManager : MonoBehaviour
 
     // Weapon Variables
     private trinkets currentTrinket;
+    
     public List<GameObject> playerGunPrefabs;
     private rangeWeapon currentRangeWeapon;
-    public int weaponNum;
-    public int portalNum;
+    private int weaponNum;
+    private int portalNum;
 
     // Variables for the player's inventory
+    [HideInInspector]
     public ItemType[] playerItems;
 
     //private int itemCount;
 
     // Unlockable abilities
+    [HideInInspector]
     public bool magnet;
+    [HideInInspector]
     public float magnetDistance;
     #endregion
 
@@ -47,10 +52,10 @@ public class PlayerManager : MonoBehaviour
         get { return currentHealth; }
         set { currentHealth = value; }
     }
-    public float CurrentStanima
+    public float CurrentStamina
     {
-        get { return currentStanima; }
-        set { currentStanima = value; }
+        get { return currentStamina; }
+        set { currentStamina = value; }
     }
     public bool IsSprinting
     {
@@ -95,8 +100,8 @@ public class PlayerManager : MonoBehaviour
         // Player Game Variables
         maxHealth = GameManager.instance.healthTotal;
         currentHealth = GameManager.instance.healthTotal;
-        maxStanima = GameManager.instance.stanimaTotal;
-        currentStanima = GameManager.instance.stanimaTotal;
+        maxStamina = GameManager.instance.staminaTotal;
+        currentStamina = GameManager.instance.staminaTotal;
         shieldHealth = 1;
         invincibility = false;
         isSprinting = false;
@@ -108,6 +113,7 @@ public class PlayerManager : MonoBehaviour
         poisonCounter = 0;
         portalNum = 0;
         weaponNum = 0;
+        playerGunPrefabs = new List<GameObject>();
 
 
         // Inventory Set Up
@@ -583,28 +589,28 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    #region Stanima Helper Method
+    #region Stamina Helper Method
     /// <summary>
-    /// Manages sprinting and Stanima of the player
+    /// Manages sprinting and Stamina of the player
     /// </summary>
     void SprintingManagement()
     {
         if (isSprinting)
         {
-            currentStanima -= Time.deltaTime/1.5f;
+            currentStamina -= Time.deltaTime/1.5f;
         }
-        else if (currentStanima < maxStanima)
+        else if (currentStamina < maxStamina)
         {
-            currentStanima += Time.deltaTime/3;
+            currentStamina += Time.deltaTime/3;
         }
-        else if (currentStanima >= maxStanima)
+        else if (currentStamina >= maxStamina)
         {
-            currentStanima = maxStanima;
+            currentStamina = maxStamina;
             wornOut = false;
-            Debug.Log("Current Stanima: " + currentStanima);
+            //Debug.Log("Current Stamina: " + currentStamina);
         }
 
-        if (currentStanima <=0)
+        if (currentStamina <=0)
         {
             wornOut = true;
             GetComponent<PlayerMovement>().EndSprint();

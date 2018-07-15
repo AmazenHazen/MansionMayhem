@@ -12,6 +12,7 @@ public class NPC : MonoBehaviour
     protected GameObject player;
 
     // For Text Files
+    [Header("Dialog Assets")]
     public TextAsset initialTextFile;
     public TextAsset startedQuestTextFile;
     public TextAsset completedQuestTextFile;
@@ -32,6 +33,7 @@ public class NPC : MonoBehaviour
     // Quest Variables
     private GameObject questIcon;
     private List<Sprite> QuestSprites; // for changing the overhead sprite of the NPC
+    [Header("Lists for Commands")]
     public List<GameObject> items; // for items that the NPC will take from or accept from the player
     public List<GameObject> enemies;
     public List<GameObject> requirements; // requirements for completing a quest (could be items, interactive objects, or NPCs)

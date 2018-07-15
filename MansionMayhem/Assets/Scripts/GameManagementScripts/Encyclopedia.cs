@@ -56,6 +56,7 @@ public enum rangeWeapon
     AntimatterParticle = 12,
     Tempest = 13,
     PreciousRevolver = 14,
+    ParticleBeam = 15,  // Beam gun
 
 
     // Enemy Weapons

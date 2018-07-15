@@ -32,6 +32,7 @@ public class GunScript : MonoBehaviour
     private float chargingSizeVar = 1.0f;
     public float maxChargingSizeVar; //5 for PlasmaPistol
     private bool charging;
+    LineRenderer beam;      // Beam for beam guns
 
     // Reset Bullet attributes
     public GameObject bulletCopy;
@@ -102,6 +103,10 @@ public class GunScript : MonoBehaviour
             case rangeWeapon.EnemyFrostWeaver:
                 particles = gameObject.transform.GetChild(0).gameObject;
                 break;
+            case rangeWeapon.ParticleBeam:
+                beam = gameObject.transform.Find("Laser").GetComponent<LineRenderer>();
+                beam.enabled = false;
+                break;
         }
 
     }
@@ -124,21 +129,21 @@ public class GunScript : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && canShoot && finishSwitch)
         {
-                switch (gunType)
-                {
-                    // Special because there are a number of shots shot out
-                    case rangeWeapon.hellfireshotgun:
-                        ShootShotgunBullet();
-                        break;
+            switch (gunType)
+            {
+                // Special because there are a number of shots shot out
+                case rangeWeapon.hellfireshotgun:
+                    ShootShotgunBullet();
+                    break;
 
-                    // Special because the courotine for the 3 round burst starts here
-                    case rangeWeapon.XenonPulser:
-                        if (canBurst)
-                        {
-                            StartCoroutine(BurstShoot(.05f));
-                            canBurst = false;
-                        }
-                        break;
+                // Special because the courotine for the 3 round burst starts here
+                case rangeWeapon.XenonPulser:
+                    if (canBurst)
+                    {
+                        StartCoroutine(BurstShoot(.05f));
+                        canBurst = false;
+                    }
+                    break;
                 case rangeWeapon.PreciousRevolver:
                     if (canBurst)
                     {
@@ -149,19 +154,23 @@ public class GunScript : MonoBehaviour
 
                 // Special because you can charge the weapon up
                 case rangeWeapon.PlasmaCannon:
-                        ChargeBullet();
-                        break;
+                    ChargeBullet();
+                    break;
 
-                    // Turn on the particle systems for the flamethrower and the frost gun
-                    case rangeWeapon.cryoGun:
-                    case rangeWeapon.flamethrower:
-                    case rangeWeapon.AntimatterParticle:
-                        particles.SetActive(true);
-                        break;
-                    default:
-                        ShootBullet();
-                        break;
-               
+                // Turn on the particle systems for the flamethrower and the frost gun
+                case rangeWeapon.cryoGun:
+                case rangeWeapon.flamethrower:
+                case rangeWeapon.AntimatterParticle:
+                    particles.SetActive(true);
+                    break;
+
+                case rangeWeapon.ParticleBeam:
+                    ShootBeam();
+                    break;
+                default:
+                    ShootBullet();
+                    break;
+
             }
         }
         // If not holding down the mouse button/shooting
@@ -174,6 +183,9 @@ public class GunScript : MonoBehaviour
                 case rangeWeapon.cryoGun:
                 case rangeWeapon.AntimatterParticle:
                     particles.SetActive(false);
+                    break;
+                case rangeWeapon.ParticleBeam:
+                    TurnOffBeam();
                     break;
             }
 
@@ -264,6 +276,56 @@ public class GunScript : MonoBehaviour
         JustShot();
     }
     #endregion
+
+    /// <summary>
+    /// Method to shoot a beam
+    /// </summary>
+    public void ShootBeam()
+    {
+        float maxLaserdistance = 15;
+
+        if (!beam.enabled)
+        {
+            beam.enabled = true;
+        }
+
+        Ray ray = new Ray(transform.position, transform.up);
+
+        beam.SetPosition(0, ray.origin);
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, transform.up, maxLaserdistance);
+
+        foreach(RaycastHit2D hit in hits)
+        {
+            if (hit.collider.tag == "wall")
+            {
+                beam.SetPosition(1, hit.point);
+                //Debug.Log("Hit!");
+                break;
+            }
+            if(hit.collider.tag == "enemy")
+            {
+                hit.collider.GetComponent<EnemyManager>().CurrentHealth -= bulletDamage;
+            }
+            else
+            {
+                beam.SetPosition(1, ray.GetPoint(maxLaserdistance));
+            }
+
+        }
+
+        if(hits.Length ==0)
+        {
+            beam.SetPosition(1, ray.GetPoint(maxLaserdistance));
+        }
+
+
+    }
+
+    public void TurnOffBeam()
+    {
+        beam.enabled = false;
+    }
 
     #region Plopping Blob method
     /// <summary>

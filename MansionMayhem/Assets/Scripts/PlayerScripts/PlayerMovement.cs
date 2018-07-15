@@ -10,7 +10,6 @@ public class PlayerMovement : CharacterMovement
 {
     #region Additional Movement Variables
     // Other Attributes for CalcSteeringForces Method
-    public float maxForce;
     private PlayerManager playerManager;
     #endregion
 

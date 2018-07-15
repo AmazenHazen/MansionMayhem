@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     public int experience; // Secondary Currency Variable
     public int blueprints; // Tertiary Currency
     public int healthTotal; // Hearts Unlocked
-    public int stanimaTotal; // Stanima Unlocked
+    public int staminaTotal; // Stamina Unlocked
     public List<rangeWeapon> currentGuns; // The current weapons the player has equiped
     public bool[] unlockableBuyables; // Saves all of the data regarding unlocked guns and upgrades
     #endregion
@@ -94,7 +94,15 @@ public class GameManager : MonoBehaviour
 
 
         // Start the currentGameState to MainMenu
-        currentGameState = GameState.MainMenu;
+        if (GameObject.Find("Player"))
+        {
+            currentGameState = GameState.Play;
+        }
+        else
+        {
+            currentGameState = GameState.MainMenu;
+        }
+
 
         currentGuns = new List<rangeWeapon>(3);
         for (int i = 0; i < 3; i++)
@@ -136,7 +144,7 @@ public class GameManager : MonoBehaviour
         data.highestLevel = highestLevel;
         data.unlockedLevels = unlockedLevels;
         data.healthTotal = healthTotal;
-        data.stanimaTotal = stanimaTotal;
+        data.staminaTotal = staminaTotal;
         data.unlockableBuyables = unlockableBuyables;
         data.soulStones = soulStones;
 
@@ -165,7 +173,7 @@ public class GameManager : MonoBehaviour
             highestLevel = data.highestLevel;
             unlockedLevels = data.unlockedLevels;
             healthTotal = data.healthTotal;
-            stanimaTotal = data.stanimaTotal;
+            staminaTotal = data.staminaTotal;
             currentGuns = data.currentGuns;
             unlockableBuyables = data.unlockableBuyables;
             soulStones = data.soulStones;
@@ -203,7 +211,7 @@ public class GameManager : MonoBehaviour
 
 
             healthTotal = 5;
-            stanimaTotal = 1;
+            staminaTotal = 1;
             currentGuns[0] = rangeWeapon.laserpistol;
             currentGuns[1] = rangeWeapon.None;
             currentGuns[2] = rangeWeapon.None;
@@ -224,7 +232,7 @@ public class GameManager : MonoBehaviour
 
             #endregion
             healthTotal = 8;    // used for testing purposes
-            stanimaTotal = 2;   // used for testing purposes
+            staminaTotal = 2;   // used for testing purposes
 
         }
     }
@@ -248,7 +256,7 @@ class PlayerData
     public int experience; // Secondary Currency Variable
     public int blueprints; // Tertiary Variable
     public int healthTotal; // Hearts Unlocked
-    public int stanimaTotal; // Stanima Circles Unlocked
+    public int staminaTotal; // Stamina Circles Unlocked
     public int equipmentTotal; // Equipment Slots unlocked
     public List<rangeWeapon> currentGuns; // Current weapons the player has equipped
     public bool[] unlockableBuyables;

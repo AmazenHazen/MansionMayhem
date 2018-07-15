@@ -15,54 +15,58 @@ public class GUIManager : MonoBehaviour
     int colorIndex;
     private float health;
     private List<Color> HealthColors;
-    public GameObject HealthUI;
+    [Header("Health Elements")]
+    private GameObject HealthUI;
     private List<Slider> HeartContainers;
     private List<Image> HeartContainersFill;
     private List<Image> HeartContainersBackground;
 
-    private float stanima;
-    public GameObject StanimaUI;
-    private List<Slider> StanimaContainers;
-    private List<Image> StanimaContainersFill;
+    [Header("Stamina Elements")]
+    private float stamina;
+    private GameObject StaminaUI;
+    private List<Slider> StaminaContainers;
+    private List<Image> StaminaContainersFill;
 
-    public GameObject SoulStoneCollectibleIndicator;
+    private GameObject SoulStoneCollectibleIndicator;
 
     // Inventory Management
-    public GameObject InventoryPanel;
-    public GameObject[] InventoryItems;
+    [Header("Inventory Elements")]
+    private GameObject InventoryPanel;
+    [HideInInspector]public GameObject[] InventoryItems;
     bool minimized;
 
     // Boss Health Management
-    public GameObject boss;
-    public GameObject bossHealthCanvas;
-    public Slider bossHealthBar; 
-    public float bossMaxHealth;
-    public float bossCurrentHealth;
-    public static bool bossFight;
-    public Text bossText;
+    private GameObject bossHealthCanvas;
+    private GameObject boss;
+    private Slider bossHealthBar; 
+    private float bossMaxHealth;
+    private float bossCurrentHealth;
+    [HideInInspector] public static bool bossFight;
+    private Text bossText;
 
 
     // Variables for changing Text
-    public Text rangeWeaponText;
     rangeWeapon currentRangeWeapon;
-    public Text scoreText;
-    public Text levelText;
-    public Text experienceText;
+    private Text rangeWeaponText;
+    private Text screwText;
+    private Text levelText;
+    private Text scoreText;
+    private Text FPSText;
 
     // Variables for escape screen
-    public GameObject escapeScreen;
+    private GameObject escapeScreen;
 
     // Variables for the level Objective Screen
-    public GameObject objectiveScreen;
+    private GameObject objectiveScreen;
 
     // Variables for Instructions Screen
-    public GameObject instructionsScreen;
+    private GameObject instructionsScreen;
 
     // Variables for Death Screen
-    public GameObject deathScreen;
+    private GameObject deathScreen;
 
     // Variables for Win Screen
-    public GameObject winScreen;
+    private GameObject winScreen;
 
     // Variables for talking to NPC/Workbench
     public static bool usingOtherInterface;
@@ -81,7 +85,6 @@ public class GUIManager : MonoBehaviour
     public static bool optionBool;
 
     // FPS variables
-    public Text FPSText;
     float deltaTime = 0.0f;
     #endregion
 
@@ -89,8 +92,8 @@ public class GUIManager : MonoBehaviour
     // Start is called when the GUI is initialized
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<PlayerManager>();
 
+        // Set the world Camera first if it isn't set correctly
         // Fix for inventory if the worldCamera is not set manually.
         if (gameObject.GetComponent<Canvas>().worldCamera == null)
         {
@@ -98,26 +101,69 @@ public class GUIManager : MonoBehaviour
             gameObject.GetComponent<Canvas>().planeDistance = 100;
             gameObject.GetComponent<Canvas>().sortingLayerName = "UI";
             gameObject.GetComponent<Canvas>().sortingOrder = 2;
-
         }
 
-        // Health Management
+
+        // Finding GUI Elements
+        player = GameObject.Find("Player").GetComponent<PlayerManager>();
+
+        // Menus
+        instructionsScreen = transform.Find("Instructions").gameObject;
+        escapeScreen = transform.Find("EscapeMenu").gameObject;
+        objectiveScreen = transform.Find("LevelObjective").gameObject;
+        deathScreen = transform.Find("Death Screen").gameObject;
+        winScreen = transform.Find("Win Screen").gameObject;
+
+        PauseGame();
+
+        // UI Systems
+        InventoryPanel = transform.Find("InventoryPanel").gameObject;
+        HealthUI = transform.Find("Health UI").gameObject;
+        StaminaUI = transform.Find("Stamina UI").gameObject;
+        SoulStoneCollectibleIndicator = transform.Find("SoulStoneCollectibleStatus").gameObject;
+
+        // Text
+        screwText = transform.Find("ScrewText").GetComponent<Text>();
+        levelText = transform.Find("LevelText").GetComponent<Text>();
+        scoreText = transform.Find("ScoreText").GetComponent<Text>();
+        rangeWeaponText = transform.Find("WeaponText").GetComponent<Text>();
+        FPSText = transform.Find("FPSText").GetComponent<Text>();
+
+        // Other (Dialog and boss)
+        dialogBox = transform.Find("DialogBox").gameObject;
+        dialogText = dialogBox.transform.Find("DialogText").gameObject;
+        bossHealthCanvas = transform.Find("Boss Health").gameObject;
+        bossHealthBar = bossHealthCanvas.transform.Find("Boss Health Slider").GetComponent<Slider>();
+        bossText = bossHealthCanvas.transform.Find("Boss Name Text").GetComponent<Text>();
+
+        // instruction page variables
+        instructionsScreen.GetComponent<InstructionsManagement>().instructionsPage = 0;
+
+        // Initializing Lists
+        HeartContainers = new List<Slider>();
+        HeartContainersFill = new List<Image>();
+        HeartContainersBackground = new List<Image>();
+        StaminaContainers = new List<Slider>();
+        StaminaContainersFill = new List<Image>();
         HealthColors = new List<Color>();
+        Options = new List<GameObject>();
+
+
+        #region Setting up health and Stamina Containers
+        // Setting initial Health Management Variables
         HealthColors.Add(new Color32(0, 0, 0, 255));
         HealthColors.Add(new Color32(255, 0, 0, 255));
         HealthColors.Add(new Color32(255, 215, 0, 255));
 
-        HeartContainers = new List<Slider>();
-        HeartContainersFill = new List<Image>();
-        HeartContainersBackground = new List<Image>();
-        for(int i=0; i<15; i++)
+        // Adding the heart images to the Health Management Lists
+        for (int i=0; i<15; i++)
         {
             HeartContainers.Add(HealthUI.transform.GetChild(i).GetComponent<Slider>());
             HeartContainersBackground.Add(HeartContainers[i].transform.GetChild(0).GetComponent<Image>());
             HeartContainersFill.Add(HeartContainers[i].transform.GetChild(1).GetComponent<Image>());
         }
 
-        // hide containers if not unlocked
+        // hide health containers if not unlocked
         if (GameManager.instance.healthTotal<15)
         {
             for (int i = GameManager.instance.healthTotal; i < 15; i++)
@@ -126,53 +172,51 @@ public class GUIManager : MonoBehaviour
             }
         }
 
-        StanimaContainers = new List<Slider>();
-        StanimaContainersFill = new List<Image>();
         for (int i = 0; i < 5; i++)
         {
-            StanimaContainers.Add(StanimaUI.transform.GetChild(i).GetComponent<Slider>());
-            StanimaContainersFill.Add(StanimaContainers[i].transform.GetChild(1).GetComponent<Image>());
+            StaminaContainers.Add(StaminaUI.transform.GetChild(i).GetComponent<Slider>());
+            StaminaContainersFill.Add(StaminaContainers[i].transform.GetChild(1).GetComponent<Image>());
         }
 
         // hide containers if not unlocked
-        if (GameManager.instance.stanimaTotal < 5)
+        if (GameManager.instance.staminaTotal < 5)
         {
-            for (int i = GameManager.instance.stanimaTotal; i < 5; i++)
+            for (int i = GameManager.instance.staminaTotal; i < 5; i++)
             {
-                StanimaContainers[i].gameObject.SetActive(false);
+                StaminaContainers[i].gameObject.SetActive(false);
             }
         }
+        #endregion
 
-        /*
-        HealthColors.Add(new Color(186, 0, 186));
-        HealthColors.Add(new Color(186, 186, 186));
-        HealthColors.Add(new Color(186, 186, 186));
-        */
-
-        // Inventory Management
-        usingOtherInterface = false;
-
-        PauseGame();
-        minimized = false;
-        ManageInventoryMenu();
-
+        #region Setting up the Dialog Option Buttons
         // Reference to the GUI
-        // Get the dialog boxes for dialog
-        dialogBox = GameObject.Find("DialogBox");
-        dialogText = dialogBox.transform.Find("DialogText").gameObject;
-
         // Get the options for option dialog
-        Options = new List<GameObject>();
-        optionBool = false;
         for (int i = 0; i < 5; i++)
         {
             Options.Add(dialogBox.transform.Find("Options").GetChild(i).gameObject);
         }
+        #endregion
 
-        // turn off the dialog box if it is on
-        if (GameObject.Find("DialogBox"))
+        #region Setting up the Collectible UI
+        if (!GameManager.instance.soulStones[GameManager.instance.currentLevel])
         {
-            GameObject.Find("DialogBox").SetActive(false);
+            SoulStoneCollectibleIndicator.GetComponent<Image>().color = Color.black;
+        }
+        #endregion
+
+
+        // Bools that must be preset on initialization
+        optionBool = false;
+        bossFight = false;
+        usingOtherInterface = false;
+        minimized = false;
+
+
+        #region Deactiveation of UI at the beginning of the level
+        // turn off the dialog box if it is on
+        if (dialogBox.activeSelf)
+        {
+            dialogBox.SetActive(false);
         }
 
         // turn off the death screen if active
@@ -186,18 +230,11 @@ public class GUIManager : MonoBehaviour
         {
             winScreen.SetActive(false);
         }
-
-        // instruction page variables
-        instructionsScreen.GetComponent<InstructionsManagement>().instructionsPage = 0;
-
-        // set boss fight to false
-        bossFight = false;
+        #endregion
 
         Debug.Log("Current Level: " + GameManager.instance.currentLevel);
-        if(!GameManager.instance.soulStones[GameManager.instance.currentLevel])
-        {
-            SoulStoneCollectibleIndicator.GetComponent<Image>().color = Color.black;
-        }
+
+        ManageInventoryMenu();
     }
 
     #endregion
@@ -207,7 +244,7 @@ public class GUIManager : MonoBehaviour
     void Update()
     {
         HealthManagement();
-        StanimaManagement();
+        StaminaManagement();
         SoulStoneCollectibleManagement();
         BossHealthManagement();
         TextUpdate();
@@ -275,50 +312,50 @@ public class GUIManager : MonoBehaviour
     }
     #endregion
 
-    #region Stanima Management
-    void StanimaManagement()
+    #region Stamina Management
+    void StaminaManagement()
     {
-        // Stanima Management
-        stanima = player.CurrentStanima;
+        // Stamina Management
+        stamina = player.CurrentStamina;
 
-        StanimaCircleManagement();
+        StaminaCircleManagement();
     }
 
     /// <summary>
-    /// Manage the stanima containers
+    /// Manage the Stamina containers
     /// </summary>
-    void StanimaCircleManagement()
+    void StaminaCircleManagement()
     {
-        int stanimaIndex = (int)(stanima % 5);
+        int staminaIndex = (int)(stamina % 5);
 
-        // Sets Stanima circles to unfilled
+        // Sets Stamina circles to unfilled
         for (int i = 0; i < 5; i++)
         {
-            // Unfills the stanima gauges before this one
-            StanimaContainers[i].GetComponent<Slider>().value = 0;
+            // Unfills the Stamina gauges before this one
+            StaminaContainers[i].GetComponent<Slider>().value = 0;
 
 
             // Set the fill to whether or not the player is worn out
             if (player.WornOut)
             {
-                StanimaContainersFill[i].color = Color.gray;
+                StaminaContainersFill[i].color = Color.gray;
             }
             else
             {
-                StanimaContainersFill[i].color = Color.green;
+                StaminaContainersFill[i].color = Color.green;
             }
         }
-        if (stanima > 0)
+        if (stamina > 0)
         {
-            // Sets the Stanima circles to full
-            for (int i = 0; i < stanimaIndex; i++)
+            // Sets the Stamina circles to full
+            for (int i = 0; i < staminaIndex; i++)
             {
                 // Fills the hearts
-                StanimaContainers[i].value = 1.0f;
+                StaminaContainers[i].value = 1.0f;
             }
 
             // Set the fill value
-            StanimaContainers[stanimaIndex].value = stanima - Mathf.Floor(stanima);
+            StaminaContainers[staminaIndex].value = stamina - Mathf.Floor(stamina);
         }
     }
     #endregion
@@ -343,7 +380,9 @@ public class GUIManager : MonoBehaviour
     #region Text Management
     void TextUpdate()
     {
-        scoreText.text = "x " + GameManager.instance.screws;
+        screwText.text = GameManager.instance.screws.ToString();
+            // Print out Experience Number
+        scoreText.text = GameManager.instance.experience.ToString();
 
         // Get variables needed for the HUD Text
         if (GameManager.DebugMode)
@@ -401,10 +440,8 @@ public class GUIManager : MonoBehaviour
 
 
             // Print out the level number
-            levelText.text = "Level: " + (GameManager.instance.currentLevel + 1);
+            levelText.text = "Level: " + (GameManager.instance.currentLevel);
 
-            // Print out Experience Number
-            experienceText.text = "Experience: " + (GameManager.instance.experience);
 
             // Print out the FPS
             FPSText.text = "FPS: " + 1.0f/deltaTime;
@@ -413,9 +450,7 @@ public class GUIManager : MonoBehaviour
         {
             levelText.text = "";
             rangeWeaponText.text = "";
-            experienceText.text = "";
             FPSText.text = "";
-
         }
 
         if (bossFight && boss!=null)
@@ -519,11 +554,20 @@ public class GUIManager : MonoBehaviour
 
         return false;
     }
+
+    /// <summary>
+    /// Remove Item from the inventory GUI
+    /// </summary>
+    /// <param name="inventoryLocation"></param>
     public void RemoveItemGUI(int inventoryLocation)
     {
         // Set the inventory space to that item
         InventoryItems[inventoryLocation].GetComponent<SpriteRenderer>().sprite = null;
     }
+
+    /// <summary>
+    /// Manage whether the inventory menu is minimized or not
+    /// </summary>
     public void ManageInventoryMenu()
     {
         if (minimized)
@@ -551,8 +595,6 @@ public class GUIManager : MonoBehaviour
     #region Death Management
     private void DeathManagement()
     {
-        bossFight = false;
-
         if(!deathScreen.activeSelf)
         {
             deathScreen.SetActive(true);

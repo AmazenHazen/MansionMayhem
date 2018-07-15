@@ -185,8 +185,6 @@ public class PlayerMapScript : CharacterMovement
                     // Set the current gamestate to play
                     GameManager.instance.currentGameState = GameState.Play;
 
-                    // Set the current level to the level
-                    GameManager.instance.currentLevel = currentLocationIndex;
 
                     // Enter the level
                     SceneManager.LoadScene(currentLocationIndex + 2);
